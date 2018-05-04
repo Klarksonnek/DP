@@ -1,5 +1,7 @@
 <?php
 
+$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNTcwODA5MSwiaWF0IjoxNTI1MzYyNDkxLCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJlbiIsIm5iZiI6MTUyNTM2MjQ5MSwic3ViIjoiQnBDVCtjOWNSbCtndEg5clRKbG1HOWhWZGl2NWVFa0NqczlPcXVYc3NYMD0ifQ.5jCrB9HI0iggZn_w8PKM0-PoLceQPWyZZlX2HMo597s";
+
 class BeeeOnRest {
 	private $url;
 	private $port;
@@ -68,6 +70,13 @@ class BeeeOnRest {
 	}
 }
 
+class GenerateHTMLGraph {
+	static function gen($data)
+	{
+
+	}
+}
+
 class Util {
 	public static function showLog($data)
 	{
@@ -85,6 +94,150 @@ class Util {
 		);
 	}
 
+	static function sortData($data)
+	{
+		usort($data['data'], function ($a, $b) {
+			return $a['at'] <=> $b['at'];
+		});
+
+		return $data;
+	}
+}
+
+class CustomException extends Exception {
+	public $message;
+
+	public function __construct($message) {
+		$this->message = $message."\n";
+	}
+
+	/* Vypis chyby na stderr */
+	public function printError() {
+		fwrite(STDERR, $this->message);
+	}
+}
+
+class Arguments {
+	public $accessToken = null;
+	public $gatewayID = null;
+	public $deviceID = null;
+	public $sensorID = null;
+	public $from = null;
+	public $event = null;
+	public $interval = null;
+	public $range = null;
+	public $isHelp = false;
+
+	const SHORT_OPTS = "a:g:d:s:e:i:r:h";
+	const LONG_OPTS = array(
+				"access-token:",
+				"gateway:",
+				"device:",
+				"sensor:",
+				"event:",
+				"interval:",
+				"range:",
+				"help"
+			);
+
+	private function __construct()
+	{
+	}
+
+	static public function helpMessage()
+	{
+		return "help";
+	}
+
+	public static function fromInput()
+	{
+		$args = new Arguments();
+
+		$options = getopt(self::SHORT_OPTS, self::LONG_OPTS);
+
+		foreach (self::LONG_OPTS as $value) {
+			$firstChar = substr($value, 0, 1);
+			$value = str_replace(":", "", $value);
+
+			// Duplikacia prepinacov
+			if (array_key_exists($value, $options) && array_key_exists($firstChar, $options))
+				throw new CustomException("invalid input arguments");
+			else {
+				if (array_key_exists($firstChar, $options)) {
+					$options[$value] = $options[$firstChar];
+					unset($options[$firstChar]);
+				}
+			}
+		}
+
+		if (array_key_exists('help', $options)) {
+			$args->isHelp = true;
+			return $args;
+		}
+
+		if (!array_key_exists("gateway", $options))
+			throw new CustomException("nebol zadany prepinac --gateway");
+		else
+			$args->gatewayID = $options['gateway'];
+
+		if (!array_key_exists("device", $options))
+			throw new CustomException("nebol zadany prepinac --device");
+		else
+			$args->deviceID = $options['device'];
+
+		if (!array_key_exists("sensor", $options))
+			throw new CustomException("nebol zadany prepinac --sensor");
+		else
+			$args->sensorID = $options['sensor'];
+
+		if (!array_key_exists("event", $options))
+			throw new CustomException("nebol zadany prepinac --event");
+		else
+			$args->event = $options['event'];
+
+		if (!array_key_exists("range", $options))
+			throw new CustomException("nebol zadany prepinac --range");
+		else
+			$args->range = $options['range'];
+
+		if (!array_key_exists("interval", $options))
+			throw new CustomException("nebol zadany prepinac --interval");
+		else
+			$args->interval = $options['interval'];
+
+		var_dump($options);
+
+		return $args;
+	}
+}
+
+class Derivacie {
+	/** @var Arguments */
+	private $arguments;
+	private $data;
+
+	public function __construct($options, $data)
+	{
+		$this->arguments = $options;
+		$this->data = $data;
+	}
+
+	public function prepare()
+	{
+		$before = $this->calculateDerBefore($this->data['data'], $this->arguments->event, $this->arguments->interval);
+		Util::showLog("\n");
+		$after = $this->calculateDerBefore($this->data['data'], $this->arguments->event, $this->arguments->interval);
+		Util::showLog("-------------------------------------------\n");
+
+		Util::showLog("nacitane data\n");
+		foreach ($this->data['data'] as $row)
+			echo date("H:i:s", $row['at']) ."   ".$row['value']. "\n";
+
+		return array(
+			"before" => $before,
+			"after" => $after,
+		);
+	}
 
 	/**
 	 * Vypocet derivacii v case dozadu od zadanej udalosti.
@@ -93,7 +246,7 @@ class Util {
 	 * @param $interval cas jednotlivych derivacii
 	 * @return array Pole zo zoznamom derivacii s danym intervalom, pre dany event.
 	 */
-	static function calculateDerBefore($values, $eventTime, $interval)
+	private function calculateDerBefore($values, $eventTime, $interval)
 	{
 		$lastValue = 0;
 		$lastTimestamp = strtotime($eventTime);
@@ -154,7 +307,7 @@ class Util {
 		return $derivacie;
 	}
 
-	static function calculateDerAfter($values, $eventTime, $interval)
+	private function calculateDerAfter($values, $eventTime, $interval)
 	{
 		$derivacie = array();
 		$lastValue = 0;
@@ -217,136 +370,37 @@ class Util {
 	}
 }
 
-class CustomException extends Exception {
-	public $message;
-
-	public function __construct($message) {
-		$this->message = $message."\n";
-	}
-
-	/* Vypis chyby na stderr */
-	public function printError() {
-		fwrite(STDERR, $this->message);
-	}
-}
-
-class Arguments {
-	public $accessToken = null;
-	public $gatewayID = null;
-	public $deviceID = null;
-	public $sensorID = null;
-	public $from = null;
-	public $event = null;
-	public $interval = null;
-	public $range = null;
-	public $isHelp = false;
-
-	const SHORT_OPTS = "a:g:d:s:e:i:rh";
-	const LONG_OPTS = array(
-				"access-token:",
-				"gateway:",
-				"device:",
-				"sensor:",
-				"event:",
-				"interval:",
-				"range",
-				"help"
-			);
-
-	private function __construct()
-	{
-	}
-
-	static public function helpMessage()
-	{
-		return "help";
-	}
-
-	public static function fromInput()
-	{
-		$arguments = new Arguments();
-
-		$options = getopt(self::SHORT_OPTS, self::LONG_OPTS);
-		var_dump($options);
-
-		foreach (self::LONG_OPTS as $value) {
-			$firstChar = substr($value, 0, 1);
-			$value = str_replace(":", "", $value);
-
-			// Duplikace prepinacu
-			if (array_key_exists($value, $options) && array_key_exists($firstChar, $options))
-				throw new CustomException("Bad input arguments. Try --help.");
-			else {
-				if (array_key_exists($firstChar, $options)) {
-					$options[$value] = $options[$firstChar];
-					unset($options[$firstChar]);
-				}
-			}
-		}
-
-		var_dump($options);
-
-
-		if (array_key_exists('help', $options)) {
-			$arguments->isHelp = true;
-			return $arguments;
-		}
-
-		if (count($options) < 5)
-			throw new CustomException("neboli zadane spravne parametre");
-
-
-		return $arguments;
-	}
-}
-
-
-
-$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNTcwODA5MSwiaWF0IjoxNTI1MzYyNDkxLCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJlbiIsIm5iZiI6MTUyNTM2MjQ5MSwic3ViIjoiQnBDVCtjOWNSbCtndEg5clRKbG1HOWhWZGl2NWVFa0NqczlPcXVYc3NYMD0ifQ.5jCrB9HI0iggZn_w8PKM0-PoLceQPWyZZlX2HMo597s";
-
-$rest = new BeeeOnRest("https://antwork.fit.vutbr.cz", "8010");
-
-
-$rrr = Util::calculateRange(strtotime("04/15/2018 19:30:03"), 60);
-
-$req = $rest->getSensorHistoryRange(
-	$acc,
-	"1936931389875594",
-	"0xa900000000000002",
-	"2",
-	$rrr['from'],
-	$rrr['to'],
-	1
-);
-
-// sort array
-usort($req['data'], function($a, $b) {
-	$retval = $a['at'] <=> $b['at'];
-	return $retval;
-});
-
-
-//Util::calculateDerBefore($req['data'], "04/15/2018 19:30:03", 20);
-//Util::showLog("\n");
-//Util::calculateDerAfter($req['data'], "04/15/2018 19:30:03", 20);
-echo "-------\n";
-
-foreach ($req['data'] as $row) {
-	//var_dump($row);
-	//echo date("H:i:s", $row['at']) ."   ".$row['value']. "\n";
-}
-
-$mnau = null;
+/**
+ *
+ */
+$arguments = null;
 try {
-	$mnau = Arguments::fromInput();
+	$arguments = Arguments::fromInput();
 }
 catch (CustomException $ex) {
-	echo $ex->printError();
+	fwrite(STDERR, $ex->printError());
 	fwrite(STDERR, Arguments::helpMessage());
 	return 1;
 }
 
-if ($mnau->isHelp) {
-	echo $mnau->helpMessage() . "\n";
+if ($arguments->isHelp) {
+	echo $arguments->helpMessage() . "\n";
 	return 0;
 }
+
+$rest = new BeeeOnRest("https://antwork.fit.vutbr.cz", "8010");
+$range = Util::calculateRange(strtotime($arguments->event), $arguments->range);
+$req = $rest->getSensorHistoryRange(
+	$acc,
+	$arguments->gatewayID,
+	$arguments->deviceID,
+	$arguments->sensorID,
+	$range['from'],
+	$range['to'],
+	1
+);
+
+$req = Util::sortData($req);
+$derivacie = new Derivacie($arguments, $req);
+
+var_dump($derivacie->prepare());
