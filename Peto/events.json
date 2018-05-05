@@ -158,6 +158,42 @@
 					"close": "05/5/2018 16:33:10"
 				}
 			]
+		},
+		{
+			"description": "05.05.2018 ---- 18:02 - 20:16 - okno na vetracku",
+			"circulation_length": "dlhe",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 18:02:05",
+					"close": "05/5/2018 20:16:14"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/5/2018 18:01:59",
+					"close": "05/5/2018 20:16:13"
+				}
+			]
+		},
+		{
+			"description": "05.05.2018 ---- 20:59 - 21:10",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 20:59:07",
+					"close": "05/5/2018 21:10:07"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/5/2018 20:59:03",
+					"close": "05/5/2018 21:10:08"
+				}
+			]
 		}
 	]
 }
