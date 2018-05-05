@@ -1,7 +1,5 @@
 <?php
 
-$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNTcwODA5MSwiaWF0IjoxNTI1MzYyNDkxLCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJlbiIsIm5iZiI6MTUyNTM2MjQ5MSwic3ViIjoiQnBDVCtjOWNSbCtndEg5clRKbG1HOWhWZGl2NWVFa0NqczlPcXVYc3NYMD0ifQ.5jCrB9HI0iggZn_w8PKM0-PoLceQPWyZZlX2HMo597s";
-
 class BeeeOnRest {
 	private $url;
 	private $port;
@@ -71,9 +69,80 @@ class BeeeOnRest {
 }
 
 class GenerateHTMLGraph {
-	static function gen($data)
+	static function gen($data, $title)
 	{
+		$timestamps = "";
+		$values = "";
+		foreach ($data['data'] as $row) {
+			if (empty($row['value']))
+				continue;
 
+			$timestamps .= "\"". date("H:i:s", $row['at']) .'",';
+			$values .= "\"" . $row['value'] . '",';
+		}
+
+$repr = '
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="http://be.mienkofax.eu/css/chart.css" rel="stylesheet">
+		<script src="http://be.mienkofax.eu/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		
+		
+		<script src="http://www.chartjs.org/dist/2.7.2/Chart.bundle.js"></script>
+		<script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+	</head>
+	<body>
+		<div style="overflow: auto;">
+			<canvas class="custom" id="g1" width="900px" height="500"></canvas>
+		</div>
+		
+		<script>
+		var ctx = document.getElementById("g1");
+		var myChart1 = new Chart(ctx, {
+			type: "line",
+			data: {
+				labels: ['.$timestamps.'],
+				datasets: [
+					{
+						label: "Value",
+						borderColor: window.chartColors.blue,
+						backgroundColor: window.chartColors.blue,
+						fill: false,
+						data: ['.$values.'],
+						yAxisID: "y-axis-2"
+					}
+				]
+			},
+			options: {
+				responsive: false,
+				hoverMode: "index",
+				stacked: false,
+				title: {
+					display: true,
+					text: "'. $title .'"
+				},
+				scales: {
+					yAxes: [
+						{
+							type: "linear",
+							display: true,
+							position: "left",
+							id: "y-axis-2"
+						}]
+				}
+			}
+		});
+	</script>
+		
+
+	</body>
+</html>
+';
+
+
+
+	return $repr;
 	}
 }
 
@@ -126,9 +195,11 @@ class Arguments {
 	public $event = null;
 	public $interval = null;
 	public $range = null;
+	public $noEvent = null;
 	public $isHelp = false;
+	public $count = null;
 
-	const SHORT_OPTS = "a:g:d:s:e:i:r:h";
+	const SHORT_OPTS = "a:g:d:s:e:i:r:n:c:h";
 	const LONG_OPTS = array(
 				"access-token:",
 				"gateway:",
@@ -137,6 +208,8 @@ class Arguments {
 				"event:",
 				"interval:",
 				"range:",
+				"no-event:",
+				"count:",
 				"help"
 			);
 
@@ -146,7 +219,26 @@ class Arguments {
 
 	static public function helpMessage()
 	{
-		return "help";
+		$repr = "";
+		$repr .= "Generovanie csv suborov s derivaciami:\n";
+		$repr .= "[--help] - napoveda\n";
+		$repr .= "[--access-token=\"xxx\"] - dostupne na: https://antwork.fit.vutbr.cz:8010/tester.html\n";
+		$repr .= "[--gateway=1936931389875594] - identifikacia brany\n";
+		$repr .= "[--device=0xa900000000000002] - identifikacia zariadenia\n";
+		$repr .= "[--sensor=2] - identifikacia senzora 0,1,2,3,..\n";
+		$repr .= "[--event=\"04/15/2018 19:30:03\"] - presny cas udalosti\n";
+		$repr .= "[--range=60] - rozsah od udalosti dopredu a do zadu v case,\n";
+		$repr .= "               pouzite pri pocitani derivacii\n";
+		$repr .= "[--interval=20] - cas, po ktorom sa budu pocitat derivacie\n";
+		$repr .= "[--no-event=20] - casovy posun od eventu dozadu, v ktorom \n";
+		$repr .= "                  sa maju vypocitat hodnoty pre bod, v ktorom\n";
+		$repr .= "                  nenastala udalost\n";
+		$repr .= "[--count] - pocet derivacii pred a za udalostou\n";
+		$repr .= "            dvojica oddelena ciarkou napr. \"2,2\"\n";
+
+		$repr .= "\nJednotlive casy su uvedene v sekundach.\n";
+
+		return $repr;
 	}
 
 	public static function fromInput()
@@ -205,7 +297,20 @@ class Arguments {
 		else
 			$args->interval = $options['interval'];
 
-		var_dump($options);
+		if (!array_key_exists("no-event", $options))
+			throw new CustomException("nebol zadany prepinac --no-event");
+		else
+			$args->noEvent = $options['no-event'];
+
+		if (!array_key_exists("access-token", $options))
+			throw new CustomException("nebol zadany prepinac --access-token");
+		else
+			$args->accessToken = $options['access-token'];
+
+		if (!array_key_exists("count", $options))
+			throw new CustomException("nebol zadany prepinac --count");
+		else
+			$args->count = explode(",", $options['count']);
 
 		return $args;
 	}
@@ -222,16 +327,20 @@ class Derivacie {
 		$this->data = $data;
 	}
 
-	public function prepare()
+	public function prepare($event)
 	{
-		$before = $this->calculateDerBefore($this->data['data'], $this->arguments->event, $this->arguments->interval);
+		$before = $this->calculateDerBefore($this->data['data'], $event, $this->arguments->interval);
 		Util::showLog("\n");
-		$after = $this->calculateDerBefore($this->data['data'], $this->arguments->event, $this->arguments->interval);
+		$after = $this->calculateDerAfter($this->data['data'], $event, $this->arguments->interval);
 		Util::showLog("-------------------------------------------\n");
 
-		Util::showLog("nacitane data\n");
-		foreach ($this->data['data'] as $row)
-			echo date("H:i:s", $row['at']) ."   ".$row['value']. "\n";
+		//Util::showLog("nacitane data\n");
+		foreach ($this->data['data'] as $row) {
+			if (empty($row['value']))
+				continue;
+
+			//echo date("H:i:s", $row['at']) . "   " . $row['value'] . "\n";
+		}
 
 		return array(
 			"before" => $before,
@@ -249,16 +358,17 @@ class Derivacie {
 	private function calculateDerBefore($values, $eventTime, $interval)
 	{
 		$lastValue = 0;
-		$lastTimestamp = strtotime($eventTime);
+		$lastTimestamp = $eventTime;
 		$showInterval = $interval;
 		$derivacie = array();
+		$header = array();
 
-		$nextDer = strtotime($eventTime) - $interval;
+		$nextDer = $eventTime - $interval;
 
 		// vyhladanie indexu vramci nacitanych udajov
 		$index = 0;
 		while ($index < count($values)) {
-			if ($values[$index]['at'] >= strtotime($eventTime))
+			if ($values[$index]['at'] >= $eventTime)
 				break;
 
 			$index++;
@@ -284,7 +394,7 @@ class Derivacie {
 				$repr .= ", nova hodnota: ";
 				$repr .= str_pad(round($newValue, 2), 6, ' ', STR_PAD_LEFT);
 				$repr .= ", derivacia: ";
-				$repr .= str_pad(round($novaDerivacia, 2), 4, ' ', STR_PAD_LEFT);
+				$repr .= str_pad(round($novaDerivacia, 2), 6, ' ', STR_PAD_LEFT);
 				$repr .= "  ";
 				if ($novaDerivacia == 0)
 					$repr .= "-";
@@ -296,6 +406,7 @@ class Derivacie {
 				Util::showLog($repr);
 
 				array_push($derivacie, $novaDerivacia);
+				array_push($header, $showInterval);
 				$nextDer -= $interval;
 				$showInterval += $interval;
 			}
@@ -304,22 +415,26 @@ class Derivacie {
 			$lastTimestamp = $values[$index]['at'];
 		}
 
-		return $derivacie;
+		return array(
+			"header" => $header,
+			"values" =>$derivacie,
+		);
 	}
 
 	private function calculateDerAfter($values, $eventTime, $interval)
 	{
 		$derivacie = array();
 		$lastValue = 0;
-		$lastTimestamp = strtotime($eventTime);
+		$lastTimestamp = $eventTime;
 		$showInterval = $interval;
+		$header = array();
 
-		$nextDer = strtotime($eventTime) + $interval;
+		$nextDer = $eventTime + $interval;
 
 		// vyhladanie indexu vramci nacitanych udajov
 		$index = 0;
 		while ($index < count($values)) {
-			if ($values[$index]['at'] >= strtotime($eventTime))
+			if ($values[$index]['at'] >= $eventTime)
 				break;
 
 			$index++;
@@ -345,7 +460,7 @@ class Derivacie {
 				$repr .= ", nova hodnota: ";
 				$repr .= str_pad(round($newValue, 2), 6, ' ', STR_PAD_LEFT);
 				$repr .= ", derivacia: ";
-				$repr .= str_pad(round($novaDerivacia, 2), 4, ' ', STR_PAD_LEFT);
+				$repr .= str_pad(round($novaDerivacia, 2), 6, ' ', STR_PAD_LEFT);
 				$repr .= "  ";
 				if ($novaDerivacia == 0)
 					$repr .= "-";
@@ -358,6 +473,7 @@ class Derivacie {
 				Util::showLog($repr);
 
 				array_push($derivacie, $novaDerivacia);
+				array_push($header, $showInterval);
 				$nextDer += $interval;
 				$showInterval += $interval;
 			}
@@ -366,14 +482,20 @@ class Derivacie {
 			$lastTimestamp = $values[$index]['at'];
 		}
 
-		return $derivacie;
+		return array(
+			"header" => $header,
+			"values" =>$derivacie,
+		);
 	}
 }
 
 /**
  *
+ *
+ *
  */
 $arguments = null;
+$OUTPUT_DIR = "generated/";
 try {
 	$arguments = Arguments::fromInput();
 }
@@ -391,7 +513,7 @@ if ($arguments->isHelp) {
 $rest = new BeeeOnRest("https://antwork.fit.vutbr.cz", "8010");
 $range = Util::calculateRange(strtotime($arguments->event), $arguments->range);
 $req = $rest->getSensorHistoryRange(
-	$acc,
+	$arguments->accessToken,
 	$arguments->gatewayID,
 	$arguments->deviceID,
 	$arguments->sensorID,
@@ -403,4 +525,95 @@ $req = $rest->getSensorHistoryRange(
 $req = Util::sortData($req);
 $derivacie = new Derivacie($arguments, $req);
 
-var_dump($derivacie->prepare());
+Util::showLog("event: " . $arguments->event . "\n");
+$derEvent = $derivacie->prepare(strtotime($arguments->event));
+
+// vypocet udalosti predtym, ktora je posunuta o no-event hodnotu
+$noEventValueTimestamp = 0;
+{
+	$eventIndex = 0;
+	for (; $eventIndex < count($req['data']); $eventIndex++) {
+		if ($req['data'][$eventIndex]['at'] == strtotime($arguments->event))
+			break;
+	}
+
+	$tim = strtotime($arguments->event) - $arguments->noEvent;
+	for ($i = $eventIndex; $i >= 0; $i--) {
+		if ($req['data'][$i]['at'] <= $tim) {
+			$noEventValueTimestamp = $req['data'][$i]['at'];
+			break;
+		}
+	}
+
+	Util::showLog("no-event: " . date("H:i:s", $noEventValueTimestamp) . "\n");
+}
+
+$derBeforeEvent = $derivacie->prepare($noEventValueTimestamp);
+
+$filename = $arguments->event;
+$filename = str_replace(" ", "-", $filename);
+$filename = str_replace(":", "-", $filename);
+$filename = str_replace("/", "-", $filename);
+
+$file = fopen($OUTPUT_DIR . $filename . ".html", "w");
+fwrite($file, GenerateHTMLGraph::gen($req, "Event: " . $arguments->event));
+fclose($file);
+
+
+/**
+ * CSV file
+ */
+$derBeforeCount = min(
+	count($derEvent['before']['header']),
+	count($derBeforeEvent['before']['header'])
+);
+
+$derAfterCount = min(
+	count($derEvent['after']['header']),
+	count($derBeforeEvent['after']['header'])
+);
+
+$CSVContent = "timestamp";
+for ($i = 0; $i < $derBeforeCount && $i < $arguments->count[0]; $i++)
+	$CSVContent .= ",before_".$derEvent['before']['header'][$i];
+
+for ($i = 0; $i < $derAfterCount && $i < $arguments->count[1]; $i++)
+	$CSVContent .= ",after_".$derEvent['after']['header'][$i];
+$CSVContent .= ",event";
+$CSVContent .= "\n";
+
+{
+	if ($derBeforeCount < $arguments->count[0]) {
+		throw new CustomException(
+			"bol zadany mensi pocet derivacii (pred), nez sa ich vypocitalo");
+	}
+
+	if ($derAfterCount < $arguments->count[1]) {
+		throw new CustomException(
+			"bol zadany mensi pocet derivacii (po), nez sa ich vypocitalo");
+	}
+}
+
+// event
+$CSVContent .= strtotime($arguments->event);
+for ($i = 0; $i < $derBeforeCount && $i < $arguments->count[0]; $i++)
+	$CSVContent .= "," . $derEvent['before']['values'][$i];
+
+for ($i = 0; $i < $derAfterCount && $i < $arguments->count[1]; $i++)
+	$CSVContent .= "," . $derEvent['after']['values'][$i];
+$CSVContent .= ",yes";
+$CSVContent .= "\n";
+
+// hodnota pred eventom
+$CSVContent .= $noEventValueTimestamp;
+for ($i = 0; $i < $derAfterCount && $i < $arguments->count[0]; $i++)
+	$CSVContent .= "," . $derBeforeEvent['before']['values'][$i];
+
+for ($i = 0; $i < $derAfterCount && $i < $arguments->count[1]; $i++)
+	$CSVContent .= "," . $derBeforeEvent['after']['values'][$i];
+$CSVContent .= ",no";
+$CSVContent .= "\n";
+
+$file = fopen($OUTPUT_DIR . $filename . ".csv", "w");
+fwrite($file, $CSVContent);
+fclose($file);

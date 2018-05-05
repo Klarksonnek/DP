@@ -1,0 +1,109 @@
+{
+	"devs": [{
+			"id": "protronix",
+			"description": "Protronix senzor co2",
+			"gateway": "1816820318180747",
+			"device": "0xa9004a4a147d0001",
+			"sensor": 2
+		},
+		{
+			"id": "jablotron",
+			"description": "Jablotron detektor otvorenia ",
+			"gateway": "1908402624139667",
+			"device": "0x900000000197053",
+			"sensor": 0
+		}
+	],
+
+	"events": [{
+			"description": "02.05.2018 ---- 08:02 - 08:04",
+			"keys": "kratke",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "slaby vietor, zatiahnute, pred burkou",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/2/2018 08:02:03",
+					"close": "05/2/2018 08:04:10"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/2/2018 08:02:04",
+					"close": ""
+				}
+			]
+		},
+		{
+			"description": "04.05.2018 ---- 06:47 - ",
+			"keys": "velmi dlhe",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "oblacno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/4/2018 06:46:59",
+					"close": ""
+				},
+				{
+					"dev": "protronix",
+					"open": "05/4/2018 06:46:59",
+					"close": ""
+				}
+			]
+		},
+		{
+			"description": "05.05.2018 ---- 06:58 - 07:27",
+			"keys": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 06:58:23",
+					"close": "05/5/2018 07:27:43"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/4/2018 06:46:59",
+					"close": ""
+				}
+			]
+		},
+		{
+			"description": "05.05.2018 ---- 09:04 - 09:07",
+			"keys": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, slaby vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 09:03:59",
+					"close": "05/5/2018 09:06:59"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/5/2018 09:03:58",
+					"close": ""
+				}
+			]
+		},
+		{
+			"description": "05.05.2018 ---- 11:43 - 11:50",
+			"keys": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, silny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 11:43:59",
+					"close": "05/5/2018 11:50:29"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/5/2018 11:43:57",
+					"close": ""
+				}
+			]
+		}
+	]
+}
