@@ -17,7 +17,7 @@
 
 	"events": [{
 			"description": "02.05.2018 ---- 08:02 - 08:04",
-			"keys": "kratke",
+			"circulation_length": "kratke",
 			"location": "za nabytkom, na kraji izby",
 			"people": 2,
 			"weather": "slaby vietor, zatiahnute, pred burkou",
@@ -35,7 +35,7 @@
 		},
 		{
 			"description": "04.05.2018 ---- 06:47 - ",
-			"keys": "velmi dlhe",
+			"circulation_length": "velmi dlhe",
 			"location": "za nabytkom, na kraji izby",
 			"people": 2,
 			"weather": "oblacno",
@@ -53,7 +53,7 @@
 		},
 		{
 			"description": "05.05.2018 ---- 06:58 - 07:27",
-			"keys": "stredne",
+			"circulation_length": "stredne",
 			"location": "za nabytkom, na kraji izby",
 			"people": 2,
 			"weather": "jasno",
@@ -71,10 +71,10 @@
 		},
 		{
 			"description": "05.05.2018 ---- 09:04 - 09:07",
-			"keys": "stredne",
+			"circulation_length": "stredne",
 			"location": "za nabytkom, na kraji izby",
 			"people": 2,
-			"weather": "jasno, slaby vietor",
+			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
 					"open": "05/5/2018 09:03:59",
@@ -89,10 +89,10 @@
 		},
 		{
 			"description": "05.05.2018 ---- 11:43 - 11:50",
-			"keys": "stredne",
+			"circulation_length": "stredne",
 			"location": "za nabytkom, na kraji izby",
 			"people": 2,
-			"weather": "jasno, silny vietor",
+			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
 					"open": "05/5/2018 11:43:59",
@@ -102,6 +102,42 @@
 					"dev": "protronix",
 					"open": "05/5/2018 11:43:57",
 					"close": ""
+				}
+			]
+		},
+		{
+			"description": "05.05.2018 ---- 14:15 - 14:20",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 14:15:03",
+					"close": "05/5/2018 14:20:07"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/5/2018 14:15:01",
+					"close": ""
+				}
+			]
+		},
+		{
+			"description": "05.05.2018 ---- 15:12 - 15:20",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 15:12:05",
+					"close": "05/5/2018 15:20:40"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/5/2018 15:12:05",
+					"close": "05/5/2018 15:20:40"
 				}
 			]
 		}
