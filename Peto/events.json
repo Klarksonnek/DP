@@ -140,6 +140,24 @@
 					"close": "05/5/2018 15:20:40"
 				}
 			]
+		},
+		{
+			"description": "05.05.2018 ---- 16:22 - 16:33",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, slaby vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 16:22:08",
+					"close": "05/5/2018 16:33:08"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/5/2018 16:22:15",
+					"close": "05/5/2018 16:33:10"
+				}
+			]
 		}
 	]
 }
