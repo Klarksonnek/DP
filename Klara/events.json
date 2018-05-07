@@ -1,0 +1,57 @@
+{
+	"dev": [{
+			"id": "beeeOnInTemp",
+			"description": "BeeeOn humidity and temperature sensor",
+			"gateway": "1413350823123315",
+			"device": "0xa1000000eb00000f",
+			"sensor": 1
+		},
+		{
+			"id": "beeeOnInHum",
+			"description": "BeeeOn humidity and temperature sensor",
+			"gateway": "1413350823123315",
+			"device": "0xa1000000eb00000f",
+			"sensor": 3
+		},
+		{
+			"id": "beeeOnOutTemp",
+			"description": "BeeeOn humidity and temperature sensor",
+			"gateway": "1413350823123315",
+			"device": "0xa1000000eb000018",
+			"sensor": 1
+		},
+		{
+			"id": "beeeOnOutHum",
+			"description": "BeeeOn humidity and temperature sensor",
+			"gateway": "1413350823123315",
+			"device": "0xa1000000eb000018",
+			"sensor": 3
+		},
+		{
+			"id": "jablotron",
+			"description": "Jablotron open/close sensor",
+			"gateway": "1413350823123315",
+			"device": "0x9000000001d00b6",
+			"sensor": 0
+		}
+	],
+
+	"events": [{
+		"description": "07.05.2018 ---- 05:53 - 06:14",
+		"circulation_length": "ranni",
+		"location": "na parapetu",
+		"people": 2,
+		"weather": "slunecno",
+		"event": [{
+				"dev": "jablotron",
+				"open": "05/07/2018 05:53:14",
+				"close": "05/07/2018 06:14:28"
+			},
+			{
+				"dev": "beeeOnInTemp",
+				"open": "05/07/2018 05:53:27",
+				"close": ""
+			}
+		]
+	}]
+}
