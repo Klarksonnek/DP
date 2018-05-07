@@ -24,12 +24,12 @@ function createOneHTMLContent($arr)
 
 $RANGE = 400;
 $INTERVAL = 60;
-$NO_EVENT = 90;
-$COUNT="3,2";
+$NO_EVENT = 60;
+$COUNT="1,1";
 $HTML_ALL_FILE="all.html";
 $OUTPUT_DIR = "generated/";
 
-$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNTcwODA5MSwiaWF0IjoxNTI1MzYyNDkxLCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJlbiIsIm5iZiI6MTUyNTM2MjQ5MSwic3ViIjoiQnBDVCtjOWNSbCtndEg5clRKbG1HOWhWZGl2NWVFa0NqczlPcXVYc3NYMD0ifQ.5jCrB9HI0iggZn_w8PKM0-PoLceQPWyZZlX2HMo597s";
+$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNjA1MDM2NCwiaWF0IjoxNTI1NzA0NzY0LCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJjcyIsIm5iZiI6MTUyNTcwNDc2NCwic3ViIjoid0JhQ2o3WEFTY2VMdFZDZFJ2cEk5bkdSSDgvUXRVeGduZWpVQWIyQUk0OD0ifQ.lS9PJGODGqAJciHB-RgSuCTF1HjgUdLRDLP0QX2LEy0";
 
 
 if (file_exists($OUTPUT_DIR)) {
@@ -50,23 +50,30 @@ $name = array();
 foreach ($arr['events'] as $row) {
 	echo $row['description'] . "\n";
 
-	$dev = findDev($arr['devs'], $row['event'][1]['dev']);
-	$event = $row['event'][1];
+	foreach ($row['event'] as $event) {
+		if ($event['dev'] == "jablotron")
+			continue;
 
-	$run = "/usr/bin/php ../core.php";
-	$run .= " --gateway=" . $dev['gateway'];
-	$run .= " --device=" . $dev['device'];
-	$run .= " --sensor=" . $dev['sensor'];
-	$run .= " --event=\"" . $event['open'] . "\"";
-	$run .= " --range=" . $RANGE;
-	$run .= " --interval=" . $INTERVAL;
-	$run .= " --no-event=" . $NO_EVENT;
-	$run .= " --access-token=" . $acc;
-	$run .= " --count=" . $COUNT;
+		$dev = findDev($arr['devs'], $event['dev']);
 
-	$output = shell_exec($run);
-	echo $output . "\n";
-	echo "+++++++++++++++++++++++++++++++++++++++++++++\n";
+		echo "g: " . $event['open'] . "\n";
+
+		$run = "/usr/bin/php ../core.php";
+		$run .= " --gateway=" . $dev['gateway'];
+		$run .= " --device=" . $dev['device'];
+		$run .= " --sensor=" . $dev['sensor'];
+		$run .= " --event=\"" . $event['open'] . "\"";
+		$run .= " --range=" . $RANGE;
+		$run .= " --interval=" . $INTERVAL;
+		$run .= " --no-event=" . $NO_EVENT;
+		$run .= " --count=\"" . $COUNT ."\"";
+		$run .= " --file-suffix=\"" . $event['dev'] . "\"";
+		$run .= " --access-token=" . $acc;
+
+		$output = shell_exec($run);
+		echo $output . "\n";
+		echo "+++++++++++++++++++++++++++++++++++++++++++++\n";
+	}
 }
 
 $allHTMLFiles = preg_grep('~\.(html)$~', scandir($OUTPUT_DIR));
