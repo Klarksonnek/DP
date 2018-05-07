@@ -1,5 +1,5 @@
 {
-	"dev": [{
+	"devs": [{
 			"id": "beeeOnInTemp",
 			"description": "BeeeOn humidity and temperature sensor",
 			"gateway": "1413350823123315",
@@ -37,21 +37,70 @@
 	],
 
 	"events": [{
-		"description": "07.05.2018 ---- 05:53 - 06:14",
-		"circulation_length": "ranni",
-		"location": "na parapetu",
-		"people": 2,
-		"weather": "slunecno",
-		"event": [{
-				"dev": "jablotron",
-				"open": "05/07/2018 05:53:14",
-				"close": "05/07/2018 06:14:28"
-			},
-			{
-				"dev": "beeeOnInTemp",
-				"open": "05/07/2018 05:53:27",
-				"close": ""
-			}
-		]
-	}]
+			"description": "07.05.2018 ---- 05:53 - 06:14",
+			"circulation_length": "ranni",
+			"location": "na parapetu",
+			"people": 2,
+			"weather": "slunecno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/07/2018 05:53:14",
+					"close": "05/07/2018 06:14:28"
+				},
+				{
+					"dev": "beeeOnInTemp",
+					"open": "05/07/2018 05:53:27",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnInHum",
+					"open": "05/07/2018 05:53:27",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutTemp",
+					"open": "05/07/2018 05:52:58",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutHum",
+					"open": "05/07/2018 05:52:58",
+					"close": ""
+				}
+			]
+		},
+		{
+			"description": "07.05.2018 ---- 05:53 - 06:14",
+			"circulation_length": "ranni",
+			"location": "na parapetu",
+			"people": 2,
+			"weather": "slunecno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/07/2018 05:53:14",
+					"close": "05/07/2018 06:14:28"
+				},
+				{
+					"dev": "beeeOnInTemp",
+					"open": "05/07/2018 05:53:27",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnInHum",
+					"open": "05/07/2018 05:53:27",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutTemp",
+					"open": "05/07/2018 05:52:58",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutHum",
+					"open": "05/07/2018 05:52:58",
+					"close": ""
+				}
+			]
+		}
+	]
 }
