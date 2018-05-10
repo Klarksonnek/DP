@@ -29,7 +29,7 @@ $COUNT="3,2";
 $HTML_ALL_FILE="all.html";
 $OUTPUT_DIR = "generated/";
 
-$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNTcwODA5MSwiaWF0IjoxNTI1MzYyNDkxLCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJlbiIsIm5iZiI6MTUyNTM2MjQ5MSwic3ViIjoiQnBDVCtjOWNSbCtndEg5clRKbG1HOWhWZGl2NWVFa0NqczlPcXVYc3NYMD0ifQ.5jCrB9HI0iggZn_w8PKM0-PoLceQPWyZZlX2HMo597s";
+$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNjMxMTQzMiwiaWF0IjoxNTI1OTY1ODMyLCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJlbiIsIm5iZiI6MTUyNTk2NTgzMiwic3ViIjoiQnBDVCtjOWNSbCtndEg5clRKbG1HOWhWZGl2NWVFa0NqczlPcXVYc3NYMD0ifQ.lHSzmooOUKGHq9Y7XwIL11YuFfv8_Jho8S-1niwKe0I";
 
 
 if (file_exists($OUTPUT_DIR)) {
@@ -61,8 +61,8 @@ foreach ($arr['events'] as $row) {
 	$run .= " --range=" . $RANGE;
 	$run .= " --interval=" . $INTERVAL;
 	$run .= " --no-event=" . $NO_EVENT;
+	$run .= " --count=\"" . $COUNT . "\"";
 	$run .= " --access-token=" . $acc;
-	$run .= " --count=" . $COUNT;
 
 	$output = shell_exec($run);
 	echo $output . "\n";
