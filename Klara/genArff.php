@@ -56,8 +56,6 @@ foreach ($arr['events'] as $row) {
 
 		$dev = findDev($arr['devs'], $event['dev']);
 
-		echo "g: " . $event['open'] . "\n";
-
 		$run = "/usr/bin/php ../core.php";
 		$run .= " --gateway=" . $dev['gateway'];
 		$run .= " --device=" . $dev['device'];
