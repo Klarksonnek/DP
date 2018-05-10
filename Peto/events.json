@@ -194,6 +194,294 @@
 					"close": "05/5/2018 21:10:08"
 				}
 			]
+		},
+		{
+			"description": "05.05.2018 ---- 23:00 - 23:16",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/5/2018 23:00:09",
+					"close": "05/5/2018 23:16:19"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/5/2018 23:00:07",
+					"close": "05/5/2018 23:16:17"
+				}
+			]
+		},
+		{
+			"description": "06.05.2018 ---- 06:33 - 07:01",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, bezvetrie",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/6/2018 06:33:46",
+					"close": "05/6/2018 07:00:46"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/6/2018 06:33:43",
+					"close": "05/6/2018 07:00:48"
+				}
+			]
+		},
+		{
+			"description": "06.05.2018 ---- 07:45 - 07:50",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, svieti",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/6/2018 07:45:34",
+					"close": "05/6/2018 07:50:08"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/6/2018 07:45:33",
+					"close": "05/6/2018 07:50:08"
+				}
+			]
+		},
+		{
+			"description": "06.05.2018 ---- 09:00 - 09:05",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, svieti",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/6/2018 09:00:29",
+					"close": "05/6/2018 09:05:15"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/6/2018 09:00:28",
+					"close": "05/6/2018 09:05:13"
+				}
+			]
+		},
+		{
+			"description": "06.05.2018 ---- 10:18 - 10:23",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/6/2018 10:18:07",
+					"close": "05/6/2018 10:23:14"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/6/2018 10:18:07",
+					"close": "05/6/2018 10:23:12"
+				}
+			]
+		},
+		{
+			"description": "06.05.2018 ---- 11:45 - 11:52",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/6/2018 11:44:48",
+					"close": "05/6/2018 11:52:13"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/6/2018 11:44:51",
+					"close": "05/6/2018 11:52:11"
+				}
+			]
+		},
+		{
+			"description": "06.05.2018 ---- 13:26 - 13:31",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/6/2018 13:26:03",
+					"close": "05/6/2018 13:31:38"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/6/2018 13:26:01",
+					"close": "05/6/2018 13:31:36"
+				}
+			]
+		},
+		{
+			"description": "08.05.2018 ---- 11:30 - 11:41",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/8/2018 11:29:45",
+					"close": "05/8/2018 11:41:49"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/8/2018 11:29:49",
+					"close": "05/8/2018 11:41:46"
+				}
+			]
+		},
+		{
+			"description": "08.05.2018 ---- 15:40 - 15:47",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "zatiahnute, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/8/2018 15:39:59",
+					"close": "05/8/2018 15:46:46"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/8/2018 15:40:04",
+					"close": "05/8/2018 15:46:44"
+				}
+			]
+		},
+		{
+			"description": "08.05.2018 ---- 18:35 - 18:44",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "zatiahnute, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/8/2018 18:35:06",
+					"close": "05/8/2018 18:43:53"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/8/2018 18:35:08",
+					"close": "05/8/2018 18:43:53"
+				}
+			]
+		},
+		{
+			"description": "08.05.2018 ---- 20:00 - 20:13",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "zatiahnute, stredny vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/8/2018 20:00:55",
+					"close": "05/8/2018 20:13:14"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/8/2018 20:00:57",
+					"close": "05/8/2018 20:13:12"
+				}
+			]
+		},
+		{
+			"description": "08.05.2018 ---- 22:35 - 22:56",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "bezvetrie",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/8/2018 22:36:09",
+					"close": "05/8/2018 22:56:51"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/8/2018 22:36:11",
+					"close": "05/8/2018 22:56:51"
+				}
+			]
+		},
+		{
+			"description": "09.05.2018 ---- 07:15 - 07:35",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, svieti, bezvetrie",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/9/2018 07:14:54",
+					"close": "05/9/2018 07:35:43"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/9/2018 07:14:52",
+					"close": "05/9/2018 07:35:42"
+				}
+			]
+		},
+		{
+			"description": "09.05.2018 ---- 08:16 - 08:23",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "jasno, svieti, bezvetrie",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/9/2018 08:16:19",
+					"close": "05/9/2018 07:23:10"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/9/2018 08:16:17",
+					"close": "05/9/2018 08:23:12"
+				}
+			]
+		},
+		{
+			"description": "10.05.2018 ---- 18:24 - 18:30",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "polooblacno, slaby vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/10/2018 18:24:25",
+					"close": "05/10/2018 18:30:52"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/10/2018 18:24:27",
+					"close": "05/10/2018 18:30:52"
+				}
+			]
+		},
+		{
+			"description": "10.05.2018 ---- 20:36 - 20:44",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "oblacno, slaby vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/10/2018 20:36:04",
+					"close": "05/10/2018 20:44:02"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/10/2018 20:36:06",
+					"close": "05/10/2018 20:44:51"
+				}
+			]
 		}
 	]
 }
