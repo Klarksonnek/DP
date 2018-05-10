@@ -61,8 +61,9 @@ class BeeeOnRest {
 		$data = json_decode(curl_exec($ch), true);
 
 		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		if($http_code != 200)
-			throw new Exception('HTTP code: ' . $this->url . $endPoint);
+		if($http_code != 200) {
+			throw new Exception("HTTP code: $http_code, request: " . $this->url . $endPoint);
+		}
 
 		return $data;
 	}
