@@ -23,12 +23,12 @@
 			"weather": "slaby vietor, zatiahnute, pred burkou",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/2/2018 08:02:03",
-					"close": "05/2/2018 08:04:10"
+					"open": "05/02/2018 08:02:03",
+					"close": "05/02/2018 08:04:10"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/2/2018 08:02:04",
+					"open": "05/02/2018 08:02:04",
 					"close": ""
 				}
 			]
@@ -41,12 +41,12 @@
 			"weather": "oblacno",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/4/2018 06:46:59",
+					"open": "05/04/2018 06:46:59",
 					"close": ""
 				},
 				{
 					"dev": "protronix",
-					"open": "05/4/2018 06:46:59",
+					"open": "05/04/2018 06:46:59",
 					"close": ""
 				}
 			]
@@ -59,12 +59,12 @@
 			"weather": "jasno",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 06:58:23",
-					"close": "05/5/2018 07:27:43"
+					"open": "05/05/2018 06:58:23",
+					"close": "05/05/2018 07:27:43"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 06:58:24",
+					"open": "05/05/2018 06:58:24",
 					"close": ""
 				}
 			]
@@ -77,12 +77,12 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 09:03:59",
-					"close": "05/5/2018 09:06:59"
+					"open": "05/05/2018 09:03:59",
+					"close": "05/05/2018 09:06:59"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 09:03:58",
+					"open": "05/05/2018 09:03:58",
 					"close": ""
 				}
 			]
@@ -95,12 +95,12 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 11:43:59",
-					"close": "05/5/2018 11:50:29"
+					"open": "05/05/2018 11:43:59",
+					"close": "05/05/2018 11:50:29"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 11:43:57",
+					"open": "05/05/2018 11:43:57",
 					"close": ""
 				}
 			]
@@ -113,12 +113,12 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 14:15:03",
-					"close": "05/5/2018 14:20:07"
+					"open": "05/05/2018 14:15:03",
+					"close": "05/05/2018 14:20:07"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 14:15:01",
+					"open": "05/05/2018 14:15:01",
 					"close": ""
 				}
 			]
@@ -131,13 +131,13 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 15:12:05",
-					"close": "05/5/2018 15:20:40"
+					"open": "05/05/2018 15:12:05",
+					"close": "05/05/2018 15:20:40"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 15:12:05",
-					"close": "05/5/2018 15:20:40"
+					"open": "05/05/2018 15:12:05",
+					"close": "05/05/2018 15:20:40"
 				}
 			]
 		},
@@ -149,13 +149,13 @@
 			"weather": "jasno, slaby vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 16:22:08",
-					"close": "05/5/2018 16:33:08"
+					"open": "05/05/2018 16:22:08",
+					"close": "05/05/2018 16:33:08"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 16:22:15",
-					"close": "05/5/2018 16:33:10"
+					"open": "05/05/2018 16:22:15",
+					"close": "05/05/2018 16:33:10"
 				}
 			]
 		},
@@ -167,13 +167,13 @@
 			"weather": "jasno",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 18:02:05",
-					"close": "05/5/2018 20:16:14"
+					"open": "05/05/2018 18:02:05",
+					"close": "05/05/2018 20:16:14"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 18:01:59",
-					"close": "05/5/2018 20:16:13"
+					"open": "05/05/2018 18:01:59",
+					"close": "05/05/2018 20:16:13"
 				}
 			]
 		},
@@ -185,13 +185,13 @@
 			"weather": "jasno",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 20:59:07",
-					"close": "05/5/2018 21:10:07"
+					"open": "05/05/2018 20:59:07",
+					"close": "05/05/2018 21:10:07"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 20:59:03",
-					"close": "05/5/2018 21:10:08"
+					"open": "05/05/2018 20:59:03",
+					"close": "05/05/2018 21:10:08"
 				}
 			]
 		},
@@ -203,13 +203,13 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/5/2018 23:00:09",
-					"close": "05/5/2018 23:16:19"
+					"open": "05/05/2018 23:00:09",
+					"close": "05/05/2018 23:16:19"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/5/2018 23:00:07",
-					"close": "05/5/2018 23:16:17"
+					"open": "05/05/2018 23:00:07",
+					"close": "05/05/2018 23:16:17"
 				}
 			]
 		},
@@ -221,13 +221,13 @@
 			"weather": "jasno, bezvetrie",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/6/2018 06:33:46",
-					"close": "05/6/2018 07:00:46"
+					"open": "05/06/2018 06:33:46",
+					"close": "05/06/2018 07:00:46"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/6/2018 06:33:43",
-					"close": "05/6/2018 07:00:48"
+					"open": "05/06/2018 06:33:43",
+					"close": "05/06/2018 07:00:48"
 				}
 			]
 		},
@@ -239,13 +239,13 @@
 			"weather": "jasno, svieti",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/6/2018 07:45:34",
-					"close": "05/6/2018 07:50:08"
+					"open": "05/06/2018 07:45:34",
+					"close": "05/06/2018 07:50:08"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/6/2018 07:45:33",
-					"close": "05/6/2018 07:50:08"
+					"open": "05/06/2018 07:45:33",
+					"close": "05/06/2018 07:50:08"
 				}
 			]
 		},
@@ -257,13 +257,13 @@
 			"weather": "jasno, svieti",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/6/2018 09:00:29",
-					"close": "05/6/2018 09:05:15"
+					"open": "05/06/2018 09:00:29",
+					"close": "05/06/2018 09:05:15"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/6/2018 09:00:28",
-					"close": "05/6/2018 09:05:13"
+					"open": "05/06/2018 09:00:28",
+					"close": "05/06/2018 09:05:13"
 				}
 			]
 		},
@@ -275,13 +275,13 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/6/2018 10:18:07",
-					"close": "05/6/2018 10:23:14"
+					"open": "05/06/2018 10:18:07",
+					"close": "05/06/2018 10:23:14"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/6/2018 10:18:07",
-					"close": "05/6/2018 10:23:12"
+					"open": "05/06/2018 10:18:07",
+					"close": "05/06/2018 10:23:12"
 				}
 			]
 		},
@@ -293,13 +293,13 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/6/2018 11:44:48",
-					"close": "05/6/2018 11:52:13"
+					"open": "05/06/2018 11:44:48",
+					"close": "05/06/2018 11:52:13"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/6/2018 11:44:51",
-					"close": "05/6/2018 11:52:11"
+					"open": "05/06/2018 11:44:51",
+					"close": "05/06/2018 11:52:11"
 				}
 			]
 		},
@@ -311,13 +311,13 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/6/2018 13:26:03",
-					"close": "05/6/2018 13:31:38"
+					"open": "05/06/2018 13:26:03",
+					"close": "05/06/2018 13:31:38"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/6/2018 13:26:01",
-					"close": "05/6/2018 13:31:36"
+					"open": "05/06/2018 13:26:01",
+					"close": "05/06/2018 13:31:36"
 				}
 			]
 		},
@@ -329,13 +329,13 @@
 			"weather": "jasno, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/8/2018 11:29:45",
-					"close": "05/8/2018 11:41:49"
+					"open": "05/08/2018 11:29:45",
+					"close": "05/08/2018 11:41:49"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/8/2018 11:29:49",
-					"close": "05/8/2018 11:41:46"
+					"open": "05/08/2018 11:29:49",
+					"close": "05/08/2018 11:41:46"
 				}
 			]
 		},
@@ -347,13 +347,13 @@
 			"weather": "zatiahnute, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/8/2018 15:39:59",
-					"close": "05/8/2018 15:46:46"
+					"open": "05/08/2018 15:39:59",
+					"close": "05/08/2018 15:46:46"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/8/2018 15:40:04",
-					"close": "05/8/2018 15:46:44"
+					"open": "05/08/2018 15:40:04",
+					"close": "05/08/2018 15:46:44"
 				}
 			]
 		},
@@ -365,13 +365,13 @@
 			"weather": "zatiahnute, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/8/2018 18:35:06",
-					"close": "05/8/2018 18:43:53"
+					"open": "05/08/2018 18:35:06",
+					"close": "05/08/2018 18:43:53"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/8/2018 18:35:08",
-					"close": "05/8/2018 18:43:53"
+					"open": "05/08/2018 18:35:08",
+					"close": "05/08/2018 18:43:53"
 				}
 			]
 		},
@@ -383,13 +383,13 @@
 			"weather": "zatiahnute, stredny vietor",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/8/2018 20:00:55",
-					"close": "05/8/2018 20:13:14"
+					"open": "05/08/2018 20:00:55",
+					"close": "05/08/2018 20:13:14"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/8/2018 20:00:57",
-					"close": "05/8/2018 20:13:12"
+					"open": "05/08/2018 20:00:57",
+					"close": "05/08/2018 20:13:12"
 				}
 			]
 		},
@@ -401,13 +401,13 @@
 			"weather": "bezvetrie",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/8/2018 22:36:09",
-					"close": "05/8/2018 22:56:51"
+					"open": "05/08/2018 22:36:09",
+					"close": "05/08/2018 22:56:51"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/8/2018 22:36:11",
-					"close": "05/8/2018 22:56:51"
+					"open": "05/08/2018 22:36:11",
+					"close": "05/08/2018 22:56:51"
 				}
 			]
 		},
@@ -419,13 +419,13 @@
 			"weather": "jasno, svieti, bezvetrie",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/9/2018 07:14:54",
-					"close": "05/9/2018 07:35:43"
+					"open": "05/09/2018 07:14:54",
+					"close": "05/09/2018 07:35:43"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/9/2018 07:14:52",
-					"close": "05/9/2018 07:35:42"
+					"open": "05/09/2018 07:14:52",
+					"close": "05/09/2018 07:35:42"
 				}
 			]
 		},
@@ -437,13 +437,13 @@
 			"weather": "jasno, svieti, bezvetrie",
 			"event": [{
 					"dev": "jablotron",
-					"open": "05/9/2018 08:16:19",
-					"close": "05/9/2018 07:23:10"
+					"open": "05/09/2018 08:16:19",
+					"close": "05/09/2018 07:23:10"
 				},
 				{
 					"dev": "protronix",
-					"open": "05/9/2018 08:16:17",
-					"close": "05/9/2018 08:23:12"
+					"open": "05/09/2018 08:16:17",
+					"close": "05/09/2018 08:23:12"
 				}
 			]
 		},
@@ -480,6 +480,168 @@
 					"dev": "protronix",
 					"open": "05/10/2018 20:36:06",
 					"close": "05/10/2018 20:44:51"
+				}
+			]
+		},
+		{
+			"description": "10.05.2018 ---- 22:25 - 22:42",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "tma, dazd, slaby vietor",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/10/2018 22:25:06",
+					"close": "05/10/2018 22:42:24"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/10/2018 22:25:06",
+					"close": "05/10/2018 22:42:25"
+				}
+			]
+		},
+		{
+			"description": "11.05.2018 ---- 07:47 - 08:04",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"weather": "zatiahnute, bezvetrie",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/11/2018 07:47:06",
+					"close": "05/11/2018 08:04:12"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/11/2018 07:47:07",
+					"close": "05/11/2018 08:04:11"
+				}
+			]
+		},
+		{
+			"description": "11.05.2018 ---- 11:37 - 11:51",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 1,
+			"weather": "slaby vietor, polojasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/11/2018 11:37:05",
+					"close": "05/11/2018 11:51:32"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/11/2018 11:37:05",
+					"close": "05/11/2018 11:51:35"
+				}
+			]
+		},
+		{
+			"description": "11.05.2018 ---- 14:48 - 15:04",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 1,
+			"weather": "slaby vietor, polojasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/11/2018 14:48:05",
+					"close": "05/11/2018 15:04:30"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/11/2018 14:48:04",
+					"close": "05/11/2018 15:04:28"
+				}
+			]
+		},
+		{
+			"description": "11.05.2018 ---- 16:03 - 16:48",
+			"circulation_length": "dlhe",
+			"location": "za nabytkom, na kraji izby",
+			"people": 1,
+			"weather": "bezvetrie, polojasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/11/2018 16:02:51",
+					"close": "05/11/2018 16:48:12"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/11/2018 16:02:53",
+					"close": "05/11/2018 16:48:13"
+				}
+			]
+		},
+		{
+			"description": "11.05.2018 ---- 17:54 - 18:06",
+			"circulation_length": "kratke",
+			"location": "za nabytkom, na kraji izby",
+			"people": 1,
+			"weather": "bezvetrie, polojasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/11/2018 17:54:02",
+					"close": "05/11/2018 18:05:56"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/11/2018 17:54:02",
+					"close": "05/11/2018 18:05:57"
+				}
+			]
+		},
+		{
+			"description": "12.05.2018 ---- 00:35 - 00:57",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 1,
+			"weather": "stredny vietor, polojasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/12/2018 00:35:02",
+					"close": "05/12/2018 00:57:29"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/12/2018 00:35:04",
+					"close": "05/12/2018 00:57:29"
+				}
+			]
+		},
+		{
+			"description": "12.05.2018 ---- 01:57 - 02:07",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 1,
+			"weather": "stredny vietor, polojasno",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/12/2018 01:57:04",
+					"close": "05/12/2018 02:07:54"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/12/2018 01:57:14",
+					"close": "05/12/2018 02:07:54"
+				}
+			]
+		},
+		{
+			"description": "12.05.2018 ---- 09:46 - 09:54",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 1,
+			"weather": "jasno, bezvetrie, svieti",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/12/2018 09:46:13",
+					"close": "05/12/2018 09:54:04"
+				},
+				{
+					"dev": "protronix",
+					"open": "05/12/2018 09:46:10",
+					"close": "05/12/2018 09:54:05"
 				}
 			]
 		}
