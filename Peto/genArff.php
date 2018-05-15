@@ -22,10 +22,10 @@ function createOneHTMLContent($arr)
 	return $repr;
 }
 
-$RANGE = 300;
-$INTERVAL = 60;
-$NO_EVENT = 90;
-$COUNT="3,2";
+$RANGE = 600;
+$INTERVAL = 25;
+$NO_EVENT = 100;
+$COUNT="5,5";
 $HTML_ALL_FILE="all.html";
 $OUTPUT_DIR = "generated/";
 
@@ -76,6 +76,53 @@ fwrite($file, createOneHTMLContent(array_diff($allHTMLFiles, array($HTML_ALL_FIL
 fclose($file);
 
 
+/**
+ * Arff
+ */
+$allCSVFiles = preg_grep('~\.(csv)$~', scandir($OUTPUT_DIR));
 
+$header = false;
+$repr = "";
+foreach ($allCSVFiles as $csvFile) {
+	$csvData = array_map('str_getcsv', file($OUTPUT_DIR . "/" . $csvFile));
 
+	if (!$header) {
+		$repr = "@relation openEvent\n\n";
+
+		// skip timestamp
+		for ($i = 1; $i < count($csvData[0]); $i++) {
+
+			if ($i != count($csvData[0]) - 1) {
+				$repr .= "@attribute ";
+				$repr .= $csvData[0][$i];
+				$repr .= " numeric \n";
+				continue;
+			}
+
+			$repr .= "@attribute class {yes, no}\n";
+			$repr .= "\n";
+			$repr .= "@data";
+			$repr .= "\n";
+			$repr .= "\n";
+		}
+
+		$header = true;
+	}
+
+	for ($i = 1; $i < count($csvData[1]); $i++) {
+		$repr .= $csvData[1][$i] . ",";
+	}
+	$repr = substr($repr, 0, -1);
+	$repr .= "\n";
+
+	for ($i = 1; $i < count($csvData[2]); $i++) {
+		$repr .= $csvData[2][$i] . ",";
+	}
+	$repr = substr($repr, 0, -1);
+	$repr .= "\n";
+}
+
+$file = fopen("test.arff", "w");
+fwrite($file, $repr);
+fclose($file);
 
