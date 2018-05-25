@@ -70,7 +70,7 @@ class BeeeOnRest {
 }
 
 class GenerateHTMLGraph {
-	static function gen($data, $title)
+	static function gen($data, $title, $color = "window.chartColors.blue")
 	{
 		$timestamps = "";
 		$values = "";
@@ -107,8 +107,8 @@ class GenerateHTMLGraph {
 				datasets: [
 					{
 						label: "Value",
-						borderColor: window.chartColors.blue,
-						backgroundColor: window.chartColors.blue,
+						borderColor: ' . $color . ',
+						backgroundColor: ' . $color . ',
 						fill: false,
 						data: ['.$values.'],
 						yAxisID: "y-axis-2"
@@ -201,8 +201,9 @@ class Arguments {
 	public $count = null;
 	public $fileSuffix = null;
 	public $filePrefix = null;
+	public $graphColor = null;
 
-	const SHORT_OPTS = "a:g:d:s:e:i:r:n:c:f:p:h";
+	const SHORT_OPTS = "a:g:d:s:e:i:r:n:c:f:p:g:h";
 	const LONG_OPTS = array(
 		"access-token:",
 		"gateway:",
@@ -215,6 +216,7 @@ class Arguments {
 		"count:",
 		"file-suffix:",
 		"file-prefix:",
+		"graph-color:",
 		"help"
 	);
 
@@ -242,6 +244,7 @@ class Arguments {
 		$repr .= "            dvojica oddelena ciarkou napr. \"2,2\"\n";
 		$repr .= "[--file-suffix] - rozsireny nazov suboru (temp, hum, co2, ...)\n";
 		$repr .= "[--file-prefix] - rozsireny nazov suboru (temp, hum, co2, ...)\n";
+		$repr .= "[--graph-color] - farba grafu\n";
 
 		$repr .= "\nJednotlive casy su uvedene v sekundach.\n";
 
@@ -324,6 +327,9 @@ class Arguments {
 
 		if (array_key_exists("file-prefix", $options))
 			$args->filePrefix = $options['file-prefix'];
+
+		if (array_key_exists("graph-color", $options))
+			$args->graphColor = $options['graph-color'];
 
 		return $args;
 	}
@@ -575,7 +581,12 @@ if (!is_null($arguments->filePrefix))
 	$filename = $arguments->filePrefix . '_' . $filename;
 
 $file = fopen($OUTPUT_DIR . $filename . ".html", "w");
-fwrite($file, GenerateHTMLGraph::gen($req, "Event: " . $arguments->event . ", " . $arguments->fileSuffix));
+
+if (!is_null($arguments->graphColor))
+	fwrite($file, GenerateHTMLGraph::gen($req, "Event: " . $arguments->event . ", " . $arguments->fileSuffix, $arguments->graphColor));
+else
+	fwrite($file, GenerateHTMLGraph::gen($req, "Event: " . $arguments->event . ", " . $arguments->fileSuffix));
+
 fclose($file);
 
 

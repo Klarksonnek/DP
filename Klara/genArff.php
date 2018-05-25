@@ -30,6 +30,13 @@ $COUNT="2,2";
 $HTML_ALL_FILE="all.html";
 $OUTPUT_DIR = "generated/";
 
+$colors = array(
+	"window.chartColors.red",
+	"window.chartColors.blue",
+	"window.chartColors.green",
+	"window.chartColors.grey",
+);
+
 $acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNzU5MDQyOSwiaWF0IjoxNTI3MjQ0ODI5LCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJjcyIsIm5iZiI6MTUyNzI0NDgyOSwic3ViIjoid0JhQ2o3WEFTY2VMdFZDZFJ2cEk5bkdSSDgvUXRVeGduZWpVQWIyQUk0OD0ifQ.hUrAhkytnPIbTwaYmpmXDrmEmP_I4e_DfoL7rrA9OD4";
 
 if (file_exists($OUTPUT_DIR)) {
@@ -44,7 +51,6 @@ $jsonFile = "events.json";
 $jsonData = file_get_contents($jsonFile);
 
 $arr = json_decode($jsonData, true); // true nemusi byt
-//var_dump($arr);
 
 $name = array();
 $number = 0;
@@ -67,7 +73,8 @@ foreach ($arr['events'] as $row) {
 		$run .= " --no-event=" . $NO_EVENT;
 		$run .= " --count=\"" . $COUNT ."\"";
 		$run .= " --file-suffix=\"" . $event['dev'] . "\"";
-		$run .= " --file-prefix=\"" . $number . "\"";
+		$run .= " --file-prefix=\"" . str_pad($number, 4, "0", STR_PAD_LEFT) . "\"";
+		$run .= " --graph-color=\"" . $colors[$number%4] . "\"";
 		$run .= " --access-token=" . $acc;
 
 		$output = shell_exec($run);
@@ -99,7 +106,13 @@ $repr = "";
 foreach ($allCSVFiles as $csvFile) {
 	$csvData = array_map('str_getcsv', file($OUTPUT_DIR . "/" . $csvFile));
 
-		$suffix = array("outHum", "outTemp", "inHum", "inTemp");
+		$suffix = array(
+			"inTemp",
+			"inHum",
+			"outTemp",
+			"outHum",
+		);
+
 		$repr = "@relation openEvent\n\n";
 
 		foreach ($suffix as $suf) {
@@ -131,7 +144,6 @@ foreach ($allCSVFiles as $csvFile) {
 	$csvData = array_map('str_getcsv', file($OUTPUT_DIR . "/" . $csvFile));
 
 	//event
-	var_dump($csvData);
 	for ($i = 1; $i < count($csvData[1]) - 1; $i++) {
 		$repr .= round($csvData[1][$i], $PRECISION) . ",";
 	}
@@ -151,7 +163,6 @@ foreach ($allCSVFiles as $csvFile) {
 	$csvData = array_map('str_getcsv', file($OUTPUT_DIR . "/" . $csvFile));
 
 	//no event
-	var_dump($csvData);
 	for ($i = 1; $i < count($csvData[2]) - 1; $i++) {
 		$repr .= round($csvData[1][$i], $PRECISION) . ",";
 	}
