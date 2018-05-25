@@ -1,6 +1,9 @@
 <?php
 
-// mesiac, den, rok
+/**
+ * https://www.wunderground.com/history/airport/LKTB/2018/5/10/DailyHistory.html?req_city=&req_state=&req_statename=&reqdb.zip=&reqdb.magic=&reqdb.wmo=
+ */
+
 
 function genDay($day)
 {
