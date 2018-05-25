@@ -200,8 +200,9 @@ class Arguments {
 	public $isHelp = false;
 	public $count = null;
 	public $fileSuffix = null;
+	public $filePrefix = null;
 
-	const SHORT_OPTS = "a:g:d:s:e:i:r:n:c:f:h";
+	const SHORT_OPTS = "a:g:d:s:e:i:r:n:c:f:p:h";
 	const LONG_OPTS = array(
 		"access-token:",
 		"gateway:",
@@ -213,6 +214,7 @@ class Arguments {
 		"no-event:",
 		"count:",
 		"file-suffix:",
+		"file-prefix:",
 		"help"
 	);
 
@@ -239,6 +241,7 @@ class Arguments {
 		$repr .= "[--count] - pocet derivacii pred a za udalostou\n";
 		$repr .= "            dvojica oddelena ciarkou napr. \"2,2\"\n";
 		$repr .= "[--file-suffix] - rozsireny nazov suboru (temp, hum, co2, ...)\n";
+		$repr .= "[--file-prefix] - rozsireny nazov suboru (temp, hum, co2, ...)\n";
 
 		$repr .= "\nJednotlive casy su uvedene v sekundach.\n";
 
@@ -318,6 +321,9 @@ class Arguments {
 
 		if (array_key_exists("file-suffix", $options))
 			$args->fileSuffix = $options['file-suffix'];
+
+		if (array_key_exists("file-prefix", $options))
+			$args->filePrefix = $options['file-prefix'];
 
 		return $args;
 	}
@@ -564,6 +570,9 @@ $filename = str_replace("/", "-", $filename);
 
 if (!is_null($arguments->fileSuffix))
 	$filename .= "_" . $arguments->fileSuffix;
+
+if (!is_null($arguments->filePrefix))
+	$filename = $arguments->filePrefix . '_' . $filename;
 
 $file = fopen($OUTPUT_DIR . $filename . ".html", "w");
 fwrite($file, GenerateHTMLGraph::gen($req, "Event: " . $arguments->event . ", " . $arguments->fileSuffix));
