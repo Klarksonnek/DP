@@ -1189,42 +1189,6 @@
 			]
 		},
                 {
-			"description": "19.05.2018 ---- 06:15 - 06:43",
-			"airing_time": "ranni",
-			"location": "na parapetu",
-			"window": "dokoran",
-			"door": "zavrene",
-			"people": 1,
-			"weather": "oblacno",
-			"wind": "slaby",
-			"event": [{
-					"dev": "jablotron",
-					"open": "05/19/2018 06:12:23",
-					"close": "05/19/2018 06:43:36"
-				},
-				{
-					"dev": "beeeOnInTemp",
-					"open": "05/19/2018 06:12:47",
-					"close": ""
-				},
-				{
-					"dev": "beeeOnInHum",
-					"open": "05/19/2018 06:12:47",
-					"close": ""
-				},
-				{
-					"dev": "beeeOnOutTemp",
-					"open": "05/19/2018 06:12:34",
-					"close": ""
-				},
-				{
-					"dev": "beeeOnOutHum",
-					"open": "05/19/2018 06:12:34",
-					"close": ""
-				}
-			]
-		},
-                {
 			"description": "19.05.2018 ---- 22:45 - 23:10",
 			"airing_time": "vecerni",
 			"location": "na parapetu",
@@ -1348,12 +1312,12 @@
 				},
 				{
 					"dev": "beeeOnInTemp",
-					"open": "05/20/2018 11:24:17",
+					"open": "05/20/2018 10:24:17",
 					"close": ""
 				},
 				{
 					"dev": "beeeOnInHum",
-					"open": "05/20/2018 11:24:17",
+					"open": "05/20/2018 10:24:17",
 					"close": ""
 				},
 				{
@@ -1400,6 +1364,114 @@
 				{
 					"dev": "beeeOnOutHum",
 					"open": "05/21/2018 04:26:11",
+					"close": ""
+				}
+			]
+		},
+                {
+			"description": "25.05.2018 ---- 06:30 - 07:30",
+			"airing_time": "ranni",
+			"location": "na parapetu",
+			"window": "dokoran",
+			"door": "zavrene",
+			"people": 1,
+			"weather": "oblacno",
+			"wind": "slaby",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/25/2018 06:31:03",
+					"close": "05/25/2018 07:30:08"
+				},
+				{
+					"dev": "beeeOnInTemp",
+					"open": "05/25/2018 06:30:59",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnInHum",
+					"open": "05/25/2018 06:30:59",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutTemp",
+					"open": "05/25/2018 06:30:55",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutHum",
+					"open": "05/25/2018 06:30:55",
+					"close": ""
+				}
+			]
+		},
+                {
+			"description": "25.05.2018 ---- 22:30 - 22:45",
+			"airing_time": "vecerni",
+			"location": "na parapetu",
+			"window": "dokoran",
+			"door": "zavrene",
+			"people": 1,
+			"weather": "oblacno",
+			"wind": "slaby",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/25/2018 22:32:19",
+					"close": "05/25/2018 22:46:07"
+				},
+				{
+					"dev": "beeeOnInTemp",
+					"open": "05/25/2018 22:32:16",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnInHum",
+					"open": "05/25/2018 22:32:16",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutTemp",
+					"open": "05/25/2018 22:31:41",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutHum",
+					"open": "05/25/2018 22:31:41",
+					"close": ""
+				}
+			]
+		},
+                {
+			"description": "26.05.2018 ---- 04:40 - 06:03",
+			"airing_time": "ranni",
+			"location": "na parapetu",
+			"window": "ventilacka",
+			"door": "otevrene",
+			"people": 1,
+			"weather": "jasno",
+			"wind": "slaby",
+			"event": [{
+					"dev": "jablotron",
+					"open": "05/26/2018 04:38:23",
+					"close": "05/26/2018 06:03:17"
+				},
+				{
+					"dev": "beeeOnInTemp",
+					"open": "05/26/2018 04:38:22",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnInHum",
+					"open": "05/26/2018 04:38:22",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutTemp",
+					"open": "05/26/2018 04:38:07",
+					"close": ""
+				},
+				{
+					"dev": "beeeOnOutHum",
+					"open": "05/26/2018 04:38:07",
 					"close": ""
 				}
 			]
