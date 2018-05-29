@@ -23,10 +23,10 @@ function createOneHTMLContent($arr)
 }
 
 $RANGE = 900;
-$INTERVAL = 20;
-$NO_EVENT = 20;
+$INTERVAL = 30;
+$NO_EVENT = 100;
 $PRECISION = 3;
-$COUNT="2,2";
+$COUNT="3,3";
 $HTML_ALL_FILE="all.html";
 $OUTPUT_DIR = "generated/";
 
@@ -37,7 +37,7 @@ $colors = array(
 	"window.chartColors.grey",
 );
 
-$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNzU5MDQyOSwiaWF0IjoxNTI3MjQ0ODI5LCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJjcyIsIm5iZiI6MTUyNzI0NDgyOSwic3ViIjoid0JhQ2o3WEFTY2VMdFZDZFJ2cEk5bkdSSDgvUXRVeGduZWpVQWIyQUk0OD0ifQ.hUrAhkytnPIbTwaYmpmXDrmEmP_I4e_DfoL7rrA9OD4";
+$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNzkxODAzMSwiaWF0IjoxNTI3NTcyNDMxLCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJjcyIsIm5iZiI6MTUyNzU3MjQzMSwic3ViIjoid0JhQ2o3WEFTY2VMdFZDZFJ2cEk5bkdSSDgvUXRVeGduZWpVQWIyQUk0OD0ifQ.p5xNo19HjLeyh2ogS_X_qVsFBLznGV3tzClXf_n1nyk";
 
 if (file_exists($OUTPUT_DIR)) {
 	system("/bin/rm -rf ".escapeshellarg($OUTPUT_DIR));
@@ -60,6 +60,8 @@ foreach ($arr['events'] as $row) {
 	foreach ($row['event'] as $event) {
 		if ($event['dev'] == "jablotron")
 			continue;
+		//if ($row['certainty'] != "1")
+			//continue;
 
 		$dev = findDev($arr['devs'], $event['dev']);
 
@@ -114,11 +116,11 @@ foreach ($allCSVFiles as $csvFile) {
 		);
 
 		$repr = "@relation openEvent\n\n";
+		$repr .= "@attribute file string\n";
 
 		foreach ($suffix as $suf) {
 			// skip timestamp
 			for ($i = 1; $i < count($csvData[0]); $i++) {
-
 				if ($i != count($csvData[0]) - 1) {
 					$repr .= "@attribute ";
 					$repr .= $csvData[0][$i];
@@ -142,7 +144,8 @@ $count = 0;
 
 foreach ($allCSVFiles as $csvFile) {
 	$csvData = array_map('str_getcsv', file($OUTPUT_DIR . "/" . $csvFile));
-
+	if ($count == 0)
+		$repr .= $csvFile.",";
 	//event
 	for ($i = 1; $i < count($csvData[1]) - 1; $i++) {
 		$repr .= round($csvData[1][$i], $PRECISION) . ",";
@@ -161,10 +164,11 @@ foreach ($allCSVFiles as $csvFile) {
 $count = 0;
 foreach ($allCSVFiles as $csvFile) {
 	$csvData = array_map('str_getcsv', file($OUTPUT_DIR . "/" . $csvFile));
-
+	if ($count == 0)
+		$repr .= $csvFile.",";
 	//no event
 	for ($i = 1; $i < count($csvData[2]) - 1; $i++) {
-		$repr .= round($csvData[1][$i], $PRECISION) . ",";
+		$repr .= round($csvData[2][$i], $PRECISION) . ",";
 	}
 
 	if ($count >= 3) {
