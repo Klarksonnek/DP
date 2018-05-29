@@ -22,7 +22,7 @@ function createOneHTMLContent($arr)
 	return $repr;
 }
 
-$RANGE = 900;
+$RANGE = 400;
 $INTERVAL = 30;
 $NO_EVENT = 100;
 $PRECISION = 3;
