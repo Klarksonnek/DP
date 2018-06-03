@@ -740,43 +740,6 @@
 			]
 		},
                 {
-			"description": "13.05.2018 ---- 10:37 - 11:50",
-			"airing_time": "dopoledni",
-			"location": "na parapetu",
-			"window": "dokoran",
-			"door": "zavrene",
-			"people": 2,
-			"weather": "jasno",
-			"wind": "slaby",
-			"certainty": "3",
-			"event": [{
-					"dev": "jablotron",
-					"open": "05/13/2018 10:37:40",
-					"close": "05/13/2018 11:50:37"
-				},
-				{
-					"dev": "beeeOnInTemp",
-					"open": "05/13/2018 10:36:27",
-					"close": ""
-				},
-				{
-					"dev": "beeeOnInHum",
-					"open": "05/13/2018 10:36:27",
-					"close": ""
-				},
-				{
-					"dev": "beeeOnOutTemp",
-					"open": "05/13/2018 10:37:35",
-					"close": ""
-				},
-				{
-					"dev": "beeeOnOutHum",
-					"open": "05/13/2018 10:37:35",
-					"close": ""
-				}
-			]
-		},
-                {
 			"description": "13.05.2018 ---- 15:40 - 16:00",
 			"airing_time": "odpoledni",
 			"location": "na parapetu",

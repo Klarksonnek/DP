@@ -37,7 +37,7 @@ $colors = array(
 	"window.chartColors.grey",
 );
 
-$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyNzkxODAzMSwiaWF0IjoxNTI3NTcyNDMxLCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJjcyIsIm5iZiI6MTUyNzU3MjQzMSwic3ViIjoid0JhQ2o3WEFTY2VMdFZDZFJ2cEk5bkdSSDgvUXRVeGduZWpVQWIyQUk0OD0ifQ.p5xNo19HjLeyh2ogS_X_qVsFBLznGV3tzClXf_n1nyk";
+$acc = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOlsiQmVlZU9uIl0sImV4cCI6MTUyODI5NTc5OSwiaWF0IjoxNTI3OTUwMTk5LCJpc3MiOiJCZWVlT24iLCJsb2NhbGUiOiJlbiIsIm5iZiI6MTUyNzk1MDE5OSwic3ViIjoiQnBDVCtjOWNSbCtndEg5clRKbG1HOWhWZGl2NWVFa0NqczlPcXVYc3NYMD0ifQ.VqvibfxoJeRHnMx4DubnnH9FhGBr6CTdo9vay1mIcpM";
 
 if (file_exists($OUTPUT_DIR)) {
 	system("/bin/rm -rf ".escapeshellarg($OUTPUT_DIR));
