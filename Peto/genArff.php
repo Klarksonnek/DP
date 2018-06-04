@@ -24,7 +24,7 @@ function createOneHTMLContent($arr)
 
 $RANGE = 600;
 $INTERVAL = 50;
-$NO_EVENT = 235;
+$NO_EVENT = 175;
 $COUNT="3,3";
 $HTML_ALL_FILE="all.html";
 $OUTPUT_DIR = "generated/";
