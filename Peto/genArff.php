@@ -23,9 +23,9 @@ function createOneHTMLContent($arr)
 }
 
 $RANGE = 600;
-$INTERVAL = 25;
-$NO_EVENT = 100;
-$COUNT="5,5";
+$INTERVAL = 50;
+$NO_EVENT = 235;
+$COUNT="3,3";
 $HTML_ALL_FILE="all.html";
 $OUTPUT_DIR = "generated/";
 
@@ -125,4 +125,3 @@ foreach ($allCSVFiles as $csvFile) {
 $file = fopen("test.arff", "w");
 fwrite($file, $repr);
 fclose($file);
-

@@ -11,7 +11,7 @@ set xlabel 'time [s]'
 set xdata time
 set timefmt "%s"
 set xtics format "%d/%m\n%H:%M"
-set xtics 1525240924, 14400, 1525327319
+set xtics 1527847203, 14400, 1527933598
 set grid
 
 
@@ -19,11 +19,11 @@ set key out vert
 set key left top
 set key center top
 
-# set terminal png size 1000, 300
+# set terminal png size 400, 300
 # set output 'vonkajsieCO2-24h.png'
 
-set term eps size 3.2,2 enhanced color linewidth 2
+set term eps size 4.5,2 enhanced color linewidth 2
 set output 'vonkajsieCO2-24h.eps'
 
-plot [1525240924:1525327319][400:1000]'vonkajsieCO2-24h.csv' using 1:2 title "Vonkajšia koncentrácia CO2" with lines, \
-            'vonkajsieCO2-24h.csv' using 1:(980.4464) title "Priemerná koncentrácia CO2" with lines
+plot [1527847203:1527933598][350:500]'vonkajsieCO2-24h.csv' using 1:2 title "Vonkajšia koncentrácia CO2" with lines, \
+            'vonkajsieCO2-24h.csv' using 1:(434) title "Priemerná koncentrácia CO2" with lines
