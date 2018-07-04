@@ -483,5 +483,47 @@ class Graph:
 		f.close()
 
 def main():
+	w = WeatherData()
+	#neděle 8. červenec 2018 20:30:00 - neděle 8. červenec 2018 21:00:00
+	#print(w.weather_data(1531067400, 1531069200))
+
+	#neděle 8. červenec 2018 20:15:00 - neděle 8. červenec 2018 20:45:00
+	#print(w.weather_data(1531073700, 1531075500))
+
+	#neděle 8. červenec 2018 23:57:00 - pondělí 9. červenec 2018 00:03:00
+	#print(w.weather_data(1531087020, 1531087380))
+
+	#neděle 8. červenec 2018 15:00:00 - neděle 8. červenec 2018 20:00:00
+	#print(len(w.weather_data(1531054800, 1531072800)))
+
 	beeeon_cl = BeeeOnClient("ant-work.fit.vutbr.cz", 8010)
 	beeeon_cl.api_key = "thaegeshecaz1EN9lutho0laeku1ahsh9eec5waeg0aiqua2buo7ieyoo0Shoow9ahpoosomie0weiqu"
+
+	storage = DataStorage(beeeon_cl)
+	storage.read_meta_data('devices.json', 'events.json')
+	storage.set_no_event_time(10, 10)
+
+	print(json.dumps(storage.download_data(10, 10), indent=4, sort_keys=True))
+	beeeon_cl.logout()
+
+	data = {
+		'g0': {
+			'title': 'title',
+			'graphs': [
+				{
+					'timestamps': '10, 11, 12',
+					'values': '5, 20, 7',
+					'label_x': 'x label',
+					'color': 'red',
+				},
+				{
+					'timestamps': '10, 11, 12',
+					'values': '15, 16, 17',
+					'label_x': 'x label 2',
+					'color': 'blue',
+				}
+			]
+		}
+	}
+	g = Graph('g.html', data, "./../src/graph", True, 2, 2)
+	g.gen()
