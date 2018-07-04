@@ -1,3 +1,5 @@
+import copy
+import datetime
 import http.client
 import json
 import logging
@@ -148,6 +150,127 @@ class BeeeOnClient:
 	@api_key.setter
 	def api_key(self, key):
 		self.__api_key = key
+
+
+class DataStorage:
+	def __init__(self, client):
+		self.__client = client
+		self.__meta_data = []
+		self.__log = logging.getLogger(self.__class__.__name__)
+
+	def read_meta_data(self, devices, events):
+		with open(devices) as f:
+			json_devices = json.load(f)
+
+		with open(events) as f:
+			json_events = json.load(f)
+
+		for e in json_events['events']:
+			e['event']['start'] = self.__parser_date(e['event']['start'])
+			e['event']['end'] = self.__parser_date(e['event']['end'])
+
+			for key, dev in e['event']['devices'].items():
+				for d_dev in json_devices['devices']:
+					if d_dev['id'] == key:
+						modules = e['event']['devices'][key]
+						e['event']['devices'][key] = d_dev
+						e['event']['devices'][key]['modules'] = self.requested_modules(d_dev['gateway'], d_dev['device'], modules)
+
+						e['event']['weather'] = self.__download_weather(e['event']['start'], e['event']['end'])
+						self.__meta_data.insert(len(self.__meta_data), e)
+					else:
+						self.__log.warning("device %s not found, event was skipped" % key)
+
+	def __parser_date(self, date):
+		return datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S").timestamp()
+
+	def requested_modules(self, gateway, device, modules):
+		supported_modules = self.download_sensor_modules(gateway, device)
+
+		out = []
+		for module in modules:
+			found = False
+			for supported_module in supported_modules:
+				if module == supported_module['type_id']:
+					out.append(supported_module)
+					found = True
+
+			if not found:
+				self.__log.warning("module %s not supported" % module)
+
+		return out
+
+	def __download_weather(self, start, end):
+		print("start: %s, end: %s" % (start, end))
+
+		return {}
+
+	def download_sensor_modules(self, gateway, device):
+		data = self.__client.sensors_info(gateway, device)
+
+		out = []
+		for sensor in data:
+			out.append({
+				'id': sensor['id'],
+				'type_id': sensor['type_id']
+			})
+
+		return out
+
+	def download_data(self, interval_before, interval_after, no_event_interval_before=1, no_event_interval_after=1):
+		out_json = copy.deepcopy(self.__meta_data)
+		for e in out_json:
+			for key, dev in e['event']['devices'].items():
+				for module in dev['modules']:
+					module['measured_value_event_start'] = self.__client.history(
+						dev['gateway'],
+						dev['device'],
+						module['id'],
+						int(float(e['event']['start']) - interval_before),
+						int(float(e['event']['start']) + interval_after)
+					)['data']
+
+					module['measured_value_event_end'] = self.__client.history(
+						dev['gateway'],
+						dev['device'],
+						module['id'],
+						int(float(e['event']['end']) - interval_before),
+						int(float(e['event']['end']) + interval_after)
+					)['data']
+
+					module['measured_value_no_event_start'] = self.__client.history(
+						dev['gateway'],
+						dev['device'],
+						module['id'],
+						int(float(e['event']['start_no_event_time']) - no_event_interval_before),
+						int(float(e['event']['start_no_event_time']) + no_event_interval_after)
+					)['data']
+
+					module['measured_value_no_event_end'] = self.__client.history(
+						dev['gateway'],
+						dev['device'],
+						module['id'],
+						int(float(e['event']['end_no_event_time']) - no_event_interval_before),
+						int(float(e['event']['end_no_event_time']) + no_event_interval_after)
+					)['data']
+
+		return out_json
+
+	def set_no_event_time(self, start_time, end_time):
+		"""
+		Vytvorenie casovej znacky, kde sa event nevyskytoval. Znacka sa vytvori pre zaciatok a
+		koniec eventu osobitne. Hodnoty pre zaciatok a koniec eventu sa vypocitaju posunom
+		o zadanu hodnotu dopredu (kladna hodnota) alebo dozadu (zaporna hodnota). Dopredu je
+		mysleny cas, ktory je vacsi ako aktualny.
+		"""
+
+		for e in self.__meta_data:
+			e['event']['start_no_event_time'] = e['event']['start'] + start_time
+			e['event']['end_no_event_time'] = e['event']['end'] + end_time
+
+	@property
+	def meta_data(self):
+		return self.__meta_data
 
 
 def main():
