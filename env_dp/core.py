@@ -171,16 +171,19 @@ class DataStorage:
 			e['event']['end'] = self.__parser_date(e['event']['end'])
 
 			for key, dev in e['event']['devices'].items():
+
+				found = False
 				for d_dev in json_devices['devices']:
 					if d_dev['id'] == key:
 						modules = e['event']['devices'][key]
 						e['event']['devices'][key] = d_dev
 						e['event']['devices'][key]['modules'] = self.requested_modules(d_dev['gateway'], d_dev['device'], modules)
 
-						e['event']['weather'] = self.__download_weather(e['event']['start'], e['event']['end'])
 						self.__meta_data.insert(len(self.__meta_data), e)
-					else:
-						self.__log.warning("device %s not found, event was skipped" % key)
+						found = True
+
+				if not found:
+					self.__log.warning("device %s not found, event was skipped" % key)
 
 	def __parser_date(self, date):
 		return datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S").timestamp()
@@ -201,11 +204,6 @@ class DataStorage:
 
 		return out
 
-	def __download_weather(self, start, end):
-		print("start: %s, end: %s" % (start, end))
-
-		return {}
-
 	def download_sensor_modules(self, gateway, device):
 		data = self.__client.sensors_info(gateway, device)
 
@@ -220,40 +218,58 @@ class DataStorage:
 
 	def download_data(self, interval_before, interval_after, no_event_interval_before=1, no_event_interval_after=1):
 		out_json = copy.deepcopy(self.__meta_data)
+		w = WeatherData()
+
 		for e in out_json:
 			for key, dev in e['event']['devices'].items():
 				for module in dev['modules']:
+					e_start_before_timestamp = int(float(e['event']['start']) - interval_before)
+					e_start_after_timestamp = int(float(e['event']['start']) + interval_after)
+					e_end_before_timestamp = int(float(e['event']['end']) - interval_before)
+					e_end_after_timestamp = int(float(e['event']['end']) + interval_after)
+
 					module['measured_value_event_start'] = self.__client.history(
 						dev['gateway'],
 						dev['device'],
 						module['id'],
-						int(float(e['event']['start']) - interval_before),
-						int(float(e['event']['start']) + interval_after)
+						e_start_before_timestamp,
+						e_start_after_timestamp
 					)['data']
 
 					module['measured_value_event_end'] = self.__client.history(
 						dev['gateway'],
 						dev['device'],
 						module['id'],
-						int(float(e['event']['end']) - interval_before),
-						int(float(e['event']['end']) + interval_after)
+						e_end_before_timestamp,
+						e_end_after_timestamp
 					)['data']
+
+					module['weather_event_start'] = w.weather_data(e_start_before_timestamp, e_start_after_timestamp)
+					module['weather_event_start'] = w.weather_data(e_end_before_timestamp, e_end_after_timestamp)
+
+					no_e_start_before_timestamp = int(float(e['event']['start_no_event_time']) - no_event_interval_before)
+					no_e_start_after_timestamp = int(float(e['event']['start_no_event_time']) + no_event_interval_after)
+					no_e_end_before_timestamp = int(float(e['event']['end_no_event_time']) - no_event_interval_before)
+					no_e_end_after_timestamp = int(float(e['event']['end_no_event_time']) + no_event_interval_after)
 
 					module['measured_value_no_event_start'] = self.__client.history(
 						dev['gateway'],
 						dev['device'],
 						module['id'],
-						int(float(e['event']['start_no_event_time']) - no_event_interval_before),
-						int(float(e['event']['start_no_event_time']) + no_event_interval_after)
+						no_e_start_before_timestamp,
+						no_e_start_after_timestamp
 					)['data']
 
 					module['measured_value_no_event_end'] = self.__client.history(
 						dev['gateway'],
 						dev['device'],
 						module['id'],
-						int(float(e['event']['end_no_event_time']) - no_event_interval_before),
-						int(float(e['event']['end_no_event_time']) + no_event_interval_after)
+						no_e_end_before_timestamp,
+						no_e_end_after_timestamp
 					)['data']
+
+					module['weather_no_event_start'] = w.weather_data(no_e_start_before_timestamp, no_e_start_after_timestamp)
+					module['weather_no_event_start'] = w.weather_data(no_e_end_before_timestamp, no_e_end_after_timestamp)
 
 		return out_json
 
