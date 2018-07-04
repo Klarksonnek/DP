@@ -1,0 +1,15 @@
+{
+	"devices": [{
+		"id": "jablotron",
+		"name": "Jablotron open/close sensor",
+		"gateway": "1908402624139667",
+		"device": "0x900000000197053"
+	},
+	{
+		"id": "protronix",
+		"name": "Protronix senzor co2",
+		"gateway": "1816820318180747",
+		"device": "0xa9004a4a147d0001"
+		}
+	]
+}
