@@ -377,6 +377,111 @@ class WeatherData:
 		return out_detailed
 
 
+class Graph:
+	def __init__(self, output, data, path, same_scale=True, scale_padding_min=0, scale_padding_max=0):
+		self.__output = output
+		self.__data = data
+		self.__same_scale = same_scale
+		self.__scale_padding_min = scale_padding_min
+		self.__scale_padding_max = scale_padding_max
+		self.__path = path
+		self.__data = data
+
+	def gen(self):
+		f = open(self.__output, 'w')
+
+		f.write('<!DOCTYPE html>\n')
+		f.write('<html>\n')
+		f.write('	<head>\n')
+		f.write('		<link href="' + self.__path + '/chart.css" rel="stylesheet">\n')
+		f.write('		<script src="' + self.__path + '/jquery-3.2.1.slim.min.js"></script>\n')
+		f.write('		<script src="' + self.__path + '/Chart.bundle.js"></script>\n')
+		f.write('		<script src="' + self.__path + '/utils.js"></script>\n')
+		f.write('	</head>\n')
+		f.write('	<body>\n')
+
+		for canvas_id, data in self.__data.items():
+			f.write('		<div style="overflow: auto;">\n')
+			f.write('			<canvas class="custom" id="g' + str(canvas_id) + '" width="900px" height="500"></canvas>\n')
+			f.write('		</div>\n')
+
+			all_min = None
+			all_max = None
+			for g in data['graphs']:
+				numbers = list(map(int, g['values'].split(',')))
+
+				if all_min is None:
+					all_min = min(numbers)
+				else:
+					tmp = copy.deepcopy(numbers)
+					tmp.append(all_min)
+					all_min = min(tmp)
+
+				if all_max is None:
+					all_max = max(numbers)
+				else:
+					tmp = copy.deepcopy(numbers)
+					tmp.append(all_max)
+					all_max = max(tmp)
+
+			all_min -= self.__scale_padding_min
+			all_max += self.__scale_padding_max
+
+			str_dataset = ""
+			g_id = 0
+			for g in data['graphs']:
+				str_dataset += '						{\n'
+				str_dataset += '							label: "' + g['label_x'] + '",\n'
+				str_dataset += '							borderColor: "' + g['color'] + '",\n'
+				str_dataset += '							backgroundColor: "' + g['color'] + '",\n'
+				str_dataset += '							fill: false,\n'
+				str_dataset += '							data: [' + g['values'] + '],\n'
+				str_dataset += '							yAxisID: "y-axis-' + str(g_id) + '"\n'
+				str_dataset += '						},\n'
+
+			str_options = ""
+			str_options += '							{\n'
+			str_options += '								type: "linear",\n'
+			str_options += '								display: true,\n'
+			str_options += '								position: "left",\n'
+			str_options += '								id: "y-axis-' + str(g_id) + '",\n'
+			str_options += '								ticks: {\n'
+			str_options += '									min: ' + str(all_min) + ',\n'
+			str_options += '									max: ' + str(all_max) + '\n'
+			str_options += '								}\n'
+			str_options += '							},\n'
+
+			f.write('		<script>\n')
+			f.write('			var ctx = document.getElementById("g' + str(canvas_id) + '");\n')
+			f.write('			var myChart1 = new Chart(ctx, {\n')
+			f.write('				type: "line",\n')
+			f.write('				data: {\n')
+			f.write('					labels: [' + data['graphs'][0]['timestamps'] + '],\n')
+			f.write('					datasets: [\n')
+			f.write(str_dataset)
+			f.write('					]\n')
+			f.write('				},\n')
+			f.write('				options: {\n')
+			f.write('					responsive: false,\n')
+			f.write('					hoverMode: "index",\n')
+			f.write('					stacked: false,\n')
+			f.write('					title: {\n')
+			f.write('						display: true,\n')
+			f.write('						text: "' + data['title'] + '"\n')
+			f.write('					},\n')
+			f.write('					scales: {\n')
+			f.write('						yAxes: [\n')
+			f.write(str_options)
+			f.write('						]\n')
+			f.write('					}\n')
+			f.write('				}\n')
+			f.write('			});\n')
+			f.write('		</script>\n')
+
+		f.write('	</body>\n')
+		f.write('</html>\n')
+		f.close()
+
 def main():
 	beeeon_cl = BeeeOnClient("ant-work.fit.vutbr.cz", 8010)
 	beeeon_cl.api_key = "thaegeshecaz1EN9lutho0laeku1ahsh9eec5waeg0aiqua2buo7ieyoo0Shoow9ahpoosomie0weiqu"
