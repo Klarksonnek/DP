@@ -216,17 +216,17 @@ class DataStorage:
 
 		return out
 
-	def download_data(self, interval_before, interval_after, no_event_interval_before=1, no_event_interval_after=1):
+	def download_data(self, shift_before, shift_after, no_event_shift_before=1, no_event_shift_after=1):
 		out_json = copy.deepcopy(self.__meta_data)
 		w = WeatherData()
 
 		for e in out_json:
 			for key, dev in e['event']['devices'].items():
 				for module in dev['modules']:
-					e_start_before_timestamp = int(float(e['event']['start']) - interval_before)
-					e_start_after_timestamp = int(float(e['event']['start']) + interval_after)
-					e_end_before_timestamp = int(float(e['event']['end']) - interval_before)
-					e_end_after_timestamp = int(float(e['event']['end']) + interval_after)
+					e_start_before_timestamp = int(float(e['event']['start']) - shift_before)
+					e_start_after_timestamp = int(float(e['event']['start']) + shift_after)
+					e_end_before_timestamp = int(float(e['event']['end']) - shift_before)
+					e_end_after_timestamp = int(float(e['event']['end']) + shift_after)
 
 					module['measured_value_event_start'] = self.__client.history(
 						dev['gateway'],
@@ -247,10 +247,10 @@ class DataStorage:
 					module['weather_event_start'] = w.weather_data(e_start_before_timestamp, e_start_after_timestamp)
 					module['weather_event_start'] = w.weather_data(e_end_before_timestamp, e_end_after_timestamp)
 
-					no_e_start_before_timestamp = int(float(e['event']['start_no_event_time']) - no_event_interval_before)
-					no_e_start_after_timestamp = int(float(e['event']['start_no_event_time']) + no_event_interval_after)
-					no_e_end_before_timestamp = int(float(e['event']['end_no_event_time']) - no_event_interval_before)
-					no_e_end_after_timestamp = int(float(e['event']['end_no_event_time']) + no_event_interval_after)
+					no_e_start_before_timestamp = int(float(e['event']['start_no_event_time']) - no_event_shift_before)
+					no_e_start_after_timestamp = int(float(e['event']['start_no_event_time']) + no_event_shift_after)
+					no_e_end_before_timestamp = int(float(e['event']['end_no_event_time']) - no_event_shift_before)
+					no_e_end_after_timestamp = int(float(e['event']['end_no_event_time']) + no_event_shift_after)
 
 					module['measured_value_no_event_start'] = self.__client.history(
 						dev['gateway'],
