@@ -216,6 +216,93 @@ class DataStorage:
 
 		return out
 
+	def __convert(slef, data):
+		out = []
+
+		for event in data:
+			ev = {
+				'event_start': {
+					'values': [],
+					'weather': [],
+				},
+				'event_end': {
+					'values': [],
+					'weather': [],
+				},
+				'no_event_start': {
+					'values': [],
+					'weather': [],
+				},
+				'no_event_end': {
+					'values': [],
+					'weather': [],
+				}
+			}
+
+			for k, device in event['event']['devices'].items():
+				for module in device['modules']:
+					ev['event_start']['weather'] = module['weather_event_start']
+					ev['event_start']['values'].append(
+						{
+							'measured': module['measured_value_event_start'],
+							'module_id': module['id'],
+							'type_id': module['type_id'],
+							'name': device['name'],
+							'id': device['id'],
+						}
+					)
+
+					ev['event_end']['weather'] = module['weather_event_end']
+					ev['event_end']['values'].append(
+						{
+							'measured': module['measured_value_event_end'],
+							'module_id': module['id'],
+							'type_id': module['type_id'],
+							'name': device['name'],
+							'id': device['id']
+						}
+					)
+
+					ev['no_event_start']['weather'] = module['weather_no_event_start']
+					ev['no_event_start']['values'].append(
+						{
+							'measured': module['measured_value_no_event_start'],
+							'module_id': module['id'],
+							'type_id': module['type_id'],
+							'name': device['name'],
+							'id': device['id']
+						}
+					)
+
+					ev['no_event_end']['weather'] = module['weather_no_event_end']
+					ev['no_event_end']['values'].append(
+						{
+							'measured': module['measured_value_no_event_end'],
+							'module_id': module['id'],
+							'type_id': module['type_id'],
+							'name': device['name'],
+							'id': device['id']
+						}
+					)
+
+			out.append(
+				{
+					'description': event['description'],
+					'location': event['location'],
+					'people': event['people'],
+					'type': event['type'],
+					'times': {
+						'event_end': event['event']['end'],
+						'no_event_end': event['event']['end_no_event_time'],
+						'event_start': event['event']['start'],
+						'no_event_start': event['event']['start_no_event_time']
+					},
+					'data': ev
+				}
+			)
+
+		return out
+
 	def download_data(self, shift_before, shift_after, no_event_shift_before=1, no_event_shift_after=1):
 		out_json = copy.deepcopy(self.__meta_data)
 		w = WeatherData()
@@ -271,7 +358,7 @@ class DataStorage:
 					module['weather_no_event_start'] = w.weather_data(no_e_start_before_timestamp, no_e_start_after_timestamp)
 					module['weather_no_event_start'] = w.weather_data(no_e_end_before_timestamp, no_e_end_after_timestamp)
 
-		return out_json
+		return self.__convert(out_json)
 
 	def set_no_event_time(self, start_time, end_time):
 		"""
