@@ -332,7 +332,7 @@ class DataStorage:
 					)['data']
 
 					module['weather_event_start'] = w.weather_data(e_start_before_timestamp, e_start_after_timestamp)
-					module['weather_event_start'] = w.weather_data(e_end_before_timestamp, e_end_after_timestamp)
+					module['weather_event_end'] = w.weather_data(e_end_before_timestamp, e_end_after_timestamp)
 
 					no_e_start_before_timestamp = int(float(e['event']['start_no_event_time']) - no_event_shift_before)
 					no_e_start_after_timestamp = int(float(e['event']['start_no_event_time']) + no_event_shift_after)
@@ -356,7 +356,7 @@ class DataStorage:
 					)['data']
 
 					module['weather_no_event_start'] = w.weather_data(no_e_start_before_timestamp, no_e_start_after_timestamp)
-					module['weather_no_event_start'] = w.weather_data(no_e_end_before_timestamp, no_e_end_after_timestamp)
+					module['weather_no_event_end'] = w.weather_data(no_e_end_before_timestamp, no_e_end_after_timestamp)
 
 		return self.__convert(out_json)
 
