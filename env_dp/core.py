@@ -198,6 +198,7 @@ class DataStorage:
 				if module == supported_module['type_id']:
 					out.append(supported_module)
 					found = True
+					break
 
 			if not found:
 				self.__log.warning("module %s not supported" % module)
@@ -375,6 +376,120 @@ class DataStorage:
 	@property
 	def meta_data(self):
 		return self.__meta_data
+
+	def __switch_value(self, value):
+		out = (int(float(value)))
+		if out == 1:
+			return str(0.0)
+		return str(1.0)
+
+	def ___find_min_max_timestamp(self, event, event_type):
+		min_timestamp = None
+		max_timestamp = None
+
+		for item in event['data'][event_type]['values']:
+			values_cnt = len(item['measured']) - 1
+			if len(item['measured']) <= 1 or item['type_id'] == "open_close":
+				continue
+			if min_timestamp is None:
+				min_timestamp = item['measured'][0]['at']
+			if max_timestamp is None:
+				max_timestamp = item['measured'][values_cnt]['at']
+			elif item['measured'][0]['at'] > min_timestamp:
+				min_timestamp = item['measured'][0]['at']
+			elif item['measured'][values_cnt]['at'] < max_timestamp:
+				max_timestamp = item['measured'][values_cnt]['at']
+
+		return min_timestamp, max_timestamp
+
+	def __generate_event_data(self, event, event_type):
+		for item in event['data'][event_type]['values']:
+			if len(item['measured']) <= 1:
+				continue
+
+			out = []
+			for i in range(0, len(item['measured']) - 1):
+				value_start = float(item['measured'][i]['value'])
+				value_end = float(item['measured'][i + 1]['value'])
+				if value_start - value_end == 0:
+					value_increase = 0
+				else:
+					value_diff = value_end - value_start
+					value_increase = value_diff / (item['measured'][i + 1]['at'] - item['measured'][i]['at'])
+
+				value = value_start
+				for j in range(0, item['measured'][i + 1]['at'] - item['measured'][i]['at']):
+					out.append({
+						"at": item['measured'][i]['at'] + j,
+						"value": value
+					})
+					value = value + value_increase
+
+			out.append({
+				"at": item['measured'][len(item['measured']) - 1]['at'],
+				"value": value
+			})
+			item['measured'] = out
+		return event
+
+	def __cut_event_data(self, event, min_timestamp, max_timestamp, event_type):
+		for item in event['data'][event_type]['values']:
+			measured_out = []
+			if len(item['measured']) == 0 or (len(item['measured']) == 1 and item['type_id'] != "open_close"):
+				continue
+			if item['type_id'] == "open_close":
+				switch = item['measured'][0]['at']
+				orig_value = item['measured'][0]['value']
+				do_switch = True
+				new_value = 0
+				for timestamp in range(min_timestamp, max_timestamp + 1):
+					if switch > timestamp:
+						if do_switch:
+							new_value = self.__switch_value(orig_value)
+							measured_out.append({
+								"at": timestamp,
+								"value": new_value
+							})
+							do_switch = False
+						else:
+							measured_out.append({
+								"at": timestamp,
+								"value": new_value
+							})
+					else:
+						measured_out.append({
+							"at": timestamp,
+							"value": orig_value
+						})
+
+				item['measured'] = measured_out
+				return event
+			else:
+				i = 0
+				measured_out = []
+				for timestamp in range(min_timestamp, max_timestamp + 1):
+					if item['measured'][i]['at'] < timestamp or item['measured'][i]['at'] > timestamp:
+						continue
+					measured_out.append({
+						"at": timestamp,
+						"value": item['measured'][i]['value']
+					})
+					i = i + 1
+				item['measured'] = measured_out
+		return event
+
+	def compute_event_data(self, data):
+		event_type = ["event_start", "no_event_start", "event_end", "no_event_end"]
+		new_event = []
+		out = []
+
+		for event in data:
+			for j in range(0, len(event_type)):
+				new_event = self.__generate_event_data(event, event_type[j])
+				min_timestamp, max_timestamp = self.___find_min_max_timestamp(new_event, event_type[j])
+				new_event = self.__cut_event_data(new_event, min_timestamp, max_timestamp, event_type[j])
+			out.append(new_event)
+		return out
 
 
 class WeatherData:
@@ -742,8 +857,12 @@ def main():
 	storage.read_meta_data('devices.json', 'events.json')
 	storage.set_no_event_time(10, 10)
 
-	print(json.dumps(storage.download_data(10, 10), indent=4, sort_keys=True))
+	data = storage.download_data(10, 10)
 	beeeon_cl.logout()
+
+	print(json.dumps(data, indent=4, sort_keys=True))
+	print(json.dumps(storage.compute_event_data(data), indent=4, sort_keys=True))
+
 
 	data = {
 		'g0': {
