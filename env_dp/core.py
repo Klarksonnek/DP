@@ -178,12 +178,12 @@ class DataStorage:
 						modules = e['event']['devices'][key]
 						e['event']['devices'][key] = d_dev
 						e['event']['devices'][key]['modules'] = self.requested_modules(d_dev['gateway'], d_dev['device'], modules)
-
-						self.__meta_data.insert(len(self.__meta_data), e)
 						found = True
 
 				if not found:
 					self.__log.warning("device %s not found, event was skipped" % key)
+
+			self.__meta_data.insert(len(self.__meta_data), e)
 
 	def __parser_date(self, date):
 		return datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S").timestamp()
