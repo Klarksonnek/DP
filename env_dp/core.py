@@ -226,18 +226,18 @@ class DataStorage:
 					'values': [],
 					'weather': [],
 				},
-				'event_end': {
-					'values': [],
-					'weather': [],
-				},
+				#'event_end': {
+				#	'values': [],
+				#	'weather': [],
+				#},
 				'no_event_start': {
 					'values': [],
 					'weather': [],
 				},
-				'no_event_end': {
-					'values': [],
-					'weather': [],
-				}
+				#'no_event_end': {
+				#	'values': [],
+				#	'weather': [],
+				#}
 			}
 
 			for k, device in event['event']['devices'].items():
@@ -253,16 +253,16 @@ class DataStorage:
 						}
 					)
 
-					ev['event_end']['weather'] = module['weather_event_end']
-					ev['event_end']['values'].append(
-						{
-							'measured': module['measured_value_event_end'],
-							'module_id': module['id'],
-							'type_id': module['type_id'],
-							'name': device['name'],
-							'id': device['id']
-						}
-					)
+					#ev['event_end']['weather'] = module['weather_event_end']
+					#ev['event_end']['values'].append(
+					#	{
+					#		'measured': module['measured_value_event_end'],
+					#		'module_id': module['id'],
+					#		'type_id': module['type_id'],
+					#		'name': device['name'],
+					#		'id': device['id']
+					#	}
+					#)
 
 					ev['no_event_start']['weather'] = module['weather_no_event_start']
 					ev['no_event_start']['values'].append(
@@ -275,16 +275,16 @@ class DataStorage:
 						}
 					)
 
-					ev['no_event_end']['weather'] = module['weather_no_event_end']
-					ev['no_event_end']['values'].append(
-						{
-							'measured': module['measured_value_no_event_end'],
-							'module_id': module['id'],
-							'type_id': module['type_id'],
-							'name': device['name'],
-							'id': device['id']
-						}
-					)
+					#ev['no_event_end']['weather'] = module['weather_no_event_end']
+					#ev['no_event_end']['values'].append(
+					#	{
+					#		'measured': module['measured_value_no_event_end'],
+					#		'module_id': module['id'],
+					#		'type_id': module['type_id'],
+					#		'name': device['name'],
+					#		'id': device['id']
+					#	}
+					#)
 
 			out.append(
 				{
@@ -293,8 +293,8 @@ class DataStorage:
 					'people': event['people'],
 					'type': event['type'],
 					'times': {
-						'event_end': event['event']['end'],
-						'no_event_end': event['event']['end_no_event_time'],
+						#'event_end': event['event']['end'],
+						#'no_event_end': event['event']['end_no_event_time'],
 						'event_start': event['event']['start'],
 						'no_event_start': event['event']['start_no_event_time']
 					},
@@ -479,7 +479,7 @@ class DataStorage:
 		return event
 
 	def compute_event_data(self, data):
-		event_type = ["event_start", "no_event_start", "event_end", "no_event_end"]
+		event_type = ["event_start", "no_event_start"]
 		new_event = []
 		out = []
 
