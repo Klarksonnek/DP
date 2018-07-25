@@ -172,5 +172,13 @@ class BeeeOnClient:
         self.__api_key = key
 
 
+def api_key(filename='api_key.config'):
+    with open(filename) as file:
+        for line in file:
+            return line.strip()
+
+    raise EnvironmentError('api key not found')
+
+
 def main():
     pass
