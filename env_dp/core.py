@@ -1,8 +1,10 @@
+import datetime
 import hashlib
 import http.client
 import json
 import logging
 import os
+import requests
 import ssl
 
 
@@ -170,6 +172,130 @@ class BeeeOnClient:
     @api_key.setter
     def api_key(self, key):
         self.__api_key = key
+
+
+class WeatherData:
+    """Weather data extraction from weather.com."""
+
+    def __init__(self, precision=1, cache=True, cache_folder='cache'):
+        self.__precision = precision
+        self.__cache = cache
+        self.__cache_folder = cache_folder
+        self.__log = logging.getLogger(self.__class__.__name__)
+
+        if cache:
+            if not os.path.exists(cache_folder):
+                os.makedirs(cache_folder)
+
+    def __download_data(self, start, end):
+        day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
+        day_start = day_time_start[:-9]
+        day_time_end = datetime.datetime.fromtimestamp(end).strftime('%Y%m%d %H:%M:%S')
+        day_end = day_time_end[:-9]
+
+        url = 'https://api.weather.com/v1/geocode/49.15139008/16.69388962/observations/'
+        url += 'historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e'
+        url += '&startDate=' + str(day_start) + '&endDate=' + str(day_end)
+
+        h = hashlib.sha256()
+        h.update(url.encode("utf8"))
+        filename = self.__cache_folder + '/cache_weather_' + h.hexdigest()
+
+        if os.path.isfile(filename) and self.__cache:
+            self.__log.debug('from cache: %s - %s' % (start, end))
+            with open(filename) as f:
+                for line in f:
+                    return line.strip()
+
+        json_data = requests.get(url).text
+
+        if self.__cache:
+            file = open(filename, 'w')
+            file.write(json_data)
+            file.close()
+
+        return json_data
+
+    def weather_data(self, start, end):
+        json_data = self.__download_data(start, end)
+
+        python_obj = json.loads(json_data)
+
+        out_general = []
+        for element in python_obj['observations']:
+            out_general.append({
+                'at': element['valid_time_gmt'],
+                'temperature': element['temp'],
+                'relative_humidity': element['rh'],
+                'pressure': element['pressure'],
+                'wind_speed': element['wspd']
+            })
+
+        generate_weather_data = self.__generate_weather_data(out_general)
+        out_detailed = []
+
+        for i in range(0, len(generate_weather_data)):
+            weather = generate_weather_data[i]
+            if weather['at'] < start or generate_weather_data[i]['at'] > end:
+                continue
+
+            out_detailed.append(generate_weather_data[i])
+
+        return out_detailed
+
+    def __generate_weather_data(self, out_general):
+        out_detailed = []
+        for i in range(0, len(out_general) - 1):
+            temp_start = out_general[i]['temperature']
+            temp_end = out_general[i + 1]['temperature']
+            if temp_start - temp_end == 0:
+                temp_increase = 0
+            else:
+                temp_diff = temp_end - temp_start
+                temp_increase = temp_diff / 1800.0
+
+            rh_start = out_general[i]['relative_humidity']
+            rh_end = out_general[i + 1]['relative_humidity']
+            if rh_start - rh_end == 0:
+                rh_increase = 0
+            else:
+                rh_diff = rh_end - rh_start
+                rh_increase = rh_diff / 1800.0
+
+            pressure_start = out_general[i]['pressure']
+            pressure_end = out_general[i + 1]['pressure']
+            if pressure_start - pressure_end == 0:
+                pressure_increase = 0
+            else:
+                pressure_diff = pressure_end - pressure_start
+                pressure_increase = pressure_diff / 1800.0
+
+            wspd_start = out_general[i]['wind_speed']
+            wspd_end = out_general[i + 1]['wind_speed']
+            if wspd_start - wspd_end == 0:
+                wspd_increase = 0
+            else:
+                wspd_diff = wspd_end - wspd_start
+                wspd_increase = wspd_diff / 1800.0
+
+            temp = temp_start
+            rh = rh_start
+            pressure = pressure_start
+            wind_speed = wspd_start
+            for j in range(0, 1800):
+                out_detailed.append({
+                    'at': int(out_general[i]['at']) + j,
+                    'temperature': round(float(temp), self.__precision),
+                    'relative_humidity': round(float(rh), self.__precision),
+                    'pressure': round(float(pressure), self.__precision),
+                    'wind_speed': round(float(wind_speed), self.__precision),
+                })
+                temp = temp + temp_increase
+                rh = rh + rh_increase
+                pressure = pressure + pressure_increase
+                wind_speed = wind_speed + wspd_increase
+
+        return out_detailed
 
 
 def api_key(filename='api_key.config'):
