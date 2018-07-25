@@ -645,6 +645,105 @@ class DataStorage:
         return self.__meta_data
 
 
+class Derivation:
+    def __is_increasing(self, data):
+        if data[0]['at'] < data[1]['at']:
+            return True
+        return False
+
+    def __compute_before(self, data, difference_interval):
+        next_difference = float(data[0]['at'])
+        interval = 0
+        str_out = ""
+        last_value = float(data[0]['value'])
+        out = []
+
+        for item in data:
+            last_timestamp = float(item['at']) - 1
+            new_value = (last_value + float(item['value'])) / 2.0
+
+            if (next_difference - float(item['at'])) >= 0:
+                new_difference = float(data[0]['value']) - new_value
+                str_out += str(round(interval, 2)).rjust(3, ' ')
+                str_out += " s, "
+                str_out += "prumer v casech: "
+                str_out += datetime.datetime.fromtimestamp(float(item['at'])).strftime(
+                    '%H:%M:%S') + " "
+                str_out += " - "
+                str_out += datetime.datetime.fromtimestamp(last_timestamp).strftime(
+                    '%H:%M:%S') + " "
+                str_out += str(round(float(item['value']), 2)).rjust(6, ' ')
+                str_out += " - "
+                str_out += str(round(last_value, 2)).rjust(6, ' ') + " "
+                str_out += "nova hodnota: "
+                str_out += str(round(new_value, 2)).rjust(6, ' ') + " "
+                str_out += "derivace: "
+                str_out += str(round(new_difference, 2)).rjust(6, ' ') + " "
+                last_value = float(item['value'])
+
+                if new_difference == 0:
+                    str_out += "-"
+                elif new_difference > 0:
+                    str_out += '\u2197'
+                else:
+                    str_out += '\u2198'
+                str_out += "\n"
+
+                next_difference -= difference_interval
+                interval += difference_interval
+                out.append(new_difference)
+        return out
+
+    def __compute_after(self, data, difference_interval):
+        next_difference = float(data[0]['at'])
+        interval = 0
+        str_out = ""
+        last_value = float(data[0]['value'])
+        out = []
+
+        for item in data:
+            last_timestamp = float(item['at']) + 1
+            new_value = (last_value + float(item['value'])) / 2.0
+
+            if (next_difference - float(item['at'])) <= 0:
+                new_difference = new_value - float(data[0]['value'])
+                str_out += str(round(interval, 2)).rjust(3, ' ')
+                str_out += " s, "
+                str_out += "prumer v casech: "
+                str_out += datetime.datetime.fromtimestamp(float(item['at'])).strftime(
+                    '%H:%M:%S') + " "
+                str_out += " - "
+                str_out += datetime.datetime.fromtimestamp(last_timestamp).strftime(
+                    '%H:%M:%S') + " "
+                str_out += str(round(last_value, 2)).rjust(6, ' ')
+                str_out += " - "
+                str_out += str(round(float(item['value']), 2)).rjust(6, ' ') + " "
+                str_out += "prumer: "
+                str_out += str(round(new_value, 2)).rjust(6, ' ') + " "
+                str_out += "derivace: "
+                str_out += str(round(new_difference, 2)).rjust(6, ' ') + " "
+                last_value = float(item['value'])
+
+                if new_difference == 0:
+                    str_out += "-"
+                elif new_difference > 0:
+                    str_out += '\u2197'
+                else:
+                    str_out += '\u2198'
+                str_out += "\n"
+
+                next_difference += difference_interval
+                interval += difference_interval
+                out.append(new_difference)
+        return out
+
+    def compute(self, data, difference_interval):
+        if self.__is_increasing(data[:2]):
+            return self.__compute_after(data, difference_interval)
+
+        return self.__compute_before(data, difference_interval)
+
+
 def api_key(filename='api_key.config'):
     with open(filename) as file:
         for line in file:
