@@ -1,0 +1,30 @@
+{
+	"events": [
+		{
+			"description": "...",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"type": "...",
+			"times": {
+				"event_start": "2018/05/02 08:02:03"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"circulation_length": "stredne",
+			"location": "za nabytkom, na kraji izby",
+			"people": 2,
+			"times": {
+				"event_start": "2018/05/05 09:06:59"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		}
+	]
+}
