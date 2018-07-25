@@ -653,5 +653,37 @@ def api_key(filename='api_key.config'):
     raise EnvironmentError('api key not found')
 
 
+def to_weka_file(data, filename='weka.arff', class_name='open_close'):
+    file = open(filename, 'w')
+    file.write('@relation events\n\n')
+
+    # write headers
+    for item in data:
+        if item['title'] == class_name:
+            file.write('@attribute class {yes, no}\n')
+            continue
+
+        file.write('@attribute %s numeric\n' % item['title'])
+
+    file.write('\n')
+
+    # write data
+    file.write('@data\n\n')
+    for i in range(0, len(data[0]['data'])):
+        for j in range(0, len(data)):
+            val = data[j]['data'][i]
+
+            if data[j]['title'] == class_name:
+                if val == 1:
+                    val = 'yes'
+                else:
+                    val = 'no'
+
+            file.write('%s, ' % val)
+        file.write('\n')
+
+    file.close()
+
+
 def main():
     pass
