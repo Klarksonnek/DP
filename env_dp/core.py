@@ -817,6 +817,112 @@ class Derivation:
         return self.__compute_before(data, difference_interval)
 
 
+class Graph:
+    def __init__(self, path):
+        self.__path = path
+
+    def gen(self, data, output, scale_padding_min=0, scale_padding_max=0, g_type='line'):
+        f = open(output, 'w')
+
+        f.write('<!DOCTYPE html>\n')
+        f.write('<html>\n')
+        f.write('	<head>\n')
+        f.write('		<link href="' + self.__path + '/chart.css" rel="stylesheet">\n')
+        f.write('		<script src="' + self.__path + '/jquery-3.2.1.slim.min.js"></script>\n')
+        f.write('		<script src="' + self.__path + '/Chart.bundle.js"></script>\n')
+        f.write('		<script src="' + self.__path + '/utils.js"></script>\n')
+        f.write('	</head>\n')
+        f.write('	<body>\n')
+
+        id = 0
+        for i in range(0, len(data)):
+            row = data[i]
+            id += 1
+            canvas_id = 'g' + str(id)
+
+            f.write('		<div style="overflow: auto;">\n')
+            f.write('			<canvas class="custom" id="g' + str(canvas_id))
+            f.write('" width="900px" height="500"></canvas>\n')
+            f.write('		</div>\n')
+
+            all_min = None
+            all_max = None
+            for g in row['graphs']:
+                numbers = g['values']
+
+                if all_min is None:
+                    all_min = min(numbers)
+                else:
+                    tmp = copy.deepcopy(numbers)
+                    tmp.append(all_min)
+                    all_min = min(tmp)
+
+                if all_max is None:
+                    all_max = max(numbers)
+                else:
+                    tmp = copy.deepcopy(numbers)
+                    tmp.append(all_max)
+                    all_max = max(tmp)
+
+            all_min -= scale_padding_min
+            all_max += scale_padding_max
+
+            str_dataset = ""
+            g_id = 0
+            for g in row['graphs']:
+                str_dataset += '						{\n'
+                str_dataset += '							label: "' + g['label_x'] + '",\n'
+                str_dataset += '							borderColor: "' + g['color'] + '",\n'
+                str_dataset += '							backgroundColor: "' + g['color'] + '",\n'
+                str_dataset += '							fill: false,\n'
+                str_dataset += '							data: ' + str(g['values']) + ',\n'
+                str_dataset += '							yAxisID: "y-axis-' + str(g_id) + '"\n'
+                str_dataset += '						},\n'
+
+            str_options = ""
+            str_options += '							{\n'
+            str_options += '								type: "linear",\n'
+            str_options += '								display: true,\n'
+            str_options += '								position: "left",\n'
+            str_options += '								id: "y-axis-' + str(g_id) + '",\n'
+            str_options += '								ticks: {\n'
+            str_options += '									min: ' + str(all_min) + ',\n'
+            str_options += '									max: ' + str(all_max) + '\n'
+            str_options += '								}\n'
+            str_options += '							},\n'
+
+            f.write('		<script>\n')
+            f.write('			var ctx = document.getElementById("g' + str(canvas_id) + '");\n')
+            f.write('			var myChart1 = new Chart(ctx, {\n')
+            f.write('				type: "' + g_type + '",\n')
+            f.write('				data: {\n')
+            f.write('					labels: ' + str(row['graphs'][0]['timestamps']) + ',\n')
+            f.write('					datasets: [\n')
+            f.write(str_dataset)
+            f.write('					]\n')
+            f.write('				},\n')
+            f.write('				options: {\n')
+            f.write('					responsive: false,\n')
+            f.write('					hoverMode: "index",\n')
+            f.write('					stacked: false,\n')
+            f.write('					title: {\n')
+            f.write('						display: true,\n')
+            f.write('						text: "' + row['title'] + '"\n')
+            f.write('					},\n')
+            f.write('					scales: {\n')
+            f.write('						yAxes: [\n')
+            f.write(str_options)
+            f.write('						]\n')
+            f.write('					}\n')
+            f.write('				}\n')
+            f.write('			});\n')
+            f.write('		</script>\n')
+
+        f.write('	</body>\n')
+        f.write('</html>\n')
+        f.close()
+
+
 def api_key(filename='api_key.config'):
     with open(filename) as file:
         for line in file:
