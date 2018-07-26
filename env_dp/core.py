@@ -351,6 +351,11 @@ class DataStorage:
             new = copy.deepcopy(event)
             new['times']['event_start'] = int(
                 self.__parser_date(event['times']['event_start']))
+
+            if 'event_end' in new['times']:
+                new['times']['event_end'] = int(
+                    self.__parser_date(event['times']['event_end']))
+
             new['data'] = []
             del (new['devices'])
 
@@ -396,6 +401,74 @@ class DataStorage:
 
                 new['data'].append(one_sensor)
             self.__meta_data.append(new)
+
+    def __filter_not_null(self, data):
+
+        out_data = []
+        for row in data:
+            if row['value'] is None:
+                continue
+
+            out_data.append(row)
+
+        return out_data
+
+    def __cut_normalization(self, times, data):
+        start = times['event_start']
+        end = times['event_end']
+
+        for i in range(0, len(data['values'])):
+            values = data['values'][i]
+            out_json = []
+
+            for row in values['measured']:
+                if row['at'] < start or row['at'] > end:
+                    continue
+
+
+                out_json.append(row)
+
+            values['measured'] = out_json
+
+        return data
+
+    def download_data_for_normalization(self, type_id='co2'):
+        time_shift = 30
+
+        out_json = copy.deepcopy(self.__meta_data)
+
+        for k in range(0, len(out_json)):
+            event = out_json[k]
+
+            for j in range(0, len(event['data'])):
+                event_type = event['data'][j]
+
+                for i in range(0, len(event_type['values'])):
+                    module = event_type['values'][i]
+
+                    if module['custom_name'] == type_id:
+                        module['measured'] = self.__client.history(
+                            module['gateway'],
+                            module['device'],
+                            module['module_id'],
+                            event['times']['event_start'] - time_shift,
+                            event['times']['event_end'] + time_shift
+                        )['data']
+
+                        module['measured'] = self.__filter_not_null(module['measured'] )
+
+                        event_type['values'] = [module]
+                        break
+
+                if event_type['type'] == 'event_start':
+                    event['data'] = [event_type]
+
+                    event['data'][j] = self.__generate_event_data(event_type)
+                    event['data'][j] = self.__cut_normalization(event['times'], event['data'][j])
+                    break
+
+        return out_json
+
 
     def download_data(self, shift_before, shift_after):
         out_json = copy.deepcopy(self.__meta_data)
