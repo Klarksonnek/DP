@@ -1131,5 +1131,57 @@ def gen_histogram_graph(data):
     return graphs
 
 
+def his_first_value(his):
+    for row in his:
+        if len(row['histogram']) == 0:
+            continue
+
+        return row['histogram'][0]
+
+
+def his_to_data_for_normalization(histogram, func):
+    test_start_time = 1525240923
+    values = []
+
+    for row in histogram:
+        val = func(row['histogram'])
+
+        values.append({
+            'at': test_start_time + row['start_time'],
+            'value': val
+        })
+
+    # rozgenerovanie
+    out_values = []
+    last_timestamp = values[0]['at']
+    for val in values:
+
+        for i in range(last_timestamp, val['at']):
+            out_values.append({
+                'at': i,
+                'value': val['value']
+            })
+
+        last_timestamp = val['at']
+
+    out = {
+        'times': {
+            'event_start': test_start_time,
+            'event_end': test_start_time + histogram[-1]['start_time'] + histogram[-1]['time_step']
+        },
+        'data': [
+            {
+                'values': [
+                    {
+                        'measured': out_values
+                    }
+                ]
+            }
+        ],
+    }
+
+    return out
+
+
 def main():
     pass
