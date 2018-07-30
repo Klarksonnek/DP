@@ -56,7 +56,7 @@ class HTTPClient:
 class BeeeOnClient:
     """Client for communication with server supporting BeeeOn api."""
 
-    def __init__(self, host, port, cache=True, cache_folder='cache'):
+    def __init__(self, host, port, cache=True, cache_folder='../cache'):
         self.__host = host
         self.__port = port
         self.__api_key = ""
@@ -100,7 +100,7 @@ class BeeeOnClient:
 
         h = hashlib.sha256()
         h.update(endpoint.encode("utf8"))
-        filename = self.__cache_folder + '/cache_sensor_info_' + h.hexdigest()
+        filename = self.__cache_folder + '/sensor_info_' + h.hexdigest()
 
         if os.path.isfile(filename) and self.__cache:
             self.__log.debug('from cache: sensor_info, %s, %s' % (gateway_id, device_id))
@@ -134,7 +134,7 @@ class BeeeOnClient:
 
         h = hashlib.sha256()
         h.update(endpoint.encode("utf8"))
-        filename = self.__cache_folder + '/cache_history_' + h.hexdigest()
+        filename = self.__cache_folder + '/history_' + h.hexdigest()
 
         if os.path.isfile(filename) and self.__cache:
             self.__log.debug('from cache: history, %s, %s, %s, %s - %s' % (
@@ -178,7 +178,7 @@ class BeeeOnClient:
 class WeatherData:
     """Weather data extraction from weather.com."""
 
-    def __init__(self, precision=1, cache=True, cache_folder='cache'):
+    def __init__(self, precision=1, cache=True, cache_folder='../cache'):
         self.__precision = precision
         self.__cache = cache
         self.__cache_folder = cache_folder
@@ -200,7 +200,7 @@ class WeatherData:
 
         h = hashlib.sha256()
         h.update(url.encode("utf8"))
-        filename = self.__cache_folder + '/cache_weather_' + h.hexdigest()
+        filename = self.__cache_folder + '/weather_' + h.hexdigest()
 
         if os.path.isfile(filename) and self.__cache:
             self.__log.debug('from cache: %s - %s' % (start, end))
