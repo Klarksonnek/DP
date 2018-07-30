@@ -840,7 +840,7 @@ class Graph:
             id += 1
             canvas_id = 'g' + str(id)
 
-            f.write('		<div style="overflow: auto;">\n')
+            f.write('		<div style="overflow: auto;float:left">\n')
             f.write('			<canvas class="custom" id="g' + str(canvas_id))
             f.write('" width="900px" height="500"></canvas>\n')
             f.write('		</div>\n')
