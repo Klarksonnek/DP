@@ -19,7 +19,7 @@ if __name__ == '__main__':
     client.api_key = dp.api_key(CODE_DIR + '/api_key.config')
 
     storage = dp.DataStorage(client, dp.WeatherData(cache=True))
-    storage.read_meta_data('devices.json', 'events.json')
+    storage.read_meta_data('../devices_examples.json', '../events_examples.json')
     storage.set_no_event_time(-10)
 
     dw = storage.download_data(10, 6)
