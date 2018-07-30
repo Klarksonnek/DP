@@ -978,5 +978,75 @@ def gen_simple_graph(measured, color='blue', label='x value'):
     }
 
 
+def split_into_intervals(data, interval):
+    new = []
+
+    next_cut = data[0]['at'] + interval
+
+    row = []
+    for i in data:
+        if i['at'] >= next_cut:
+            next_cut += interval
+            new.append(list(row))
+            row.clear()
+
+        row.append(i)
+
+    return new
+
+
+def normalization(data, local_min, local_max):
+    for i in range(0, len(data)):
+        data[i]['norm'] = (data[i]['value'] - local_min) / (local_max - local_min)
+
+    return data
+
+
+def compute_time(data, interval, delay, l_max, l_min):
+    ii = 1
+
+    for i in range(0, len(data)):
+        if (i + 1) * interval > delay:
+            rozdiel = data[i][0]['norm'] - data[i][-1]['norm']
+            ii -= rozdiel/interval * (delay % interval)
+            break
+
+        rozdiel = data[i][0]['norm'] - data[i][-1]['norm']
+        ii -= rozdiel
+
+    return ii * float(l_max-l_min) + l_min
+
+
+def value_estimate(data, interval, color='red', label='x value'):
+    measured = data['data'][0]['values'][0]['measured']
+    start = data['times']['event_start']
+    end = data['times']['event_end']
+
+    only_values = []
+    for row in measured:
+        only_values.append(row['value'])
+
+    l_min = min(only_values)
+    l_max = max(only_values)
+
+    after_normalization = normalization(measured, l_min, l_max)
+    with_intervals = split_into_intervals(after_normalization, interval)
+
+    y = []
+    x = []
+    for i in range(start, end, 1):
+        x.append(datetime.datetime.fromtimestamp(i).strftime('%H:%M:%S'))
+        y.append(compute_time(with_intervals, interval, i - start, l_max, l_min))
+
+    return {
+        'timestamps': x,
+        'values': y,
+        'label_x': label,
+        'color': color,
+    }
+
+
+
+
 def main():
     pass
