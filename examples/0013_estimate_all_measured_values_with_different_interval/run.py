@@ -30,6 +30,19 @@ if __name__ == '__main__':
         g = {
             'title': 'Estimate of measured values',
             'graphs': [
+                dp.value_estimate(dw1[i], 2, 'red', 'Odhadnuta hodnota 2', 'norm'),
+                dp.value_estimate(dw1[i], 5, 'blue', 'Odhadnuta hodnota 5', 'norm'),
+                dp.value_estimate(dw1[i], 12, 'silver', 'Odhadnuta hodnota 12', 'norm'),
+                dp.value_estimate(dw1[i], 20, 'orange', 'Odhadnuta hodnota 20', 'norm'),
+                dp.value_estimate(dw1[i], 31, 'purple', 'Odhadnuta hodnota 31', 'norm'),
+                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'norm')
+            ]
+        }
+        graphs.append(g)
+
+        g = {
+            'title': 'Estimate of measured values',
+            'graphs': [
                 dp.value_estimate(dw1[i], 2, 'red', 'Odhadnuta hodnota 2'),
                 dp.value_estimate(dw1[i], 5, 'blue', 'Odhadnuta hodnota 5'),
                 dp.value_estimate(dw1[i], 12, 'silver', 'Odhadnuta hodnota 12'),
@@ -38,7 +51,6 @@ if __name__ == '__main__':
                 dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota')
             ]
         }
-
         graphs.append(g)
 
     g = dp.Graph("./../../src/graph")

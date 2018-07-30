@@ -24,12 +24,21 @@ if __name__ == '__main__':
     client.logout()
 
     one_values = dw1[0]['data'][0]['values'][0]['measured']
-    graph = {
-        'title': 'Measured values',
+    norm_values = dp.compute_norm_values(one_values)
+
+    graph1 = {
+        'title': 'Normalizovane namerane hodnoty',
         'graphs': [
-            dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota')
+            dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota <0, 1>', 'norm')
+        ]
+    }
+
+    graph2 = {
+        'title': 'Namerane hodnoty',
+        'graphs': [
+            dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota')
         ]
     }
 
     g = dp.Graph("./../../src/graph")
-    g.gen([graph], 'test_g.html', 0, 0)
+    g.gen([graph1, graph2], 'test_g.html', 0, 0)

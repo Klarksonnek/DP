@@ -23,18 +23,37 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(type_id='co2')
     client.logout()
 
+    one_norm_graph = []
     graphs = []
+
     for i in range(0, len(dw1)):
         one_values = dw1[i]['data'][0]['values'][0]['measured']
+        norm_values = dp.compute_norm_values(one_values)
+
+        norm_graph = dp.gen_simple_graph(norm_values, dp.COLORS[i], 'Namerana hodnota', 'norm')
+        one_norm_graph.append(norm_graph)
 
         g = {
             'title': 'Measured values',
             'graphs': [
-                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota')
+                dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota', 'norm')
+            ]
+        }
+        graphs.append(g)
+
+        g = {
+            'title': 'Measured values',
+            'graphs': [
+                dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota', 'value')
             ]
         }
 
         graphs.append(g)
+
+    graphs.append({
+        'title': 'Measured values',
+        'graphs': one_norm_graph
+    })
 
     g = dp.Graph("./../../src/graph")
     g.gen(graphs, 'test_g.html', 0, 0)

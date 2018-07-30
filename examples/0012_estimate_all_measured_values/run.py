@@ -30,8 +30,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Estimate of measured values',
             'graphs': [
-                dp.value_estimate(dw1[i], 5, 'red', 'Odhadnuta hodnota'),
-                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota')
+                dp.value_estimate(dw1[i], 5, 'red', 'Odhadnuta hodnota', 'norm'),
+                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'norm')
             ]
         }
 

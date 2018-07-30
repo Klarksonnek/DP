@@ -9,6 +9,9 @@ import requests
 import ssl
 
 
+COLORS = ['red', 'green', 'blue', 'orange']
+
+
 class HTTPClient:
     """Simple http client."""
 
@@ -963,12 +966,12 @@ def to_weka_file(data, filename='weka.arff', class_name='open_close'):
     file.close()
 
 
-def gen_simple_graph(measured, color='blue', label='x value'):
+def gen_simple_graph(measured, color='blue', label='x value', key='value'):
     x = []
     y = []
     for value in measured:
         x.append(datetime.datetime.fromtimestamp(value['at']).strftime('%H:%M:%S'))
-        y.append(value['value'])
+        y.append(value[key])
 
     return {
         'timestamps': x,
@@ -1002,7 +1005,7 @@ def normalization(data, local_min, local_max):
     return data
 
 
-def compute_time(data, interval, delay, l_max, l_min):
+def compute_value(data, interval, delay):
     ii = 1
 
     for i in range(0, len(data)):
@@ -1014,10 +1017,21 @@ def compute_time(data, interval, delay, l_max, l_min):
         rozdiel = data[i][0]['norm'] - data[i][-1]['norm']
         ii -= rozdiel
 
-    return ii * float(l_max-l_min) + l_min
+    return ii
 
 
-def value_estimate(data, interval, color='red', label='x value'):
+def compute_norm_values(measured):
+    only_values = []
+    for row in measured:
+        only_values.append(row['value'])
+
+    l_min = min(only_values)
+    l_max = max(only_values)
+
+    return normalization(measured, l_min, l_max)
+
+
+def value_estimate(data, interval, color='red', label='x value', key='value'):
     measured = data['data'][0]['values'][0]['measured']
     start = data['times']['event_start']
     end = data['times']['event_end']
@@ -1036,7 +1050,12 @@ def value_estimate(data, interval, color='red', label='x value'):
     x = []
     for i in range(start, end, 1):
         x.append(datetime.datetime.fromtimestamp(i).strftime('%H:%M:%S'))
-        y.append(compute_time(with_intervals, interval, i - start, l_max, l_min))
+
+        computed_value = compute_value(with_intervals, interval, i - start)
+        if key == 'value':
+            computed_value *= float(l_max - l_min) + l_min
+
+        y.append(computed_value)
 
     return {
         'timestamps': x,
