@@ -1046,6 +1046,89 @@ def value_estimate(data, interval, color='red', label='x value'):
     }
 
 
+def histogram_data(data, time_step):
+    histogram = []
+
+    for row in data:
+        values = row['data'][0]['values'][0]['measured']
+        id = 0
+
+        for j in range(0, len(values)):
+            if j % time_step != 0:
+                continue
+
+            if len(histogram) <= id:
+                histogram.append({
+                    'start_time': j,
+                    'time_step': time_step,
+                    'values': []
+                })
+
+            val = values[j]['value']
+            histogram[id]['values'].append(val)
+
+            id += 1
+
+    return histogram
+
+
+def gen_histogram(data, time_step, interval_start, interval_end, step):
+    his_data = histogram_data(data, time_step)
+
+    for j in range(0, len(his_data)):
+        his = his_data[j]
+
+        histogram = []
+        for k in range(interval_start, interval_end + 1, step):
+            histogram.append({
+                'start_interval': k,
+                'step': step,
+                'histogram': []
+            })
+
+        his['histogram'] = histogram
+
+    for j in range(0, len(his_data)):
+        values = his_data[j]
+
+        for k in range(0, len(values['values'])):
+            value = values['values'][k]
+
+            for m in range(0, len(values['histogram'])):
+                row = values['histogram'][m]
+
+                if row['start_interval'] <= value < row['start_interval'] + step:
+                    row['histogram'].append(value)
+
+    return his_data
+
+
+def gen_histogram_graph(data):
+    graphs = []
+
+    for row in data:
+        x = []
+        y = []
+        for his in row['histogram']:
+            label_x = str(his['start_interval']) + ' - ' + str(his['start_interval'] + his['step'])
+            x.append(label_x)
+            y.append(len(his['histogram']))
+
+        title = str(row['start_time']) + 's - ' + str(row['start_time'] + row['time_step']) + 's'
+
+        graphs.append({
+            'title': title,
+            'graphs': [
+                {
+                    'timestamps': x,
+                    'values': y,
+                    'label_x': 'x label',
+                    'color': 'red',
+                }
+            ]
+        })
+
+    return graphs
 
 
 def main():
