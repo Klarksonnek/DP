@@ -1,0 +1,47 @@
+{
+	"events": [
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"weather": "slaby vietor, zatiahnute",
+			"people": 2,
+			"type": "...",
+			"times": {
+				"event_start": "2018/05/02 08:02:03",
+				"event_end": "2018/05/02 08:04:10"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"weather": "jasno",
+			"people": 2,
+			"times": {
+				"event_start": "2018/05/05 06:58:23",
+				"event_end": "2018/05/05 07:27:43"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "za nabytkom, na kraji izby",
+			"weather": "slaby vietor, zatiahnute",
+			"people": 2,
+			"times": {
+				"event_start": "2018/05/05 09:03:59",
+				"event_end": "2018/05/05 09:06:59"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		}
+	]
+}

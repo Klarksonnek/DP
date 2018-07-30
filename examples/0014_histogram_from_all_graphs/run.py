@@ -7,7 +7,6 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
 sys.path.append(CODE_DIR)
 
-import json
 import env_dp.core as dp
 import logging
 
@@ -15,15 +14,17 @@ import logging
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
-    client = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=False)
+    client = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=True)
     client.api_key = dp.api_key(CODE_DIR + '/api_key.config')
 
-    storage = dp.DataStorage(client, dp.WeatherData(cache=False))
+    storage = dp.DataStorage(client, dp.WeatherData(cache=True))
     storage.read_meta_data('../devices_examples.json', '../events_examples.json')
-    storage.set_no_event_time(-10)
 
-    dw = storage.download_data(10, 6)
+    dw1 = storage.download_data_for_normalization()
     client.logout()
 
-    common_data = storage.common_data(dw)
-    print(json.dumps(common_data, indent=4, sort_keys=True))
+    his_data = dp.gen_histogram(dw1, 60, 400, 2000, 200)
+    histograms = dp.gen_histogram_graph(his_data)
+
+    g = dp.Graph("./../../src/graph")
+    g.gen(histograms, 'test_g.html', 0.1, 0.1, 'bar')

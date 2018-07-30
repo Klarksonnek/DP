@@ -7,7 +7,6 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
 sys.path.append(CODE_DIR)
 
-import json
 import env_dp.core as dp
 import logging
 
@@ -20,10 +19,23 @@ if __name__ == '__main__':
 
     storage = dp.DataStorage(client, dp.WeatherData(cache=True))
     storage.read_meta_data('../devices_examples.json', '../events_examples.json')
-    storage.set_no_event_time(-10)
 
-    dw = storage.download_data(10, 6)
+    dw1 = storage.download_data_for_normalization(type_id='co2')
     client.logout()
 
-    common_data = storage.common_data(dw)
-    print(json.dumps(common_data, indent=4, sort_keys=True))
+    graphs = []
+    for i in range(0, len(dw1)):
+        one_values = dw1[i]['data'][0]['values'][0]['measured']
+
+        g = {
+            'title': 'Estimate of measured values',
+            'graphs': [
+                dp.value_estimate(dw1[i], 5, 'red', 'Odhadnuta hodnota', 'norm'),
+                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'norm')
+            ]
+        }
+
+        graphs.append(g)
+
+    g = dp.Graph("./../../src/graph")
+    g.gen(graphs, 'test_g.html', 0, 0)

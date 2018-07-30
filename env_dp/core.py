@@ -9,6 +9,9 @@ import requests
 import ssl
 
 
+COLORS = ['red', 'green', 'blue', 'orange']
+
+
 class HTTPClient:
     """Simple http client."""
 
@@ -56,7 +59,7 @@ class HTTPClient:
 class BeeeOnClient:
     """Client for communication with server supporting BeeeOn api."""
 
-    def __init__(self, host, port, cache=True, cache_folder='cache'):
+    def __init__(self, host, port, cache=True, cache_folder='../cache'):
         self.__host = host
         self.__port = port
         self.__api_key = ""
@@ -100,7 +103,7 @@ class BeeeOnClient:
 
         h = hashlib.sha256()
         h.update(endpoint.encode("utf8"))
-        filename = self.__cache_folder + '/cache_sensor_info_' + h.hexdigest()
+        filename = self.__cache_folder + '/sensor_info_' + h.hexdigest()
 
         if os.path.isfile(filename) and self.__cache:
             self.__log.debug('from cache: sensor_info, %s, %s' % (gateway_id, device_id))
@@ -134,7 +137,7 @@ class BeeeOnClient:
 
         h = hashlib.sha256()
         h.update(endpoint.encode("utf8"))
-        filename = self.__cache_folder + '/cache_history_' + h.hexdigest()
+        filename = self.__cache_folder + '/history_' + h.hexdigest()
 
         if os.path.isfile(filename) and self.__cache:
             self.__log.debug('from cache: history, %s, %s, %s, %s - %s' % (
@@ -178,7 +181,7 @@ class BeeeOnClient:
 class WeatherData:
     """Weather data extraction from weather.com."""
 
-    def __init__(self, precision=1, cache=True, cache_folder='cache'):
+    def __init__(self, precision=1, cache=True, cache_folder='../cache'):
         self.__precision = precision
         self.__cache = cache
         self.__cache_folder = cache_folder
@@ -200,7 +203,7 @@ class WeatherData:
 
         h = hashlib.sha256()
         h.update(url.encode("utf8"))
-        filename = self.__cache_folder + '/cache_weather_' + h.hexdigest()
+        filename = self.__cache_folder + '/weather_' + h.hexdigest()
 
         if os.path.isfile(filename) and self.__cache:
             self.__log.debug('from cache: %s - %s' % (start, end))
@@ -351,6 +354,11 @@ class DataStorage:
             new = copy.deepcopy(event)
             new['times']['event_start'] = int(
                 self.__parser_date(event['times']['event_start']))
+
+            if 'event_end' in new['times']:
+                new['times']['event_end'] = int(
+                    self.__parser_date(event['times']['event_end']))
+
             new['data'] = []
             del (new['devices'])
 
@@ -396,6 +404,74 @@ class DataStorage:
 
                 new['data'].append(one_sensor)
             self.__meta_data.append(new)
+
+    def __filter_not_null(self, data):
+
+        out_data = []
+        for row in data:
+            if row['value'] is None:
+                continue
+
+            out_data.append(row)
+
+        return out_data
+
+    def __cut_normalization(self, times, data):
+        start = times['event_start']
+        end = times['event_end']
+
+        for i in range(0, len(data['values'])):
+            values = data['values'][i]
+            out_json = []
+
+            for row in values['measured']:
+                if row['at'] < start or row['at'] > end:
+                    continue
+
+
+                out_json.append(row)
+
+            values['measured'] = out_json
+
+        return data
+
+    def download_data_for_normalization(self, type_id='co2'):
+        time_shift = 30
+
+        out_json = copy.deepcopy(self.__meta_data)
+
+        for k in range(0, len(out_json)):
+            event = out_json[k]
+
+            for j in range(0, len(event['data'])):
+                event_type = event['data'][j]
+
+                for i in range(0, len(event_type['values'])):
+                    module = event_type['values'][i]
+
+                    if module['custom_name'] == type_id:
+                        module['measured'] = self.__client.history(
+                            module['gateway'],
+                            module['device'],
+                            module['module_id'],
+                            event['times']['event_start'] - time_shift,
+                            event['times']['event_end'] + time_shift
+                        )['data']
+
+                        module['measured'] = self.__filter_not_null(module['measured'] )
+
+                        event_type['values'] = [module]
+                        break
+
+                if event_type['type'] == 'event_start':
+                    event['data'] = [event_type]
+
+                    event['data'][j] = self.__generate_event_data(event_type)
+                    event['data'][j] = self.__cut_normalization(event['times'], event['data'][j])
+                    break
+
+        return out_json
+
 
     def download_data(self, shift_before, shift_after):
         out_json = copy.deepcopy(self.__meta_data)
@@ -744,6 +820,112 @@ class Derivation:
         return self.__compute_before(data, difference_interval)
 
 
+class Graph:
+    def __init__(self, path):
+        self.__path = path
+
+    def gen(self, data, output, scale_padding_min=0, scale_padding_max=0, g_type='line'):
+        f = open(output, 'w')
+
+        f.write('<!DOCTYPE html>\n')
+        f.write('<html>\n')
+        f.write('	<head>\n')
+        f.write('		<link href="' + self.__path + '/chart.css" rel="stylesheet">\n')
+        f.write('		<script src="' + self.__path + '/jquery-3.2.1.slim.min.js"></script>\n')
+        f.write('		<script src="' + self.__path + '/Chart.bundle.js"></script>\n')
+        f.write('		<script src="' + self.__path + '/utils.js"></script>\n')
+        f.write('	</head>\n')
+        f.write('	<body>\n')
+
+        id = 0
+        for i in range(0, len(data)):
+            row = data[i]
+            id += 1
+            canvas_id = 'g' + str(id)
+
+            f.write('		<div style="overflow: auto;float:left">\n')
+            f.write('			<canvas class="custom" id="g' + str(canvas_id))
+            f.write('" width="900px" height="500"></canvas>\n')
+            f.write('		</div>\n')
+
+            all_min = None
+            all_max = None
+            for g in row['graphs']:
+                numbers = g['values']
+
+                if all_min is None:
+                    all_min = min(numbers)
+                else:
+                    tmp = copy.deepcopy(numbers)
+                    tmp.append(all_min)
+                    all_min = min(tmp)
+
+                if all_max is None:
+                    all_max = max(numbers)
+                else:
+                    tmp = copy.deepcopy(numbers)
+                    tmp.append(all_max)
+                    all_max = max(tmp)
+
+            all_min -= scale_padding_min
+            all_max += scale_padding_max
+
+            str_dataset = ""
+            g_id = 0
+            for g in row['graphs']:
+                str_dataset += '						{\n'
+                str_dataset += '							label: "' + g['label_x'] + '",\n'
+                str_dataset += '							borderColor: "' + g['color'] + '",\n'
+                str_dataset += '							backgroundColor: "' + g['color'] + '",\n'
+                str_dataset += '							fill: false,\n'
+                str_dataset += '							data: ' + str(g['values']) + ',\n'
+                str_dataset += '							yAxisID: "y-axis-' + str(g_id) + '"\n'
+                str_dataset += '						},\n'
+
+            str_options = ""
+            str_options += '							{\n'
+            str_options += '								type: "linear",\n'
+            str_options += '								display: true,\n'
+            str_options += '								position: "left",\n'
+            str_options += '								id: "y-axis-' + str(g_id) + '",\n'
+            str_options += '								ticks: {\n'
+            str_options += '									min: ' + str(all_min) + ',\n'
+            str_options += '									max: ' + str(all_max) + '\n'
+            str_options += '								}\n'
+            str_options += '							},\n'
+
+            f.write('		<script>\n')
+            f.write('			var ctx = document.getElementById("g' + str(canvas_id) + '");\n')
+            f.write('			var myChart1 = new Chart(ctx, {\n')
+            f.write('				type: "' + g_type + '",\n')
+            f.write('				data: {\n')
+            f.write('					labels: ' + str(row['graphs'][0]['timestamps']) + ',\n')
+            f.write('					datasets: [\n')
+            f.write(str_dataset)
+            f.write('					]\n')
+            f.write('				},\n')
+            f.write('				options: {\n')
+            f.write('					responsive: false,\n')
+            f.write('					hoverMode: "index",\n')
+            f.write('					stacked: false,\n')
+            f.write('					title: {\n')
+            f.write('						display: true,\n')
+            f.write('						text: "' + row['title'] + '"\n')
+            f.write('					},\n')
+            f.write('					scales: {\n')
+            f.write('						yAxes: [\n')
+            f.write(str_options)
+            f.write('						]\n')
+            f.write('					}\n')
+            f.write('				}\n')
+            f.write('			});\n')
+            f.write('		</script>\n')
+
+        f.write('	</body>\n')
+        f.write('</html>\n')
+        f.close()
+
+
 def api_key(filename='api_key.config'):
     with open(filename) as file:
         for line in file:
@@ -782,6 +964,242 @@ def to_weka_file(data, filename='weka.arff', class_name='open_close'):
         file.write('\n')
 
     file.close()
+
+
+def gen_simple_graph(measured, color='blue', label='x value', key='value'):
+    x = []
+    y = []
+    for value in measured:
+        x.append(datetime.datetime.fromtimestamp(value['at']).strftime('%H:%M:%S'))
+        y.append(value[key])
+
+    return {
+        'timestamps': x,
+        'values': y,
+        'label_x': label,
+        'color': color,
+    }
+
+
+def split_into_intervals(data, interval):
+    new = []
+
+    next_cut = data[0]['at'] + interval
+
+    row = []
+    for i in data:
+        if i['at'] >= next_cut:
+            next_cut += interval
+            new.append(list(row))
+            row.clear()
+
+        row.append(i)
+
+    return new
+
+
+def normalization(data, local_min, local_max):
+    for i in range(0, len(data)):
+        data[i]['norm'] = (data[i]['value'] - local_min) / (local_max - local_min)
+
+    return data
+
+
+def compute_value(data, interval, delay):
+    ii = 1
+
+    for i in range(0, len(data)):
+        if (i + 1) * interval > delay:
+            rozdiel = data[i][0]['norm'] - data[i][-1]['norm']
+            ii -= rozdiel/interval * (delay % interval)
+            break
+
+        rozdiel = data[i][0]['norm'] - data[i][-1]['norm']
+        ii -= rozdiel
+
+    return ii
+
+
+def compute_norm_values(measured):
+    only_values = []
+    for row in measured:
+        only_values.append(row['value'])
+
+    l_min = min(only_values)
+    l_max = max(only_values)
+
+    return normalization(measured, l_min, l_max)
+
+
+def value_estimate(data, interval, color='red', label='x value', key='value'):
+    measured = data['data'][0]['values'][0]['measured']
+    start = data['times']['event_start']
+    end = data['times']['event_end']
+
+    only_values = []
+    for row in measured:
+        only_values.append(row['value'])
+
+    l_min = min(only_values)
+    l_max = max(only_values)
+
+    after_normalization = normalization(measured, l_min, l_max)
+    with_intervals = split_into_intervals(after_normalization, interval)
+
+    y = []
+    x = []
+    for i in range(start, end, 1):
+        x.append(datetime.datetime.fromtimestamp(i).strftime('%H:%M:%S'))
+
+        computed_value = compute_value(with_intervals, interval, i - start)
+        if key == 'value':
+            computed_value *= float(l_max - l_min) + l_min
+
+        y.append(computed_value)
+
+    return {
+        'timestamps': x,
+        'values': y,
+        'label_x': label,
+        'color': color,
+    }
+
+
+def histogram_data(data, time_step):
+    histogram = []
+
+    for row in data:
+        values = row['data'][0]['values'][0]['measured']
+        id = 0
+
+        for j in range(0, len(values)):
+            if j % time_step != 0:
+                continue
+
+            if len(histogram) <= id:
+                histogram.append({
+                    'start_time': j,
+                    'time_step': time_step,
+                    'values': []
+                })
+
+            val = values[j]['value']
+            histogram[id]['values'].append(val)
+
+            id += 1
+
+    return histogram
+
+
+def gen_histogram(data, time_step, interval_start, interval_end, step):
+    his_data = histogram_data(data, time_step)
+
+    for j in range(0, len(his_data)):
+        his = his_data[j]
+
+        histogram = []
+        for k in range(interval_start, interval_end + 1, step):
+            histogram.append({
+                'start_interval': k,
+                'step': step,
+                'histogram': []
+            })
+
+        his['histogram'] = histogram
+
+    for j in range(0, len(his_data)):
+        values = his_data[j]
+
+        for k in range(0, len(values['values'])):
+            value = values['values'][k]
+
+            for m in range(0, len(values['histogram'])):
+                row = values['histogram'][m]
+
+                if row['start_interval'] <= value < row['start_interval'] + step:
+                    row['histogram'].append(value)
+
+    return his_data
+
+
+def gen_histogram_graph(data):
+    graphs = []
+
+    for row in data:
+        x = []
+        y = []
+        for his in row['histogram']:
+            label_x = str(his['start_interval']) + ' - ' + str(his['start_interval'] + his['step'])
+            x.append(label_x)
+            y.append(len(his['histogram']))
+
+        title = str(row['start_time']) + 's - ' + str(row['start_time'] + row['time_step']) + 's'
+
+        graphs.append({
+            'title': title,
+            'graphs': [
+                {
+                    'timestamps': x,
+                    'values': y,
+                    'label_x': 'x label',
+                    'color': 'red',
+                }
+            ]
+        })
+
+    return graphs
+
+
+def his_first_value(his):
+    for row in his:
+        if len(row['histogram']) == 0:
+            continue
+
+        return row['histogram'][0]
+
+
+def his_to_data_for_normalization(histogram, func):
+    test_start_time = 1525240923
+    values = []
+
+    for row in histogram:
+        val = func(row['histogram'])
+
+        values.append({
+            'at': test_start_time + row['start_time'],
+            'value': val
+        })
+
+    # rozgenerovanie
+    out_values = []
+    last_timestamp = values[0]['at']
+    for val in values:
+
+        for i in range(last_timestamp, val['at']):
+            out_values.append({
+                'at': i,
+                'value': val['value']
+            })
+
+        last_timestamp = val['at']
+
+    out = {
+        'times': {
+            'event_start': test_start_time,
+            'event_end': test_start_time + histogram[-1]['start_time'] + histogram[-1]['time_step']
+        },
+        'data': [
+            {
+                'values': [
+                    {
+                        'measured': out_values
+                    }
+                ]
+            }
+        ],
+    }
+
+    return out
 
 
 def main():
