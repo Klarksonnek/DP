@@ -963,5 +963,20 @@ def to_weka_file(data, filename='weka.arff', class_name='open_close'):
     file.close()
 
 
+def gen_simple_graph(measured, color='blue', label='x value'):
+    x = []
+    y = []
+    for value in measured:
+        x.append(datetime.datetime.fromtimestamp(value['at']).strftime('%H:%M:%S'))
+        y.append(value['value'])
+
+    return {
+        'timestamps': x,
+        'values': y,
+        'label_x': label,
+        'color': color,
+    }
+
+
 def main():
     pass
