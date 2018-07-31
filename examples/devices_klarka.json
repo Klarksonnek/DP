@@ -1,0 +1,48 @@
+{
+	"devices": [
+		{
+			"id": "jablotron",
+			"name": "Jablotron open/close sensor",
+			"gateway": "1413350823123315",
+			"device": "0x9000000001d00b6",
+			"sensors": [
+				{
+					"id": 0,
+					"custom_name": "open_close"
+				}
+			]
+		},
+		{
+			"id": "beeeon_in",
+			"name": "BeeeOn sensor in",
+			"gateway": "1413350823123315",
+			"device": "0xa1000000eb00000f",
+			"sensors": [
+				{
+					"id": 1,
+					"custom_name": "temperature_in"
+				},
+				{
+					"id": 3,
+					"custom_name": "humidity_in"
+				}
+			]
+		},
+		{
+			"id": "beeeon_out",
+			"name": "BeeeOn sensor out",
+			"gateway": "1413350823123315",
+			"device": "0xa1000000eb000018",
+			"sensors": [
+				{
+					"id": 1,
+					"custom_name": "temperature_out"
+				},
+				{
+					"id": 3,
+					"custom_name": "humidity_out"
+				}
+			]
+		}
+	]
+}
