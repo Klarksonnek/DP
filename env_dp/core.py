@@ -995,6 +995,9 @@ def split_into_intervals(data, interval):
 
         row.append(i)
 
+    if len(row) % interval == 0:
+        new.append(list(row))
+
     return new
 
 
