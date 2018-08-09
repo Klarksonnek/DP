@@ -1,0 +1,40 @@
+{
+	"devices": [
+		{
+			"id": "jablotron",
+			"name": "Jablotron open/close sensor",
+			"gateway": "1908402624139667",
+			"device": "0x900000000197053",
+			"sensors": [
+				{
+					"id": 0,
+					"custom_name": "open_close"
+				}
+			]
+		},
+		{
+			"id": "beeeon",
+			"name": "BeeeOn sensor",
+			"gateway": "1908402624139667",
+			"device": "0xa1000000ea000000",
+			"sensors": [
+				{
+					"id": 1,
+					"custom_name": "room_temperature"
+				}
+			]
+		},
+		{
+			"id": "protronix",
+			"name": "Protronix senzor co2",
+			"gateway": "1816820318180747",
+			"device": "0xa9004a4a147d0001",
+			"sensors": [
+				{
+					"id": 2,
+					"custom_name": "co2"
+				}
+			]
+		}
+	]
+}
