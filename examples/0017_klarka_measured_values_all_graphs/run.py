@@ -20,10 +20,10 @@ if __name__ == '__main__':
     storage = dp.DataStorage(client, dp.WeatherData(cache=True))
     storage.read_meta_data('../devices_klarka.json', '../events_klarka.json')
 
-    dw1 = storage.download_data_for_normalization('temperature_in')
-    dw2 = storage.download_data_for_normalization('humidity_in')
-    dw3 = storage.download_data_for_normalization('temperature_out')
-    dw4 = storage.download_data_for_normalization('humidity_out')
+    dw1 = storage.download_data_for_normalization(['temperature_in'])
+    dw2 = storage.download_data_for_normalization(['humidity_in'])
+    dw3 = storage.download_data_for_normalization(['temperature_out'])
+    dw4 = storage.download_data_for_normalization(['humidity_out'])
     client.logout()
 
     one_norm_graph = []

@@ -588,7 +588,7 @@ class DataStorage:
                 for i in range(0, len(event_type['values'])):
                     module = event_type['values'][i]
 
-                    if module['custom_name'] == type_id:
+                    if module['custom_name'] in type_id:
                         module['measured'] = self.__client.history(
                             module['gateway'],
                             module['device'],
