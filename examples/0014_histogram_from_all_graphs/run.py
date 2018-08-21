@@ -27,4 +27,4 @@ if __name__ == '__main__':
     histograms = dp.gen_histogram_graph(his_data)
 
     g = dp.Graph("./../../src/graph")
-    g.gen(histograms, 'test_g.html', 0.1, 0.1, 'bar')
+    g.gen(histograms, 'test_g.html', 0, 0, 'bar')
