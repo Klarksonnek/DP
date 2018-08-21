@@ -574,7 +574,7 @@ class DataStorage:
 
         return data
 
-    def download_data_for_normalization(self, type_id='co2'):
+    def download_data_for_normalization(self, type_id):
         time_shift = 30
 
         out_json = copy.deepcopy(self.__meta_data)
