@@ -1,4 +1,5 @@
 import copy
+import csv
 import datetime
 import hashlib
 import http.client
@@ -7,6 +8,7 @@ import logging
 import os
 import requests
 import ssl
+import time
 
 
 COLORS = ['red', 'green', 'blue', 'orange']
@@ -298,6 +300,143 @@ class WeatherData:
                 rh = rh + rh_increase
                 pressure = pressure + pressure_increase
                 wind_speed = wind_speed + wspd_increase
+
+        return out_detailed
+
+
+class WeatherDataRS:
+    def __init__(self, file='../klimadata_admas.csv', precision=9):
+        self.__file = file
+        self.__precision = precision
+        self.__log = logging.getLogger(self.__class__.__name__)
+
+    def download_data(self, start, end):
+        day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
+        day_start = day_time_start[:-9]
+        day_time_end = datetime.datetime.fromtimestamp(end).strftime('%Y%m%d %H:%M:%S')
+        day_end = day_time_end[:-9]
+        out_general = []
+
+        with open(self.__file, newline='') as file:
+            reader = csv.DictReader(file, delimiter=';')
+
+            for line in reader:
+                date_time = int(time.mktime(datetime.datetime.strptime(line['datum_a_cas'], '%d.%m.%y %H:%M').timetuple()))
+                if date_time < start or date_time > end:
+                    continue
+
+                out_general.append({
+                        'at': int(time.mktime(datetime.datetime.strptime(line['datum_a_cas'], '%d.%m.%y %H:%M').timetuple())),
+                        'pressure': round(float(line['atmosfericky_tlak'].replace(',', '.')), self.__precision),
+                        'temperature': round(float(line['teplota_vzduchu'].replace(',', '.')), self.__precision),
+                        'relative_humidity': round(float(line['relativna_vlhkost'].replace(',', '.')), self.__precision),
+                        'wind_direction': round(float(line['smer_vetra'].replace(',', '.')), self.__precision),
+                        'wind_speed': round(float(line['rychlost_vetra'].replace(',', '.')), self.__precision),
+                        'wind_speed2': round(float(line['rychlost_vetra2'].replace(',', '.')), self.__precision),
+                        'intensity_of_sunlight': round(float(line['rychlost_vetra2'].replace(',', '.')), self.__precision),
+                    })
+
+            generate_weather_data = self.__generate_weather_data(out_general)
+
+            out_detailed = []
+
+            for i in range(0, len(generate_weather_data)):
+                weather = generate_weather_data[i]
+                if weather['at'] < start or generate_weather_data[i]['at'] > end:
+                    continue
+
+                out_detailed.append(generate_weather_data[i])
+
+        return out_detailed
+
+    def __generate_weather_data(self, out_general):
+        out_detailed = []
+        for i in range(0, len(out_general) - 1):
+            if out_general[i + 1]['at'] - out_general[i]['at'] == 60:
+                pressure_start = out_general[i]['pressure']
+                pressure_end = out_general[i + 1]['pressure']
+                if pressure_start - pressure_end == 0:
+                    pressure_increase = 0
+                else:
+                    pressure_diff = pressure_start - pressure_end
+                    pressure_increase = pressure_diff / 60.0
+
+                temp_start = out_general[i]['temperature']
+                temp_end = out_general[i + 1]['temperature']
+                if temp_start - temp_end == 0:
+                    temp_increase = 0
+                else:
+                    temp_diff = temp_end - temp_start
+                    temp_increase = temp_diff / 60.0
+
+                rh_start = out_general[i]['relative_humidity']
+                rh_end = out_general[i + 1]['relative_humidity']
+                if rh_start - rh_end == 0:
+                    rh_increase = 0
+                else:
+                    rh_diff = rh_end - rh_start
+                    rh_increase = rh_diff / 60.0
+
+                wind_direction_start = out_general[i]['wind_direction']
+                wind_direction_end = out_general[i + 1]['wind_direction']
+                if wind_direction_start - wind_direction_end == 0:
+                    wind_direction_increase = 0
+                else:
+                    wind_direction_diff = wind_direction_end - wind_direction_start
+                    wind_direction_increase = wind_direction_diff / 60.0
+
+                wind_speed_start = out_general[i]['wind_speed']
+                wind_speed_end = out_general[i + 1]['wind_speed']
+                if wind_speed_start - wind_speed_end == 0:
+                    wind_speed_increase = 0
+                else:
+                    wind_speed_diff = wind_speed_end - wind_speed_start
+                    wind_speed_increase = wind_speed_diff / 60.0
+
+                wind_speed2_start = out_general[i]['wind_speed2']
+                wind_speed2_end = out_general[i + 1]['wind_speed2']
+                if wind_speed2_start - wind_speed2_end == 0:
+                    wind_speed2_increase = 0
+                else:
+                    wind_speed2_diff = wind_speed2_end - wind_speed2_start
+                    wind_speed2_increase = wind_speed2_diff / 60.0
+
+                intensity_of_sunlight_start = out_general[i]['intensity_of_sunlight']
+                intensity_of_sunlight_end = out_general[i + 1]['intensity_of_sunlight']
+                if intensity_of_sunlight_start - intensity_of_sunlight_end == 0:
+                    intensity_of_sunlight_increase = 0
+                else:
+                    intensity_of_sunlight_diff = intensity_of_sunlight_end - intensity_of_sunlight_start
+                    intensity_of_sunlight_increase = intensity_of_sunlight_diff / 60.0
+
+                pressure = pressure_start
+                temp = temp_start
+                rh = rh_start
+                wind_direction = wind_direction_start
+                wind_speed = wind_speed_start
+                wind_speed2 = wind_speed2_start
+                intensity_of_sunlight = intensity_of_sunlight_start
+
+                for j in range(0, 60):
+                    out_detailed.append({
+                        'at': int(out_general[i]['at']) + j,
+                        'pressure': round(float(pressure), self.__precision),
+                        'temperature': round(float(temp), self.__precision),
+                        'relative_humidity': round(float(rh), self.__precision),
+                        'wind_direction': round(float(wind_direction), self.__precision),
+                        'wind_speed': round(float(wind_speed), self.__precision),
+                        'wind_speed2': round(float(wind_speed2), self.__precision),
+                        'intensity_of_sunlight': round(float(intensity_of_sunlight), self.__precision),
+                    })
+                    pressure = pressure + pressure_increase
+                    temp = temp + temp_increase
+                    rh = rh + rh_increase
+                    wind_direction = wind_direction + wind_direction_increase
+                    wind_speed = wind_speed + wind_speed_increase
+                    wind_speed2 = wind_speed2 + wind_speed2_increase
+                    intensity_of_sunlight = intensity_of_sunlight + intensity_of_sunlight_increase
+            else:
+                continue
 
         return out_detailed
 
@@ -1205,4 +1344,6 @@ def his_to_data_for_normalization(histogram, func):
 
 
 def main():
+    w = WeatherDataRS()
+    w.download_data(1, 1)
     pass
