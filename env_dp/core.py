@@ -1009,7 +1009,7 @@ def normalization(data, local_min, local_max):
 
 
 def compute_value(data, interval, delay):
-    ii = 1
+    ii = data[0][0]['norm']
 
     for i in range(0, len(data)):
         if (i + 1) * interval > delay:
@@ -1017,8 +1017,7 @@ def compute_value(data, interval, delay):
             ii -= rozdiel/interval * (delay % interval)
             break
 
-        rozdiel = data[i][0]['norm'] - data[i][-1]['norm']
-        ii -= rozdiel
+        ii -= data[i][0]['norm'] - data[i+1][0]['norm']
 
     return ii
 
@@ -1037,7 +1036,6 @@ def compute_norm_values(measured):
 def value_estimate(data, interval, color='red', label='x value', key='value'):
     measured = data['data'][0]['values'][0]['measured']
     start = data['times']['event_start']
-    end = data['times']['event_end']
 
     only_values = []
     for row in measured:
@@ -1051,7 +1049,8 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
 
     y = []
     x = []
-    for i in range(start, end, 1):
+    end_loop = start + len(with_intervals) * interval
+    for i in range(start, end_loop, 1):
         x.append(datetime.datetime.fromtimestamp(i).strftime('%H:%M:%S'))
 
         computed_value = compute_value(with_intervals, interval, i - start)
