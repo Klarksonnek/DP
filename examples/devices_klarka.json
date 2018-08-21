@@ -13,6 +13,18 @@
 			]
 		},
 		{
+			"id": "jablotron_bathroom",
+			"name": "Jablotron open/close sensor bathroom",
+			"gateway": "1413350823123315",
+			"device": "0x9000000001961ca",
+			"sensors": [
+				{
+					"id": 0,
+					"custom_name": "open_close"
+				}
+			]
+		},
+		{
 			"id": "beeeon_in",
 			"name": "BeeeOn sensor in",
 			"gateway": "1413350823123315",
@@ -41,6 +53,38 @@
 				{
 					"id": 3,
 					"custom_name": "humidity_out"
+				}
+			]
+		},
+		{
+			"id": "beeeon_bathroom_i",
+			"name": "BeeeOn sensor bathroom I",
+			"gateway": "1413350823123315",
+			"device": "0xa1000000eb000012",
+			"sensors": [
+				{
+					"id": 1,
+					"custom_name": "temperature_bathroom_i"
+				},
+				{
+					"id": 3,
+					"custom_name": "humidity_bathroom_i"
+				}
+			]
+		},
+		{
+			"id": "beeeon_bathroom_ii",
+			"name": "BeeeOn sensor bathroom II",
+			"gateway": "1413350823123315",
+			"device": "0xa1000000eb000013",
+			"sensors": [
+				{
+					"id": 1,
+					"custom_name": "temperature_bathroom_ii"
+				},
+				{
+					"id": 3,
+					"custom_name": "humidity_bathroom_ii"
 				}
 			]
 		}
