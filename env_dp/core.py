@@ -1274,7 +1274,7 @@ def gen_histogram_graph(data):
             x.append(label_x)
             y.append(len(his['histogram']))
 
-        title = str(row['start_time']) + 's - ' + str(row['start_time'] + row['time_step']) + 's'
+        title = 'Histogram hodnot v case ' + str(row['start_time']) + 's'
 
         graphs.append({
             'title': title,
@@ -1282,7 +1282,7 @@ def gen_histogram_graph(data):
                 {
                     'timestamps': x,
                     'values': y,
-                    'label_x': 'x label',
+                    'label_x': 'Pocet hodnot',
                     'color': 'red',
                 }
             ]
