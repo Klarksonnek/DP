@@ -588,7 +588,8 @@ class DataStorage:
                            - hum_out[i]['data'][0]['values'][0]['measured'][0]['value'])
 
             if ((temp_diff >= temp_diff_min and temp_diff <= temp_diff_max) and (
-                    hum_diff >= hum_diff_min and hum_diff <= hum_diff_max)):
+                    hum_diff >= hum_diff_min and hum_diff <= hum_diff_max) and
+					(temp_out[i]['data'][0]['values'][0]['measured'][0]['value']) > 11.0):
                 out_json_temp_in.append(temp_in[i])
                 out_json_temp_out.append(temp_out[i])
                 out_json_hum_in.append(hum_in[i])
