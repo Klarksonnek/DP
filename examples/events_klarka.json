@@ -1443,6 +1443,82 @@
 				"beeeon_in": ["temperature_in", "humidity_in"],
 				"beeeon_out": ["temperature_out", "humidity_out"]
 			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, jasno",
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2018/08/23 06:10:09",
+				"event_end": "2018/08/23 06:55:26"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, jasno",
+			"people": 2,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2018/08/24 06:42:16",
+				"event_end": "2018/08/24 07:12:19"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, dest",
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2018/08/25 06:09:12",
+				"event_end": "2018/08/25 06:52:47"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, dest",
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2018/08/25 21:57:09",
+				"event_end": "2018/08/25 22:12:26"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
 		}
 	]
 }
