@@ -840,6 +840,76 @@
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"weather": "bezvetrie",
+			"people": 3,
+			"times": {
+				"event_start": "2018/05/14 22:04:14",
+				"event_end": "2018/05/14 22:05:19"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"weather": "bezvetrie",
+			"people": 3,
+			"times": {
+				"event_start": "2018/05/14 22:20:10",
+				"event_end": "2018/05/14 22:37:13"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"weather": "zatiahnute",
+			"people": 2,
+			"times": {
+				"event_start": "2018/05/15 07:05:36",
+				"event_end": "2018/05/15 08:01:10"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"weather": "bezvetrie",
+			"people": 2,
+			"times": {
+				"event_start": "2018/05/15 20:39:07",
+				"event_end": "2018/05/15 20:50:14"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"weather": "dazd, slaby vietor",
+			"people": 2,
+			"times": {
+				"event_start": "2018/05/15 23:40:05",
+				"event_end": "2018/05/15 23:53:10"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
 		}
 	]
 }
