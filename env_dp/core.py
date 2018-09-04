@@ -1206,7 +1206,7 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
     }
 
 
-def histogram_data(data, time_step):
+def histogram_data(data, time_step, key):
     histogram = []
 
     for row in data:
@@ -1224,7 +1224,7 @@ def histogram_data(data, time_step):
                     'values': []
                 })
 
-            val = values[j]['value']
+            val = values[j][key]
             histogram[id]['values'].append(val)
 
             id += 1
@@ -1232,19 +1232,32 @@ def histogram_data(data, time_step):
     return histogram
 
 
-def gen_histogram(data, time_step, interval_start, interval_end, step):
-    his_data = histogram_data(data, time_step)
+def gen_histogram(data, time_step, interval_start, interval_end, step, key):
+    for i in range(0, len(data)):
+        one_values = data[i]['data'][0]['values'][0]['measured']
+        norm_values = compute_norm_values(one_values)
+
+        data[i]['data'][0]['values'][0]['measured'] = norm_values
+
+    his_data = histogram_data(data, time_step, key)
 
     for j in range(0, len(his_data)):
         his = his_data[j]
 
         histogram = []
-        for k in range(interval_start, interval_end + 1, step):
+
+        k = interval_start
+        while True:
+            if k > interval_end - step:
+                break
+
             histogram.append({
-                'start_interval': k,
+                'start_interval': round(k, 5),
                 'step': step,
                 'histogram': []
             })
+
+            k = k + step
 
         his['histogram'] = histogram
 
@@ -1257,20 +1270,33 @@ def gen_histogram(data, time_step, interval_start, interval_end, step):
             for m in range(0, len(values['histogram'])):
                 row = values['histogram'][m]
 
-                if row['start_interval'] <= value < row['start_interval'] + step:
-                    row['histogram'].append(value)
+                if m == 0:
+                    if row['start_interval'] <= value <= row['start_interval'] + step:
+                        row['histogram'].append(value)
+                else:
+                    if row['start_interval'] < value <= row['start_interval'] + step:
+                        row['histogram'].append(value)
 
     return his_data
 
 
 def gen_histogram_graph(data):
+    precision = 2
     graphs = []
 
     for row in data:
         x = []
         y = []
         for his in row['histogram']:
-            label_x = str(his['start_interval']) + ' - ' + str(his['start_interval'] + his['step'])
+            if his['start_interval'] == 0:
+                label_x = str(round(his['start_interval'], precision))
+                label_x += ' - '
+                label_x += str(round(his['start_interval'] + his['step'], precision))
+            else:
+                label_x = str(round(his['start_interval'] + his['step']/10, precision))
+                label_x += ' - '
+                label_x += str(round(his['start_interval'] + his['step'], precision))
+
             x.append(label_x)
             y.append(len(his['histogram']))
 
