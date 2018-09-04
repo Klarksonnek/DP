@@ -1441,6 +1441,26 @@ def filter_data(events, allow_items):
     return out
 
 
+def filter_one_values(events, allow_item):
+    """Filter umoznuje vybrat s pozadovaneho modulu zoznam nameranych hodnot.
+    """
+
+    for i in range(0, len(events)):
+        event = events[i]
+
+        for j in range(0, len(event['data'])):
+            event_data = event['data'][j]
+
+            for k in range(0, len(event_data['values'])):
+                device_value = event_data['values'][k]
+                measured = device_value['measured']
+
+                if device_value['custom_name'] == allow_item:
+                    return list(measured)
+
+    return {}
+
+
 def main():
     w = WeatherDataRS()
     w.download_data(1, 1)
