@@ -1239,12 +1239,19 @@ def gen_histogram(data, time_step, interval_start, interval_end, step, key):
         his = his_data[j]
 
         histogram = []
-        for k in range(interval_start, interval_end + 1, step):
+
+        k = interval_start
+        while True:
+            if k > interval_end - step:
+                break
+
             histogram.append({
-                'start_interval': k,
+                'start_interval': round(k, 5),
                 'step': step,
                 'histogram': []
             })
+
+            k = k + step
 
         his['histogram'] = histogram
 
