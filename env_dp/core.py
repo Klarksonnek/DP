@@ -1410,6 +1410,37 @@ def norm_all(data):
     return events
 
 
+def filter_data(events, allow_items):
+    """Filter umoznuje vybrat pozadovane moduly so zadanym custom_name.
+
+    :param events: stiahnute normalizovane data
+    :param allow_items: zoznam custom_name
+    """
+
+    out = copy.deepcopy(events)
+
+    for i in range(0, len(out)):
+        event = out[i]
+
+        for j in range(0, len(event['data'])):
+            event_data = event['data'][j]
+
+            filtered_device_values = []
+            for k in range(0, len(event_data['values'])):
+                device_value = event_data['values'][k]
+                measured = device_value['measured']
+
+                if device_value['custom_name'] not in allow_items:
+                    continue
+
+                device_value['measured'] = compute_norm_values(measured)
+                filtered_device_values.append(device_value)
+
+            event_data['values'] = filtered_device_values
+
+    return out
+
+
 def main():
     w = WeatherDataRS()
     w.download_data(1, 1)
