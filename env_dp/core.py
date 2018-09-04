@@ -1185,14 +1185,14 @@ def compute_value(data, interval, delay):
 
 
 def compute_norm_values(measured):
-    only_values = []
+    only_measured = []
     for row in measured:
-        only_values.append(row['value'])
+        only_measured.append(row['value'])
 
-    l_min = min(only_values)
-    l_max = max(only_values)
+    l_min = min(only_measured)
+    l_max = max(only_measured)
 
-    return normalization(measured, l_min, l_max)
+    return list(normalization(measured, l_min, l_max))
 
 
 def value_estimate(data, interval, color='red', label='x value', key='value'):
