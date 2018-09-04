@@ -20,28 +20,28 @@ if __name__ == '__main__':
     storage = dp.DataStorage(client, dp.WeatherData(cache=True))
     storage.read_meta_data('../devices_klarka.json', '../events_klarka.json')
 
-    dw1 = storage.download_data_for_normalization(['temperature_in'])
-    dw2 = storage.download_data_for_normalization(['humidity_in'])
-    dw3 = storage.download_data_for_normalization(['temperature_out'])
-    dw4 = storage.download_data_for_normalization(['humidity_out'])
+    modules = ['temperature_in', 'humidity_in', 'temperature_out', 'humidity_out']
+    all = storage.download_data_for_normalization(modules)
+
+    client.logout()
+
+    norm = dp.norm_all(all)
+    dw1 = dp.filter_data(norm, ['temperature_in'])
+    dw2 = dp.filter_data(norm, ['humidity_in'])
+    dw3 = dp.filter_data(norm, ['temperature_out'])
+    dw4 = dp.filter_data(norm, ['humidity_out'])
 
     dw1_filtered, dw2_filtered, dw3_filtered, dw4_filtered =\
         storage.filter_downloaded_data(dw1, dw2, dw3, dw4, 5.0, 10.0, 10.0, 20.0)
-
-    client.logout()
 
     one_norm_graph = []
     graphs = []
 
     for i in range(0, len(dw1_filtered)):
-        one_values_temp_in = dw1_filtered[i]['data'][0]['values'][0]['measured']
-        norm_values_temp_in = dp.compute_norm_values(one_values_temp_in)
-        one_values_hum_in = dw2_filtered[i]['data'][0]['values'][0]['measured']
-        norm_values_hum_in = dp.compute_norm_values(one_values_hum_in)
-        one_values_temp_out = dw3_filtered[i]['data'][0]['values'][0]['measured']
-        norm_values_temp_out = dp.compute_norm_values(one_values_temp_out)
-        one_values_hum_out = dw4_filtered[i]['data'][0]['values'][0]['measured']
-        norm_values_hum_out = dp.compute_norm_values(one_values_hum_out)
+        norm_values_temp_in = dp.filter_one_values(dw1_filtered[i], 'temperature_in')
+        norm_values_hum_in = dp.filter_one_values(dw2_filtered[i], 'humidity_in')
+        norm_values_temp_out = dp.filter_one_values(dw3_filtered[i], 'temperature_out')
+        norm_values_hum_out = dp.filter_one_values(dw4_filtered[i], 'humidity_out')
 
         g = {
             'title': 'Temp in and hum in',
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         graphs.append(g)
 
         g = {
-                'title': 'Temp in and temp out',
+            'title': 'Temp in and temp out',
             'graphs': [
                 dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value'),
                 dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value')

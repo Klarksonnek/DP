@@ -20,24 +20,20 @@ if __name__ == '__main__':
     storage = dp.DataStorage(client, dp.WeatherData(cache=True))
     storage.read_meta_data('../devices_klarka.json', '../events_klarka.json')
 
-    dw1 = storage.download_data_for_normalization(['temperature_in'])
-    dw2 = storage.download_data_for_normalization(['humidity_in'])
-    dw3 = storage.download_data_for_normalization(['temperature_out'])
-    dw4 = storage.download_data_for_normalization(['humidity_out'])
+    modules = ['temperature_in', 'humidity_in', 'temperature_out', 'humidity_out']
+    all = storage.download_data_for_normalization(modules)
     client.logout()
+
+    norm = dp.norm_all(all)
 
     one_norm_graph = []
     graphs = []
 
-    for i in range(0, len(dw1)):
-        one_values_temp_in = dw1[i]['data'][0]['values'][0]['measured']
-        norm_values_temp_in = dp.compute_norm_values(one_values_temp_in)
-        one_values_hum_in = dw2[i]['data'][0]['values'][0]['measured']
-        norm_values_hum_in = dp.compute_norm_values(one_values_hum_in)
-        one_values_temp_out = dw3[i]['data'][0]['values'][0]['measured']
-        norm_values_temp_out = dp.compute_norm_values(one_values_temp_out)
-        one_values_hum_out = dw4[i]['data'][0]['values'][0]['measured']
-        norm_values_hum_out = dp.compute_norm_values(one_values_hum_out)
+    for item in norm:
+        norm_values_temp_in = dp.filter_one_values(item, 'temperature_in')
+        norm_values_hum_in = dp.filter_one_values(item, 'humidity_in')
+        norm_values_temp_out = dp.filter_one_values(item, 'temperature_out')
+        norm_values_hum_out = dp.filter_one_values(item, 'humidity_out')
 
         g = {
             'title': 'Temp in and hum in',
@@ -58,7 +54,7 @@ if __name__ == '__main__':
         graphs.append(g)
 
         g = {
-                'title': 'Temp in and temp out',
+            'title': 'Temp in and temp out',
             'graphs': [
                 dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value'),
                 dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value')
