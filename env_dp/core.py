@@ -608,6 +608,10 @@ class DataStorage:
             for j in range(0, len(event['data'])):
                 event_type = event['data'][j]
 
+                if event_type['type'] != 'event_start':
+                    continue
+
+                tmp_modules = []
                 for i in range(0, len(event_type['values'])):
                     module = event_type['values'][i]
 
@@ -622,15 +626,16 @@ class DataStorage:
 
                         module['measured'] = self.__filter_not_null(module['measured'] )
 
-                        event_type['values'] = [module]
-                        break
+                        tmp_modules.append(module)
 
-                if event_type['type'] == 'event_start':
-                    event['data'] = [event_type]
+                event_type['values'] = tmp_modules
 
-                    event['data'][j] = self.__generate_event_data(event_type)
-                    event['data'][j] = self.__cut_normalization(event['times'], event['data'][j])
-                    break
+                event['data'] = [event_type]
+                event['data'][j] = self.__generate_event_data(event_type)
+                event['data'][j] = self.__cut_normalization(event['times'], event['data'][j])
+
+                # sluzi na odfiltrovanie no_event_start
+                break
 
         return out_json
 
