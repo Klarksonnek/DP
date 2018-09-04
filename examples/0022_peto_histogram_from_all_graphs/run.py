@@ -23,7 +23,7 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(['co2'])
     client.logout()
 
-    his_data = dp.gen_histogram(dw1, 60, 400, 2000, 200, 'value')
+    his_data = dp.gen_histogram(dw1, 20, 0, 1, 0.1, 'norm')
     histograms = dp.gen_histogram_graph(his_data)
 
     g = dp.Graph("./../../src/graph")
