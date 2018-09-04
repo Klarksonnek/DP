@@ -1233,6 +1233,12 @@ def histogram_data(data, time_step, key):
 
 
 def gen_histogram(data, time_step, interval_start, interval_end, step, key):
+    for i in range(0, len(data)):
+        one_values = data[i]['data'][0]['values'][0]['measured']
+        norm_values = compute_norm_values(one_values)
+
+        data[i]['data'][0]['values'][0]['measured'] = norm_values
+
     his_data = histogram_data(data, time_step, key)
 
     for j in range(0, len(his_data)):
