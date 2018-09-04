@@ -1201,6 +1201,8 @@ def compute_norm_values(measured):
 
 
 def value_estimate(data, interval, color='red', label='x value', key='value'):
+    data = copy.deepcopy(data)
+
     measured = data['data'][0]['values'][0]['measured']
     start = data['times']['event_start']
 
