@@ -1392,6 +1392,24 @@ def his_to_data_for_normalization(histogram, func):
     return out
 
 
+def norm_all(data):
+    events = copy.deepcopy(data)
+
+    for i in range(0, len(events)):
+        event = events[i]
+
+        for j in range(0, len(event['data'])):
+            event_data = event['data'][j]
+
+            for k in range(0, len(event_data['values'])):
+                device_value = event_data['values'][k]
+                measured = device_value['measured']
+
+                device_value['measured'] = compute_norm_values(measured)
+
+    return events
+
+
 def main():
     w = WeatherDataRS()
     w.download_data(1, 1)
