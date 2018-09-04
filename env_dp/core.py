@@ -574,6 +574,29 @@ class DataStorage:
 
         return data
 
+    def filter_downloaded_data(self, temp_in, hum_in, temp_out, hum_out, temp_diff_min, temp_diff_max, hum_diff_min,
+                               hum_diff_max):
+        out_json_temp_in = []
+        out_json_temp_out = []
+        out_json_hum_in = []
+        out_json_hum_out = []
+
+        for i in range(0, len(temp_in)):
+            temp_diff = abs(temp_in[i]['data'][0]['values'][0]['measured'][0]['value']
+                            - temp_out[i]['data'][0]['values'][0]['measured'][0]['value'])
+            hum_diff = abs(hum_in[i]['data'][0]['values'][0]['measured'][0]['value']
+                           - hum_out[i]['data'][0]['values'][0]['measured'][0]['value'])
+
+            if ((temp_diff >= temp_diff_min and temp_diff <= temp_diff_max) and (
+                    hum_diff >= hum_diff_min and hum_diff <= hum_diff_max) and
+					(temp_out[i]['data'][0]['values'][0]['measured'][0]['value']) > 11.0):
+                out_json_temp_in.append(temp_in[i])
+                out_json_temp_out.append(temp_out[i])
+                out_json_hum_in.append(hum_in[i])
+                out_json_hum_out.append(hum_out[i])
+
+        return out_json_temp_in, out_json_hum_in, out_json_temp_out, out_json_hum_out
+
     def download_data_for_normalization(self, type_id):
         time_shift = 30
 
