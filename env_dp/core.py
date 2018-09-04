@@ -1389,7 +1389,8 @@ def his_to_data_for_normalization(histogram, func):
             {
                 'values': [
                     {
-                        'measured': out_values
+                        'measured': out_values,
+                        'custom_name': 'estimate'
                     }
                 ]
             }
