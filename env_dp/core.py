@@ -9,6 +9,7 @@ import os
 import requests
 import ssl
 import time
+from socket import error as SocketError
 
 
 COLORS = ['red', 'green', 'blue', 'orange']
@@ -193,6 +194,24 @@ class WeatherData:
             if not os.path.exists(cache_folder):
                 os.makedirs(cache_folder)
 
+
+    def __remove_from_cache(self, start, end):
+        day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
+        day_start = day_time_start[:-9]
+        day_time_end = datetime.datetime.fromtimestamp(end).strftime('%Y%m%d %H:%M:%S')
+        day_end = day_time_end[:-9]
+
+        url = 'https://api.weather.com/v1/geocode/49.15139008/16.69388962/observations/'
+        url += 'historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e'
+        url += '&startDate=' + str(day_start) + '&endDate=' + str(day_end)
+
+        h = hashlib.sha256()
+        h.update(url.encode("utf8"))
+        filename = self.__cache_folder + '/weather_' + h.hexdigest()
+
+        if os.path.exists(filename):
+            os.remove(filename)
+
     def __download_data(self, start, end):
         day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
         day_start = day_time_start[:-9]
@@ -222,7 +241,27 @@ class WeatherData:
 
         return json_data
 
+
     def weather_data(self, start, end):
+        while True:
+            try:
+                self.__log.info(str(start) + " - " + str(end))
+                return self.__weather_data2(start, end)
+            except KeyError:
+                self.__log.debug('wait')
+                self.__remove_from_cache(start, end)
+                time.sleep(1)
+            except ConnectionResetError:
+                self.__log.debug('wait')
+                time.sleep(1)
+            except SocketError:
+                self.__log.debug('wait')
+                time.sleep(1)
+            except IndexError:
+                self.__log.debug('wait')
+                time.sleep(1)
+
+    def __weather_data2(self, start, end):
         json_data = self.__download_data(start, end)
 
         python_obj = json.loads(json_data)
