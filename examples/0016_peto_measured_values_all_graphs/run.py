@@ -24,17 +24,19 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(['co2'])
     client.logout()
 
+    norm = dp.norm_all(dw1)
+
     graphs = []
 
     # True ak sa maju zobrazit aj grafy s nameranou hodnotou
     enable_value_graph = False
 
-    for i in range(0, len(dw1)):
-        one_values = dw1[i]['data'][0]['values'][0]['measured']
-        norm_values = dp.compute_norm_values(one_values)
+    for item in norm:
+        one_values = dp.filter_one_values(item, 'co2')
+        norm_values = one_values
 
-        start = dw1[i]['times']['event_start']
-        end = dw1[i]['times']['event_end']
+        start = item['times']['event_start']
+        end = item['times']['event_end']
 
         t = datetime.datetime.fromtimestamp(start).strftime('%d.%m. %H:%M:%S')
         t += ' - '

@@ -23,18 +23,20 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(['co2'])
     client.logout()
 
+    norm = dp.norm_all(dw1)
+
     graphs = []
-    for i in range(0, len(dw1)):
-        one_values = dw1[i]['data'][0]['values'][0]['measured']
+    for item in norm:
+        one_values = dp.filter_one_values(item, 'co2')
 
         g = {
             'title': 'Estimate of measured values',
             'graphs': [
-                dp.value_estimate(dw1[i], 2, 'red', 'Odhadnuta hodnota 2', 'norm'),
-                dp.value_estimate(dw1[i], 5, 'blue', 'Odhadnuta hodnota 5', 'norm'),
-                dp.value_estimate(dw1[i], 12, 'silver', 'Odhadnuta hodnota 12', 'norm'),
-                dp.value_estimate(dw1[i], 20, 'orange', 'Odhadnuta hodnota 20', 'norm'),
-                dp.value_estimate(dw1[i], 31, 'purple', 'Odhadnuta hodnota 31', 'norm'),
+                dp.value_estimate(item, 2, 'red', 'Odhadnuta hodnota 2', 'norm'),
+                dp.value_estimate(item, 5, 'blue', 'Odhadnuta hodnota 5', 'norm'),
+                dp.value_estimate(item, 12, 'silver', 'Odhadnuta hodnota 12', 'norm'),
+                dp.value_estimate(item, 20, 'orange', 'Odhadnuta hodnota 20', 'norm'),
+                dp.value_estimate(item, 31, 'purple', 'Odhadnuta hodnota 31', 'norm'),
                 dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'norm')
             ]
         }
@@ -43,12 +45,12 @@ if __name__ == '__main__':
         g = {
             'title': 'Estimate of measured values',
             'graphs': [
-                dp.value_estimate(dw1[i], 2, 'red', 'Odhadnuta hodnota 2'),
-                dp.value_estimate(dw1[i], 5, 'blue', 'Odhadnuta hodnota 5'),
-                dp.value_estimate(dw1[i], 12, 'silver', 'Odhadnuta hodnota 12'),
-                dp.value_estimate(dw1[i], 20, 'orange', 'Odhadnuta hodnota 20'),
-                dp.value_estimate(dw1[i], 31, 'purple', 'Odhadnuta hodnota 31'),
-                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota')
+                dp.value_estimate(item, 2, 'red', 'Odhadnuta hodnota 2', 'value'),
+                dp.value_estimate(item, 5, 'blue', 'Odhadnuta hodnota 5', 'value'),
+                dp.value_estimate(item, 12, 'silver', 'Odhadnuta hodnota 12', 'value'),
+                dp.value_estimate(item, 20, 'orange', 'Odhadnuta hodnota 20', 'value'),
+                dp.value_estimate(item, 31, 'purple', 'Odhadnuta hodnota 31', 'value'),
+                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'value')
             ]
         }
         graphs.append(g)

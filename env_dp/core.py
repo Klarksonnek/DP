@@ -608,6 +608,10 @@ class DataStorage:
             for j in range(0, len(event['data'])):
                 event_type = event['data'][j]
 
+                if event_type['type'] != 'event_start':
+                    continue
+
+                tmp_modules = []
                 for i in range(0, len(event_type['values'])):
                     module = event_type['values'][i]
 
@@ -622,15 +626,16 @@ class DataStorage:
 
                         module['measured'] = self.__filter_not_null(module['measured'] )
 
-                        event_type['values'] = [module]
-                        break
+                        tmp_modules.append(module)
 
-                if event_type['type'] == 'event_start':
-                    event['data'] = [event_type]
+                event_type['values'] = tmp_modules
 
-                    event['data'][j] = self.__generate_event_data(event_type)
-                    event['data'][j] = self.__cut_normalization(event['times'], event['data'][j])
-                    break
+                event['data'] = [event_type]
+                event['data'][j] = self.__generate_event_data(event_type)
+                event['data'][j] = self.__cut_normalization(event['times'], event['data'][j])
+
+                # sluzi na odfiltrovanie no_event_start
+                break
 
         return out_json
 
@@ -1185,17 +1190,19 @@ def compute_value(data, interval, delay):
 
 
 def compute_norm_values(measured):
-    only_values = []
+    only_measured = []
     for row in measured:
-        only_values.append(row['value'])
+        only_measured.append(row['value'])
 
-    l_min = min(only_values)
-    l_max = max(only_values)
+    l_min = min(only_measured)
+    l_max = max(only_measured)
 
-    return normalization(measured, l_min, l_max)
+    return list(normalization(measured, l_min, l_max))
 
 
 def value_estimate(data, interval, color='red', label='x value', key='value'):
+    data = copy.deepcopy(data)
+
     measured = data['data'][0]['values'][0]['measured']
     start = data['times']['event_start']
 
@@ -1382,7 +1389,8 @@ def his_to_data_for_normalization(histogram, func):
             {
                 'values': [
                     {
-                        'measured': out_values
+                        'measured': out_values,
+                        'custom_name': 'estimate'
                     }
                 ]
             }
@@ -1390,6 +1398,72 @@ def his_to_data_for_normalization(histogram, func):
     }
 
     return out
+
+
+def norm_all(data):
+    events = copy.deepcopy(data)
+
+    for i in range(0, len(events)):
+        event = events[i]
+
+        for j in range(0, len(event['data'])):
+            event_data = event['data'][j]
+
+            for k in range(0, len(event_data['values'])):
+                device_value = event_data['values'][k]
+                measured = device_value['measured']
+
+                device_value['measured'] = compute_norm_values(measured)
+
+    return events
+
+
+def filter_data(events, allow_items):
+    """Filter umoznuje vybrat pozadovane moduly so zadanym custom_name.
+
+    :param events: stiahnute normalizovane data
+    :param allow_items: zoznam custom_name
+    """
+
+    out = copy.deepcopy(events)
+
+    for i in range(0, len(out)):
+        event = out[i]
+
+        for j in range(0, len(event['data'])):
+            event_data = event['data'][j]
+
+            filtered_device_values = []
+            for k in range(0, len(event_data['values'])):
+                device_value = event_data['values'][k]
+                measured = device_value['measured']
+
+                if device_value['custom_name'] not in allow_items:
+                    continue
+
+                device_value['measured'] = compute_norm_values(measured)
+                filtered_device_values.append(device_value)
+
+            event_data['values'] = filtered_device_values
+
+    return out
+
+
+def filter_one_values(event, allow_item):
+    """Filter umoznuje vybrat s pozadovaneho modulu zoznam nameranych hodnot.
+    """
+
+    for j in range(0, len(event['data'])):
+        event_data = event['data'][j]
+
+        for k in range(0, len(event_data['values'])):
+            device_value = event_data['values'][k]
+            measured = copy.deepcopy(device_value['measured'])
+
+            if device_value['custom_name'] == allow_item:
+                return measured
+
+    return {}
 
 
 def main():

@@ -23,21 +23,21 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(['co2'])
     client.logout()
 
-    his_data = dp.gen_histogram(dw1, 10, 400, 2000, 200)
-    data_from_histogram = dp.his_to_data_for_normalization(his_data, dp.his_first_value)
+    his_data = dp.gen_histogram(dw1, 10, 400, 2000, 200, 'value')
+    estimate_values = dp.his_to_data_for_normalization(his_data, dp.his_first_value)
+    data_from_histogram2 = dp.norm_all([estimate_values])
 
     graphs = []
-    for i in range(0, len(dw1)):
-        one_values = dw1[i]['data'][0]['values'][0]['measured']
-        norm_values = dp.compute_norm_values(one_values)
-        his = data_from_histogram['data'][0]['values'][0]['measured']
+    for item in dw1:
+        one_values = dp.filter_one_values(item, 'co2')
+        his_values = dp.filter_one_values(data_from_histogram2[0], 'estimate')
 
         g = {
             'title': 'Estimate of measured values',
             'graphs': [
-                dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota', 'norm'),
-                dp.value_estimate(data_from_histogram, 6, 'red', 'Odhadnuta hodnota', 'norm'),
-                dp.gen_simple_graph(his, 'blue', 'Idealny graf', 'norm')
+                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'norm'),
+                dp.value_estimate(estimate_values, 6, 'red', 'Odhadnuta hodnota', 'norm'),
+                dp.gen_simple_graph(his_values, 'blue', 'Idealny graf', 'norm')
             ]
         }
 

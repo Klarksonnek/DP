@@ -23,14 +23,16 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(['co2'])
     client.logout()
 
+    norm = dp.norm_all(dw1)
+
     graphs = []
-    for i in range(0, len(dw1)):
-        one_values = dw1[i]['data'][0]['values'][0]['measured']
+    for item in norm:
+        one_values = dp.filter_one_values(item, 'co2')
 
         g = {
             'title': 'Estimate of measured values',
             'graphs': [
-                dp.value_estimate(dw1[i], 5, 'red', 'Odhadnuta hodnota', 'norm'),
+                dp.value_estimate(item, 5, 'red', 'Odhadnuta hodnota', 'norm'),
                 dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'norm')
             ]
         }

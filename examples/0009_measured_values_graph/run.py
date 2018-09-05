@@ -23,20 +23,20 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(['co2'])
     client.logout()
 
-    one_values = dw1[0]['data'][0]['values'][0]['measured']
-    norm_values = dp.compute_norm_values(one_values)
+    norm = dp.norm_all(dw1)
+    values = dp.filter_one_values(norm[0], 'co2')
 
     graph1 = {
         'title': 'Normalizovane namerane hodnoty',
         'graphs': [
-            dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota <0, 1>', 'norm')
+            dp.gen_simple_graph(values, 'green', 'Namerana hodnota <0, 1>', 'norm')
         ]
     }
 
     graph2 = {
         'title': 'Namerane hodnoty',
         'graphs': [
-            dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota')
+            dp.gen_simple_graph(values, 'green', 'Namerana hodnota')
         ]
     }
 

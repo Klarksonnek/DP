@@ -23,20 +23,21 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(['co2'])
     client.logout()
 
+    norm = dp.norm_all(dw1)
+
     one_norm_graph = []
     graphs = []
 
     for i in range(0, len(dw1)):
-        one_values = dw1[i]['data'][0]['values'][0]['measured']
-        norm_values = dp.compute_norm_values(one_values)
+        values = dp.filter_one_values(norm[i], 'co2')
 
-        norm_graph = dp.gen_simple_graph(norm_values, dp.COLORS[i], 'Namerana hodnota', 'norm')
+        norm_graph = dp.gen_simple_graph(values, dp.COLORS[i], 'Namerana hodnota', 'norm')
         one_norm_graph.append(norm_graph)
 
         g = {
             'title': 'Measured values',
             'graphs': [
-                dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota', 'norm')
+                dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'norm')
             ]
         }
         graphs.append(g)
@@ -44,7 +45,7 @@ if __name__ == '__main__':
         g = {
             'title': 'Measured values',
             'graphs': [
-                dp.gen_simple_graph(norm_values, 'green', 'Namerana hodnota', 'value')
+                dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'value')
             ]
         }
 
