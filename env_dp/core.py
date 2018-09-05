@@ -1079,10 +1079,28 @@ class Graph:
             f.write('						display: true,\n')
             f.write('						text: "' + row['title'] + '"\n')
             f.write('					},\n')
+
+            if g_type == 'bar':
+                f.write('					tooltips: {\n')
+                f.write('						mode: \'index\',\n')
+                f.write('						intersect: false\n')
+                f.write('					},\n')
+
             f.write('					scales: {\n')
-            f.write('						yAxes: [\n')
-            f.write(str_options)
-            f.write('						]\n')
+
+            if g_type != 'bar':
+                f.write('						yAxes: [\n')
+                f.write(str_options)
+                f.write('						],\n')
+            else:
+                f.write('						xAxes: [{\n')
+                f.write('							stacked: true\n')
+                f.write('						}],\n')
+
+                f.write('						yAxes: [{\n')
+                f.write('							stacked: true\n')
+                f.write('						}]\n')
+
             f.write('					}\n')
             f.write('				}\n')
             f.write('			});\n')
