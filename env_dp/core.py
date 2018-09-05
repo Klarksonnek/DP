@@ -11,8 +11,7 @@ import ssl
 import time
 from socket import error as SocketError
 
-
-COLORS = ['red', 'green', 'blue', 'orange']
+COLORS = ['red', 'green', 'blue', 'orange', 'purple', 'silver', 'black']
 
 
 class HTTPClient:
@@ -1563,6 +1562,76 @@ def convert_relative_humidity_to_partial_pressure(events, temp_module, hum_modul
                 measured_hum[k]['partial_pressure'] = res
 
     return events
+
+
+def gen_histogram_graph_with_factor(data):
+    """
+    https://www.windows2universe.org/earth/Atmosphere/wind_speeds.html
+    """
+    precision = 2
+    graphs = []
+    wind_desc = ['<1', '1-5', '6-11', '12-19', '20-28', '29-']
+
+
+    for row in data:
+        stacked = [[], [], [], [], [], []]
+
+        x = y = []
+
+        for his in row['histogram']:
+            c0 = c1 = c2 = c3 = c4 = c5 = 0
+
+            if his['start_interval'] == 0:
+                label_x = str(round(his['start_interval'], precision))
+                label_x += ' - '
+                label_x += str(round(his['start_interval'] + his['step'], precision))
+            else:
+                label_x = str(round(his['start_interval'] + his['step']/10, precision))
+                label_x += ' - '
+                label_x += str(round(his['start_interval'] + his['step'], precision))
+
+            x.append(label_x)
+
+            for item in his['histogram']:
+                f = item['weather_dw']['wind_speed']
+
+                if f < 1:
+                    c0 += 1
+                elif f <= 5:
+                    c1 += 1
+                elif f <= 11:
+                    c2 += 1
+                elif f <= 19:
+                    c3 += 1
+                elif f <= 28:
+                    c4 += 1
+                else:
+                    c5 += 1
+
+            stacked[0].append(c0)
+            stacked[1].append(c1)
+            stacked[2].append(c2)
+            stacked[3].append(c3)
+            stacked[4].append(c4)
+            stacked[5].append(c5)
+
+        title = 'Histogram hodnot v case ' + str(row['start_time']) + 's'
+
+        gg = []
+        for i in range(0, len(stacked)):
+            gg.append({
+                'timestamps': x,
+                'values': stacked[i],
+                'label_x': wind_desc[i],
+                'color': COLORS[i],
+            })
+
+        graphs.append({
+            'title': title,
+            'graphs': gg
+        })
+
+    return graphs
 
 
 def main():
