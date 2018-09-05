@@ -643,6 +643,10 @@ class DataStorage:
 
         for k in range(0, len(out_json)):
             event = out_json[k]
+            e_start = event['times']['event_start']
+            e_end = event['times']['event_end']
+
+            event['weather_dw'] = self.__weather_client.weather_data(e_start, e_end)
 
             for j in range(0, len(event['data'])):
                 event_type = event['data'][j]
@@ -1293,7 +1297,7 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
     }
 
 
-def histogram_data(data, time_step, key):
+def histogram_data(data, time_step):
     histogram = []
 
     for row in data:
@@ -1311,7 +1315,10 @@ def histogram_data(data, time_step, key):
                     'values': []
                 })
 
-            val = values[j][key]
+            val = values[j]
+            val['weather'] = row['weather']
+            val['weather_dw'] = row['weather_dw'][j]
+
             histogram[id]['values'].append(val)
 
             id += 1
@@ -1326,7 +1333,7 @@ def gen_histogram(data, time_step, interval_start, interval_end, step, key):
 
         data[i]['data'][0]['values'][0]['measured'] = norm_values
 
-    his_data = histogram_data(data, time_step, key)
+    his_data = histogram_data(data, time_step)
 
     for j in range(0, len(his_data)):
         his = his_data[j]
@@ -1358,10 +1365,10 @@ def gen_histogram(data, time_step, interval_start, interval_end, step, key):
                 row = values['histogram'][m]
 
                 if m == 0:
-                    if row['start_interval'] <= value <= row['start_interval'] + step:
+                    if row['start_interval'] <= value[key] <= row['start_interval'] + step:
                         row['histogram'].append(value)
                 else:
-                    if row['start_interval'] < value <= row['start_interval'] + step:
+                    if row['start_interval'] < value[key] <= row['start_interval'] + step:
                         row['histogram'].append(value)
 
     return his_data
