@@ -1466,6 +1466,41 @@ def filter_one_values(event, allow_item):
     return {}
 
 
+def convert_relative_humidity_to_partial_pressure(events, temp_module, hum_module):
+    a0 = 6.107799961
+    a1 = 4.436518521e-1
+    a2 = 1.428945805e-2
+    a3 = 2.650648471e-4
+    a4 = 3.031240396e-6
+    a5 = 2.034080948e-8
+    a6 = 6.136820929e-11
+
+    for i in range(0, len(events)):
+        event_data = events[i]['data']
+
+        for j in range(0, len(event_data)):
+            device_values = event_data[j]['values']
+
+            measured_temp = None
+            measured_hum = None
+            for k in range(0, len(device_values)):
+                module = device_values[k]
+
+                if temp_module == module['custom_name']:
+                    measured_temp = module['measured']
+
+                if hum_module == module['custom_name']:
+                    measured_hum = module['measured']
+
+            for k in range(0, len(measured_temp)):
+                temp = measured_temp[k]['value']
+                hum = measured_hum[k]['value']
+                res = (a0 + temp * (a1 + temp * (a2 + temp * (a3 + temp * (a4 + temp * (a5 + temp * a6)))))) * hum / 100
+                measured_hum[k]['partial_pressure'] = res
+
+    return events
+
+
 def main():
     w = WeatherDataRS()
     w.download_data(1, 1)
