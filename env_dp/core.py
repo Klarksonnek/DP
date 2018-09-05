@@ -1315,7 +1315,7 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
     }
 
 
-def histogram_data(data, time_step):
+def histogram_data(data, time_step, time_limit):
     histogram = []
 
     for row in data:
@@ -1325,6 +1325,9 @@ def histogram_data(data, time_step):
         for j in range(0, len(values)):
             if j % time_step != 0:
                 continue
+
+            if j > time_limit:
+                break
 
             if len(histogram) <= id:
                 histogram.append({
@@ -1344,14 +1347,14 @@ def histogram_data(data, time_step):
     return histogram
 
 
-def gen_histogram(data, time_step, interval_start, interval_end, step, key):
+def gen_histogram(data, time_step, interval_start, interval_end, step, key, time_limit=1000):
     for i in range(0, len(data)):
         one_values = data[i]['data'][0]['values'][0]['measured']
         norm_values = compute_norm_values(one_values)
 
         data[i]['data'][0]['values'][0]['measured'] = norm_values
 
-    his_data = histogram_data(data, time_step)
+    his_data = histogram_data(data, time_step, time_limit)
 
     for j in range(0, len(his_data)):
         his = his_data[j]
