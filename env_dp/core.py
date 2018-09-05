@@ -289,6 +289,25 @@ class WeatherData:
 
     def __generate_weather_data(self, out_general):
         out_detailed = []
+
+        tmp = copy.deepcopy(out_general)
+        out_general = []
+        f = tmp[0]['at']
+        for i in tmp:
+            if i['at'] % 1800 != 0:
+                continue
+
+            while True:
+                if f <= i['at']:
+                    out_general.append(i)
+                    f += 1800
+                else:
+                    break
+
+        # duplikujeme poslednu hodnotu, aby bolo mozne
+        # generovat aj rozsah v poslednej polhodine dna
+        out_general.append(out_general[-1])
+
         for i in range(0, len(out_general) - 1):
             temp_start = out_general[i]['temperature']
             temp_end = out_general[i + 1]['temperature']
@@ -1370,7 +1389,7 @@ def gen_histogram(data, time_step, interval_start, interval_end, step, key):
                     if row['start_interval'] < value[key] <= row['start_interval'] + step:
                         row['histogram'].append(value)
 
-    return his_data
+    return copy.deepcopy(his_data)
 
 
 def gen_histogram_graph(data):
