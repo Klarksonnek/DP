@@ -1371,25 +1371,6 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"window": "dokoran, predtim ventilacka",
-			"door": "zavrene",
-			"weather": "xxx",
-			"people": 1,
-			"type": "window",
-			"certainty": "",
-			"times": {
-				"event_start": "2018/07/28 19:12:57",
-				"event_end": "2018/07/28 20:35:34"
-			},
-			"devices": {
-				"jablotron": ["open_close"],
-				"beeeon_in": ["temperature_in", "humidity_in"],
-				"beeeon_out": ["temperature_out", "humidity_out"]
-			}
-		},
-		{
-			"description": "...",
-			"location": "na parapetu",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "bezvetri (od 06:45 silny vitr), jasno",
