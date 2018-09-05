@@ -655,7 +655,7 @@ class DataStorage:
         return out_json_temp_in, out_json_hum_in, out_json_temp_out, out_json_hum_out
 
     def download_data_for_normalization(self, type_id):
-        time_shift = 30
+        time_shift = 300
 
         out_json = copy.deepcopy(self.__meta_data)
 
