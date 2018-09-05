@@ -1657,6 +1657,4 @@ def gen_histogram_graph_with_factor(data):
 
 
 def main():
-    w = WeatherDataRS()
-    w.download_data(1, 1)
     pass
