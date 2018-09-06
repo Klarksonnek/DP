@@ -9,9 +9,9 @@ import os
 import requests
 import ssl
 import time
+from socket import error as SocketError
 
-
-COLORS = ['red', 'green', 'blue', 'orange']
+COLORS = ['red', 'green', 'blue', 'orange', 'purple', 'silver', 'black']
 
 
 class HTTPClient:
@@ -193,6 +193,24 @@ class WeatherData:
             if not os.path.exists(cache_folder):
                 os.makedirs(cache_folder)
 
+
+    def __remove_from_cache(self, start, end):
+        day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
+        day_start = day_time_start[:-9]
+        day_time_end = datetime.datetime.fromtimestamp(end).strftime('%Y%m%d %H:%M:%S')
+        day_end = day_time_end[:-9]
+
+        url = 'https://api.weather.com/v1/geocode/49.15139008/16.69388962/observations/'
+        url += 'historical.json?apiKey=6532d6454b8aa370768e63d6ba5a832e'
+        url += '&startDate=' + str(day_start) + '&endDate=' + str(day_end)
+
+        h = hashlib.sha256()
+        h.update(url.encode("utf8"))
+        filename = self.__cache_folder + '/weather_' + h.hexdigest()
+
+        if os.path.exists(filename):
+            os.remove(filename)
+
     def __download_data(self, start, end):
         day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
         day_start = day_time_start[:-9]
@@ -222,7 +240,27 @@ class WeatherData:
 
         return json_data
 
+
     def weather_data(self, start, end):
+        while True:
+            try:
+                self.__log.info(str(start) + " - " + str(end))
+                return self.__weather_data2(start, end)
+            except KeyError:
+                self.__log.debug('wait')
+                self.__remove_from_cache(start, end)
+                time.sleep(1)
+            except ConnectionResetError:
+                self.__log.debug('wait')
+                time.sleep(1)
+            except SocketError:
+                self.__log.debug('wait')
+                time.sleep(1)
+            except IndexError:
+                self.__log.debug('wait')
+                time.sleep(1)
+
+    def __weather_data2(self, start, end):
         json_data = self.__download_data(start, end)
 
         python_obj = json.loads(json_data)
@@ -251,6 +289,25 @@ class WeatherData:
 
     def __generate_weather_data(self, out_general):
         out_detailed = []
+
+        tmp = copy.deepcopy(out_general)
+        out_general = []
+        f = tmp[0]['at']
+        for i in tmp:
+            if i['at'] % 1800 != 0:
+                continue
+
+            while True:
+                if f <= i['at']:
+                    out_general.append(i)
+                    f += 1800
+                else:
+                    break
+
+        # duplikujeme poslednu hodnotu, aby bolo mozne
+        # generovat aj rozsah v poslednej polhodine dna
+        out_general.append(out_general[-1])
+
         for i in range(0, len(out_general) - 1):
             temp_start = out_general[i]['temperature']
             temp_end = out_general[i + 1]['temperature']
@@ -598,12 +655,16 @@ class DataStorage:
         return out_json_temp_in, out_json_hum_in, out_json_temp_out, out_json_hum_out
 
     def download_data_for_normalization(self, type_id):
-        time_shift = 30
+        time_shift = 300
 
         out_json = copy.deepcopy(self.__meta_data)
 
         for k in range(0, len(out_json)):
             event = out_json[k]
+            e_start = event['times']['event_start']
+            e_end = event['times']['event_end']
+
+            event['weather_dw'] = self.__weather_client.weather_data(e_start, e_end)
 
             for j in range(0, len(event['data'])):
                 event_type = event['data'][j]
@@ -1254,7 +1315,7 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
     }
 
 
-def histogram_data(data, time_step, key):
+def histogram_data(data, time_step, time_limit):
     histogram = []
 
     for row in data:
@@ -1265,6 +1326,9 @@ def histogram_data(data, time_step, key):
             if j % time_step != 0:
                 continue
 
+            if j > time_limit:
+                break
+
             if len(histogram) <= id:
                 histogram.append({
                     'start_time': j,
@@ -1272,7 +1336,10 @@ def histogram_data(data, time_step, key):
                     'values': []
                 })
 
-            val = values[j][key]
+            val = values[j]
+            val['weather'] = row['weather']
+            val['weather_dw'] = row['weather_dw'][j]
+
             histogram[id]['values'].append(val)
 
             id += 1
@@ -1280,14 +1347,14 @@ def histogram_data(data, time_step, key):
     return histogram
 
 
-def gen_histogram(data, time_step, interval_start, interval_end, step, key):
+def gen_histogram(data, time_step, interval_start, interval_end, step, key, time_limit=1000):
     for i in range(0, len(data)):
         one_values = data[i]['data'][0]['values'][0]['measured']
         norm_values = compute_norm_values(one_values)
 
         data[i]['data'][0]['values'][0]['measured'] = norm_values
 
-    his_data = histogram_data(data, time_step, key)
+    his_data = histogram_data(data, time_step, time_limit)
 
     for j in range(0, len(his_data)):
         his = his_data[j]
@@ -1319,13 +1386,13 @@ def gen_histogram(data, time_step, interval_start, interval_end, step, key):
                 row = values['histogram'][m]
 
                 if m == 0:
-                    if row['start_interval'] <= value <= row['start_interval'] + step:
+                    if row['start_interval'] <= value[key] <= row['start_interval'] + step:
                         row['histogram'].append(value)
                 else:
-                    if row['start_interval'] < value <= row['start_interval'] + step:
+                    if row['start_interval'] < value[key] <= row['start_interval'] + step:
                         row['histogram'].append(value)
 
-    return his_data
+    return copy.deepcopy(his_data)
 
 
 def gen_histogram_graph(data):
@@ -1519,7 +1586,75 @@ def convert_relative_humidity_to_partial_pressure(events, temp_module, hum_modul
     return events
 
 
+def gen_histogram_graph_with_factor(data):
+    """
+    https://www.windows2universe.org/earth/Atmosphere/wind_speeds.html
+    """
+    precision = 2
+    graphs = []
+    wind_desc = ['<1', '1-5', '6-11', '12-19', '20-28', '29-']
+
+
+    for row in data:
+        stacked = [[], [], [], [], [], []]
+
+        x = y = []
+
+        for his in row['histogram']:
+            c0 = c1 = c2 = c3 = c4 = c5 = 0
+
+            if his['start_interval'] == 0:
+                label_x = str(round(his['start_interval'], precision))
+                label_x += ' - '
+                label_x += str(round(his['start_interval'] + his['step'], precision))
+            else:
+                label_x = str(round(his['start_interval'] + his['step']/10, precision))
+                label_x += ' - '
+                label_x += str(round(his['start_interval'] + his['step'], precision))
+
+            x.append(label_x)
+
+            for item in his['histogram']:
+                f = item['weather_dw']['wind_speed']
+
+                if f < 1:
+                    c0 += 1
+                elif f <= 5:
+                    c1 += 1
+                elif f <= 11:
+                    c2 += 1
+                elif f <= 19:
+                    c3 += 1
+                elif f <= 28:
+                    c4 += 1
+                else:
+                    c5 += 1
+
+            stacked[0].append(c0)
+            stacked[1].append(c1)
+            stacked[2].append(c2)
+            stacked[3].append(c3)
+            stacked[4].append(c4)
+            stacked[5].append(c5)
+
+        title = 'Histogram hodnot v case ' + str(row['start_time']) + 's'
+
+        gg = []
+        for i in range(0, len(stacked)):
+            gg.append({
+                'timestamps': x,
+                'values': stacked[i],
+                'label_x': wind_desc[i],
+                'color': COLORS[i],
+            })
+
+        graphs.append({
+            'title': title,
+            'graphs': gg
+        })
+
+    return graphs
+
+
 def main():
-    w = WeatherDataRS()
-    w.download_data(1, 1)
     pass
