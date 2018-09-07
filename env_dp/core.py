@@ -641,12 +641,14 @@ class DataStorage:
         for i in range(0, len(temp_in)):
             temp_diff = abs(temp_in[i]['data'][0]['values'][0]['measured'][0]['value']
                             - temp_out[i]['data'][0]['values'][0]['measured'][0]['value'])
-            hum_diff = abs(hum_in[i]['data'][0]['values'][0]['measured'][0]['value']
-                           - hum_out[i]['data'][0]['values'][0]['measured'][0]['value'])
+            hum_diff = abs(hum_in[i]['data'][0]['values'][0]['measured'][0]['partial_pressure']
+                           - hum_out[i]['data'][0]['values'][0]['measured'][0]['partial_pressure'])
 
             if ((temp_diff >= temp_diff_min and temp_diff <= temp_diff_max) and (
-                    hum_diff >= hum_diff_min and hum_diff <= hum_diff_max) and
-					(temp_out[i]['data'][0]['values'][0]['measured'][0]['value']) > 11.0):
+                    hum_diff >= hum_diff_min and hum_diff <= hum_diff_max) and (
+                    temp_out[i]['data'][0]['values'][0]['measured'][0]['value'] < 30.0) and (
+                    temp_in[i]['window'] == "dokoran") and (
+                    "silny" in temp_in[i]['weather'] and hum_diff > 3.0)):
                 out_json_temp_in.append(temp_in[i])
                 out_json_temp_out.append(temp_out[i])
                 out_json_hum_in.append(hum_in[i])
