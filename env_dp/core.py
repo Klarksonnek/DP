@@ -1355,12 +1355,43 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
     }
 
 
+def weather_for_histogram(weather):
+    out = copy.deepcopy(weather)
+
+    p = 0
+    t = 0
+    ws = 0
+    rh = 0
+    for row in out:
+        p += row['pressure']
+        t += row['temperature']
+        ws += row['wind_speed']
+        rh += row['relative_humidity']
+
+    p = p/len(out)
+    t = t/len(out)
+    ws = ws/len(out)
+    rh = rh/len(out)
+
+    for i in range(0, len(out)):
+        row = out[i]
+
+        row['pressure'] = p
+        row['temperature'] = t
+        row['wind_speed'] = ws
+        row['relative_humidity'] = rh
+
+    return out
+
+
 def histogram_data(data, time_step, time_limit):
     histogram = []
 
     for row in data:
         values = row['data'][0]['values'][0]['measured']
         id = 0
+
+        w = weather_for_histogram(row['weather_dw'])
 
         for j in range(0, len(values)):
             if j % time_step != 0:
@@ -1378,7 +1409,7 @@ def histogram_data(data, time_step, time_limit):
 
             val = values[j]
             val['weather'] = row['weather']
-            val['weather_dw'] = row['weather_dw'][j]
+            val['weather_dw'] = w[j]
 
             histogram[id]['values'].append(val)
 
