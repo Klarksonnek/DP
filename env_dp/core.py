@@ -647,8 +647,10 @@ class DataStorage:
             if ((temp_diff >= temp_diff_min and temp_diff <= temp_diff_max) and (
                     hum_diff >= hum_diff_min and hum_diff <= hum_diff_max) and (
                     temp_out[i]['data'][0]['values'][0]['measured'][0]['value'] < 30.0) and (
-                    temp_in[i]['window'] == "dokoran") and (
-                    "silny" in temp_in[i]['weather'] and hum_diff > 3.0)):
+                    temp_in[i]['window'] == "dokoran")):
+                if "silny" in temp_in[i]['weather'] and hum_diff <= 3.0:
+                    continue
+
                 out_json_temp_in.append(temp_in[i])
                 out_json_temp_out.append(temp_out[i])
                 out_json_hum_in.append(hum_in[i])
