@@ -1115,6 +1115,10 @@ class Graph:
             str_options += '								type: "linear",\n'
             str_options += '								display: true,\n'
             str_options += '								position: "left",\n'
+            if g_type == 'bar':
+                str_options += '								stacked: true,\n'
+            else:
+                str_options += '								stacked: false,\n'
             str_options += '								id: "y-axis-' + str(g_id) + '",\n'
             str_options += '								ticks: {\n'
             str_options += '									min: ' + str(all_min) + ',\n'
@@ -1135,7 +1139,12 @@ class Graph:
             f.write('				options: {\n')
             f.write('					responsive: false,\n')
             f.write('					hoverMode: "index",\n')
-            f.write('					stacked: false,\n')
+
+            if g_type == 'bar':
+                f.write('					stacked: true,\n')
+            else:
+                f.write('					stacked: false,\n')
+
             f.write('					title: {\n')
             f.write('						display: true,\n')
             f.write('						text: "' + row['title'] + '"\n')
@@ -1149,18 +1158,12 @@ class Graph:
 
             f.write('					scales: {\n')
 
-            if g_type != 'bar':
-                f.write('						yAxes: [\n')
-                f.write(str_options)
-                f.write('						],\n')
-            else:
-                f.write('						xAxes: [{\n')
-                f.write('							stacked: true\n')
-                f.write('						}],\n')
-
-                f.write('						yAxes: [{\n')
-                f.write('							stacked: true\n')
-                f.write('						}]\n')
+            f.write('						yAxes: [\n')
+            f.write(str_options)
+            f.write('						],\n')
+            f.write('						xAxes: [{\n')
+            f.write('							stacked: true\n')
+            f.write('						}],\n')
 
             f.write('					}\n')
             f.write('				}\n')
