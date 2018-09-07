@@ -1052,7 +1052,8 @@ class Graph:
     def __init__(self, path):
         self.__path = path
 
-    def gen(self, data, output, scale_padding_min=0, scale_padding_max=0, g_type='line'):
+    def gen(self, data, output, scale_padding_min=0, scale_padding_max=0,
+            g_type='line', min_value=None, max_value=None, global_range=False):
         f = open(output, 'w')
 
         f.write('<!DOCTYPE html>\n')
@@ -1064,6 +1065,33 @@ class Graph:
         f.write('		<script src="' + self.__path + '/utils.js"></script>\n')
         f.write('	</head>\n')
         f.write('	<body>\n')
+
+        if (max_value is not None or min_value is not None) and global_range:
+            raise ValueError('Moze byt bud pouzity parameter global_range alebo min+max')
+
+        global_min = None
+        global_max = None
+
+        if global_range:
+            for i in range(0, len(data)):
+                row = data[i]
+
+                for g in row['graphs']:
+                    numbers = g['values']
+
+                    if global_min is None:
+                        global_min = min(numbers)
+                    else:
+                        tmp = copy.deepcopy(numbers)
+                        tmp.append(global_min)
+                        global_min = min(tmp)
+
+                    if global_max is None:
+                        global_max = max(numbers)
+                    else:
+                        tmp = copy.deepcopy(numbers)
+                        tmp.append(global_max)
+                        global_max = max(tmp)
 
         id = 0
         for i in range(0, len(data)):
@@ -1078,22 +1106,31 @@ class Graph:
 
             all_min = None
             all_max = None
-            for g in row['graphs']:
-                numbers = g['values']
 
-                if all_min is None:
-                    all_min = min(numbers)
-                else:
-                    tmp = copy.deepcopy(numbers)
-                    tmp.append(all_min)
-                    all_min = min(tmp)
+            if min_value is not None and max_value is not None:
+                all_min = min_value
+                all_max = max_value
+            elif not global_range:
+                for g in row['graphs']:
+                    numbers = g['values']
 
-                if all_max is None:
-                    all_max = max(numbers)
-                else:
-                    tmp = copy.deepcopy(numbers)
-                    tmp.append(all_max)
-                    all_max = max(tmp)
+                    if all_min is None:
+                        all_min = min(numbers)
+                    else:
+                        tmp = copy.deepcopy(numbers)
+                        tmp.append(all_min)
+                        all_min = min(tmp)
+
+                    if all_max is None:
+                        all_max = max(numbers)
+                    else:
+                        tmp = copy.deepcopy(numbers)
+                        tmp.append(all_max)
+                        all_max = max(tmp)
+
+            if global_range:
+                all_min = global_min
+                all_max = global_max
 
             all_min -= scale_padding_min
             all_max += scale_padding_max
