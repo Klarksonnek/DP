@@ -702,7 +702,33 @@ class DataStorage:
                 # sluzi na odfiltrovanie no_event_start
                 break
 
-        return out_json
+        out = []
+        for event in out_json:
+            weather_len = len(event['weather_dw'])
+            e_start = event['times']['event_start']
+            e_end = event['times']['event_end']
+            fail = False
+
+            for event_type in event['data']:
+                for row in event_type['values']:
+                    if len(row['measured']) != weather_len:
+                        s = 'event '
+                        s += datetime.datetime.fromtimestamp(e_start).strftime('%Y/%m/%d '
+                                                                               '%H:%M:%S')
+                        s += ' - '
+                        s += datetime.datetime.fromtimestamp(e_end).strftime('%Y/%m/%d '
+                                                                             '%H:%M:%S')
+                        s += ' is ignored'
+                        s += ' stiahnute data neobsahuju data za dany interval (chyba senzora)'
+
+                        self.__log.warning(s)
+                        fail = True
+                        break
+
+            if not fail:
+                out.append(event)
+
+        return out
 
 
     def download_data(self, shift_before, shift_after):
