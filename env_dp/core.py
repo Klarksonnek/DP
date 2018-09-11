@@ -659,7 +659,8 @@ class DataStorage:
         return out_json_temp_in, out_json_hum_in, out_json_temp_out, out_json_hum_out
 
     def download_data_for_normalization(self, type_id):
-        time_shift = 300
+        # 15 minutes
+        time_shift = 900
 
         out_json = copy.deepcopy(self.__meta_data)
 
@@ -702,7 +703,33 @@ class DataStorage:
                 # sluzi na odfiltrovanie no_event_start
                 break
 
-        return out_json
+        out = []
+        for event in out_json:
+            weather_len = len(event['weather_dw'])
+            e_start = event['times']['event_start']
+            e_end = event['times']['event_end']
+            fail = False
+
+            for event_type in event['data']:
+                for row in event_type['values']:
+                    if len(row['measured']) != weather_len:
+                        s = 'event '
+                        s += datetime.datetime.fromtimestamp(e_start).strftime('%Y/%m/%d '
+                                                                               '%H:%M:%S')
+                        s += ' - '
+                        s += datetime.datetime.fromtimestamp(e_end).strftime('%Y/%m/%d '
+                                                                             '%H:%M:%S')
+                        s += ' is ignored'
+                        s += ' stiahnute data neobsahuju data za dany interval (chyba senzora)'
+
+                        self.__log.warning(s)
+                        fail = True
+                        break
+
+            if not fail:
+                out.append(event)
+
+        return out
 
 
     def download_data(self, shift_before, shift_after):
@@ -1291,9 +1318,9 @@ def split_into_intervals(data, interval):
     return new
 
 
-def normalization(data, local_min, local_max):
+def normalization(data, local_min, local_max, key):
     for i in range(0, len(data)):
-        data[i]['norm'] = (data[i]['value'] - local_min) / (local_max - local_min)
+        data[i][key + "_norm"] = (data[i][key] - local_min) / (local_max - local_min)
 
     return data
 
@@ -1313,14 +1340,28 @@ def compute_value(data, interval, delay):
 
 
 def compute_norm_values(measured):
-    only_measured = []
-    for row in measured:
-        only_measured.append(row['value'])
+    measured = list(measured)
 
-    l_min = min(only_measured)
-    l_max = max(only_measured)
+    keys = []
+    for key, item in measured[0].items():
+        if key == 'at':
+            continue
 
-    return list(normalization(measured, l_min, l_max))
+        keys.append(key)
+
+    for key in keys:
+        only_measured = []
+        for i in range(0, len(measured)):
+            row = measured[i]
+
+            only_measured.append(row[key])
+
+        l_min = min(only_measured)
+        l_max = max(only_measured)
+
+        measured = normalization(measured, l_min, l_max, key)
+
+    return measured
 
 
 def value_estimate(data, interval, color='red', label='x value', key='value'):
@@ -1336,7 +1377,7 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
     l_min = min(only_values)
     l_max = max(only_values)
 
-    after_normalization = normalization(measured, l_min, l_max)
+    after_normalization = normalization(measured, l_min, l_max, 'value')
     with_intervals = split_into_intervals(after_normalization, interval)
 
     y = []
@@ -1423,12 +1464,6 @@ def histogram_data(data, time_step, time_limit):
 
 
 def gen_histogram(data, time_step, interval_start, interval_end, step, key, time_limit=1000):
-    for i in range(0, len(data)):
-        one_values = data[i]['data'][0]['values'][0]['measured']
-        norm_values = compute_norm_values(one_values)
-
-        data[i]['data'][0]['values'][0]['measured'] = norm_values
-
     his_data = histogram_data(data, time_step, time_limit)
 
     for j in range(0, len(his_data)):
