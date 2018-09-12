@@ -883,11 +883,13 @@ class DataStorage:
                 if len(item['measured']) == 0:
                     self.__log.debug(
                         'prazdne hodnoty v modulu: %s, skip' % item['custom_name'])
+                    out['values'].append(item)
                     continue
 
                 if len(item['measured']) == 1 and item['type_id'] != 'open_close':
                     self.__log.debug(
                         'len jedna hodnota v modulu: %s, skip' % item['custom_name'])
+                    out['values'].append(item)
                     continue
 
             out_values = []
