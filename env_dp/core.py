@@ -290,25 +290,34 @@ class WeatherData:
     def __generate_weather_data(self, out_general, start, end):
         out_detailed = []
 
-        tmp = copy.deepcopy(out_general)
+        out_not_null_value = []
+        for item in out_general:
+            failed = False
+
+            for key, value in item.items():
+                if value is None:
+                    failed = True
+
+            if not failed:
+                out_not_null_value.append(item)
+
+        tmp = copy.deepcopy(out_not_null_value)
         out_general = []
         f = tmp[0]['at']
-        last_time = tmp[0]['at']
         for i in tmp:
             if i['at'] % 1800 != 0:
-                i['at'] = last_time + 1800
+                i['at'] = f - 1800
                 out_general.append(i)
                 f += 1800
                 continue
 
             while True:
                 if f <= i['at']:
+                    i['at'] = f - 1800
                     out_general.append(i)
                     f += 1800
                 else:
                     break
-
-            last_time = i['at']
 
         tmp = copy.deepcopy(out_general)
         out_general = []
