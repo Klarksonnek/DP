@@ -26,15 +26,13 @@ if __name__ == '__main__':
     client.logout()
 
     norm = dp.norm_all(all)
-    dw1 = dp.filter_data(norm, ['temperature_in'])
-    dw2 = dp.filter_data(norm, ['humidity_in'])
-    dw3 = dp.filter_data(norm, ['temperature_out'])
-    dw4 = dp.filter_data(norm, ['humidity_out'])
+    filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',
+                                              'temperature_out', 'value', 7.0, 100.0)
+    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'value',
+                                              'humidity_out', 'value', 15.0, 100.0)
 
-    dw1_filtered, dw2_filtered, dw3_filtered, dw4_filtered = \
-        storage.filter_downloaded_data(dw1, dw2, dw3, dw4, 07.0, 100.0, 15.0, 100.0)
-
-    his_data = dp.gen_histogram(dw1_filtered, 10, 13, 31, 1, 'value')
+    filtered_one_value = dp.filter_data(filtered, ['temperature_in'])
+    his_data = dp.gen_histogram(filtered_one_value, 10, 13, 31, 1, 'value')
     histograms = dp.gen_histogram_graph(his_data)
 
     g = dp.Graph("./../../src/graph")

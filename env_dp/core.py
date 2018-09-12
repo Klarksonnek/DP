@@ -733,32 +733,26 @@ class DataStorage:
 
         return data
 
-    def filter_downloaded_data(self, temp_in, hum_in, temp_out, hum_out, temp_diff_min, temp_diff_max, hum_diff_min,
-                               hum_diff_max):
-        out_json_temp_in = []
-        out_json_temp_out = []
-        out_json_hum_in = []
-        out_json_hum_out = []
+    def filter_downloaded_data(self, item, module1, key1, module2, key2, diff_min, diff_max):
+        out = []
 
-        for i in range(0, len(temp_in)):
-            temp_diff = abs(temp_in[i]['data'][0]['values'][0]['measured'][0]['value']
-                            - temp_out[i]['data'][0]['values'][0]['measured'][0]['value'])
-            hum_diff = abs(hum_in[i]['data'][0]['values'][0]['measured'][0]['partial_pressure']
-                           - hum_out[i]['data'][0]['values'][0]['measured'][0]['partial_pressure'])
+        for event in item:
+            diff_item1 = None
+            diff_item2 = None
 
-            if ((temp_diff >= temp_diff_min and temp_diff <= temp_diff_max) and (
-                    hum_diff >= hum_diff_min and hum_diff <= hum_diff_max) and (
-                    temp_out[i]['data'][0]['values'][0]['measured'][0]['value'] < 30.0) and (
-                    temp_in[i]['window'] == "dokoran")):
-                if "silny" in temp_in[i]['weather'] and hum_diff <= 3.0:
-                    continue
+            for event_type in event['data']:
+                for module in event_type['values']:
+                    if module['custom_name'] == module1:
+                        diff_item1 = module['measured'][0]
 
-                out_json_temp_in.append(temp_in[i])
-                out_json_temp_out.append(temp_out[i])
-                out_json_hum_in.append(hum_in[i])
-                out_json_hum_out.append(hum_out[i])
+                    if module['custom_name'] == module2:
+                        diff_item2 = module['measured'][0]
 
-        return out_json_temp_in, out_json_hum_in, out_json_temp_out, out_json_hum_out
+            diff = abs(diff_item1[key1] - diff_item2[key2])
+            if diff_min <= diff <= diff_max:
+                out.append(copy.deepcopy(event))
+
+        return out
 
     def download_data_for_normalization(self, type_id):
         # 15 minutes
