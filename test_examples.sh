@@ -1,5 +1,7 @@
 #!/bin/bash
 
+EXIT_CODE=0
+
 check () {
 	ERR=$?
 	ERR_CODE=$ERR
@@ -26,6 +28,7 @@ check () {
 		echo "OK"
 	else
 		echo "ERROR"
+		EXIT_CODE=1
 	fi
 
 	#reset farby
@@ -36,6 +39,8 @@ check () {
 # 1 - zobrazenie debug vypisov
 SHOW_DEBUG_MSG=0
 
+BIN=python3.5
+
 # absolutna cesta do adresara, kde sa nachadza spustany script
 # @see http://mywiki.wooledge.org/BashFAQ/028
 ABS_PATH=${BASH_SOURCE%/*}
@@ -43,7 +48,7 @@ ABS_PATH+="/examples"
 
 cd ${ABS_PATH}
 
-GIT_BRANCH=`git branch | grep \* | cut -d ' ' -f2`
+GIT_BRANCH=`git rev-list --max-count=1 HEAD`
 
 #() konvertuju jeden string to array
 EXAMPLES=`git ls-tree -r ${GIT_BRANCH} --name-only -d`
@@ -52,15 +57,19 @@ EXAMPLES=`git ls-tree -r ${GIT_BRANCH} --name-only -d`
 EXAMPLES=${EXAMPLES#???}
 EXAMPLES=(${EXAMPLES})
 
+if [[ `hostname` = *"travis"* ]]; then
+	BIN=python
+fi
+
 for i in "${EXAMPLES[@]}"
 do
 	cd $i
 	echo $i
 
 	if [ ${SHOW_DEBUG_MSG} -eq 1 ] ; then
-		`python3 run.py >> /dev/null`
+		`${BIN} run.py >> /dev/null`
 	else
-		`python3 run.py &> /dev/null`
+		`${BIN} run.py &> /dev/null`
 	fi
 
 	check "OK"
@@ -68,3 +77,5 @@ do
 
 	cd ..
 done
+
+exit ${EXIT_CODE}
