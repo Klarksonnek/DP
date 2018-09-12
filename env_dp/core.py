@@ -401,14 +401,54 @@ class WeatherDataRS:
 
         with open(self.__file, newline='') as file:
             reader = csv.DictReader(file, delimiter=';')
-
+            last_time = start
+            i = 0
             for line in reader:
                 date_time = int(time.mktime(datetime.datetime.strptime(line['datum_a_cas'], '%d.%m.%y %H:%M').timetuple()))
                 if date_time < start or date_time > end:
                     continue
+                present_time = int(time.mktime(datetime.datetime.strptime(line['datum_a_cas'], '%d.%m.%y %H:%M').timetuple()))
+                if (present_time - last_time) > 7200:
+                    self.__log.warning("sensor failure is longer than 2 hours")
+                    raise ValueError
+
+                if line['atmosfericky_tlak'] == "NULL" and i != 0:
+                    line['atmosfericky_tlak'] = str(out_general[i-1]['pressure']).replace('.', ',')
+                elif line['atmosfericky_tlak'] == "NULL" and i == 0:
+                    line['atmosfericky_tlak'] = "0,0"
+
+                if line['teplota_vzduchu'] == "NULL" and i != 0:
+                    line['teplota_vzduchu'] = str(out_general[i - 1]['temperature']).replace('.', ',')
+                elif line['teplota_vzduchu'] == "NULL" and i == 0:
+                    line['teplota_vzduchu'] = "0,0"
+
+                if line['relativna_vlhkost'] == "NULL" and i != 0:
+                    line['relativna_vlhkost'] = str(out_general[i - 1]['relative_humidity']).replace('.', ',')
+                elif line['relativna_vlhkost'] == "NULL" and i == 0:
+                    line['relativna_vlhkost'] = "0,0"
+
+                if line['smer_vetra'] == "NULL" and i != 0:
+                    line['smer_vetra'] = str(out_general[i - 1]['wind_direction']).replace('.', ',')
+                elif line['smer_vetra'] == "NULL" and i == 0:
+                    line['smer_vetra'] = "0,0"
+
+                if line['rychlost_vetra'] == "NULL" and i != 0:
+                    line['rychlost_vetra'] = str(out_general[i - 1]['wind_speed']).replace('.', ',')
+                elif line['rychlost_vetra'] == "NULL" and i == 0:
+                    line['rychlost_vetra'] = "0,0"
+
+                if line['rychlost_vetra2'] == "NULL" and i != 0:
+                    line['rychlost_vetra2'] = str(out_general[i - 1]['wind_speed2']).replace('.', ',')
+                elif line['rychlost_vetra2'] == "NULL" and i == 0:
+                    line['rychlost_vetra2'] = "0,0"
+
+                if line['intenzita_slnecneho_ziarenia'] == "NULL" and i != 0:
+                    line['intenzita_slnecneho_ziarenia'] = str(out_general[i - 1]['intensity_of_sunlight']).replace('.', ',')
+                elif line['intenzita_slnecneho_ziarenia'] == "NULL" and i == 0:
+                    line['intenzita_slnecneho_ziarenia'] = "0,0"
 
                 out_general.append({
-                        'at': int(time.mktime(datetime.datetime.strptime(line['datum_a_cas'], '%d.%m.%y %H:%M').timetuple())),
+                        'at': present_time,
                         'pressure': round(float(line['atmosfericky_tlak'].replace(',', '.')), self.__precision),
                         'temperature': round(float(line['teplota_vzduchu'].replace(',', '.')), self.__precision),
                         'relative_humidity': round(float(line['relativna_vlhkost'].replace(',', '.')), self.__precision),
@@ -417,6 +457,9 @@ class WeatherDataRS:
                         'wind_speed2': round(float(line['rychlost_vetra2'].replace(',', '.')), self.__precision),
                         'intensity_of_sunlight': round(float(line['rychlost_vetra2'].replace(',', '.')), self.__precision),
                     })
+
+                last_time = present_time
+                i += 1
 
             generate_weather_data = self.__generate_weather_data(out_general)
 
