@@ -293,32 +293,40 @@ class WeatherData:
     def __generate_weather_data(self, out_general, start, end):
         out_detailed = []
 
+        # odstranenie null hodnot a casov, ktore nie su zarovnane na polhodinu
         out_not_null_value = []
         for item in out_general:
             failed = False
 
+            # ak udaj obsahuje nejaku None hodnotu, vynechame ho
             for key, value in item.items():
                 if value is None:
                     failed = True
+
+            # ak udaj obsahuje nezarovnany cas na polhodinu, vynechame ho
+            if item['at'] % 1800 != 0:
+                failed = True
 
             if not failed:
                 out_not_null_value.append(item)
 
         tmp = copy.deepcopy(out_not_null_value)
         out_general = []
-        f = tmp[0]['at']
-        for i in tmp:
-            if i['at'] % 1800 != 0:
-                i['at'] = f - 1800
-                out_general.append(i)
-                f += 1800
-                continue
 
+        last_at = tmp[0]['at']
+        for i in tmp:
             while True:
-                if f <= i['at']:
-                    i['at'] = f - 1800
+                # ak je rovnaky cas ako predpokladany iba vlozime
+                if last_at == i['at']:
                     out_general.append(i)
-                    f += 1800
+                    last_at += 1800
+                # ak je last_at mensi ako predpokladany, co znaci, ze chyba polozka
+                # tak upravime cas na pozadovany a pridame
+                # takto sa duplikuje aktualna polozka, meni sa len cas, hodnoty zostavaju
+                if last_at < i['at']:
+                    i['at'] = last_at
+                    out_general.append(i)
+                    last_at += 1800
                 else:
                     break
 
