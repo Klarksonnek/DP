@@ -293,8 +293,12 @@ class WeatherData:
         tmp = copy.deepcopy(out_general)
         out_general = []
         f = tmp[0]['at']
+        last_time = tmp[0]['at']
         for i in tmp:
             if i['at'] % 1800 != 0:
+                i['at'] = last_time + 1800
+                out_general.append(i)
+                f += 1800
                 continue
 
             while True:
@@ -303,6 +307,8 @@ class WeatherData:
                     f += 1800
                 else:
                     break
+
+            last_time = i['at']
 
         # duplikujeme poslednu hodnotu, aby bolo mozne
         # generovat aj rozsah v poslednej polhodine dna
