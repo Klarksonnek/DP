@@ -1427,16 +1427,16 @@ def normalization(data, local_min, local_max, key):
     return data
 
 
-def compute_value(data, interval, delay):
-    ii = data[0][0]['norm']
+def compute_value(data, interval, delay, key):
+    ii = data[0][0][key]
 
     for i in range(0, len(data)):
         if (i + 1) * interval > delay:
-            rozdiel = data[i][0]['norm'] - data[i][-1]['norm']
+            rozdiel = data[i][0][key] - data[i][-1][key]
             ii -= rozdiel/interval * (delay % interval)
             break
 
-        ii -= data[i][0]['norm'] - data[i+1][0]['norm']
+        ii -= data[i][0][key] - data[i+1][0][key]
 
     return ii
 
@@ -1488,7 +1488,7 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
     for i in range(start, end_loop, 1):
         x.append(utc_timestamp_to_str(i, '%H:%M:%S'))
 
-        computed_value = compute_value(with_intervals, interval, i - start)
+        computed_value = compute_value(with_intervals, interval, i - start, key)
         if key == 'value':
             computed_value *= float(l_max - l_min) + l_min
 
