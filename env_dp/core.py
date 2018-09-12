@@ -242,7 +242,8 @@ class WeatherData:
 
 
     def weather_data(self, start, end):
-        while True:
+        max_attempts = 5
+        for i in range(0, max_attempts):
             try:
                 self.__log.info(str(start) + " - " + str(end))
                 return self.__weather_data2(start, end)
@@ -250,15 +251,17 @@ class WeatherData:
                 self.__log.debug('wait')
                 self.__remove_from_cache(start, end)
                 time.sleep(1)
-            except ConnectionResetError:
-                self.__log.debug('wait')
+            except ConnectionResetError as e:
+                self.__log.debug('wait (%s)' % str(e))
                 time.sleep(1)
-            except SocketError:
-                self.__log.debug('wait')
+            except SocketError as e:
+                self.__log.debug('wait (%s)' % str(e))
                 time.sleep(1)
-            except IndexError:
-                self.__log.debug('wait')
+            except IndexError as e:
+                self.__log.debug('wait (%s)' % str(e))
                 time.sleep(1)
+
+        return []
 
     def __weather_data2(self, start, end):
         json_data = self.__download_data(start, end)
