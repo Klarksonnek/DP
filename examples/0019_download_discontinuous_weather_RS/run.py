@@ -15,8 +15,9 @@ if __name__ == '__main__':
 
     w = e.WeatherDataRS()
 
-    out_detailed = []
     # mezi 25. 1. 2018 6:25 (1516857900) a 28. 1. 2018 17:50 (1517158200) nebyla namerena
     # zadna data, proto je vystupem prazdny seznam
-    out_detailed = w.download_data(1516857900, 1517158200)
-    print(json.dumps(out_detailed, indent=4, sort_keys=True))
+    try:
+        out_detailed = w.download_data(1516857900, 1517158200)
+    except ValueError as e:
+        logging.exception(e)
