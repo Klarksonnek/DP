@@ -415,7 +415,7 @@ class WeatherDataRS:
                         'wind_direction': round(float(line['smer_vetra'].replace(',', '.')), self.__precision),
                         'wind_speed': round(float(line['rychlost_vetra'].replace(',', '.')), self.__precision),
                         'wind_speed2': round(float(line['rychlost_vetra2'].replace(',', '.')), self.__precision),
-                        'intensity_of_sunlight': round(float(line['rychlost_vetra2'].replace(',', '.')), self.__precision),
+                        'intensity_of_sunlight': round(float(line['intenzita_slnecneho_ziarenia'].replace(',', '.')), self.__precision),
                     })
 
             generate_weather_data = self.__generate_weather_data(out_general)
