@@ -32,12 +32,12 @@ if __name__ == '__main__':
         g = {
             'title': 'Estimate of measured values',
             'graphs': [
-                dp.value_estimate(item, 2, 'red', 'Odhadnuta hodnota 2', 'norm'),
-                dp.value_estimate(item, 5, 'blue', 'Odhadnuta hodnota 5', 'norm'),
-                dp.value_estimate(item, 12, 'silver', 'Odhadnuta hodnota 12', 'norm'),
-                dp.value_estimate(item, 20, 'orange', 'Odhadnuta hodnota 20', 'norm'),
-                dp.value_estimate(item, 31, 'purple', 'Odhadnuta hodnota 31', 'norm'),
-                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'norm')
+                dp.value_estimate(item, 2, 'red', 'Odhadnuta hodnota 2', 'value_norm'),
+                dp.value_estimate(item, 5, 'blue', 'Odhadnuta hodnota 5', 'value_norm'),
+                dp.value_estimate(item, 12, 'silver', 'Odhadnuta hodnota 12', 'value_norm'),
+                dp.value_estimate(item, 20, 'orange', 'Odhadnuta hodnota 20', 'value_norm'),
+                dp.value_estimate(item, 31, 'purple', 'Odhadnuta hodnota 31', 'value_norm'),
+                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'value_norm')
             ]
         }
         graphs.append(g)

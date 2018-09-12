@@ -38,8 +38,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp in and hum in',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_in, 'red', 'temp in', 'norm'),
-                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'norm')
+                dp.gen_simple_graph(norm_values_temp_in, 'red', 'temp in', 'value_norm'),
+                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value_norm')
             ]
         }
         graphs.append(g)
@@ -47,8 +47,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp out and hum out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_out, 'red', 'temp out', 'norm'),
-                dp.gen_simple_graph(norm_values_hum_out, 'blue', 'hum out', 'norm')
+                dp.gen_simple_graph(norm_values_temp_out, 'red', 'temp out', 'value_norm'),
+                dp.gen_simple_graph(norm_values_hum_out, 'blue', 'hum out', 'value_norm')
             ]
         }
         graphs.append(g)
