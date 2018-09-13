@@ -78,4 +78,4 @@ if __name__ == '__main__':
         graphs.append(g)
 
     g = dp.Graph("./../../src/graph")
-    g.gen(graphs, 'test_g.html', 0, 0)
+    g.gen(graphs, 'test_g.html', 0, 0, global_range=True)
