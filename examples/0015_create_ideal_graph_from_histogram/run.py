@@ -12,6 +12,9 @@ import logging
 
 
 if __name__ == '__main__':
+    # Nutne zrevidovat cely priklad a pouzivane funkcie
+    exit(0)
+
     logging.basicConfig(level=logging.DEBUG)
 
     client = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=True)
@@ -24,20 +27,20 @@ if __name__ == '__main__':
     client.logout()
 
     his_data = dp.gen_histogram(dw1, 10, 400, 2000, 200, 'value')
-    estimate_values = dp.his_to_data_for_normalization(his_data, dp.his_first_value)
-    data_from_histogram2 = dp.norm_all([estimate_values])
+
+    estimate_values = [dp.his_to_data_for_normalization(his_data, dp.his_first_value)]
 
     graphs = []
     for item in dw1:
         one_values = dp.filter_one_values(item, 'co2')
-        his_values = dp.filter_one_values(data_from_histogram2[0], 'estimate')
+        his_values = dp.filter_one_values(estimate_values[0], 'estimate')
 
         g = {
             'title': 'Estimate of measured values',
             'graphs': [
-                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'norm'),
-                dp.value_estimate(estimate_values, 6, 'red', 'Odhadnuta hodnota', 'norm'),
-                dp.gen_simple_graph(his_values, 'blue', 'Idealny graf', 'norm')
+                dp.gen_simple_graph(one_values, 'green', 'Namerana hodnota', 'value_norm'),
+                dp.value_estimate(estimate_values, 6, 'red', 'Odhadnuta hodnota', 'value_norm'),
+                dp.gen_simple_graph(his_values, 'blue', 'Idealny graf', 'value_norm')
             ]
         }
 

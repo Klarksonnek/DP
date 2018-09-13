@@ -23,7 +23,9 @@ if __name__ == '__main__':
     dw1 = storage.download_data_for_normalization(['humidity_in'])
     client.logout()
 
-    his_data = dp.gen_histogram(dw1, 20, 0, 1, 0.1, 'norm')
+    norm = dp.norm_all(dw1)
+
+    his_data = dp.gen_histogram(norm, 20, 0, 1, 0.1, 'value_norm')
     histograms = dp.gen_histogram_graph(his_data)
 
     g = dp.Graph("./../../src/graph")

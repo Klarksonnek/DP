@@ -45,7 +45,7 @@ if __name__ == '__main__':
         g = {
             'title': t,
             'graphs': [
-                dp.gen_simple_graph(norm_values, 'green', 'CO2', 'norm')
+                dp.gen_simple_graph(norm_values, 'green', 'CO2', 'value_norm')
             ]
         }
         graphs.append(g)

@@ -9,9 +9,32 @@ import os
 import requests
 import ssl
 import time
+import pytz
 from socket import error as SocketError
 
 COLORS = ['red', 'green', 'blue', 'orange', 'purple', 'silver', 'black']
+
+
+def local_time_str_to_utc(date_str, timezone='Europe/Prague', format='%Y/%m/%d %H:%M:%S'):
+    # https://www.saltycrane.com/blog/2009/05/converting-time-zones-datetime-objects-python/
+
+    datetime_obj_naive = datetime.datetime.strptime(date_str, format)
+    datetime_obj_pacific = pytz.timezone(timezone).localize(datetime_obj_naive)
+
+    return datetime_obj_pacific
+
+
+def utc_timestamp_to_local_time(timestamp, timezone='Europe/Prague'):
+    utc = datetime.datetime.fromtimestamp(timestamp, pytz.timezone('UTC'))
+    local_time = utc.astimezone(pytz.timezone(timezone))
+
+    return local_time
+
+
+def utc_timestamp_to_str(timestamp, format):
+    local_time = utc_timestamp_to_local_time(timestamp, 'Europe/Prague')
+
+    return local_time.strftime(format)
 
 
 class HTTPClient:
@@ -195,9 +218,9 @@ class WeatherData:
 
 
     def __remove_from_cache(self, start, end):
-        day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
+        day_time_start = utc_timestamp_to_str(start, '%Y%m%d %H:%M:%S')
         day_start = day_time_start[:-9]
-        day_time_end = datetime.datetime.fromtimestamp(end).strftime('%Y%m%d %H:%M:%S')
+        day_time_end = utc_timestamp_to_str(end, '%Y%m%d %H:%M:%S')
         day_end = day_time_end[:-9]
 
         url = 'https://api.weather.com/v1/geocode/49.15139008/16.69388962/observations/'
@@ -212,9 +235,9 @@ class WeatherData:
             os.remove(filename)
 
     def __download_data(self, start, end):
-        day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
+        day_time_start = utc_timestamp_to_str(start, '%Y%m%d %H:%M:%S')
         day_start = day_time_start[:-9]
-        day_time_end = datetime.datetime.fromtimestamp(end).strftime('%Y%m%d %H:%M:%S')
+        day_time_end = utc_timestamp_to_str(end, '%Y%m%d %H:%M:%S')
         day_end = day_time_end[:-9]
 
         url = 'https://api.weather.com/v1/geocode/49.15139008/16.69388962/observations/'
@@ -404,9 +427,9 @@ class WeatherDataRS:
         self.__log = logging.getLogger(self.__class__.__name__)
 
     def download_data(self, start, end):
-        day_time_start = datetime.datetime.fromtimestamp(start).strftime('%Y%m%d %H:%M:%S')
+        day_time_start = utc_timestamp_to_str(start, '%Y%m%d %H:%M:%S')
         day_start = day_time_start[:-9]
-        day_time_end = datetime.datetime.fromtimestamp(end).strftime('%Y%m%d %H:%M:%S')
+        day_time_end = utc_timestamp_to_str(end, '%Y%m%d %H:%M:%S')
         day_end = day_time_end[:-9]
         out_general = []
 
@@ -586,7 +609,7 @@ class DataStorage:
         self.__precision = precision
 
     def __parser_date(self, date):
-        return datetime.datetime.strptime(date, "%Y/%m/%d %H:%M:%S").timestamp()
+        return local_time_str_to_utc(date).timestamp()
 
     def __download_sensor_modules(self, gateway, device):
         data = self.__client.sensors_info(gateway, device)
@@ -710,32 +733,26 @@ class DataStorage:
 
         return data
 
-    def filter_downloaded_data(self, temp_in, hum_in, temp_out, hum_out, temp_diff_min, temp_diff_max, hum_diff_min,
-                               hum_diff_max):
-        out_json_temp_in = []
-        out_json_temp_out = []
-        out_json_hum_in = []
-        out_json_hum_out = []
+    def filter_downloaded_data(self, item, module1, key1, module2, key2, diff_min, diff_max):
+        out = []
 
-        for i in range(0, len(temp_in)):
-            temp_diff = abs(temp_in[i]['data'][0]['values'][0]['measured'][0]['value']
-                            - temp_out[i]['data'][0]['values'][0]['measured'][0]['value'])
-            hum_diff = abs(hum_in[i]['data'][0]['values'][0]['measured'][0]['partial_pressure']
-                           - hum_out[i]['data'][0]['values'][0]['measured'][0]['partial_pressure'])
+        for event in item:
+            diff_item1 = None
+            diff_item2 = None
 
-            if ((temp_diff >= temp_diff_min and temp_diff <= temp_diff_max) and (
-                    hum_diff >= hum_diff_min and hum_diff <= hum_diff_max) and (
-                    temp_out[i]['data'][0]['values'][0]['measured'][0]['value'] < 30.0) and (
-                    temp_in[i]['window'] == "dokoran")):
-                if "silny" in temp_in[i]['weather'] and hum_diff <= 3.0:
-                    continue
+            for event_type in event['data']:
+                for module in event_type['values']:
+                    if module['custom_name'] == module1:
+                        diff_item1 = module['measured'][0]
 
-                out_json_temp_in.append(temp_in[i])
-                out_json_temp_out.append(temp_out[i])
-                out_json_hum_in.append(hum_in[i])
-                out_json_hum_out.append(hum_out[i])
+                    if module['custom_name'] == module2:
+                        diff_item2 = module['measured'][0]
 
-        return out_json_temp_in, out_json_hum_in, out_json_temp_out, out_json_hum_out
+            diff = abs(diff_item1[key1] - diff_item2[key2])
+            if diff_min <= diff <= diff_max:
+                out.append(copy.deepcopy(event))
+
+        return out
 
     def download_data_for_normalization(self, type_id):
         # 15 minutes
@@ -761,12 +778,15 @@ class DataStorage:
                     module = event_type['values'][i]
 
                     if module['custom_name'] in type_id:
+                        s_time = event['times']['event_start']
+                        e_time = event['times']['event_end']
+
                         module['measured'] = self.__client.history(
                             module['gateway'],
                             module['device'],
                             module['module_id'],
-                            event['times']['event_start'] - time_shift,
-                            event['times']['event_end'] + time_shift
+                            int(utc_timestamp_to_local_time(s_time).timestamp() - time_shift),
+                            int(utc_timestamp_to_local_time(e_time).timestamp() + time_shift)
                         )['data']
 
                         module['measured'] = self.__filter_not_null(module['measured'] )
@@ -793,11 +813,11 @@ class DataStorage:
                 for row in event_type['values']:
                     if len(row['measured']) != weather_len:
                         s = 'event '
-                        s += datetime.datetime.fromtimestamp(e_start).strftime('%Y/%m/%d '
-                                                                               '%H:%M:%S')
+                        s += utc_timestamp_to_str(e_start, '%Y/%m/%d %H:%M:%S')
+
                         s += ' - '
-                        s += datetime.datetime.fromtimestamp(e_end).strftime('%Y/%m/%d '
-                                                                             '%H:%M:%S')
+                        s += utc_timestamp_to_str(e_end, '%Y/%m/%d %H:%M:%S')
+
                         s += ' is ignored'
                         s += ' stiahnute data neobsahuju data za dany interval (chyba senzora)'
 
@@ -816,10 +836,11 @@ class DataStorage:
 
         for event in out_json:
             for event_type in event['data']:
-                e_start_before_timestamp = int(
-                    float(event['times'][event_type['type']]) - shift_before)
-                e_start_after_timestamp = int(
-                    float(event['times'][event_type['type']]) + shift_after)
+                e_start_before_timestamp = utc_timestamp_to_local_time(
+                    int(event['times'][event_type['type']])).timestamp() - shift_before
+
+                e_start_after_timestamp = utc_timestamp_to_local_time(
+                    int(event['times'][event_type['type']])).timestamp() + shift_after
 
                 event_type['weather'] = self.__weather_client.weather_data(
                     e_start_before_timestamp, e_start_after_timestamp)
@@ -837,8 +858,8 @@ class DataStorage:
                         module['gateway'],
                         module['device'],
                         module['module_id'],
-                        e_start_before_timestamp,
-                        e_start_after_timestamp
+                        int(e_start_before_timestamp),
+                        int(e_start_after_timestamp)
                     )['data']
 
         return out_json
@@ -862,11 +883,13 @@ class DataStorage:
                 if len(item['measured']) == 0:
                     self.__log.debug(
                         'prazdne hodnoty v modulu: %s, skip' % item['custom_name'])
+                    out['values'].append(item)
                     continue
 
                 if len(item['measured']) == 1 and item['type_id'] != 'open_close':
                     self.__log.debug(
                         'len jedna hodnota v modulu: %s, skip' % item['custom_name'])
+                    out['values'].append(item)
                     continue
 
             out_values = []
@@ -1081,11 +1104,9 @@ class Derivation:
                 str_out += str(round(interval, 2)).rjust(3, ' ')
                 str_out += " s, "
                 str_out += "prumer v casech: "
-                str_out += datetime.datetime.fromtimestamp(float(item['at'])).strftime(
-                    '%H:%M:%S') + " "
+                str_out += utc_timestamp_to_str(float(item['at']), '%H:%M:%S') + " "
                 str_out += " - "
-                str_out += datetime.datetime.fromtimestamp(last_timestamp).strftime(
-                    '%H:%M:%S') + " "
+                str_out += utc_timestamp_to_str(last_timestamp, '%H:%M:%S') + " "
                 str_out += str(round(float(item['value']), 2)).rjust(6, ' ')
                 str_out += " - "
                 str_out += str(round(last_value, 2)).rjust(6, ' ') + " "
@@ -1124,11 +1145,9 @@ class Derivation:
                 str_out += str(round(interval, 2)).rjust(3, ' ')
                 str_out += " s, "
                 str_out += "prumer v casech: "
-                str_out += datetime.datetime.fromtimestamp(float(item['at'])).strftime(
-                    '%H:%M:%S') + " "
+                str_out += utc_timestamp_to_str(float(item['at']), '%H:%M:%S') + " "
                 str_out += " - "
-                str_out += datetime.datetime.fromtimestamp(last_timestamp).strftime(
-                    '%H:%M:%S') + " "
+                str_out += utc_timestamp_to_str(last_timestamp, '%H:%M:%S') + " "
                 str_out += str(round(last_value, 2)).rjust(6, ' ')
                 str_out += " - "
                 str_out += str(round(float(item['value']), 2)).rjust(6, ' ') + " "
@@ -1366,7 +1385,7 @@ def gen_simple_graph(measured, color='blue', label='x value', key='value'):
     x = []
     y = []
     for value in measured:
-        x.append(datetime.datetime.fromtimestamp(value['at']).strftime('%H:%M:%S'))
+        x.append(utc_timestamp_to_str(value['at'], '%H:%M:%S'))
         y.append(value[key])
 
     return {
@@ -1404,16 +1423,16 @@ def normalization(data, local_min, local_max, key):
     return data
 
 
-def compute_value(data, interval, delay):
-    ii = data[0][0]['norm']
+def compute_value(data, interval, delay, key):
+    ii = data[0][0][key]
 
     for i in range(0, len(data)):
         if (i + 1) * interval > delay:
-            rozdiel = data[i][0]['norm'] - data[i][-1]['norm']
+            rozdiel = data[i][0][key] - data[i][-1][key]
             ii -= rozdiel/interval * (delay % interval)
             break
 
-        ii -= data[i][0]['norm'] - data[i+1][0]['norm']
+        ii -= data[i][0][key] - data[i+1][0][key]
 
     return ii
 
@@ -1463,9 +1482,9 @@ def value_estimate(data, interval, color='red', label='x value', key='value'):
     x = []
     end_loop = start + len(with_intervals) * interval
     for i in range(start, end_loop, 1):
-        x.append(datetime.datetime.fromtimestamp(i).strftime('%H:%M:%S'))
+        x.append(utc_timestamp_to_str(i, '%H:%M:%S'))
 
-        computed_value = compute_value(with_intervals, interval, i - start)
+        computed_value = compute_value(with_intervals, interval, i - start, key)
         if key == 'value':
             computed_value *= float(l_max - l_min) + l_min
 

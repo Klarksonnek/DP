@@ -25,17 +25,16 @@ if __name__ == '__main__':
 
     client.logout()
 
+    all = dp.convert_relative_humidity_to_partial_pressure(all, 'temperature_in', 'humidity_in')
     norm = dp.norm_all(all)
-    norm = dp.convert_relative_humidity_to_partial_pressure(norm, 'temperature_in', 'humidity_in')
-    dw1 = dp.filter_data(norm, ['temperature_in'])
-    dw2 = dp.filter_data(norm, ['humidity_in'])
-    dw3 = dp.filter_data(norm, ['temperature_out'])
-    dw4 = dp.filter_data(norm, ['humidity_out'])
 
-    dw1_filtered, dw2_filtered, dw3_filtered, dw4_filtered = \
-        storage.filter_downloaded_data(dw1, dw2, dw3, dw4, 7.0, 100.0, 0.0, 100.0)
+    filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',
+                                              'temperature_out', 'value', 7.0, 100.0)
+    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'value',
+                                              'humidity_out', 'value', 0.0, 100.0)
 
-    his_data = dp.gen_histogram(dw2_filtered, 20, 9, 22, 1, 'partial_pressure')
+    filtered_one_value = dp.filter_data(filtered, ['humidity_in'])
+    his_data = dp.gen_histogram(filtered_one_value, 20, 9, 22, 1, 'partial_pressure')
     histograms = dp.gen_histogram_graph(his_data)
 
     g = dp.Graph("./../../src/graph")

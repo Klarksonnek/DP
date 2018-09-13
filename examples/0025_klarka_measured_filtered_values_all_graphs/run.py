@@ -26,28 +26,26 @@ if __name__ == '__main__':
     client.logout()
 
     norm = dp.norm_all(all)
-    dw1 = dp.filter_data(norm, ['temperature_in'])
-    dw2 = dp.filter_data(norm, ['humidity_in'])
-    dw3 = dp.filter_data(norm, ['temperature_out'])
-    dw4 = dp.filter_data(norm, ['humidity_out'])
 
-    dw1_filtered, dw2_filtered, dw3_filtered, dw4_filtered =\
-        storage.filter_downloaded_data(dw1, dw2, dw3, dw4, 5.0, 10.0, 10.0, 20.0)
+    filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',
+                                              'temperature_out', 'value', 5.0, 10.0)
+    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'value',
+                                              'humidity_out', 'value', 10.0, 20.0)
 
     one_norm_graph = []
     graphs = []
 
-    for i in range(0, len(dw1_filtered)):
-        norm_values_temp_in = dp.filter_one_values(dw1_filtered[i], 'temperature_in')
-        norm_values_hum_in = dp.filter_one_values(dw2_filtered[i], 'humidity_in')
-        norm_values_temp_out = dp.filter_one_values(dw3_filtered[i], 'temperature_out')
-        norm_values_hum_out = dp.filter_one_values(dw4_filtered[i], 'humidity_out')
+    for i in range(0, len(filtered)):
+        norm_values_temp_in = dp.filter_one_values(filtered[i], 'temperature_in')
+        norm_values_hum_in = dp.filter_one_values(filtered[i], 'humidity_in')
+        norm_values_temp_out = dp.filter_one_values(filtered[i], 'temperature_out')
+        norm_values_hum_out = dp.filter_one_values(filtered[i], 'humidity_out')
 
         g = {
             'title': 'Temp in and hum in',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_in, 'red', 'temp in', 'norm'),
-                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'norm')
+                dp.gen_simple_graph(norm_values_temp_in, 'red', 'temp in', 'value_norm'),
+                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value_norm')
             ]
         }
         graphs.append(g)
@@ -55,8 +53,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp out and hum out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_out, 'red', 'temp out', 'norm'),
-                dp.gen_simple_graph(norm_values_hum_out, 'blue', 'hum out', 'norm')
+                dp.gen_simple_graph(norm_values_temp_out, 'red', 'temp out', 'value_norm'),
+                dp.gen_simple_graph(norm_values_hum_out, 'blue', 'hum out', 'value_norm')
             ]
         }
         graphs.append(g)
