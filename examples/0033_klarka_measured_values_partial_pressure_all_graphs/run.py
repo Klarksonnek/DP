@@ -31,8 +31,10 @@ if __name__ == '__main__':
     norm = dp.norm_all(all)
     filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',
                                               'temperature_out', 'value', 5.0, 100.0)
-    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'value',
-                                              'humidity_out', 'value', 1.01, 100.0)
+    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'partial_pressure',
+                                              'humidity_out', 'partial_pressure', 1.0, 100.0)
+    filtered = storage.filter_downloaded_data_one_module(filtered, 'temperature_out', 'value', 30.0)
+    filtered = storage.filter_downloaded_data_general_attribute(filtered, "window", "ventilacka")
 
     one_norm_graph = []
     graphs = []

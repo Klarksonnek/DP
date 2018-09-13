@@ -26,15 +26,18 @@ if __name__ == '__main__':
     client.logout()
 
     all = dp.convert_relative_humidity_to_partial_pressure(all, 'temperature_in', 'humidity_in')
-    norm = dp.norm_all(all)
+    all = dp.convert_relative_humidity_to_partial_pressure(all, 'temperature_out', 'humidity_out')
 
+    norm = dp.norm_all(all)
     filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',
-                                              'temperature_out', 'value', 7.0, 100.0)
-    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'value',
-                                              'humidity_out', 'value', 0.0, 100.0)
+                                              'temperature_out', 'value', 5.0, 100.0)
+    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'partial_pressure',
+                                              'humidity_out', 'partial_pressure', 1.0, 100.0)
+    filtered = storage.filter_downloaded_data_one_module(filtered, 'temperature_out', 'value', 30.0)
+    filtered = storage.filter_downloaded_data_general_attribute(filtered, "window", "ventilacka")
 
     filtered_one_value = dp.filter_data(filtered, ['humidity_in'])
-    his_data = dp.gen_histogram(filtered_one_value, 20, 9, 22, 1, 'partial_pressure')
+    his_data = dp.gen_histogram(filtered_one_value, 15, 5, 20, 1, 'partial_pressure')
     histograms = dp.gen_histogram_graph(his_data)
 
     g = dp.Graph("./../../src/graph")
