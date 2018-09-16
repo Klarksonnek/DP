@@ -5,6 +5,7 @@ import hashlib
 import http.client
 import json
 import logging
+import math
 import os
 import requests
 import ssl
@@ -1812,6 +1813,88 @@ def convert_relative_humidity_to_partial_pressure(events, temp_module, hum_modul
                 hum = measured_hum[k]['value']
                 res = (a0 + temp * (a1 + temp * (a2 + temp * (a3 + temp * (a4 + temp * (a5 + temp * a6)))))) * hum / 100
                 measured_hum[k]['partial_pressure'] = res
+
+    return events
+
+
+def convert_relative_humidity_to_absolute_humidity(events, temp_module, hum_module):
+
+    for i in range(0, len(events)):
+        event_data = events[i]['data']
+
+        for j in range(0, len(event_data)):
+            device_values = event_data[j]['values']
+
+            measured_temp = None
+            measured_hum = None
+            for k in range(0, len(device_values)):
+                module = device_values[k]
+
+                if temp_module == module['custom_name']:
+                    measured_temp = module['measured']
+
+                if hum_module == module['custom_name']:
+                    measured_hum = module['measured']
+
+            for k in range(0, len(measured_temp)):
+                temp = measured_temp[k]['value']
+                hum = measured_hum[k]['value']
+                res = (6.112 * math.exp((17.67 * temp) / (temp + 243.5)) * hum * 2.1674)/(273.15 + temp)
+                measured_hum[k]['absolute_humidity'] = res
+
+    return events
+
+
+def convert_absolute_humidity_to_relative_humidity(events, temp_module, hum_module):
+    for i in range(0, len(events)):
+        event_data = events[i]['data']
+
+        for j in range(0, len(event_data)):
+            device_values = event_data[j]['values']
+
+            measured_temp = None
+            measured_hum = None
+            for k in range(0, len(device_values)):
+                module = device_values[k]
+
+                if temp_module == module['custom_name']:
+                    measured_temp = module['measured']
+
+                if hum_module == module['custom_name']:
+                    measured_hum = module['measured']
+
+            for k in range(0, len(measured_temp)):
+                temp = measured_temp[k]['value']
+                hum = measured_hum[k]['absolute_humidity']
+                res = (hum * (273.15 + temp)) / (6.112 * math.exp((17.67 * temp) / (temp + 243.5)) * 2.1674)
+                measured_hum[k]['relative_humidity_in'] = res
+
+    return events
+
+
+def convert_relative_humidity_to_specify_humidity(events, hum_module):
+    for i in range(0, len(events)):
+        event_data = events[i]['data']
+
+        for j in range(0, len(event_data)):
+            device_values = event_data[j]['values']
+
+            measured_temp = None
+            measured_hum = None
+            for k in range(0, len(device_values)):
+                module = device_values[k]
+
+                if temp_module == module['custom_name']:
+                    measured_temp = module['measured']
+
+                if hum_module == module['custom_name']:
+                    measured_hum = module['measured']
+
+            for k in range(0, len(measured_temp)):
+                temp = measured_temp[k]['value']
+                hum = measured_hum[k]['absolute_humidity']
+                res = (hum * (273.15 + temp)) / (6.112 * math.exp((17.67 * temp) / (temp + 243.5)) * 2.1674)
+                measured_hum[k]['relative_humidity_in'] = res
 
     return events
 
