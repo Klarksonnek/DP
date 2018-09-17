@@ -30,11 +30,11 @@ if __name__ == '__main__':
 
     norm = dp.norm_all(all)
     filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',
-                                              'temperature_out', 'value', 0.0, 100.0)
+                                              'temperature_out', 'value', 5.0, 100.0)
     filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'absolute_humidity',
                                               'humidity_out', 'absolute_humidity', 0.0, 100.0)
-    #filtered = storage.filter_downloaded_data_one_module(filtered, 'temperature_out', 'value', 30.0)
-    #filtered = storage.filter_downloaded_data_general_attribute(filtered, "window", "ventilacka")
+    filtered = storage.filter_downloaded_data_one_module(filtered, 'temperature_out', 'value', 23.0)
+    filtered = storage.filter_downloaded_data_general_attribute(filtered, "window", "ventilacka")
 
     one_norm_graph = []
     graphs = []
@@ -46,10 +46,19 @@ if __name__ == '__main__':
         norm_values_hum_out = dp.filter_one_values(filtered[i], 'humidity_out')
 
         g = {
-            'title': 'Hum in - partial pressure',
+            'title': 'Absolute hum in and hum out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'hum in', 'absolute_humidity'),
-                dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'hum out', 'absolute_humidity')
+                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'abs hum in', 'absolute_humidity'),
+                dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'abs hum out', 'absolute_humidity')
+            ]
+        }
+        graphs.append(g)
+
+        g = {
+            'title': 'Temp in and temp out',
+            'graphs': [
+                dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value'),
+                dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value')
             ]
         }
         graphs.append(g)
