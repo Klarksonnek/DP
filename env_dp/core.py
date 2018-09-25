@@ -1942,5 +1942,49 @@ def gen_histogram_graph_with_factor(data):
     return graphs
 
 
+def to_csv_file(event, module_name, cols, write_each=1, filename='out.csv',
+                time_format='%H:%M:%S'):
+    # header
+    header = ''
+    for i in range(0, len(cols)):
+        col = cols[i]
+        header += col
+
+        if i != len(cols) - 1:
+            header += ','
+        else:
+            header += '\n'
+
+    # body
+    body = ''
+    for module in event['data'][0]['values']:
+        if module['custom_name'] != module_name:
+            continue
+
+        for i in range(0, len(module['measured'])):
+            value = module['measured'][i]
+
+            if i % write_each != 0:
+                continue
+
+            for k in range(0, len(cols)):
+                key = cols[k]
+
+                if key == 'at':
+                    body += utc_timestamp_to_str(value[key], time_format)
+                else:
+                    body += str(value[key])
+
+                if k != len(cols) - 1:
+                    body += ','
+                else:
+                    body += '\n'
+
+    with open(filename, 'w') as f:
+        f.write(header + body)
+
+    return header + body
+
+
 def main():
     pass
