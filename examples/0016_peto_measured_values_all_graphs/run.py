@@ -45,7 +45,7 @@ if __name__ == '__main__':
         g = {
             'title': t,
             'graphs': [
-                dp.gen_simple_graph(norm_values, 'green', 'CO2', 'value_norm')
+                dp.gen_simple_graph(norm_values, 'green', 'CO2', 'value_norm', 50)
             ]
         }
         graphs.append(g)
@@ -56,10 +56,10 @@ if __name__ == '__main__':
         g = {
             'title': 'Namerana hodnota',
             'graphs': [
-                dp.gen_simple_graph(norm_values, 'green', 'CO2', 'value')
+                dp.gen_simple_graph(norm_values, 'green', 'CO2', 'value', 50)
             ]
         }
         graphs.append(g)
 
     g = dp.Graph("./../../src/graph")
-    g.gen(graphs, 'test_g.html', 0, 0)
+    g.gen(graphs, 'test_g.html', 0, 0.1)

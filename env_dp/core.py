@@ -1404,10 +1404,30 @@ def to_weka_file(data, filename='weka.arff', class_name='open_close'):
     file.close()
 
 
-def gen_simple_graph(measured, color='blue', label='x value', key='value'):
+def gen_simple_graph(measured, color='blue', label='x value', key='value',
+                     output_records=None):
     x = []
     y = []
-    for value in measured:
+    length = len(measured)
+
+    step = 1
+    if output_records is not None:
+        step = length // output_records
+
+        # ak je step nula, znamena to, ze nie je dostatok udajov, vykreslime
+        # vsetky dostupne data so step jedna
+        if step == 0:
+            step = 1
+
+        if step > 1:
+            step += 1
+
+    for i in range(0, length):
+        value = measured[i]
+
+        if i % step != 0:
+            continue
+
         x.append(utc_timestamp_to_str(value['at'], '%H:%M:%S'))
         y.append(value[key])
 
