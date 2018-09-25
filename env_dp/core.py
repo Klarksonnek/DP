@@ -1221,8 +1221,8 @@ class Graph:
         if (max_value is not None or min_value is not None) and global_range:
             raise ValueError('Moze byt bud pouzity parameter global_range alebo min+max')
 
-        global_min = None
-        global_max = None
+        global_min = {}
+        global_max = {}
 
         if global_range:
             for i in range(0, len(data)):
@@ -1231,19 +1231,19 @@ class Graph:
                 for g in row['graphs']:
                     numbers = g['values']
 
-                    if global_min is None:
-                        global_min = min(numbers)
+                    if row['group'] not in global_min:
+                        global_min[row['group']] = min(numbers)
                     else:
                         tmp = copy.deepcopy(numbers)
-                        tmp.append(global_min)
-                        global_min = min(tmp)
+                        tmp.append(global_min[row['group']])
+                        global_min[row['group']] = min(tmp)
 
-                    if global_max is None:
-                        global_max = max(numbers)
+                    if row['group'] not in global_max:
+                        global_max[row['group']] = max(numbers)
                     else:
                         tmp = copy.deepcopy(numbers)
-                        tmp.append(global_max)
-                        global_max = max(tmp)
+                        tmp.append(global_max[row['group']])
+                        global_max[row['group']] = max(tmp)
 
         id = 0
         for i in range(0, len(data)):
@@ -1281,8 +1281,8 @@ class Graph:
                         all_max = max(tmp)
 
             if global_range:
-                all_min = global_min
-                all_max = global_max
+                all_min = global_min[row['group']]
+                all_max = global_max[row['group']]
 
             all_min -= scale_padding_min
             all_max += scale_padding_max
@@ -1656,8 +1656,9 @@ def gen_histogram_graph(data):
                     'values': y,
                     'label_x': 'Pocet hodnot',
                     'color': 'red',
-                }
-            ]
+                },
+            ],
+            'group': 'one'
         })
 
     return graphs
