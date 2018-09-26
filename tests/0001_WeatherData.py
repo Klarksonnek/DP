@@ -47,6 +47,16 @@ class TestWeatherData(unittest.TestCase):
         self.assertEqual(s_time, data[0]['at'])
         self.assertEqual(e_time, data[-1]['at'])
 
+    def test_last_half_hour2(self):
+        w = e.WeatherData(cache=False)
+        s_time = 1537910398
+        e_time = 1537912031
+        data = w.weather_data(s_time, e_time)
+
+        self.assertEqual(e_time - s_time + 1, len(data))
+        self.assertEqual(s_time, data[0]['at'])
+        self.assertEqual(e_time, data[-1]['at'])
+
 
 if __name__ == '__main__':
     unittest.main()

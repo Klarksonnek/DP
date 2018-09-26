@@ -338,16 +338,20 @@ class WeatherData:
         out_general = []
 
         last_at = tmp[0]['at']
-        for i in tmp:
+        for k in range(0, len(tmp)):
+            i = copy.deepcopy(tmp[k])
+
+            # ak je rovnaky cas ako predpokladany iba vlozime
+            if last_at == i['at']:
+                out_general.append(i)
+                last_at += 1800
+                continue
+
             while True:
-                # ak je rovnaky cas ako predpokladany iba vlozime
-                if last_at == i['at']:
-                    out_general.append(i)
-                    last_at += 1800
                 # ak je last_at mensi ako predpokladany, co znaci, ze chyba polozka
                 # tak upravime cas na pozadovany a pridame
                 # takto sa duplikuje aktualna polozka, meni sa len cas, hodnoty zostavaju
-                if last_at < i['at']:
+                if last_at <= tmp[k]['at']:
                     i['at'] = last_at
                     out_general.append(i)
                     last_at += 1800
