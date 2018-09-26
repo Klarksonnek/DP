@@ -539,20 +539,6 @@
 			"weather": "bezvetrie",
 			"people": 3,
 			"times": {
-				"event_start": "2018/05/14 22:04:14",
-				"event_end": "2018/05/14 22:05:19"
-			},
-			"devices": {
-				"jablotron": ["open_close"],
-				"protronix": ["co2"]
-			}
-		},
-		{
-			"description": "...",
-			"location": "intrak, pri chladnicke",
-			"weather": "bezvetrie",
-			"people": 3,
-			"times": {
 				"event_start": "2018/05/14 22:20:10",
 				"event_end": "2018/05/14 22:37:13"
 			},
@@ -835,6 +821,117 @@
 			"times": {
 				"event_start": "2018/05/20 23:27:11",
 				"event_end": "2018/05/21 00:03:49"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"out_sensor": "yes",
+			"weather": "stredny vietor",
+			"people": 3,
+			"times": {
+				"event_start": "2018/09/24 06:54:31",
+				"event_end": "2018/09/24 07:10:57"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"out_sensor": "yes",
+			"weather": "slaby vietor",
+			"people": 3,
+			"activity": "kancelarska praca, kancelarska praca, kancelarska praca",
+			"times": {
+				"event_start": "2018/09/24 20:03:57",
+				"event_end": "2018/09/24 20:55:51"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"out_sensor": "yes",
+			"weather": "slaby vietor",
+			"people": 3,
+			"activity": "spanok, spanok, kancelarska praca",
+			"times": {
+				"event_start": "2018/09/24 23:36:28",
+				"event_end": "2018/09/24 23:56:04"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, pri chladnicke",
+			"out_sensor": "yes",
+			"weather": "slaby vietor",
+			"people": 2,
+			"activity": "kancelarska praca, kancelarska praca",
+			"times": {
+				"event_start": "2018/09/25 16:20:31",
+				"event_end": "2018/09/25 16:53:38"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, na boku policky pri posteli",
+			"out_sensor": "yes",
+			"weather": "bezvetrie",
+			"people": 2,
+			"activity": "kancelarska praca, kancelarska praca",
+			"times": {
+				"event_start": "2018/09/25 21:04:49",
+				"event_end": "2018/09/25 21:22:26"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, na boku policky pri posteli",
+			"out_sensor": "yes",
+			"weather": "bezvetrie",
+			"people": 3,
+			"activity": "kancelarska praca, kancelarska praca, spanok",
+			"times": {
+				"event_start": "2018/09/25 23:19:58",
+				"event_end": "2018/09/25 23:47:11"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"protronix": ["co2"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "intrak, na boku policky pri posteli",
+			"out_sensor": "yes",
+			"weather": "bezvetrie, jasno",
+			"people": 3,
+			"activity": "kancelarska praca, kancelarska praca, kancelarska praca",
+			"times": {
+				"event_start": "2018/09/26 07:17:35",
+				"event_end": "2018/09/26 07:37:39"
 			},
 			"devices": {
 				"jablotron": ["open_close"],
