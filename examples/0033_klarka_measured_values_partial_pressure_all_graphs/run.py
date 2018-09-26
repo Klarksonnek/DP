@@ -48,7 +48,7 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp in',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value')
+                dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value', 100)
             ],
             'group': 'one'
         }
@@ -57,7 +57,7 @@ if __name__ == '__main__':
         g = {
             'title': 'Hum in - partial pressure',
             'graphs': [
-                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'hum in', 'partial_pressure')
+                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'hum in', 'partial_pressure', 100)
             ],
             'group': 'two'
         }
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value')
+                dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value', 100)
             ],
             'group': 'one'
         }
@@ -75,7 +75,7 @@ if __name__ == '__main__':
         g = {
             'title': 'Hum out - partial pressure',
             'graphs': [
-                dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'hum out', 'partial_pressure')
+                dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'hum out', 'partial_pressure', 100)
             ],
             'group': 'two'
         }

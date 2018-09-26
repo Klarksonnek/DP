@@ -29,14 +29,14 @@ if __name__ == '__main__':
     graph1 = {
         'title': 'Normalizovane namerane hodnoty',
         'graphs': [
-            dp.gen_simple_graph(values, 'green', 'Namerana hodnota <0, 1>', 'value_norm')
+            dp.gen_simple_graph(values, 'green', 'Namerana hodnota <0, 1>', 'value_norm', 30)
         ]
     }
 
     graph2 = {
         'title': 'Namerane hodnoty',
         'graphs': [
-            dp.gen_simple_graph(values, 'green', 'Namerana hodnota')
+            dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'value', 30)
         ]
     }
 

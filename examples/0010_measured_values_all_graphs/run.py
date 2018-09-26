@@ -31,13 +31,13 @@ if __name__ == '__main__':
     for i in range(0, len(dw1)):
         values = dp.filter_one_values(norm[i], 'co2')
 
-        norm_graph = dp.gen_simple_graph(values, dp.COLORS[i], 'Namerana hodnota', 'value_norm')
+        norm_graph = dp.gen_simple_graph(values, dp.COLORS[i], 'Namerana hodnota', 'value_norm', 30)
         one_norm_graph.append(norm_graph)
 
         g = {
             'title': 'Measured values',
             'graphs': [
-                dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'value_norm')
+                dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'value_norm', 30)
             ]
         }
         graphs.append(g)
@@ -45,7 +45,7 @@ if __name__ == '__main__':
         g = {
             'title': 'Measured values',
             'graphs': [
-                dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'value')
+                dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'value', 30)
             ]
         }
 

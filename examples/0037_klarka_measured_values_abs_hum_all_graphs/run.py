@@ -48,8 +48,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Absolute hum in and hum out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'abs hum in', 'absolute_humidity'),
-                dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'abs hum out', 'absolute_humidity')
+                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'abs hum in', 'absolute_humidity', 100),
+                dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'abs hum out', 'absolute_humidity', 100)
             ],
             'group': 'one'
         }
@@ -58,8 +58,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp in and temp out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value'),
-                dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value')
+                dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value', 100),
+                dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value', 100)
             ],
             'group': 'two'
         }

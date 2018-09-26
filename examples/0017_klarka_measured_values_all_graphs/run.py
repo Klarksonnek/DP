@@ -38,8 +38,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp in and hum in',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_in, 'red', 'temp in', 'value_norm'),
-                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value_norm')
+                dp.gen_simple_graph(norm_values_temp_in, 'red', 'temp in', 'value_norm', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value_norm', 100)
             ]
         }
         graphs.append(g)
@@ -47,8 +47,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp out and hum out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_out, 'red', 'temp out', 'value_norm'),
-                dp.gen_simple_graph(norm_values_hum_out, 'blue', 'hum out', 'value_norm')
+                dp.gen_simple_graph(norm_values_temp_out, 'red', 'temp out', 'value_norm', 100),
+                dp.gen_simple_graph(norm_values_hum_out, 'blue', 'hum out', 'value_norm', 100)
             ]
         }
         graphs.append(g)
@@ -56,8 +56,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp in and temp out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value'),
-                dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value')
+                dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value', 100),
+                dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value', 100)
             ]
         }
 
@@ -66,8 +66,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Hum in and hum out',
             'graphs': [
-                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'hum in', 'value'),
-                dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'hum out', 'value')
+                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'hum in', 'value', 100),
+                dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'hum out', 'value', 100)
             ]
         }
 

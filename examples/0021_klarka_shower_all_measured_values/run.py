@@ -36,8 +36,8 @@ if __name__ == '__main__':
         g = {
             'title': 'Temp in and hum in',
             'graphs': [
-                dp.gen_simple_graph(norm_values_temp_in, 'red', 'temp in', 'value_norm'),
-                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value_norm')
+                dp.gen_simple_graph(norm_values_temp_in, 'red', 'temp in', 'value_norm', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value_norm', 100)
             ]
         }
         graphs.append(g)
