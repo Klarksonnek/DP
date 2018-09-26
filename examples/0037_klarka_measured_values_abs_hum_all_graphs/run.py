@@ -50,7 +50,8 @@ if __name__ == '__main__':
             'graphs': [
                 dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'abs hum in', 'absolute_humidity'),
                 dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'abs hum out', 'absolute_humidity')
-            ]
+            ],
+            'group': 'one'
         }
         graphs.append(g)
 
@@ -59,7 +60,8 @@ if __name__ == '__main__':
             'graphs': [
                 dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value'),
                 dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value')
-            ]
+            ],
+            'group': 'two'
         }
         graphs.append(g)
 

@@ -51,7 +51,8 @@ if __name__ == '__main__':
             'graphs': [
                 dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'hum in', 'value'),
                 dp.gen_simple_graph(norm_values_hum_out, 'DarkTurquoise', 'hum out', 'relative_humidity_in')
-            ]
+            ],
+            'group': 'one'
         }
         graphs.append(g)
 
