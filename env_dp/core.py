@@ -1965,6 +1965,9 @@ def gen_histogram_graph_with_factor(data):
 
 def to_csv_file(event, module_name, cols, write_each=1, filename='out.csv',
                 time_format='%H:%M:%S'):
+
+    separator = ';'
+
     # header
     header = ''
     for i in range(0, len(cols)):
@@ -1972,7 +1975,7 @@ def to_csv_file(event, module_name, cols, write_each=1, filename='out.csv',
         header += col
 
         if i != len(cols) - 1:
-            header += ','
+            header += separator
         else:
             header += '\n'
 
@@ -1997,14 +2000,16 @@ def to_csv_file(event, module_name, cols, write_each=1, filename='out.csv',
                     body += str(value[key])
 
                 if k != len(cols) - 1:
-                    body += ','
+                    body += separator
                 else:
                     body += '\n'
 
-    with open(filename, 'w') as f:
-        f.write(header + body)
+    out = (header + body).replace('.', ',')
 
-    return header + body
+    with open(filename, 'w') as f:
+        f.write(out)
+
+    return out
 
 
 def main():
