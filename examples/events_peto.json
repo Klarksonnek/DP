@@ -539,20 +539,6 @@
 			"weather": "bezvetrie",
 			"people": 3,
 			"times": {
-				"event_start": "2018/05/14 22:04:14",
-				"event_end": "2018/05/14 22:05:19"
-			},
-			"devices": {
-				"jablotron": ["open_close"],
-				"protronix": ["co2"]
-			}
-		},
-		{
-			"description": "...",
-			"location": "intrak, pri chladnicke",
-			"weather": "bezvetrie",
-			"people": 3,
-			"times": {
 				"event_start": "2018/05/14 22:20:10",
 				"event_end": "2018/05/14 22:37:13"
 			},
