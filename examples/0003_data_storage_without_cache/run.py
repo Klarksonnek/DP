@@ -23,7 +23,6 @@ if __name__ == '__main__':
     storage.set_no_event_time(-10)
 
     dw = storage.download_data(10, 6)
-    client.logout()
 
     common_data = storage.common_data(dw)
     print(json.dumps(common_data, indent=4, sort_keys=True))

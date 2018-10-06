@@ -184,7 +184,8 @@ class BeeeOnClient:
 
         return json.loads(body)
 
-    def logout(self):
+
+    def __logout(self):
         if not self.__token_id:
             self.__log.warning('empty token_id')
             return
@@ -199,7 +200,7 @@ class BeeeOnClient:
         self.__log.debug('logout was successful')
 
     def __del__(self):
-        self.logout()
+        self.__logout()
 
     @property
     def api_key(self):
