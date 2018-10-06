@@ -186,6 +186,7 @@ class BeeeOnClient:
 
     def logout(self):
         if not self.__token_id:
+            self.__log.warning('empty token_id')
             return
 
         endpoint = '/auth'
@@ -194,6 +195,11 @@ class BeeeOnClient:
         req.authorize(self.__token_id)
 
         req.perform()
+
+        self.__log.debug('logout was successful')
+
+    def __del__(self):
+        self.logout()
 
     @property
     def api_key(self):
