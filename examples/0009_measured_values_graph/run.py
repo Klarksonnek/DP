@@ -21,7 +21,6 @@ if __name__ == '__main__':
     storage.read_meta_data('../devices_examples.json', '../events_examples.json')
 
     dw1 = storage.download_data_for_normalization(['co2'])
-    client.logout()
 
     norm = dp.norm_all(dw1)
     values = dp.filter_one_values(norm[0], 'co2')

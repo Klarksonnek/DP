@@ -22,7 +22,6 @@ if __name__ == '__main__':
     storage.read_meta_data('../devices_peto.json', '../events_peto.json')
 
     dw1 = storage.download_data_for_normalization(['co2'])
-    client.logout()
 
     norm = dp.norm_all(dw1)
 

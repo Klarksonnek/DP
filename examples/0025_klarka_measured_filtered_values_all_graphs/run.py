@@ -23,8 +23,6 @@ if __name__ == '__main__':
     modules = ['temperature_in', 'humidity_in', 'temperature_out', 'humidity_out']
     all = storage.download_data_for_normalization(modules)
 
-    client.logout()
-
     norm = dp.norm_all(all)
 
     filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',

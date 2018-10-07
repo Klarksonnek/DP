@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=CO2 Notificator
+Exec=/opt/notifier/notifier/co2_notifier.py
+Comment=CO2 Notificator
+X-GNOME-Autostart-enabled=true

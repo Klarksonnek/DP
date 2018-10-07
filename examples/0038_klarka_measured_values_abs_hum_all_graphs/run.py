@@ -23,8 +23,6 @@ if __name__ == '__main__':
     modules = ['temperature_in', 'humidity_in', 'temperature_out', 'humidity_out']
     all = storage.download_data_for_normalization(modules)
 
-    client.logout()
-
     all = dp.convert_relative_humidity_to_absolute_humidity(all, 'temperature_in', 'humidity_in')
     all = dp.convert_relative_humidity_to_absolute_humidity(all, 'temperature_out', 'humidity_out')
     all = dp.convert_absolute_humidity_to_relative_humidity(all, 'temperature_in', 'humidity_out')

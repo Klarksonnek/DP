@@ -22,7 +22,6 @@ if __name__ == '__main__':
 
     dw1 = storage.download_data_for_normalization(['temperature_bathroom_i', 'temperature_bathroom_ii'])
     dw2 = storage.download_data_for_normalization(['humidity_bathroom_i', 'humidity_bathroom_ii'])
-    client.logout()
 
     one_norm_graph = []
     graphs = []
