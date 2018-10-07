@@ -2,7 +2,7 @@
 	"events": [
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_intrak_na_zemi",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"type": "...",
@@ -17,7 +17,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno",
 			"people": 2,
 			"times": {
@@ -31,7 +31,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"times": {
@@ -45,7 +45,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -59,7 +59,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -73,7 +73,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -87,7 +87,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -101,7 +101,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, bezvetrie",
 			"people": 2,
 			"times": {
@@ -115,7 +115,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, bezvetrie",
 			"people": 2,
 			"times": {
@@ -129,7 +129,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -143,7 +143,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, bezvetrie",
 			"people": 2,
 			"times": {
@@ -157,7 +157,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, svieti",
 			"people": 2,
 			"times": {
@@ -171,7 +171,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, svieti",
 			"people": 2,
 			"times": {
@@ -185,7 +185,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -199,7 +199,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -213,7 +213,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -227,7 +227,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -241,7 +241,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -255,7 +255,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "zatiahnute, stredny vietor",
 			"people": 2,
 			"times": {
@@ -269,7 +269,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "zatiahnute, stredny vietor",
 			"people": 2,
 			"times": {
@@ -283,7 +283,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "bezvetrie",
 			"people": 2,
 			"times": {
@@ -297,7 +297,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, svieti, bezvetrie",
 			"people": 2,
 			"times": {
@@ -311,7 +311,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, svieti, bezvetrie",
 			"people": 2,
 			"times": {
@@ -325,7 +325,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -339,7 +339,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -353,7 +353,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -367,7 +367,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "zatiahnute, bezvetrie",
 			"people": 2,
 			"times": {
@@ -381,7 +381,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, polojasno",
 			"people": 1,
 			"times": {
@@ -395,7 +395,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, polojasno",
 			"people": 1,
 			"times": {
@@ -409,7 +409,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "bezvetrie, polojasno",
 			"people": 1,
 			"times": {
@@ -423,7 +423,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "bezvetrie, polojasno",
 			"people": 1,
 			"times": {
@@ -437,7 +437,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "stredny vietor, polojasno",
 			"people": 1,
 			"times": {
@@ -451,7 +451,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "stredny vietor, polojasno",
 			"people": 1,
 			"times": {
@@ -465,7 +465,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, bezvetrie, svieti",
 			"people": 1,
 			"times": {
@@ -479,7 +479,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "silny vietor, polooblacno",
 			"people": 1,
 			"times": {
@@ -493,7 +493,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "stredny vietor, jasno",
 			"people": 1,
 			"times": {
@@ -507,7 +507,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "stredny vietor, jasno",
 			"people": 1,
 			"times": {
@@ -521,7 +521,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "stredny vietor, jasno",
 			"people": 1,
 			"times": {
@@ -535,7 +535,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "bezvetrie",
 			"people": 3,
 			"times": {
@@ -549,7 +549,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "zatiahnute",
 			"people": 2,
 			"times": {
@@ -563,7 +563,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "bezvetrie",
 			"people": 2,
 			"times": {
@@ -577,7 +577,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "dazd, slaby vietor",
 			"people": 2,
 			"times": {
@@ -591,7 +591,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "polooblacno",
 			"people": 2,
 			"times": {
@@ -605,7 +605,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"times": {
@@ -619,7 +619,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"times": {
@@ -633,7 +633,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"times": {
@@ -647,7 +647,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "bezvetrie",
 			"people": 2,
 			"times": {
@@ -661,7 +661,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "zatiahnute(biela_obloha), slaby dazd",
 			"people": 2,
 			"times": {
@@ -675,7 +675,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -689,7 +689,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -703,7 +703,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "jasno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -717,7 +717,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "bezvetrie",
 			"people": 2,
 			"times": {
@@ -731,7 +731,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, jasno",
 			"people": 2,
 			"times": {
@@ -745,7 +745,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, jasno, svieti",
 			"people": 2,
 			"times": {
@@ -759,7 +759,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "stredny vietor, jasno",
 			"people": 2,
 			"times": {
@@ -773,7 +773,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "polooblacno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -787,7 +787,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor, jasno",
 			"people": 2,
 			"times": {
@@ -801,7 +801,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor",
 			"people": 2,
 			"times": {
@@ -815,7 +815,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"weather": "slaby vietor",
 			"people": 2,
 			"times": {
@@ -829,7 +829,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"out_sensor": "yes",
 			"weather": "stredny vietor",
 			"people": 3,
@@ -844,7 +844,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"out_sensor": "yes",
 			"weather": "slaby vietor",
 			"people": 3,
@@ -860,7 +860,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"out_sensor": "yes",
 			"weather": "slaby vietor",
 			"people": 3,
@@ -876,7 +876,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, pri chladnicke",
+			"location": "intrak_na_zemi",
 			"out_sensor": "yes",
 			"weather": "slaby vietor",
 			"people": 2,
@@ -892,7 +892,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "bezvetrie",
 			"people": 2,
@@ -908,7 +908,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "bezvetrie",
 			"people": 3,
@@ -924,7 +924,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "bezvetrie, jasno",
 			"people": 3,
@@ -940,7 +940,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "bezvetrie",
 			"people": 2,
@@ -956,7 +956,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "slaby vietor, nesvieti, polooblacno",
 			"people": 2,
@@ -972,7 +972,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 3,
@@ -988,7 +988,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "slaby vietor",
 			"people": 2,
@@ -1004,7 +1004,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "bezvetrie",
 			"people": 3,
@@ -1020,7 +1020,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "bezvetrie, jasno, svieti",
 			"people": 2,
@@ -1036,7 +1036,7 @@
 		},
 		{
 			"description": "",
-			"location": "intrak, na boku policky pri posteli",
+			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
 			"weather": "bezvetrie",
 			"people": 3,
