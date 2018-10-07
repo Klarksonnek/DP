@@ -4,10 +4,11 @@
 			"description": "",
 			"location": "intrak_intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"type": "...",
 			"times": {
 				"event_start": "2018/05/02 08:02:03",
@@ -22,10 +23,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/05 06:58:23",
 				"event_end": "2018/05/05 07:27:43"
@@ -39,10 +41,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"times": {
 				"event_start": "2018/05/05 09:03:59",
 				"event_end": "2018/05/05 09:06:59"
@@ -56,10 +59,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/05 11:43:59",
 				"event_end": "2018/05/05 11:50:29"
@@ -73,10 +77,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/05 14:15:03",
 				"event_end": "2018/05/05 14:20:07"
@@ -90,10 +95,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/05 15:12:05",
 				"event_end": "2018/05/05 15:20:40"
@@ -107,10 +113,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/05 16:22:08",
 				"event_end": "2018/05/05 16:33:08"
@@ -124,10 +131,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/05 18:02:05",
 				"event_end": "2018/05/05 20:16:14"
@@ -141,10 +149,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/05 20:59:07",
 				"event_end": "2018/05/05 21:10:07"
@@ -158,10 +167,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/05 23:00:09",
 				"event_end": "2018/05/05 23:16:19"
@@ -175,10 +185,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/06 06:33:46",
 				"event_end": "2018/05/06 07:00:46"
@@ -192,10 +203,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno, svieti",
+			"weather": "svieti",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/06 07:45:34",
 				"event_end": "2018/05/06 07:50:08"
@@ -209,10 +221,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno, svieti",
+			"weather": "svieti",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/06 09:00:29",
 				"event_end": "2018/05/06 09:05:15"
@@ -226,10 +239,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/06 10:18:07",
 				"event_end": "2018/05/06 10:23:14"
@@ -243,10 +257,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/06 11:44:48",
 				"event_end": "2018/05/06 11:52:13"
@@ -260,10 +275,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/06 13:26:03",
 				"event_end": "2018/05/06 13:31:38"
@@ -277,10 +293,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/08 11:29:45",
 				"event_end": "2018/05/08 11:41:49"
@@ -294,10 +311,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/08 15:39:59",
 				"event_end": "2018/05/08 15:46:46"
@@ -311,10 +329,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"times": {
 				"event_start": "2018/05/08 18:35:06",
 				"event_end": "2018/05/08 18:43:53"
@@ -328,10 +347,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"times": {
 				"event_start": "2018/05/08 20:00:55",
 				"event_end": "2018/05/08 20:13:14"
@@ -349,6 +369,7 @@
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "",
 			"times": {
 				"event_start": "2018/05/08 22:36:09",
 				"event_end": "2018/05/08 22:56:51"
@@ -362,10 +383,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno, svieti",
+			"weather": "svieti",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/09 07:14:54",
 				"event_end": "2018/05/09 07:35:43"
@@ -379,10 +401,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno, svieti",
+			"weather": "svieti",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/09 08:16:19",
 				"event_end": "2018/05/09 08:23:10"
@@ -396,10 +419,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polooblacno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polooblacno",
 			"times": {
 				"event_start": "2018/05/10 18:24:25",
 				"event_end": "2018/05/10 18:30:52"
@@ -413,10 +437,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polooblacno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polooblacno",
 			"times": {
 				"event_start": "2018/05/10 20:36:04",
 				"event_end": "2018/05/10 20:44:02"
@@ -430,10 +455,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polooblacno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polooblacno",
 			"times": {
 				"event_start": "2018/05/10 22:25:06",
 				"event_end": "2018/05/10 22:42:24"
@@ -447,10 +473,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"times": {
 				"event_start": "2018/05/11 07:47:06",
 				"event_end": "2018/05/11 08:04:12"
@@ -464,10 +491,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polojasno",
+			"weather": "",
 			"people": 1,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/11 11:37:05",
 				"event_end": "2018/05/11 11:51:32"
@@ -481,10 +509,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polojasno",
+			"weather": "",
 			"people": 1,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/11 14:48:05",
 				"event_end": "2018/05/11 15:04:30"
@@ -498,10 +527,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polojasno",
+			"weather": "",
 			"people": 1,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/11 16:02:51",
 				"event_end": "2018/05/11 16:48:12"
@@ -515,10 +545,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polojasno",
+			"weather": "",
 			"people": 1,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/11 17:54:02",
 				"event_end": "2018/05/11 18:05:56"
@@ -532,10 +563,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polojasno",
+			"weather": "",
 			"people": 1,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/12 00:35:02",
 				"event_end": "2018/05/12 00:57:29"
@@ -549,10 +581,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polojasno",
+			"weather": "",
 			"people": 1,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/12 01:57:04",
 				"event_end": "2018/05/12 02:07:54"
@@ -566,10 +599,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno, svieti",
+			"weather": "svieti",
 			"people": 1,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/12 09:46:13",
 				"event_end": "2018/05/12 09:54:04"
@@ -583,10 +617,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polooblacno",
+			"weather": "",
 			"people": 1,
 			"wind": "silny",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/12 17:03:11",
 				"event_end": "2018/05/12 17:13:06"
@@ -600,10 +635,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 1,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/12 18:14:21",
 				"event_end": "2018/05/12 18:19:12"
@@ -617,10 +653,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 1,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/12 19:07:04",
 				"event_end": "2018/05/12 19:34:47"
@@ -634,10 +671,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 1,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/12 20:38:23",
 				"event_end": "2018/05/12 20:43:09"
@@ -655,6 +693,7 @@
 			"people": 3,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "",
 			"times": {
 				"event_start": "2018/05/14 22:20:10",
 				"event_end": "2018/05/14 22:37:13"
@@ -668,10 +707,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"times": {
 				"event_start": "2018/05/15 07:05:36",
 				"event_end": "2018/05/15 08:01:10"
@@ -689,6 +729,7 @@
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "",
 			"times": {
 				"event_start": "2018/05/15 20:39:07",
 				"event_end": "2018/05/15 20:50:14"
@@ -706,6 +747,7 @@
 			"people": 2,
 			"wind": "slaby",
 			"rain": "yes",
+			"sky": "",
 			"times": {
 				"event_start": "2018/05/15 23:40:05",
 				"event_end": "2018/05/15 23:53:10"
@@ -719,10 +761,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polooblacno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/16 08:57:58",
 				"event_end": "2018/05/16 09:04:37"
@@ -736,10 +779,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"times": {
 				"event_start": "2018/05/16 14:44:05",
 				"event_end": "2018/05/16 15:00:04"
@@ -753,10 +797,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"times": {
 				"event_start": "2018/05/16 18:37:03",
 				"event_end": "2018/05/16 18:56:07"
@@ -770,10 +815,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"times": {
 				"event_start": "2018/05/16 20:13:41",
 				"event_end": "2018/05/16 20:23:05"
@@ -791,6 +837,7 @@
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "",
 			"times": {
 				"event_start": "2018/05/16 21:45:10",
 				"event_end": "2018/05/16 22:38:11"
@@ -804,10 +851,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "zatiahnute(biela_obloha)",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "yes",
+			"sky": "smog",
 			"times": {
 				"event_start": "2018/05/17 06:31:06",
 				"event_end": "2018/05/17 06:48:12"
@@ -821,10 +869,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polooblacno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/19 07:37:05",
 				"event_end": "2018/05/19 08:52:40"
@@ -838,10 +887,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polooblacno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/19 13:21:07",
 				"event_end": "2018/05/19 14:49:37"
@@ -855,10 +905,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/19 18:06:04",
 				"event_end": "2018/05/19 20:20:03"
@@ -876,6 +927,7 @@
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "",
 			"times": {
 				"event_start": "2018/05/19 22:19:33",
 				"event_end": "2018/05/19 23:35:42"
@@ -889,10 +941,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/20 07:16:45",
 				"event_end": "2018/05/20 07:24:27"
@@ -906,10 +959,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno, svieti",
+			"weather": "svieti",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/20 09:22:09",
 				"event_end": "2018/05/20 09:27:01"
@@ -923,10 +977,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/20 10:32:32",
 				"event_end": "2018/05/20 10:38:41"
@@ -940,10 +995,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "polooblacno",
+			"weather": "",
 			"people": 2,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "polojasno",
 			"times": {
 				"event_start": "2018/05/20 14:29:46",
 				"event_end": "2018/05/20 14:50:06"
@@ -957,10 +1013,11 @@
 			"description": "",
 			"location": "intrak_na_zemi",
 			"out_sensor": "no",
-			"weather": "jasno",
+			"weather": "",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/05/20 18:00:04",
 				"event_end": "2018/05/20 18:21:06"
@@ -978,6 +1035,7 @@
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "",
 			"times": {
 				"event_start": "2018/05/20 21:05:10",
 				"event_end": "2018/05/20 22:34:08"
@@ -995,6 +1053,7 @@
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "",
 			"times": {
 				"event_start": "2018/05/20 23:27:11",
 				"event_end": "2018/05/21 00:03:49"
@@ -1012,6 +1071,7 @@
 			"people": 3,
 			"wind": "stredny",
 			"rain": "no",
+			"sky": "jasno",
 			"times": {
 				"event_start": "2018/09/24 06:54:31",
 				"event_end": "2018/09/24 07:10:57"
@@ -1029,6 +1089,7 @@
 			"people": 3,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/09/24 20:03:57",
@@ -1047,6 +1108,7 @@
 			"people": 3,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "spanok, spanok, kancelarska praca",
 			"times": {
 				"event_start": "2018/09/24 23:36:28",
@@ -1065,6 +1127,7 @@
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/09/25 16:20:31",
@@ -1083,6 +1146,7 @@
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/09/25 21:04:49",
@@ -1101,6 +1165,7 @@
 			"people": 3,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca, spanok",
 			"times": {
 				"event_start": "2018/09/25 23:19:58",
@@ -1115,10 +1180,11 @@
 			"description": "",
 			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
-			"weather": "jasno",
+			"weather": "",
 			"people": 3,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/09/26 07:17:35",
@@ -1137,6 +1203,7 @@
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/09/26 22:14:27",
@@ -1151,10 +1218,11 @@
 			"description": "",
 			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
-			"weather": "nesvieti, polooblacno",
+			"weather": "nesvieti",
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "polojasno",
 			"activity": "kancelarska praca, spanok",
 			"times": {
 				"event_start": "2018/10/02 15:51:47",
@@ -1169,10 +1237,11 @@
 			"description": "",
 			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
-			"weather": "zatiahnute",
+			"weather": "",
 			"people": 3,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "zatiahnute",
 			"activity": "kancelarska praca, kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/10/03 08:12:27",
@@ -1191,6 +1260,7 @@
 			"people": 2,
 			"wind": "slaby",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/10/03 18:24:19",
@@ -1209,6 +1279,7 @@
 			"people": 3,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/10/03 22:05:07",
@@ -1223,10 +1294,11 @@
 			"description": "",
 			"location": "intrak_na_boku_skrini",
 			"out_sensor": "yes",
-			"weather": "jasno, svieti",
+			"weather": "svieti",
 			"people": 2,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/10/04 07:59:08",
@@ -1245,6 +1317,7 @@
 			"people": 3,
 			"wind": "bezvetrie",
 			"rain": "no",
+			"sky": "jasno",
 			"activity": "kancelarska praca, kancelarska praca, kancelarska praca",
 			"times": {
 				"event_start": "2018/10/04 22:13:30",
