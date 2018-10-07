@@ -3,6 +3,7 @@
 		{
 			"description": "",
 			"location": "intrak_intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"type": "...",
@@ -18,6 +19,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno",
 			"people": 2,
 			"times": {
@@ -32,6 +34,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"times": {
@@ -46,6 +49,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -60,6 +64,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -74,6 +79,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -88,6 +94,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -102,6 +109,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, bezvetrie",
 			"people": 2,
 			"times": {
@@ -116,6 +124,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, bezvetrie",
 			"people": 2,
 			"times": {
@@ -130,6 +139,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -144,6 +154,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, bezvetrie",
 			"people": 2,
 			"times": {
@@ -158,6 +169,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, svieti",
 			"people": 2,
 			"times": {
@@ -172,6 +184,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, svieti",
 			"people": 2,
 			"times": {
@@ -186,6 +199,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -200,6 +214,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -214,6 +229,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -228,6 +244,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -242,6 +259,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -256,6 +274,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "zatiahnute, stredny vietor",
 			"people": 2,
 			"times": {
@@ -270,6 +289,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "zatiahnute, stredny vietor",
 			"people": 2,
 			"times": {
@@ -284,6 +304,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "bezvetrie",
 			"people": 2,
 			"times": {
@@ -298,6 +319,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, svieti, bezvetrie",
 			"people": 2,
 			"times": {
@@ -312,6 +334,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, svieti, bezvetrie",
 			"people": 2,
 			"times": {
@@ -326,6 +349,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -340,6 +364,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -354,6 +379,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -368,6 +394,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "zatiahnute, bezvetrie",
 			"people": 2,
 			"times": {
@@ -382,6 +409,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, polojasno",
 			"people": 1,
 			"times": {
@@ -396,6 +424,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, polojasno",
 			"people": 1,
 			"times": {
@@ -410,6 +439,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "bezvetrie, polojasno",
 			"people": 1,
 			"times": {
@@ -424,6 +454,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "bezvetrie, polojasno",
 			"people": 1,
 			"times": {
@@ -438,6 +469,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "stredny vietor, polojasno",
 			"people": 1,
 			"times": {
@@ -452,6 +484,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "stredny vietor, polojasno",
 			"people": 1,
 			"times": {
@@ -466,6 +499,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, bezvetrie, svieti",
 			"people": 1,
 			"times": {
@@ -480,6 +514,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "silny vietor, polooblacno",
 			"people": 1,
 			"times": {
@@ -494,6 +529,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "stredny vietor, jasno",
 			"people": 1,
 			"times": {
@@ -508,6 +544,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "stredny vietor, jasno",
 			"people": 1,
 			"times": {
@@ -522,6 +559,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "stredny vietor, jasno",
 			"people": 1,
 			"times": {
@@ -536,6 +574,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "bezvetrie",
 			"people": 3,
 			"times": {
@@ -550,6 +589,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "zatiahnute",
 			"people": 2,
 			"times": {
@@ -564,6 +604,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "bezvetrie",
 			"people": 2,
 			"times": {
@@ -578,6 +619,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "dazd, slaby vietor",
 			"people": 2,
 			"times": {
@@ -592,6 +634,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "polooblacno",
 			"people": 2,
 			"times": {
@@ -606,6 +649,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"times": {
@@ -620,6 +664,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"times": {
@@ -634,6 +679,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, zatiahnute",
 			"people": 2,
 			"times": {
@@ -648,6 +694,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "bezvetrie",
 			"people": 2,
 			"times": {
@@ -662,6 +709,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "zatiahnute(biela_obloha), slaby dazd",
 			"people": 2,
 			"times": {
@@ -676,6 +724,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -690,6 +739,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "polooblacno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -704,6 +754,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "jasno, slaby vietor",
 			"people": 2,
 			"times": {
@@ -718,6 +769,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "bezvetrie",
 			"people": 2,
 			"times": {
@@ -732,6 +784,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, jasno",
 			"people": 2,
 			"times": {
@@ -746,6 +799,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, jasno, svieti",
 			"people": 2,
 			"times": {
@@ -760,6 +814,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "stredny vietor, jasno",
 			"people": 2,
 			"times": {
@@ -774,6 +829,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "polooblacno, stredny vietor",
 			"people": 2,
 			"times": {
@@ -788,6 +844,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor, jasno",
 			"people": 2,
 			"times": {
@@ -802,6 +859,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor",
 			"people": 2,
 			"times": {
@@ -816,6 +874,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"out_sensor": "no",
 			"weather": "slaby vietor",
 			"people": 2,
 			"times": {
