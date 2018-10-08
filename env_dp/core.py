@@ -1312,6 +1312,10 @@ class Graph:
                 for g in row['graphs']:
                     numbers = g['values']
 
+                    if not numbers:
+                        raise ValueError('graph %s with label %s does not any value' %
+                                         (data[i]['title'], g['label_x']))
+
                     if all_min is None:
                         all_min = min(numbers)
                     else:
