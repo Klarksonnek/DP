@@ -63,6 +63,18 @@
 					"custom_name": "co2"
 				}
 			]
+		},
+		{
+			"id": "beeeon_gateway",
+			"name": "Atmospheric pressure sensor",
+			"gateway": "1908402624139667",
+			"device": "0xa2000000e9ab7ebe",
+			"sensors": [
+				{
+					"id": 0,
+					"custom_name": "pressure_in"
+				}
+			]
 		}
 	]
 }
