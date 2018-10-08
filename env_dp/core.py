@@ -1944,6 +1944,35 @@ def convert_absolute_humidity_to_relative_humidity(events, temp_module, hum_modu
     return events
 
 
+def convert_relative_humidity_to_specific_humidity(events, temp_module, hum_module):
+    for i in range(0, len(events)):
+        event_data = events[i]['data']
+
+        for j in range(0, len(event_data)):
+            device_values = event_data[j]['values']
+
+            measured_temp = None
+            measured_hum = None
+            for k in range(0, len(device_values)):
+                module = device_values[k]
+
+                if temp_module == module['custom_name']:
+                    measured_temp = module['measured']
+
+                if hum_module == module['custom_name']:
+                    measured_hum = module['measured']
+
+            for k in range(0, len(measured_temp)):
+                temp = measured_temp[k]['value']
+                hum = measured_hum[k]['value']
+                saturated_partial_pressure = math.exp(23.58 - (4044.6/(235.63 + temp)))
+                partial_pressure = (hum * saturated_partial_pressure) / 100
+                res = (622 * partial_pressure) / (101500 - partial_pressure)
+                measured_hum[k]['specific_humidity'] = res
+
+    return events
+
+
 def gen_histogram_graph_with_factor(data):
     """
     https://www.windows2universe.org/earth/Atmosphere/wind_speeds.html
