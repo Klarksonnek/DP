@@ -976,6 +976,10 @@ class DataStorage:
                     continue
 
             out_values = []
+            last_open_close_value = None
+            if item['type_id'] == 'open_close':
+                last_open_close_value = float(item['measured'][0]['value'])
+
             for i in range(0, len(item['measured']) - 1):
                 value_start = item['measured'][i]['value']
                 value_end = item['measured'][i + 1]['value']
@@ -988,6 +992,14 @@ class DataStorage:
 
                 time_start = item['measured'][i]['at']
                 time_end = item['measured'][i + 1]['at']
+
+                if item['type_id'] == 'open_close':
+                    for j in range(0, time_end - time_start):
+                        out_values.append({
+                            "at": time_start + j,
+                            "value": round(last_open_close_value, self.__precision)
+                        })
+                    continue
 
                 if value_start - value_end == 0:
                     value_increase = 0
@@ -1003,10 +1015,16 @@ class DataStorage:
                     })
                     value = value + value_increase
 
-            out_values.append({
-                "at": item['measured'][len(item['measured']) - 1]['at'],
-                "value": round(value, self.__precision)
-            })
+            if item['type_id'] == 'open_close':
+                out_values.append({
+                    "at": item['measured'][len(item['measured']) - 1]['at'],
+                    "value": 0.0
+                })
+            else:
+                out_values.append({
+                    "at": item['measured'][len(item['measured']) - 1]['at'],
+                    "value": round(value, self.__precision)
+                })
 
             item['measured'] = out_values
             out['values'].append(item)
