@@ -788,6 +788,20 @@ class DataStorage:
 
         return out
 
+    def filter_general_attribute_value(self, events, attribute, value):
+        out = []
+
+        for event in events:
+            if attribute not in event:
+                continue
+
+            if event[attribute] != value:
+                continue
+
+            out.append(copy.deepcopy(event))
+
+        return out
+
     def filter_downloaded_data_existing_attribute(self, events, attribute):
         out = []
 
