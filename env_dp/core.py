@@ -2232,5 +2232,15 @@ def cut_events(events, start, end):
     return out
 
 
+def filter_number_events(events, count):
+    out = []
+
+    for event in events:
+        if len(event['weather_dw']) == count:
+            out.append(copy.deepcopy(event))
+
+    return out
+
+
 def main():
     pass
