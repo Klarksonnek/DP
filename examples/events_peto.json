@@ -1135,8 +1135,10 @@
 				"event_end": "2018/09/24 07:10:57"
 			},
 			"devices": {
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1157,7 +1159,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1178,7 +1180,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1199,7 +1201,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1220,7 +1222,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1241,7 +1243,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1262,7 +1264,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1283,7 +1285,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1304,7 +1306,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1325,7 +1327,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1346,7 +1348,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1367,7 +1369,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1388,7 +1390,7 @@
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1408,8 +1410,7 @@
 			"devices": {
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
-				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		}
 	]
