@@ -788,6 +788,32 @@ class DataStorage:
 
         return out
 
+    def filter_downloaded_data_two_conditions(self, events, module1, key1, limit, module2, key2, diff_min, diff_max):
+        out = []
+
+        for event in events:
+            diff_item1 = None
+            diff_item2 = None
+            for event_type in event['data']:
+                for module in event_type['values']:
+                    if module['custom_name'] == module1 and module['measured'][0][key1] < limit:
+                        out.append(copy.deepcopy(event))
+                        continue
+
+                    if module['custom_name'] == module1:
+                        diff_item1 = module['measured'][0]
+
+                    if module['custom_name'] == module2:
+                        diff_item2 = module['measured'][0]
+
+            if diff_item1 is not None and diff_item2 is not None:
+                diff = abs(diff_item1[key1] - diff_item2[key2])
+                if diff_min <= diff <= diff_max:
+                    out.append(copy.deepcopy(event))
+
+        return out
+
+
     def download_data_for_normalization(self, type_id):
         # 15 minutes
         time_shift = 900
