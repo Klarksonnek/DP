@@ -2196,5 +2196,41 @@ def to_csv_file(event, module_name, cols, write_each=1, filename='out.csv',
     return out
 
 
+def cut_events(events, start, end):
+    out = copy.deepcopy(events)
+
+    for i in range(0, len(out)):
+        event = out[i]
+
+        # new times in events
+        s = event['times']['event_start'] = event['times']['event_start'] + start
+        e = event['times']['event_end'] = event['times']['event_start'] + end
+
+        # cut values between start and end
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            new_values = []
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if s <= value['at'] < e:
+                    new_values.append(value)
+
+            module['measured'] = new_values
+
+        # cut weather
+        new_weather = []
+        for j in range(0, len(event['weather_dw'])):
+            weather = event['weather_dw'][j]
+
+            if s <= weather['at'] < e:
+                new_weather.append(weather)
+
+        event['weather_dw'] = new_weather
+
+    return out
+
+
 def main():
     pass
