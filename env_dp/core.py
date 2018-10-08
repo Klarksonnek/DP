@@ -1605,7 +1605,12 @@ def histogram_data(data, time_step, time_limit):
                 })
 
             val = values[j]
-            val['weather'] = row['weather']
+
+            if 'wind' in row:
+                val['wind'] = row['wind']
+            else:
+                val['wind'] = row['weather']
+
             val['weather_dw'] = w[j]
 
             histogram[id]['values'].append(val)
