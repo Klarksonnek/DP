@@ -1991,6 +1991,92 @@ def convert_relative_humidity_to_specific_humidity(events, temp_module, hum_modu
     return events
 
 
+def calculate_discharge_coefficient(wind):
+    Lv = 0.53
+    h = 1.38
+    alpha = 90
+    us = wind
+    mi = 1.825e-5
+    ro = 1.204
+    e = 0.00025
+    a = 0.25
+    K = 3.44e-9 * pow(a, 1.6)
+    Y = 4.3e-2 * pow(a, -2.13)
+
+    rep = math.sqrt(K) * wind * ro / mi
+    if rep == 0:
+        f = 2 * e / pow(K, 0.5) * Y
+    else:
+        f = 2 * e / pow(K, 0.5) * (1 / rep + Y)
+    c_dF = 1/pow(f, 0.5)
+    tmp = 1.9 + 0.7 * math.exp(-Lv / (32.5 * h * math.sin(alpha)))
+    c_dLH = pow(tmp, -0.5)
+    res = math.sqrt(1/(1/pow(c_dF, 2) + 1/pow(c_dLH, 2)))
+
+    return res
+
+
+def calculate_air_flow_1(cd, width, height, temp_out, temp_diff):
+    return (cd * width * height / 3) * math.sqrt(9.81 * height * temp_diff / (temp_out + 273.15))
+
+
+def calculate_air_flow_2(width, height, temp_diff):
+    return (width * height / 2) * math.sqrt(0.0035 * height * temp_diff)
+
+
+def calculate_air_flow_3(width, height, wind_speed, wind_turbulence, meteo_wind_speed, stack_effect, temp_in, temp_out):
+    mean_wind_speed = wind_turbulence + wind_speed * pow(meteo_wind_speed, 2) + stack_effect * height * abs(temp_in - temp_out)
+    return (3.6 * 500 * width * height * pow(mean_wind_speed, 2)) / 3600
+
+
+def estimate_relative_humidity(events, hum_module_in, hum_module_out, temp_module_in):
+    out = copy.deepcopy(events)
+
+    for i in range(0, len(out)):
+        event_data = out[i]['data']
+        wind = out[i]['wind_speed']
+        for j in range(0, len(event_data)):
+            device_values = event_data[j]['values']
+
+            measured_hum_in = None
+            measured_hum_out = None
+            measured_temp_in = None
+            for k in range(0, len(device_values)):
+                module = device_values[k]
+
+                if hum_module_in == module['custom_name']:
+                    measured_hum_in = module['measured']
+
+                if hum_module_out == module['custom_name']:
+                    measured_hum_out = module['measured']
+
+                if temp_module_in == module['custom_name']:
+                    measured_temp_in = module['measured']
+
+            discharge_coefficient = calculate_discharge_coefficient(wind)
+            for k in range(0, len(measured_hum_in)):
+                temp_diff = abs(out[i]['data'][j]['values'][2]['measured'][0]['value']
+                                - out[i]['data'][j]['values'][0]['measured'][0]['value'])
+                air_flow_1 = calculate_air_flow_1(discharge_coefficient, 0.53, 1.38,
+                                out[i]['data'][j]['values'][0]['measured'][0]['value'], temp_diff)
+                air_flow_2 = calculate_air_flow_2(0.53, 1.38, temp_diff)
+                air_flow_3 = calculate_air_flow_3(0.53, 1.38, 0.001, 0.01, wind, 0.0035,
+                                out[i]['data'][j]['values'][2]['measured'][0]['value'],
+                                out[i]['data'][j]['values'][0]['measured'][0]['value'])
+                hum_in = measured_hum_in[0]['specific_humidity']
+                hum_out = measured_hum_out[0]['specific_humidity']
+                #without heating
+                #res = (hum_out + (hum_in - hum_out) * math.exp(-air_flow_1 / 52.4 *
+                # (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])))
+                res = hum_out + (hum_in - hum_out) * math.exp(-air_flow_1 / 52.4 *
+                         (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])) + \
+                         (100 / 3600) / air_flow_1 * (1 - math.exp(-air_flow_1 / 52.4 *
+                         (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])))
+                saturated_partial_pressure = math.exp(23.58 - (4044.6 / (235.63 + measured_temp_in[0]['value'])))
+                measured_hum_in[k]['hum_in_estimated'] = ((res * 101500) / (res + 622)) / saturated_partial_pressure * 100
+    return out
+
+
 def gen_histogram_graph_with_factor(data):
     """
     https://www.windows2universe.org/earth/Atmosphere/wind_speeds.html
