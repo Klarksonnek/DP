@@ -788,6 +788,15 @@ class DataStorage:
 
         return out
 
+    def filter_downloaded_data_existing_attribute(self, events, attribute):
+        out = []
+
+        for event in events:
+            if attribute in event:
+                out.append(copy.deepcopy(event))
+
+        return out
+
     def filter_downloaded_data_two_conditions(self, events, module1, key1, limit, module2, key2, diff_min, diff_max):
         out = []
 
