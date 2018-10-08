@@ -1483,6 +1483,7 @@
 			"devices": {
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
 				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		}
