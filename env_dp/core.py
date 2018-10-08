@@ -788,6 +788,41 @@ class DataStorage:
 
         return out
 
+    def filter_downloaded_data_existing_attribute(self, events, attribute):
+        out = []
+
+        for event in events:
+            if attribute in event:
+                out.append(copy.deepcopy(event))
+
+        return out
+
+    def filter_downloaded_data_two_conditions(self, events, module1, key1, limit, module2, key2, diff_min, diff_max):
+        out = []
+
+        for event in events:
+            diff_item1 = None
+            diff_item2 = None
+            for event_type in event['data']:
+                for module in event_type['values']:
+                    if module['custom_name'] == module1 and module['measured'][0][key1] < limit:
+                        out.append(copy.deepcopy(event))
+                        continue
+
+                    if module['custom_name'] == module1:
+                        diff_item1 = module['measured'][0]
+
+                    if module['custom_name'] == module2:
+                        diff_item2 = module['measured'][0]
+
+            if diff_item1 is not None and diff_item2 is not None:
+                diff = abs(diff_item1[key1] - diff_item2[key2])
+                if diff_min <= diff <= diff_max:
+                    out.append(copy.deepcopy(event))
+
+        return out
+
+
     def download_data_for_normalization(self, type_id):
         # 15 minutes
         time_shift = 900
@@ -1905,6 +1940,35 @@ def convert_absolute_humidity_to_relative_humidity(events, temp_module, hum_modu
                 hum = measured_hum[k]['absolute_humidity']
                 res = (hum * (273.15 + temp)) / (6.112 * math.exp((17.67 * temp) / (temp + 243.5)) * 2.1674)
                 measured_hum[k]['relative_humidity_in'] = res
+
+    return events
+
+
+def convert_relative_humidity_to_specific_humidity(events, temp_module, hum_module):
+    for i in range(0, len(events)):
+        event_data = events[i]['data']
+
+        for j in range(0, len(event_data)):
+            device_values = event_data[j]['values']
+
+            measured_temp = None
+            measured_hum = None
+            for k in range(0, len(device_values)):
+                module = device_values[k]
+
+                if temp_module == module['custom_name']:
+                    measured_temp = module['measured']
+
+                if hum_module == module['custom_name']:
+                    measured_hum = module['measured']
+
+            for k in range(0, len(measured_temp)):
+                temp = measured_temp[k]['value']
+                hum = measured_hum[k]['value']
+                saturated_partial_pressure = math.exp(23.58 - (4044.6/(235.63 + temp)))
+                partial_pressure = (hum * saturated_partial_pressure) / 100
+                res = (622 * partial_pressure) / (101500 - partial_pressure)
+                measured_hum[k]['specific_humidity'] = res
 
     return events
 
