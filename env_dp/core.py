@@ -1996,18 +1996,31 @@ def convert_relative_humidity_to_specific_humidity(events, temp_module, hum_modu
 
 
 def calculate_discharge_coefficient(wind):
-    Lv = 0.53
-    h = 1.38
+    Lv = 0.503
+    h = 1.364
     alpha = 90
     us = wind
     mi = 1.825e-5
     ro = 1.204
-    e = 0.00025
-    a = 0.25
+    e = 0.00018
+
+    pore_h = 0.0016
+    pore_w = 0.0014
+    pore_area = pore_w * pore_h
+
+    num_pores_w = Lv / (pore_w + e)
+    num_pores_h = h / (pore_h + e)
+
+    pore_area_total = (num_pores_w * num_pores_h) * pore_area
+    window_area_total = Lv * h
+
+    porosity = pore_area_total / window_area_total
+
+    a = porosity
     K = 3.44e-9 * pow(a, 1.6)
     Y = 4.3e-2 * pow(a, -2.13)
 
-    rep = math.sqrt(K) * wind * ro / mi
+    rep = math.sqrt(K) * us * ro / mi
     if rep == 0:
         f = 2 * e / pow(K, 0.5) * Y
     else:
