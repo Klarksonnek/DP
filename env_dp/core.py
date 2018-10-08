@@ -2074,10 +2074,10 @@ def estimate_relative_humidity(events, hum_module_in, hum_module_out, temp_modul
             for k in range(0, len(measured_hum_in)):
                 temp_diff = abs(out[i]['data'][j]['values'][2]['measured'][0]['value']
                                 - out[i]['data'][j]['values'][0]['measured'][0]['value'])
-                air_flow_1 = calculate_air_flow_1(discharge_coefficient, 0.53, 1.38,
+                air_flow_1 = calculate_air_flow_1(discharge_coefficient, 0.503, 1.364,
                                 out[i]['data'][j]['values'][0]['measured'][0]['value'], temp_diff)
-                air_flow_2 = calculate_air_flow_2(0.53, 1.38, temp_diff)
-                air_flow_3 = calculate_air_flow_3(0.53, 1.38, 0.001, 0.01, wind, 0.0035,
+                air_flow_2 = calculate_air_flow_2(0.503, 1.364, temp_diff)
+                air_flow_3 = calculate_air_flow_3(0.503, 1.364, 0.001, 0.01, wind, 0.0035,
                                 out[i]['data'][j]['values'][2]['measured'][0]['value'],
                                 out[i]['data'][j]['values'][0]['measured'][0]['value'])
                 hum_in = measured_hum_in[0]['specific_humidity']
