@@ -1525,6 +1525,10 @@ def split_into_intervals(data, interval):
 
 def normalization(data, local_min, local_max, key):
     for i in range(0, len(data)):
+        if local_max - local_min == 0 and local_min == 0:
+            data[i][key + "_norm"] = 0
+            continue
+
         data[i][key + "_norm"] = (data[i][key] - local_min) / (local_max - local_min)
 
     return data
