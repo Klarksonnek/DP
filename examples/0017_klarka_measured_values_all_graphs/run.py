@@ -102,16 +102,6 @@ if __name__ == '__main__':
         g = {
             'title': 'Hum in and hum in estimated ' + t,
             'graphs': [
-                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value', 100),
-                dp.gen_simple_graph(norm_values_hum_out, 'red', 'hum out', 'value', 100)
-            ]
-        }
-
-        graphs.append(g)
-
-        g = {
-            'title': 'Hum in and hum in estimated ' + t,
-            'graphs': [
                 dp.gen_simple_graph(norm_values_hum_in, 'red', 'hum in', 'value', 100),
                 dp.gen_simple_graph(norm_values_hum_in, 'green', 'hum in estimated 1', 'hum_in_estimated1', 100),
                 dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in estimated 2', 'hum_in_estimated2', 100),
