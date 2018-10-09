@@ -1996,18 +1996,31 @@ def convert_relative_humidity_to_specific_humidity(events, temp_module, hum_modu
 
 
 def calculate_discharge_coefficient(wind):
-    Lv = 0.53
-    h = 1.38
+    Lv = 0.503
+    h = 1.364
     alpha = 90
     us = wind
     mi = 1.825e-5
     ro = 1.204
-    e = 0.00025
-    a = 0.25
+    e = 0.00018
+
+    pore_h = 0.0016
+    pore_w = 0.0014
+    pore_area = pore_w * pore_h
+
+    num_pores_w = Lv / (pore_w + e)
+    num_pores_h = h / (pore_h + e)
+
+    pore_area_total = (num_pores_w * num_pores_h) * pore_area
+    window_area_total = Lv * h
+
+    porosity = pore_area_total / window_area_total
+
+    a = porosity
     K = 3.44e-9 * pow(a, 1.6)
     Y = 4.3e-2 * pow(a, -2.13)
 
-    rep = math.sqrt(K) * wind * ro / mi
+    rep = math.sqrt(K) * us * ro / mi
     if rep == 0:
         f = 2 * e / pow(K, 0.5) * Y
     else:
@@ -2061,10 +2074,10 @@ def estimate_relative_humidity(events, hum_module_in, hum_module_out, temp_modul
             for k in range(0, len(measured_hum_in)):
                 temp_diff = abs(out[i]['data'][j]['values'][2]['measured'][0]['value']
                                 - out[i]['data'][j]['values'][0]['measured'][0]['value'])
-                air_flow_1 = calculate_air_flow_1(discharge_coefficient, 0.53, 1.38,
+                air_flow_1 = calculate_air_flow_1(discharge_coefficient, 0.503, 1.364,
                                 out[i]['data'][j]['values'][0]['measured'][0]['value'], temp_diff)
-                air_flow_2 = calculate_air_flow_2(0.53, 1.38, temp_diff)
-                air_flow_3 = calculate_air_flow_3(0.53, 1.38, 0.001, 0.01, wind, 0.0035,
+                air_flow_2 = calculate_air_flow_2(0.503, 1.364, temp_diff)
+                air_flow_3 = calculate_air_flow_3(0.503, 1.364, 0.001, 0.01, wind, 0.0035,
                                 out[i]['data'][j]['values'][2]['measured'][0]['value'],
                                 out[i]['data'][j]['values'][0]['measured'][0]['value'])
                 hum_in = measured_hum_in[0]['specific_humidity']
@@ -2072,12 +2085,29 @@ def estimate_relative_humidity(events, hum_module_in, hum_module_out, temp_modul
                 #without heating
                 #res = (hum_out + (hum_in - hum_out) * math.exp(-air_flow_1 / 52.4 *
                 # (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])))
-                res = hum_out + (hum_in - hum_out) * math.exp(-air_flow_1 / 52.4 *
+                res1 = hum_out + (hum_in - hum_out) * math.exp(-air_flow_1 / 52.4 *
                          (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])) + \
-                         (100 / 3600) / air_flow_1 * (1 - math.exp(-air_flow_1 / 52.4 *
+                         (0 / 3600) / air_flow_1 * (1 - math.exp(-air_flow_1 / 52.4 *
                          (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])))
+                res2 = hum_out + (hum_in - hum_out) * math.exp(-air_flow_2 / 52.4 *
+                         (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])) + \
+                         (0 / 3600) / air_flow_2 * (1 - math.exp(-air_flow_2 / 52.4 *
+                         (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])))
+                res3 = hum_out + (hum_in - hum_out) * math.exp(-air_flow_3 / 52.4 *
+                         (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])) + \
+                         (0 / 3600) / air_flow_3 * (1 - math.exp(-air_flow_3 / 52.4 *
+                         (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])))
+                res4 = (hum_in * math.exp(-(measured_hum_in[k]['at'] - measured_hum_in[0]['at']) * air_flow_1 / 52.4) + (0 / (air_flow_1 * 1.2) + hum_out) * (1 - math.exp(-(measured_hum_in[k]['at'] - measured_hum_in[0]['at']) * air_flow_1 / 52.4)))
+                res5 = (((0 + air_flow_1 * hum_out - air_flow_1 * hum_in) * (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])) / 52.4)
+                res6 = (hum_in - hum_out) * math.exp(-air_flow_1 / 52.4 * (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])) + hum_out + (0 / air_flow_1) * (1 - math.exp(-air_flow_1 / 52.4 * (measured_hum_in[k]['at'] - measured_hum_in[0]['at'])))
+
                 saturated_partial_pressure = math.exp(23.58 - (4044.6 / (235.63 + measured_temp_in[0]['value'])))
-                measured_hum_in[k]['hum_in_estimated'] = ((res * 101500) / (res + 622)) / saturated_partial_pressure * 100
+                measured_hum_in[k]['hum_in_estimated1'] = ((res1 * 101500) / (res1 + 622)) / saturated_partial_pressure * 100
+                measured_hum_in[k]['hum_in_estimated2'] = ((res2 * 101500) / (res2 + 622)) / saturated_partial_pressure * 100
+                measured_hum_in[k]['hum_in_estimated3'] = ((res3 * 101500) / (res3 + 622)) / saturated_partial_pressure * 100
+                measured_hum_in[k]['hum_in_estimated4'] = ((res4 * 101500) / (res4 + 622)) / saturated_partial_pressure * 100
+                measured_hum_in[k]['hum_in_estimated5'] = (((hum_in + res5) * 101500) / ((hum_in + res5) + 622)) / saturated_partial_pressure * 100
+                measured_hum_in[k]['hum_in_estimated6'] = ((res6 * 101500) / (res6 + 622)) / saturated_partial_pressure * 100
     return out
 
 
