@@ -16,6 +16,7 @@
 				"event_end": "2018/05/02 08:04:10"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -36,6 +37,7 @@
 				"event_end": "2018/05/05 07:27:43"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -56,6 +58,7 @@
 				"event_end": "2018/05/05 09:06:59"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -76,6 +79,7 @@
 				"event_end": "2018/05/05 11:50:29"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -96,6 +100,7 @@
 				"event_end": "2018/05/05 14:20:07"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -116,6 +121,7 @@
 				"event_end": "2018/05/05 15:20:40"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -136,6 +142,7 @@
 				"event_end": "2018/05/05 16:33:08"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -156,6 +163,7 @@
 				"event_end": "2018/05/05 20:16:14"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -176,6 +184,7 @@
 				"event_end": "2018/05/05 21:10:07"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -196,6 +205,7 @@
 				"event_end": "2018/05/05 23:16:19"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -216,6 +226,7 @@
 				"event_end": "2018/05/06 07:00:46"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -236,6 +247,7 @@
 				"event_end": "2018/05/06 07:50:08"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -256,6 +268,7 @@
 				"event_end": "2018/05/06 09:05:15"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -276,6 +289,7 @@
 				"event_end": "2018/05/06 10:23:14"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -296,6 +310,7 @@
 				"event_end": "2018/05/06 11:52:13"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -316,6 +331,7 @@
 				"event_end": "2018/05/06 13:31:38"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -336,6 +352,7 @@
 				"event_end": "2018/05/08 11:41:49"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -356,6 +373,7 @@
 				"event_end": "2018/05/08 15:46:46"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -376,6 +394,7 @@
 				"event_end": "2018/05/08 18:43:53"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -396,6 +415,7 @@
 				"event_end": "2018/05/08 20:13:14"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -416,6 +436,7 @@
 				"event_end": "2018/05/08 22:56:51"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -436,6 +457,7 @@
 				"event_end": "2018/05/09 07:35:43"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -456,6 +478,7 @@
 				"event_end": "2018/05/09 08:23:10"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -476,6 +499,7 @@
 				"event_end": "2018/05/10 18:30:52"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -496,6 +520,7 @@
 				"event_end": "2018/05/10 20:44:02"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -515,6 +540,7 @@
 				"event_end": "2018/05/10 22:42:24"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -535,6 +561,7 @@
 				"event_end": "2018/05/11 08:04:12"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -555,6 +582,7 @@
 				"event_end": "2018/05/11 11:51:32"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -575,6 +603,7 @@
 				"event_end": "2018/05/11 15:04:30"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -595,6 +624,7 @@
 				"event_end": "2018/05/11 16:48:12"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -615,6 +645,7 @@
 				"event_end": "2018/05/11 18:05:56"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -635,6 +666,7 @@
 				"event_end": "2018/05/12 00:57:29"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -655,6 +687,7 @@
 				"event_end": "2018/05/12 02:07:54"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -675,6 +708,7 @@
 				"event_end": "2018/05/12 09:54:04"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -695,6 +729,7 @@
 				"event_end": "2018/05/12 17:13:06"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -715,6 +750,7 @@
 				"event_end": "2018/05/12 18:19:12"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -735,6 +771,7 @@
 				"event_end": "2018/05/12 19:34:47"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -755,6 +792,7 @@
 				"event_end": "2018/05/12 20:43:09"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -775,6 +813,7 @@
 				"event_end": "2018/05/14 22:37:13"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -795,6 +834,7 @@
 				"event_end": "2018/05/15 08:01:10"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -815,6 +855,7 @@
 				"event_end": "2018/05/15 20:50:14"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -835,6 +876,7 @@
 				"event_end": "2018/05/15 23:53:10"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -855,6 +897,7 @@
 				"event_end": "2018/05/16 09:04:37"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -875,6 +918,7 @@
 				"event_end": "2018/05/16 15:00:04"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -895,6 +939,7 @@
 				"event_end": "2018/05/16 18:56:07"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -915,6 +960,7 @@
 				"event_end": "2018/05/16 20:23:05"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -935,6 +981,7 @@
 				"event_end": "2018/05/16 22:38:11"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -955,6 +1002,7 @@
 				"event_end": "2018/05/17 06:48:12"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -975,6 +1023,7 @@
 				"event_end": "2018/05/19 08:52:40"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -995,6 +1044,7 @@
 				"event_end": "2018/05/19 14:49:37"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1015,6 +1065,7 @@
 				"event_end": "2018/05/19 20:20:03"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1035,6 +1086,7 @@
 				"event_end": "2018/05/19 23:35:42"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1055,6 +1107,7 @@
 				"event_end": "2018/05/20 07:24:27"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1075,6 +1128,7 @@
 				"event_end": "2018/05/20 09:27:01"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1095,6 +1149,7 @@
 				"event_end": "2018/05/20 10:38:41"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1115,6 +1170,7 @@
 				"event_end": "2018/05/20 14:50:06"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1135,6 +1191,7 @@
 				"event_end": "2018/05/20 18:21:06"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1155,6 +1212,7 @@
 				"event_end": "2018/05/20 22:34:08"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1175,6 +1233,7 @@
 				"event_end": "2018/05/21 00:03:49"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
 				"protronix": ["co2"]
 			}
@@ -1195,6 +1254,7 @@
 				"event_end": "2018/09/24 07:10:57"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1217,6 +1277,7 @@
 				"event_end": "2018/09/24 20:55:51"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1239,6 +1300,7 @@
 				"event_end": "2018/09/24 23:56:04"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1261,6 +1323,7 @@
 				"event_end": "2018/09/25 16:53:38"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1283,6 +1346,7 @@
 				"event_end": "2018/09/25 21:22:26"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1305,6 +1369,7 @@
 				"event_end": "2018/09/25 23:47:11"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1327,6 +1392,7 @@
 				"event_end": "2018/09/26 07:37:39"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1349,6 +1415,7 @@
 				"event_end": "2018/09/26 22:31:54"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1371,6 +1438,7 @@
 				"event_end": "2018/10/02 16:25:47"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1393,6 +1461,7 @@
 				"event_end": "2018/10/03 08:32:07"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1415,6 +1484,7 @@
 				"event_end": "2018/10/03 18:49:52"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1437,6 +1507,7 @@
 				"event_end": "2018/10/03 22:48:41"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1459,6 +1530,7 @@
 				"event_end": "2018/10/04 08:10:19"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
 				"jablotron": ["open_close"],
@@ -1481,8 +1553,10 @@
 				"event_end": "2018/10/04 22:33:36"
 			},
 			"devices": {
+				"beeeon_gateway": ["pressure_in"],
 				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
 				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
 				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		}
