@@ -112,8 +112,13 @@ if __name__ == '__main__':
         g = {
             'title': 'Hum in and hum in estimated ' + t,
             'graphs': [
-                dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'hum in', 'value', 100),
-                dp.gen_simple_graph(norm_values_hum_in, 'DarkRed', 'hum in estimated', 'hum_in_estimated', 100)
+                dp.gen_simple_graph(norm_values_hum_in, 'red', 'hum in', 'value', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'green', 'hum in estimated 1', 'hum_in_estimated1', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in estimated 2', 'hum_in_estimated2', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'magenta', 'hum in estimated 3', 'hum_in_estimated3', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'brown', 'hum in estimated 4', 'hum_in_estimated4', 100),
+                #dp.gen_simple_graph(norm_values_hum_in, 'cyan', 'hum in estimated 5', 'hum_in_estimated5', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'pink', 'hum in estimated 6', 'hum_in_estimated6', 100)
             ]
         }
 
