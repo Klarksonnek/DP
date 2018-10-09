@@ -2043,7 +2043,7 @@ def calculate_air_flow_2(width, height, temp_diff):
 
 def calculate_air_flow_3(width, height, wind_speed, wind_turbulence, meteo_wind_speed, stack_effect, temp_in, temp_out):
     mean_wind_speed = wind_turbulence + wind_speed * pow(meteo_wind_speed, 2) + stack_effect * height * abs(temp_in - temp_out)
-    return (3.6 * 500 * width * height * pow(mean_wind_speed, 2)) / 3600
+    return (3.6 * 500 * width * height * pow(mean_wind_speed, 0.5)) / 3600
 
 
 def estimate_relative_humidity(events, hum_module_in, hum_module_out, temp_module_in):
