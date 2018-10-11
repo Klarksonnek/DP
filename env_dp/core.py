@@ -1331,7 +1331,19 @@ class Graph:
 
             f.write('		<div style="overflow: auto;float:left">\n')
             f.write('			<canvas class="custom" id="g' + str(canvas_id))
-            f.write('" width="900px" height="500"></canvas>\n')
+            f.write('" width="900px" height="500" style="float:left"></canvas>\n')
+
+            if 'stat' in row:
+                f.write('		<div width="900px" height="500" style="padding: 50px; float: left">\n')
+
+                for key, value in row['stat']:
+                    sep = ':'
+                    if not key and not value:
+                        sep = '&nbsp;'
+
+                    f.write("<div>%s %s %s</div>" % (key, sep, value))
+                f.write('		</div>\n')
+
             f.write('		</div>\n')
 
             all_min = None
@@ -1545,6 +1557,10 @@ def normalization(data, local_min, local_max, key):
     for i in range(0, len(data)):
         if local_max - local_min == 0 and local_min == 0:
             data[i][key + "_norm"] = 0
+            continue
+
+        if local_max - local_min == 0:
+            data[i][key + "_norm"] = 0.5
             continue
 
         data[i][key + "_norm"] = (data[i][key] - local_min) / (local_max - local_min)
@@ -2292,6 +2308,16 @@ def filter_number_events(events, count):
             out.append(copy.deepcopy(event))
 
     return out
+
+
+def find_module_measured(event, module_name):
+    modules = event['data'][0]['values']
+
+    for module in modules:
+        if module_name == module['custom_name']:
+            return module['measured']
+
+    raise ValueError('unknown module %s' % module_name)
 
 
 def main():
