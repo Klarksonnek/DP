@@ -1547,6 +1547,10 @@ def normalization(data, local_min, local_max, key):
             data[i][key + "_norm"] = 0
             continue
 
+        if local_max - local_min == 0:
+            data[i][key + "_norm"] = 0.5
+            continue
+
         data[i][key + "_norm"] = (data[i][key] - local_min) / (local_max - local_min)
 
     return data
