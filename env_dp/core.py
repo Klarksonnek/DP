@@ -2294,5 +2294,15 @@ def filter_number_events(events, count):
     return out
 
 
+def find_module_measured(event, module_name):
+    modules = event['data'][0]['values']
+
+    for module in modules:
+        if module_name == module['custom_name']:
+            return module['measured']
+
+    raise ValueError('unknown module %s' % module_name)
+
+
 def main():
     pass
