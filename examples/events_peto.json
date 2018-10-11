@@ -19,7 +19,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -41,7 +41,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -63,7 +63,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -85,7 +85,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -107,7 +107,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -129,7 +129,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -151,7 +151,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -173,7 +173,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -195,7 +195,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -217,7 +217,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -239,7 +239,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -261,7 +261,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -283,7 +283,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -305,7 +305,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -327,7 +327,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -349,7 +349,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -371,7 +371,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -393,7 +393,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -415,7 +415,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -437,7 +437,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -459,7 +459,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -481,7 +481,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -503,7 +503,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -525,7 +525,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -547,7 +547,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -568,7 +568,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -590,7 +590,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -612,7 +612,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -634,7 +634,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -656,7 +656,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -678,7 +678,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -700,7 +700,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -722,7 +722,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -744,7 +744,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -766,7 +766,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -788,7 +788,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -810,7 +810,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -832,7 +832,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -854,7 +854,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -876,7 +876,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -898,7 +898,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -920,7 +920,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -942,7 +942,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -964,7 +964,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -986,7 +986,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1008,7 +1008,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1030,7 +1030,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1052,7 +1052,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1074,7 +1074,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1096,7 +1096,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1118,7 +1118,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1140,7 +1140,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1162,7 +1162,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1184,7 +1184,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1206,7 +1206,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1228,7 +1228,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1250,7 +1250,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1272,7 +1272,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
@@ -1294,7 +1294,7 @@
 			"devices": {
 				"beeeon_gateway": ["pressure_in"],
 				"jablotron": ["open_close"],
-				"protronix": ["co2"]
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
 		},
 		{
