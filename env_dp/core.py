@@ -1331,7 +1331,19 @@ class Graph:
 
             f.write('		<div style="overflow: auto;float:left">\n')
             f.write('			<canvas class="custom" id="g' + str(canvas_id))
-            f.write('" width="900px" height="500"></canvas>\n')
+            f.write('" width="900px" height="500" style="float:left"></canvas>\n')
+
+            if 'stat' in row:
+                f.write('		<div width="900px" height="500" style="padding: 50px; float: left">\n')
+
+                for key, value in row['stat']:
+                    sep = ':'
+                    if not key and not value:
+                        sep = '&nbsp;'
+
+                    f.write("<div>%s %s %s</div>" % (key, sep, value))
+                f.write('		</div>\n')
+
             f.write('		</div>\n')
 
             all_min = None
