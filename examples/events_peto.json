@@ -3,6 +3,7 @@
 		{
 			"description": "",
 			"location": "intrak_intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -25,6 +26,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -47,6 +49,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -69,6 +72,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -91,6 +95,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -113,6 +118,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -135,6 +141,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -157,6 +164,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -179,6 +187,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -201,6 +210,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -223,6 +233,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -245,6 +256,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -267,6 +279,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -289,6 +302,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -311,6 +325,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -333,6 +348,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -355,6 +371,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -377,6 +394,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -399,6 +417,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -421,6 +440,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -443,6 +463,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -465,6 +486,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -487,6 +509,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -509,6 +532,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -531,6 +555,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -553,6 +578,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -574,6 +600,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -596,6 +623,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "light",
@@ -618,6 +646,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "light",
@@ -640,6 +669,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "calm",
@@ -662,6 +692,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "calm",
@@ -684,6 +715,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "medium",
@@ -706,6 +738,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "medium",
@@ -728,6 +761,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "calm",
@@ -750,6 +784,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "strong",
@@ -772,6 +807,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "medium",
@@ -794,6 +830,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "medium",
@@ -816,6 +853,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 1,
 			"wind": "medium",
@@ -838,6 +876,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 3,
 			"wind": "calm",
@@ -860,6 +899,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -882,6 +922,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -904,6 +945,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -926,6 +968,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -948,6 +991,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -970,6 +1014,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -992,6 +1037,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1014,6 +1060,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -1036,6 +1083,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1058,6 +1106,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1080,6 +1129,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1102,6 +1152,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1124,6 +1175,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "calm",
@@ -1146,6 +1198,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1168,6 +1221,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1190,6 +1244,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -1212,6 +1267,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "medium",
@@ -1234,6 +1290,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1256,6 +1313,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1278,6 +1336,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "no",
 			"people": 2,
 			"wind": "light",
@@ -1300,6 +1359,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "medium",
@@ -1324,6 +1384,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "light",
@@ -1348,6 +1409,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "light",
@@ -1372,6 +1434,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_zemi",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "light",
@@ -1396,6 +1459,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "calm",
@@ -1420,6 +1484,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -1444,6 +1509,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -1468,6 +1534,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "calm",
@@ -1492,6 +1559,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "light",
@@ -1516,6 +1584,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "light",
@@ -1540,6 +1609,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "light",
@@ -1564,6 +1634,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -1588,6 +1659,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "calm",
@@ -1612,6 +1684,7 @@
 		{
 			"description": "",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -1636,6 +1709,7 @@
 		{
 			"description": "1",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 1,
 			"wind": "light",
@@ -1660,6 +1734,7 @@
 		{
 			"description": "2",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 1,
 			"wind": "calm",
@@ -1684,6 +1759,7 @@
 		{
 			"description": "3",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 1,
 			"wind": "light",
@@ -1708,6 +1784,7 @@
 		{
 			"description": "4",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "light",
@@ -1732,6 +1809,7 @@
 		{
 			"description": "5",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "calm",
@@ -1756,6 +1834,7 @@
 		{
 			"description": "7",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "calm",
@@ -1780,6 +1859,7 @@
 		{
 			"description": "8",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "calm",
@@ -1804,6 +1884,7 @@
 		{
 			"description": "9",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "light",
@@ -1828,6 +1909,7 @@
 		{
 			"description": "10",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -1852,6 +1934,7 @@
 		{
 			"description": "11",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -1876,6 +1959,7 @@
 		{
 			"description": "12",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "calm",
@@ -1900,6 +1984,7 @@
 		{
 			"description": "13",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -1924,6 +2009,7 @@
 		{
 			"description": "14",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 1,
 			"wind": "calm",
@@ -1948,6 +2034,7 @@
 		{
 			"description": "15",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 1,
 			"wind": "calm",
@@ -1972,6 +2059,7 @@
 		{
 			"description": "16",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "light",
@@ -1996,6 +2084,7 @@
 		{
 			"description": "17",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "light",
@@ -2020,6 +2109,7 @@
 		{
 			"description": "18",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -2044,6 +2134,7 @@
 		{
 			"description": "19",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "light",
@@ -2068,6 +2159,7 @@
 		{
 			"description": "20",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "light",
@@ -2092,6 +2184,7 @@
 		{
 			"description": "21",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "light",
@@ -2116,6 +2209,7 @@
 		{
 			"description": "22",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -2140,6 +2234,7 @@
 		{
 			"description": "23",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -2164,6 +2259,7 @@
 		{
 			"description": "24",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "calm",
@@ -2188,6 +2284,7 @@
 		{
 			"description": "25",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 3,
 			"wind": "light",
@@ -2212,6 +2309,7 @@
 		{
 			"description": "26",
 			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
 			"out_sensor": "yes",
 			"people": 2,
 			"wind": "medium",
