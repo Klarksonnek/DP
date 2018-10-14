@@ -2347,5 +2347,19 @@ def find_module_measured(event, module_name):
     raise ValueError('unknown module %s' % module_name)
 
 
+class UtilCO2:
+    CO_MOLECULAR_WEIGHT = 44.0095 # g / mol
+
+    @staticmethod
+    # http://www.aresok.org/npg/nioshdbs/calc.htm
+    def co2_from_ppm_to_g_m3(co2):
+        return co2 * UtilCO2.CO_MOLECULAR_WEIGHT / 24.45
+
+    @staticmethod
+    # http://www.aresok.org/npg/nioshdbs/calc.htm
+    def co2_from_g_m3_to_ppm(co2):
+        return co2 * 24.45 / UtilCO2.CO_MOLECULAR_WEIGHT
+
+
 def main():
     pass
