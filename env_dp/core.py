@@ -2357,6 +2357,80 @@ def extract_value(modules, module_name, value_index):
     raise ValueError('unknown module %s' % module_name)
 
 
+def to_zzn_csv(events, sep, header, func_row, write_each=15):
+    """Funkcia na vygenerovanie troch suborov so zadanych eventov.
+    Prvy (f1) subor obsahuje len udalosti otvorenia okna.
+    Druhy (f2) subor obsahuje udalosti otvorenia okna a udaje z no_event_start,
+    co sluzi na rozdelenie dat tak, aby 50 % boli udalosti s otvorenim okna a
+    zvysnych 50 % udalosti, kedy k otvoreniu okna nedoslo.
+    Treti (f3) subor obsahuje vsetky namerane udaje pocas otvorenia okna.
+
+    :param events: zoznam vsetkych eventov
+    :param sep: znak, ktory oddeluje stlpce
+    :param header: hlavicka csv suboru
+    :param func_row: funkcia, ktora spracuje data a vrati jeden riadok nameranych dat
+    :param write_each: zapise sa len kazda x-ta hodnota
+    :return:
+    """
+
+    # file with data related to window opening from event_start
+    f1 = 'open.csv'
+    f1_content = header
+
+    # file with data related to window opening from event_start and window closing from
+    # no_event_start
+    f2 = 'open_close.csv'
+    f2_content = header
+
+    # file with event_start data without last value that contains window closing date
+    f3 = 'all.csv'
+    f3_content = header
+
+    for event in events:
+        for event_type in event['data']:
+            modules = event_type['values']
+            value_count = len(event_type['weather_dw'])
+
+            for i in range(0, value_count):
+                # potrebujeme poznat aj poslednu polozku, takze ju nepreskocime
+                if i % write_each != 0 and i != value_count - 1:
+                    continue
+
+                row = func_row(
+                    event,
+                    modules,
+                    i,
+                    sep,
+                    value_count,
+                    event['times'][event_type['type']],
+                    event_type['type']
+                ) + '\n'
+
+                # write only window opening date
+                if i == 0 and event_type['type'] == 'event_start':
+                    f1_content += row
+                    f2_content += row
+
+                # write only window closing data
+                elif i == value_count - 1 and event_type['type'] == 'no_event_start':
+                    f2_content += row
+
+                # write all event_start data
+                if event_type['type'] == 'event_start':
+                    f3_content += row
+
+    with open(f1, 'w') as f:
+        f.write(f1_content)
+
+    with open(f2, 'w') as f:
+        f.write(f2_content)
+
+    with open(f3, 'w') as f:
+        f.write(f3_content)
+
+    return f1_content, f2_content, f3_content
+
+
 class UtilCO2:
     CO_MOLECULAR_WEIGHT = 44.0095 # g / mol
 
