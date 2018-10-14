@@ -2347,6 +2347,16 @@ def find_module_measured(event, module_name):
     raise ValueError('unknown module %s' % module_name)
 
 
+def extract_value(modules, module_name, value_index):
+    """Funkcia vyberie zo zoznamu modulov pozadovany modul a nasledne hodnotu na zadanom indexe.
+    """
+    for row in modules:
+        if row['custom_name'] == module_name:
+            return row['measured'][value_index]
+
+    raise ValueError('unknown module %s' % module_name)
+
+
 class UtilCO2:
     CO_MOLECULAR_WEIGHT = 44.0095 # g / mol
 
