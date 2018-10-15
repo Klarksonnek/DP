@@ -672,7 +672,7 @@ class DataStorage:
             new['data'] = []
             del (new['devices'])
 
-            types = ['event_start', 'no_event_start']
+            types = ['event_start']
 
             for type_id in types:
                 one_sensor = {
@@ -726,10 +726,7 @@ class DataStorage:
 
         return out_data
 
-    def __cut_normalization(self, times, data):
-        start = times['event_start']
-        end = times['event_end']
-
+    def __cut_normalization(self, start, end, data):
         for i in range(0, len(data['values'])):
             values = data['values'][i]
             out_json = []
@@ -845,25 +842,27 @@ class DataStorage:
 
         for k in range(0, len(out_json)):
             event = out_json[k]
-            e_start = event['times']['event_start']
-            e_end = event['times']['event_end']
-
-            event['weather_dw'] = self.__weather_client.weather_data(e_start, e_end)
 
             for j in range(0, len(event['data'])):
                 event_type = event['data'][j]
 
-                if event_type['type'] != 'event_start':
-                    continue
+                s_time = event['times']['event_start']
+                e_time = event['times']['event_end']
+
+                if event_type['type'] == 'no_event_start':
+                    s_time = event['times']['no_event_start']
+                    e_time = event['times']['no_event_start'] + 1
+
+                    if s_time > e_time:
+                        s_time, e_time = e_time, s_time
+
+                event_type['weather_dw'] = self.__weather_client.weather_data(s_time, e_time)
 
                 tmp_modules = []
                 for i in range(0, len(event_type['values'])):
                     module = event_type['values'][i]
 
                     if module['custom_name'] in type_id:
-                        s_time = event['times']['event_start']
-                        e_time = event['times']['event_end']
-
                         module['measured'] = self.__client.history(
                             module['gateway'],
                             module['device'],
@@ -872,34 +871,40 @@ class DataStorage:
                             int(utc_timestamp_to_local_time(e_time).timestamp() + time_shift)
                         )['data']
 
-                        module['measured'] = self.__filter_not_null(module['measured'] )
+                        module['measured'] = self.__filter_not_null(module['measured'])
 
                         tmp_modules.append(module)
 
                 event_type['values'] = tmp_modules
-
-                event['data'] = [event_type]
-                event['data'][j] = self.__generate_event_data(event_type)
-                event['data'][j] = self.__cut_normalization(event['times'], event['data'][j])
-
-                # sluzi na odfiltrovanie no_event_start
-                break
+                event_type = self.__generate_event_data(
+                    event_type,
+                    int(utc_timestamp_to_local_time(s_time).timestamp()),
+                    int(utc_timestamp_to_local_time(e_time).timestamp()))
+                self.__cut_normalization(s_time, e_time, event_type)
 
         out = []
         for event in out_json:
-            weather_len = len(event['weather_dw'])
-            e_start = event['times']['event_start']
-            e_end = event['times']['event_end']
             fail = False
 
             for event_type in event['data']:
+                weather_len = len(event_type['weather_dw'])
+                s_time = event['times']['event_start']
+                e_time = event['times']['event_end']
+
+                if event_type['type'] == 'no_event_start':
+                    s_time = event['times']['no_event_start']
+                    e_time = event['times']['no_event_start'] + 1
+
+                    if s_time > e_time:
+                        s_time, e_time = e_time, s_time
+
                 for row in event_type['values']:
                     if len(row['measured']) != weather_len:
                         s = 'event '
-                        s += utc_timestamp_to_str(e_start, '%Y/%m/%d %H:%M:%S')
+                        s += utc_timestamp_to_str(s_time, '%Y/%m/%d %H:%M:%S')
 
                         s += ' - '
-                        s += utc_timestamp_to_str(e_end, '%Y/%m/%d %H:%M:%S')
+                        s += utc_timestamp_to_str(e_time, '%Y/%m/%d %H:%M:%S')
 
                         s += ' is ignored'
                         s += ' stiahnute data neobsahuju data za dany interval (chyba senzora)'
@@ -953,11 +958,26 @@ class DataStorage:
 
         return 1
 
-    def __generate_event_data(self, event):
+    def __generate_event_data(self, event, s_time=None, e_time=None):
         out = copy.deepcopy(event)
         out['values'] = []
 
         for item in event['values']:
+            if s_time is not None and e_time is not None:
+                # simple hack for no_event_start, each value is set to 0 by default
+                if event['type'] == 'no_event_start' and item['type_id'] == 'open_close':
+                    out_values = []
+
+                    for i in range(0, e_time - s_time + 1):
+                        out_values.append({
+                            "at": s_time + i,
+                            "value": 0
+                        })
+
+                    item['measured'] = out_values
+                    out['values'].append(item)
+                    continue
+
             if len(item['measured']) <= 1:
                 if item['type_id'] == 'open_close':
                     out['values'].append(item)
@@ -1174,9 +1194,16 @@ class DataStorage:
         mysleny cas, ktory je vacsi ako aktualny.
         """
 
-        for e in self.__meta_data:
-            new_value = e['times']['event_start'] + no_event_start_time_shift
-            e['times']['no_event_start'] = new_value
+        for i in range(0, len(self.__meta_data)):
+            event = self.__meta_data[i]
+
+            new_value = event['times']['event_start'] + no_event_start_time_shift
+            event['times']['no_event_start'] = new_value
+
+            no_event_start = copy.deepcopy(event['data'][0])
+            no_event_start['type'] = 'no_event_start'
+
+            event['data'].append(no_event_start)
 
     @property
     def meta_data(self):
@@ -1679,7 +1706,7 @@ def histogram_data(data, time_step, time_limit):
         values = row['data'][0]['values'][0]['measured']
         id = 0
 
-        w = weather_for_histogram(row['weather_dw'])
+        w = weather_for_histogram(row['data'][0]['weather_dw'])
 
         for j in range(0, len(values)):
             if j % time_step != 0:
@@ -2289,13 +2316,13 @@ def cut_events(events, start, end):
 
         # cut weather
         new_weather = []
-        for j in range(0, len(event['weather_dw'])):
-            weather = event['weather_dw'][j]
+        for j in range(0, len(event['data'][0]['weather_dw'])):
+            weather = event['data'][0]['weather_dw'][j]
 
             if s <= weather['at'] < e:
                 new_weather.append(weather)
 
-        event['weather_dw'] = new_weather
+        event['data'][0]['weather_dw'] = new_weather
 
     return out
 
@@ -2304,7 +2331,7 @@ def filter_number_events(events, count):
     out = []
 
     for event in events:
-        if len(event['weather_dw']) == count:
+        if len(event['data'][0]['weather_dw']) == count:
             out.append(copy.deepcopy(event))
 
     return out
@@ -2318,6 +2345,104 @@ def find_module_measured(event, module_name):
             return module['measured']
 
     raise ValueError('unknown module %s' % module_name)
+
+
+def extract_value(modules, module_name, value_index):
+    """Funkcia vyberie zo zoznamu modulov pozadovany modul a nasledne hodnotu na zadanom indexe.
+    """
+    for row in modules:
+        if row['custom_name'] == module_name:
+            return row['measured'][value_index]
+
+    raise ValueError('unknown module %s' % module_name)
+
+
+def to_zzn_csv(events, sep, header, func_row, write_each=15):
+    """Funkcia na vygenerovanie troch suborov so zadanych eventov.
+    Prvy (f1) subor obsahuje len udalosti otvorenia okna.
+    Druhy (f2) subor obsahuje udalosti otvorenia okna a udaje z no_event_start,
+    co sluzi na rozdelenie dat tak, aby 50 % boli udalosti s otvorenim okna a
+    zvysnych 50 % udalosti, kedy k otvoreniu okna nedoslo.
+    Treti (f3) subor obsahuje vsetky namerane udaje pocas otvorenia okna.
+
+    :param events: zoznam vsetkych eventov
+    :param sep: znak, ktory oddeluje stlpce
+    :param header: hlavicka csv suboru
+    :param func_row: funkcia, ktora spracuje data a vrati jeden riadok nameranych dat
+    :param write_each: zapise sa len kazda x-ta hodnota
+    :return:
+    """
+
+    # file with data related to window opening from event_start
+    f1 = 'open.csv'
+    f1_content = header
+
+    # file with data related to window opening from event_start and window closing from
+    # no_event_start
+    f2 = 'open_close.csv'
+    f2_content = header
+
+    # file with event_start data without last value that contains window closing date
+    f3 = 'all.csv'
+    f3_content = header
+
+    for event in events:
+        for event_type in event['data']:
+            modules = event_type['values']
+            value_count = len(event_type['weather_dw'])
+
+            for i in range(0, value_count):
+                # potrebujeme poznat aj poslednu polozku, takze ju nepreskocime
+                if i % write_each != 0 and i != value_count - 1:
+                    continue
+
+                row = func_row(
+                    event,
+                    modules,
+                    i,
+                    sep,
+                    value_count,
+                    event['times'][event_type['type']],
+                    event_type['type']
+                ) + '\n'
+
+                # write only window opening date
+                if i == 0 and event_type['type'] == 'event_start':
+                    f1_content += row
+                    f2_content += row
+
+                # write only window closing data
+                elif i == value_count - 1 and event_type['type'] == 'no_event_start':
+                    f2_content += row
+
+                # write all event_start data
+                if event_type['type'] == 'event_start':
+                    f3_content += row
+
+    with open(f1, 'w') as f:
+        f.write(f1_content)
+
+    with open(f2, 'w') as f:
+        f.write(f2_content)
+
+    with open(f3, 'w') as f:
+        f.write(f3_content)
+
+    return f1_content, f2_content, f3_content
+
+
+class UtilCO2:
+    CO_MOLECULAR_WEIGHT = 44.0095 # g / mol
+
+    @staticmethod
+    # http://www.aresok.org/npg/nioshdbs/calc.htm
+    def co2_from_ppm_to_g_m3(co2):
+        return co2 * UtilCO2.CO_MOLECULAR_WEIGHT / 24.45
+
+    @staticmethod
+    # http://www.aresok.org/npg/nioshdbs/calc.htm
+    def co2_from_g_m3_to_ppm(co2):
+        return co2 * 24.45 / UtilCO2.CO_MOLECULAR_WEIGHT
 
 
 def main():
