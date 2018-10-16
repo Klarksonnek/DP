@@ -7,6 +7,7 @@ THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
 sys.path.append(CODE_DIR)
 
+import datetime
 import env_dp.core as dp
 import logging
 
@@ -22,6 +23,9 @@ if __name__ == '__main__':
 
     modules = ['beeeon_temperature_in', 'beeeon_humidity_in', 'beeeon_temperature_out', 'beeeon_humidity_out']
     all = storage.download_data_for_normalization(modules)
+
+    all = dp.cut_events(all, 0, 900)
+    all = dp.filter_number_events(all, 900)
 
     all = storage.filter_general_attribute_value(all, 'out_sensor', 'yes')
     all = dp.convert_relative_humidity_to_specific_humidity(all, 'beeeon_temperature_in', 'beeeon_humidity_in')
@@ -47,6 +51,13 @@ if __name__ == '__main__':
         norm_values_hum_in = dp.filter_one_values(filtered[i], 'beeeon_humidity_in')
         norm_values_temp_out = dp.filter_one_values(filtered[i], 'beeeon_temperature_out')
         norm_values_hum_out = dp.filter_one_values(filtered[i], 'beeeon_humidity_out')
+
+        start = filtered[i]['times']['event_start']
+        end = filtered[i]['times']['event_end']
+
+        t = datetime.datetime.fromtimestamp(start).strftime('%d.%m. %H:%M:%S')
+        t += ' - '
+        t += datetime.datetime.fromtimestamp(end).strftime('%H:%M:%S')
 
         precision = 2
 
@@ -100,7 +111,7 @@ if __name__ == '__main__':
         #graphs.append(g)
 
         g = {
-            'title': 'Temp in and temp out',
+            'title': 'Temp in and temp out ' + t,
             'stat': stat,
             'graphs': [
                 dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value', 100),
@@ -111,7 +122,7 @@ if __name__ == '__main__':
         graphs.append(g)
 
         g = {
-            'title': 'Hum in and hum out',
+            'title': 'Hum in and hum out ' + t,
             'graphs': [
                 dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value', 100),
                 dp.gen_simple_graph(norm_values_hum_out, 'red', 'hum out', 'value', 100)
@@ -121,7 +132,7 @@ if __name__ == '__main__':
         graphs.append(g)
 
         g = {
-            'title': 'Spec hum in and spec hum out',
+            'title': 'Spec hum in and spec hum out ' + t,
             'graphs': [
                 dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'specific_humidity', 100),
                 dp.gen_simple_graph(norm_values_hum_out, 'red', 'hum out', 'specific_humidity', 100)
@@ -131,7 +142,7 @@ if __name__ == '__main__':
         graphs.append(g)
 
         g = {
-            'title': 'Hum in and hum in estimated',
+            'title': 'Hum in and hum in estimated ' + t,
             'graphs': [
                 dp.gen_simple_graph(norm_values_hum_in, 'DarkBlue', 'hum in', 'value', 100),
                 dp.gen_simple_graph(norm_values_hum_in, 'DarkRed', 'hum in estimated', 'hum_in_estimated1', 100)
