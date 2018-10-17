@@ -111,6 +111,7 @@ if __name__ == '__main__':
 
     all = reduce_classes(all)
     all = storage.filter_downloaded_data_general_attribute(all, "g_type", "unclassified")
+    all = storage.filter_downloaded_data_general_attribute(all, "location", "na stolku")
 
     all = dp.cut_events(all, 0, 900)
     all = dp.filter_number_events(all, 900)
