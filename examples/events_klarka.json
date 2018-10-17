@@ -2208,7 +2208,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "konst",
+			"g_type": "mirny",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "jasno, slaby vitr",
@@ -2250,7 +2250,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "mirny",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "jasno, slaby vitr",
@@ -2271,7 +2271,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "silny vitr",
@@ -2292,7 +2292,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "slaby vitr",
@@ -2334,7 +2334,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "silny vitr",
@@ -2376,7 +2376,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "silny vitr",
@@ -2523,7 +2523,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "mirny_pokles",
+			"g_type": "strmy_pokles",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "oblacno, mirny vitr",
@@ -2796,7 +2796,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"window": "dokoran",
 			"door": "zavrene",
 			"weather": "mirny vitr",
