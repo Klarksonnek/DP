@@ -106,8 +106,12 @@ if __name__ == '__main__':
     modules = ['temperature_in', 'humidity_in', 'temperature_out', 'humidity_out']
     all = storage.download_data_for_normalization(modules)
 
+    all = dp.cut_events(all, 0, 900)
+    all = dp.filter_number_events(all, 900)
+
     all = reduce_classes(all)
     all = storage.filter_downloaded_data_general_attribute(all, "g_type", "unclassified")
+    all = storage.filter_downloaded_data_general_attribute(all, "location", "na stolku")
 
     all = dp.cut_events(all, 0, 900)
     all = dp.filter_number_events(all, 900)
@@ -118,12 +122,12 @@ if __name__ == '__main__':
     all = dp.convert_relative_humidity_to_absolute_humidity(all, 'temperature_in', 'humidity_in')
     all = dp.convert_relative_humidity_to_absolute_humidity(all, 'temperature_out', 'humidity_out')
 
-    filtered = dp.norm_all(all)
-    # filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',
-    #                                          'temperature_out', 'value', 5.0, 100.0)
-    # filtered = storage.filter_downloaded_data_one_module(filtered, 'temperature_out', 'value', 15.0)
-    # filtered = storage.filter_downloaded_data_two_conditions(filtered, 'humidity_out', 'specific_humidity',
-    #                                           6.0, 'humidity_in', 'specific_humidity', 1.6, 100.0)
+    norm = dp.norm_all(all)
+    filtered = storage.filter_downloaded_data(norm, 'temperature_in', 'value',
+                                              'temperature_out', 'value', 5.0, 100.0)
+    filtered = storage.filter_downloaded_data_one_module(filtered, 'temperature_out', 'value', 15.0)
+    filtered = storage.filter_downloaded_data_two_conditions(filtered, 'humidity_out', 'specific_humidity',
+                                              6.0, 'humidity_in', 'specific_humidity', 1.6, 100.0)
     filtered = storage.filter_downloaded_data_general_attribute(filtered, "window", "ventilacka")
     filtered = dp.estimate_relative_humidity(filtered, 'humidity_in', 'humidity_out', 'temperature_in')
     print("Event count: %d" % len(filtered))
@@ -145,8 +149,37 @@ if __name__ == '__main__':
         t += ' - '
         t += datetime.datetime.fromtimestamp(end).strftime('%H:%M:%S')
 
+        precision = 2
+
+        stat = [
+            ('teplota dnu', round(norm_values_temp_in[0]['value'], precision)),
+            ('teplota von', round(norm_values_temp_out[0]['value'], precision)),
+            ('rozdiel teplot',
+             round(abs(norm_values_temp_out[0]['value'] - norm_values_temp_in[0]['value']), precision)),
+
+            ('', ''),
+            ('rh dnu', round(norm_values_hum_in[0]['value'], precision)),
+            ('rh von', round(norm_values_hum_out[0]['value'], precision)),
+            ('rozdiel rh', round(abs(norm_values_hum_in[0]['value'] - norm_values_hum_out[0]['value']), precision)),
+
+            ('', ''),
+            ('abs rh dnu', round(norm_values_hum_in[0]['absolute_humidity'], precision)),
+            ('abs rh von', round(norm_values_hum_out[0]['absolute_humidity'], precision)),
+            ('rozdiel abs rh',
+             round(abs(norm_values_hum_in[0]['absolute_humidity'] - norm_values_hum_out[0]['absolute_humidity']),
+                   precision)),
+
+            ('', ''),
+            ('spec rh dnu', round(norm_values_hum_in[0]['specific_humidity'], precision)),
+            ('spec rh von', round(norm_values_hum_out[0]['specific_humidity'], precision)),
+            ('rozdiel spec rh',
+             round(abs(norm_values_hum_in[0]['specific_humidity'] - norm_values_hum_out[0]['specific_humidity']),
+                   precision)),
+        ]
+
         g = {
             'title': 'Temp in and temp out ' + t,
+            'stat': stat,
             'graphs': [
                 dp.gen_simple_graph(norm_values_temp_in, 'DarkRed', 'temp in', 'value', 100),
                 dp.gen_simple_graph(norm_values_temp_out, 'LightCoral', 'temp out', 'value', 100)
