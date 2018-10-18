@@ -166,8 +166,16 @@ class BeeeOnClient:
         filename = self.__cache_folder + '/history_' + h.hexdigest()
 
         if os.path.isfile(filename) and self.__cache:
-            self.__log.debug('from cache: history, %s, %s, %s, %s - %s' % (
-                gateway, device, sensor, start, end))
+            self.__log.debug('from cache: history, %s, %s, %s, %s - %s (%s - %s)' % (
+                gateway,
+                device,
+                sensor,
+                start,
+                end,
+                utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S'),
+                utc_timestamp_to_str(end, '%Y/%m/%d %H:%M:%S')
+            ))
+
             with open(filename) as f:
                 for line in f:
                     return json.loads(line.strip())
@@ -257,7 +265,13 @@ class WeatherData:
         filename = self.__cache_folder + '/weather_' + h.hexdigest()
 
         if os.path.isfile(filename) and self.__cache:
-            self.__log.debug('from cache: %s - %s' % (start, end))
+            self.__log.debug('from cache: %s - %s (%s - %s)' % (
+                start,
+                end,
+                utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S'),
+                utc_timestamp_to_str(end, '%Y/%m/%d %H:%M:%S')
+            ))
+
             with open(filename) as f:
                 for line in f:
                     return line.strip()
@@ -273,10 +287,9 @@ class WeatherData:
 
 
     def weather_data(self, start, end):
-        max_attempts = 5
+        max_attempts = 2
         for i in range(0, max_attempts):
             try:
-                self.__log.info(str(start) + " - " + str(end))
                 return self.__weather_data2(start, end)
             except KeyError:
                 self.__log.debug('wait')
