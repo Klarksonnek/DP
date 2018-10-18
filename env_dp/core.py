@@ -2490,6 +2490,27 @@ class UtilCO2:
 
         return (V / Q) * math.log(F / (F - (Q * Ci_t)))
 
+    @staticmethod
+    def estimate_ppm(ti, C0, Ca, V, Q, F):
+        """
+        Odhad koncentracie CO2, pouzite jednotky mozu byt ppm.
+
+        :param ti: cas [h]
+        :param C0: pociatocna koncentracia v case t = 0 [ppm]
+        :param Ca: vonkajsia koncentracia [ppm]
+        :param V: objem miestnosti [m^3]
+        :param Q: vymena vzduhu medzi dnu/von [m^3/h]
+        :param F: rychlost generace [l/h]
+        :return: koncentrace v case ti [ppm]
+        """
+
+        l = Q / V
+
+        diff = (C0 - Ca) * math.exp(-l * ti)
+        emission = (F * 1000) / (l * V) * (1 - math.exp(-l * ti))
+
+        return Ca + diff + emission
+
 
 def main():
     pass
