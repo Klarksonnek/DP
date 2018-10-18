@@ -2536,6 +2536,35 @@ class UtilCO2:
 
         return UtilCO2.co2_mg_m3_to_ppm(Ca + diff + emission)
 
+    @staticmethod
+    def generate_time_shift(events, time_interval, threshold):
+        """
+        Najdenie casoveho posunu, kde pokles CO2 za dany casovy interval je vacsi ako prah.
+
+        :param events:
+        :param time_interval: posun, v ktorom sa bude kontrolovat rozdiel hodnot
+        :param threshold: rozdiel hodnot CO2
+        :return:
+        """
+        for i in range(0, len(events)):
+            event = events[i]
+
+            for j in range(0, len(event['data'][0]['values'])):
+                module = event['data'][0]['values'][j]
+
+                if module['custom_name'] != 'co2':
+                    continue
+
+                for k in range(0, len(module['measured']) - time_interval):
+                    first_value = module['measured'][k]['value'] - threshold
+                    second_value = module['measured'][k + time_interval]['value']
+
+                    if first_value > second_value:
+                        event['time_shift'] = k
+                        break
+
+        return events
+
 
 def main():
     pass
