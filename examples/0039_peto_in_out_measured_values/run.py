@@ -12,6 +12,128 @@ import logging
 import datetime
 
 
+def gen_emission(activities):
+    emissions = 0
+
+    for activity in activities.split(','):
+        activity = activity.strip()
+        if 'kancelarska_praca' == activity:
+            emissions += 19
+        elif 'spanok' == activity:
+            emissions += 10
+        else:
+            raise ValueError('neznama aktivita: ' + activity)
+
+    return emissions
+
+
+def fill_estimate(events, module_name, V, Q, co2_ppm_out):
+    for i in range(0, len(events)):
+        event = events[i]
+        emissions = gen_emission(event['activity'])
+
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != 'co2':
+                continue
+
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'time_shift' in event and k <= event['time_shift']:
+                    value[module_name] = module['measured'][0]['value']
+                    continue
+
+                if 'time_shift' in event:
+                    value[module_name] = dp.UtilCO2.estimate_ppm(
+                        (k - event['time_shift']) / 3600,
+                        module['measured'][event['time_shift']]['value'],
+                        co2_ppm_out,
+                        V,
+                        Q,
+                        emissions)
+                else:
+                    value[module_name] = dp.UtilCO2.estimate_ppm(
+                        k / 3600,
+                        module['measured'][0]['value'],
+                        co2_ppm_out,
+                        V,
+                        Q,
+                        emissions)
+
+
+def prepare_weka_files(events):
+    file = open('co2_weka.arff', 'w')
+    file.write('@relation events\n\n')
+
+    class_name = 'graph_type'
+    out = ''
+
+    values = []
+    for ev in events:
+        m_protronix_temperature = dp.find_module_measured(ev, 'protronix_temperature')
+        m_beeeon_temperature_out = dp.find_module_measured(ev, 'beeeon_temperature_out')
+        m_protronix_humidity = dp.find_module_measured(ev, 'protronix_humidity')
+        m_beeeon_humidity_out = dp.find_module_measured(ev, 'beeeon_humidity_out')
+
+        precision = 2
+
+        values = [
+            ('people', ev['people']),
+            ('wind', ev['wind']),
+            ('sky', ev['sky']),
+            ('slnko', ev['sun']),
+            ('teplota_dnu', round(m_protronix_temperature[0]['value'], precision)),
+            ('teplota_von', round(m_beeeon_temperature_out[0]['value'], precision)),
+            ('rozdiel_teplot', round(abs(
+                m_beeeon_temperature_out[0]['value'] - m_protronix_temperature[0]['value']),
+                                     precision)),
+
+            ('rh_dnu', round(m_protronix_humidity[0]['value'], precision)),
+            ('rh_von', round(m_beeeon_humidity_out[0]['value'], precision)),
+            ('rozdiel_rh',
+             round(abs(m_protronix_humidity[0]['value'] - m_beeeon_humidity_out[0]['value']),
+                   precision)),
+
+            ('abs_rh_dnu', round(m_protronix_humidity[0]['absolute_humidity'], precision)),
+            ('abs_rh_von', round(m_beeeon_humidity_out[0]['absolute_humidity'], precision)),
+            ('rozdiel_abs_rh', round(abs(
+                m_protronix_humidity[0]['absolute_humidity'] - m_beeeon_humidity_out[0][
+                    'absolute_humidity']), precision)),
+
+            ('spec_rh_dnu', round(m_protronix_humidity[0]['specific_humidity'], precision)),
+            ('spec_rh_von', round(m_beeeon_humidity_out[0]['specific_humidity'], precision)),
+            ('rozdiel_spec_rh', round(abs(
+                m_protronix_humidity[0]['specific_humidity'] - m_beeeon_humidity_out[0][
+                    'specific_humidity']), precision)),
+            (class_name, ev['graph_type']),
+        ]
+
+        for i in range(0, len(values)):
+            value = values[i]
+
+            out += str(value[1])
+
+            if i != len(values) - 1:
+                out += ','
+
+        out += "\n"
+
+    for item, _ in values:
+        if item == class_name:
+            file.write('@attribute class {exponential, linear, uneven}\n')
+            continue
+
+        file.write('@attribute %s numeric\n' % item)
+
+    file.write('\n')
+    file.write('@data\n\n')
+
+    file.write('%s' % out)
+    file.close()
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -46,6 +168,11 @@ if __name__ == '__main__':
 
     norm = dp.norm_all(norm)
 
+    dp.UtilCO2.generate_time_shift(norm, 10, 10)
+    fill_estimate(norm, "odhad1", 48, 500, 460)
+
+    prepare_weka_files(norm)
+
     one_norm_graph = []
     graphs = []
 
@@ -75,6 +202,8 @@ if __name__ == '__main__':
         precision = 2
 
         stat = [
+            ('description', ev['description']),
+            ('graph_type', ev['graph_type']),
             ('people', ev['people']),
             ('wind', ev['wind']),
             ('obloha', ev['sky']),
@@ -104,11 +233,11 @@ if __name__ == '__main__':
             'title': 'CO2 in: ' + t,
             'stat': stat,
             'graphs': [
-                dp.gen_simple_graph(co2, 'blue', 'CO2 in', 'value', 50),
+                dp.gen_simple_graph(co2, 'blue', 'CO2 in', 'value', 100),
+                dp.gen_simple_graph(co2, 'red', 'Odhad CO2 in', 'odhad1', 100),
             ]
         }
         graphs.append(g)
-
         continue
 
         g = {
@@ -131,6 +260,8 @@ if __name__ == '__main__':
             ]
         }
         graphs.append(g)
+
+    print('number of events: %d' % len(norm))
 
     g = dp.Graph("./../../src/graph")
     g.gen(graphs, 'test_g.html', 0, 0)

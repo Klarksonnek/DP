@@ -1428,7 +1428,7 @@
 			"sky": "clear",
 			"sun": "no",
 			"open_type": "kridlo(90)",
-			"activity": "",
+			"activity": "spanok, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2018/09/24 06:54:31",
 				"event_end": "2018/09/24 07:10:57"
