@@ -12,6 +12,57 @@ import logging
 import datetime
 
 
+def gen_emission(activities):
+    emissions = 0
+
+    for activity in activities.split(','):
+        activity = activity.strip()
+        if 'kancelarska_praca' == activity:
+            emissions += 19
+        elif 'spanok' == activity:
+            emissions += 10
+        else:
+            raise ValueError('neznama aktivita: ' + activity)
+
+    return emissions
+
+
+def fill_estimate(events, module_name, V, Q, co2_ppm_out):
+    for i in range(0, len(events)):
+        event = events[i]
+        emissions = gen_emission(event['activity'])
+
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != 'co2':
+                continue
+
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'time_shift' in event and k <= event['time_shift']:
+                    value[module_name] = module['measured'][0]['value']
+                    continue
+
+                if 'time_shift' in event:
+                    value[module_name] = dp.UtilCO2.estimate_ppm(
+                        (k - event['time_shift']) / 3600,
+                        module['measured'][event['time_shift']]['value'],
+                        co2_ppm_out,
+                        V,
+                        Q,
+                        emissions)
+                else:
+                    value[module_name] = dp.UtilCO2.estimate_ppm(
+                        k / 3600,
+                        module['measured'][0]['value'],
+                        co2_ppm_out,
+                        V,
+                        Q,
+                        emissions)
+
+
 def prepare_weka_files(events):
     file = open('co2_weka.arff', 'w')
     file.write('@relation events\n\n')
@@ -117,6 +168,9 @@ if __name__ == '__main__':
 
     norm = dp.norm_all(norm)
 
+    dp.UtilCO2.generate_time_shift(norm, 10, 10)
+    fill_estimate(norm, "odhad1", 48, 500, 460)
+
     prepare_weka_files(norm)
 
     one_norm_graph = []
@@ -177,11 +231,11 @@ if __name__ == '__main__':
             'title': 'CO2 in: ' + t,
             'stat': stat,
             'graphs': [
-                dp.gen_simple_graph(co2, 'blue', 'CO2 in', 'value', 50),
+                dp.gen_simple_graph(co2, 'blue', 'CO2 in', 'value', 100),
+                dp.gen_simple_graph(co2, 'red', 'Odhad CO2 in', 'odhad1', 100),
             ]
         }
         graphs.append(g)
-
         continue
 
         g = {
