@@ -2441,7 +2441,7 @@ class UtilCO2:
 
     @staticmethod
     # http://www.aresok.org/npg/nioshdbs/calc.htm
-    def co2_from_g_m3_to_ppm(co2):
+    def co2_mg_m3_to_ppm(co2):
         return co2 * 24.45 / UtilCO2.CO_MOLECULAR_WEIGHT
 
 
