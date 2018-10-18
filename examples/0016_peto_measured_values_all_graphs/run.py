@@ -12,6 +12,26 @@ import env_dp.core as dp
 import logging
 
 
+def check_attributes(events):
+    wind = ['calm', 'light', 'medium', 'strong']
+    sky = ['clear', 'partly_cloudy', 'overcast', 'smog', 'night_sky']
+    sun = ['yes', 'no']
+    rain = ['yes', 'no']
+
+    for item in events:
+        if item['wind'] not in wind:
+            raise ValueError('wind attribute contains invalid input: %s' % item['wind'])
+
+        if item['sky'] not in sky:
+            raise ValueError('sky attribute contains invalid input: %s' % item['sky'])
+
+        if item['sun'] not in sun:
+            raise ValueError('sun attribute contains invalid input: %s' % item['sun'])
+
+        if item['rain'] not in rain:
+            raise ValueError('rain attribute contains invalid input: %s' % item['rain'])
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -22,7 +42,7 @@ if __name__ == '__main__':
     storage.read_meta_data('../devices_peto.json', '../events_peto.json')
 
     dw1 = storage.download_data_for_normalization(['co2'])
-
+    check_attributes(dw1)
     norm = dp.norm_all(dw1)
 
     graphs = []
