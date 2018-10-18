@@ -2459,6 +2459,20 @@ class UtilCO2:
 
         return V / 100  # prevod do litrov
 
+    @staticmethod
+    # http://www.umsl.edu/~biofuels/Energy%20Meter%20labs/How%20much%20volume%20does%20a%20kg%20of%20CO2%20occupy.pdf
+    # https://www.icbe.com/carbondatabase/CO2volumecalculation.asp
+    # https://en.wikipedia.org/wiki/Boyle%27s_law
+    # https: // en.wikipedia.org / wiki / Atmospheric_pressure
+    def co2_l_h_to_g_h(V, temperature=25):
+        R = 8.3144598
+        P = 1.01325  # tlak v baroch
+        T = 275.15 + temperature
+
+        n = (V * P) / (R * T)
+
+        return n * UtilCO2.CO_MOLECULAR_WEIGHT * 100
+
 
 def main():
     pass
