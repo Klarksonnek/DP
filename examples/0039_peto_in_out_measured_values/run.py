@@ -202,6 +202,8 @@ if __name__ == '__main__':
         precision = 2
 
         stat = [
+            ('description', ev['description']),
+            ('graph_type', ev['graph_type']),
             ('people', ev['people']),
             ('wind', ev['wind']),
             ('obloha', ev['sky']),
@@ -258,6 +260,8 @@ if __name__ == '__main__':
             ]
         }
         graphs.append(g)
+
+    print('number of events: %d' % len(norm))
 
     g = dp.Graph("./../../src/graph")
     g.gen(graphs, 'test_g.html', 0, 0)
