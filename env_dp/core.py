@@ -2511,6 +2511,31 @@ class UtilCO2:
 
         return Ca + diff + emission
 
+    @staticmethod
+    def estimate_mg_m3(ti, C0, Ca, V, Q, F):
+        """
+        Odhad koncentracie CO2, pouzite jednotky mozu byt g/m^3.
+
+        :param ti: cas [h]
+        :param C0: pociatocna koncentracia v case t = 0 [g/m^3]
+        :param Ca: vonkajsia koncentracia [g/m^3]
+        :param V: objem miestnosti [m^3]
+        :param Q: vymena vzduhu medzi dnu/von [m^3/h]
+        :param F: rychlost generace [l/h]
+        :return: koncentrace v case ti [g/m^3]
+        """
+
+        C0 = UtilCO2.co2_ppm_to_mg_m3(C0)
+        Ca = UtilCO2.co2_ppm_to_mg_m3(Ca)
+        F = UtilCO2.co2_l_h_to_g_h(F) * 1000  # g to mg
+
+        l = Q / V
+
+        diff = (C0 - Ca) * math.exp(-l * ti)
+        emission = F / (l * V) * (1 - math.exp(-l * ti))
+
+        return UtilCO2.co2_mg_m3_to_ppm(Ca + diff + emission)
+
 
 def main():
     pass
