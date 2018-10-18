@@ -12,6 +12,77 @@ import logging
 import datetime
 
 
+def prepare_weka_files(events):
+    file = open('co2_weka.arff', 'w')
+    file.write('@relation events\n\n')
+
+    class_name = 'graph_type'
+    out = ''
+
+    values = []
+    for ev in events:
+        m_protronix_temperature = dp.find_module_measured(ev, 'protronix_temperature')
+        m_beeeon_temperature_out = dp.find_module_measured(ev, 'beeeon_temperature_out')
+        m_protronix_humidity = dp.find_module_measured(ev, 'protronix_humidity')
+        m_beeeon_humidity_out = dp.find_module_measured(ev, 'beeeon_humidity_out')
+
+        precision = 2
+
+        values = [
+            ('people', ev['people']),
+            ('wind', ev['wind']),
+            ('sky', ev['sky']),
+            ('slnko', ev['sun']),
+            ('teplota_dnu', round(m_protronix_temperature[0]['value'], precision)),
+            ('teplota_von', round(m_beeeon_temperature_out[0]['value'], precision)),
+            ('rozdiel_teplot', round(abs(
+                m_beeeon_temperature_out[0]['value'] - m_protronix_temperature[0]['value']),
+                                     precision)),
+
+            ('rh_dnu', round(m_protronix_humidity[0]['value'], precision)),
+            ('rh_von', round(m_beeeon_humidity_out[0]['value'], precision)),
+            ('rozdiel_rh',
+             round(abs(m_protronix_humidity[0]['value'] - m_beeeon_humidity_out[0]['value']),
+                   precision)),
+
+            ('abs_rh_dnu', round(m_protronix_humidity[0]['absolute_humidity'], precision)),
+            ('abs_rh_von', round(m_beeeon_humidity_out[0]['absolute_humidity'], precision)),
+            ('rozdiel_abs_rh', round(abs(
+                m_protronix_humidity[0]['absolute_humidity'] - m_beeeon_humidity_out[0][
+                    'absolute_humidity']), precision)),
+
+            ('spec_rh_dnu', round(m_protronix_humidity[0]['specific_humidity'], precision)),
+            ('spec_rh_von', round(m_beeeon_humidity_out[0]['specific_humidity'], precision)),
+            ('rozdiel_spec_rh', round(abs(
+                m_protronix_humidity[0]['specific_humidity'] - m_beeeon_humidity_out[0][
+                    'specific_humidity']), precision)),
+            (class_name, ev['graph_type']),
+        ]
+
+        for i in range(0, len(values)):
+            value = values[i]
+
+            out += str(value[1])
+
+            if i != len(values) - 1:
+                out += ','
+
+        out += "\n"
+
+    for item, _ in values:
+        if item == class_name:
+            file.write('@attribute class {exponential, linear, uneven}\n')
+            continue
+
+        file.write('@attribute %s numeric\n' % item)
+
+    file.write('\n')
+    file.write('@data\n\n')
+
+    file.write('%s' % out)
+    file.close()
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -45,6 +116,8 @@ if __name__ == '__main__':
     norm = dp.convert_relative_humidity_to_specific_humidity(norm, 'beeeon_temperature_out', 'beeeon_humidity_out')
 
     norm = dp.norm_all(norm)
+
+    prepare_weka_files(norm)
 
     one_norm_graph = []
     graphs = []
