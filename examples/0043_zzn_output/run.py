@@ -39,10 +39,10 @@ def one_row(event, modules, i, sep, value_count, start_time, event_type):
     row += dp.utc_timestamp_to_str(start_time + i, '%H:%M:%S') + sep
     row += str(round(dp.extract_value(modules, 'co2', i)['value'], p)) + sep
     row += str(
-        round(dp.UtilCO2.co2_from_ppm_to_g_m3(dp.extract_value(modules, 'co2', i)['value']),
+        round(dp.UtilCO2.co2_ppm_to_mg_m3(dp.extract_value(modules, 'co2', i)['value']),
               p)) + sep
     row += str(round(435.0, p)) + sep
-    row += str(round(dp.UtilCO2.co2_from_ppm_to_g_m3(435.0), p)) + sep
+    row += str(round(dp.UtilCO2.co2_ppm_to_mg_m3(435.0), p)) + sep
 
     row += str(round(dp.extract_value(modules, 'protronix_temperature', i)['value'], p)) + sep
     row += str(round(dp.extract_value(modules, 'beeeon_temperature_out', i)['value'], p)) + sep

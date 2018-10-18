@@ -2436,13 +2436,134 @@ class UtilCO2:
 
     @staticmethod
     # http://www.aresok.org/npg/nioshdbs/calc.htm
-    def co2_from_ppm_to_g_m3(co2):
+    def co2_ppm_to_mg_m3(co2):
         return co2 * UtilCO2.CO_MOLECULAR_WEIGHT / 24.45
 
     @staticmethod
     # http://www.aresok.org/npg/nioshdbs/calc.htm
-    def co2_from_g_m3_to_ppm(co2):
+    def co2_mg_m3_to_ppm(co2):
         return co2 * 24.45 / UtilCO2.CO_MOLECULAR_WEIGHT
+
+    @staticmethod
+    # http://www.umsl.edu/~biofuels/Energy%20Meter%20labs/How%20much%20volume%20does%20a%20kg%20of%20CO2%20occupy.pdf
+    # https://www.icbe.com/carbondatabase/CO2volumecalculation.asp
+    # https://en.wikipedia.org/wiki/Boyle%27s_law
+    # https://en.wikipedia.org/wiki/Atmospheric_pressure
+    def co2_g_h_to_l_h(co_weight, temperature=25):
+        n = co_weight / UtilCO2.CO_MOLECULAR_WEIGHT
+        R = 8.3144598
+        P = 1.01325  # tlak v baroch
+        T = 275.15 + temperature
+
+        V = (n * R * T) / P
+
+        return V / 100  # prevod do litrov
+
+    @staticmethod
+    # http://www.umsl.edu/~biofuels/Energy%20Meter%20labs/How%20much%20volume%20does%20a%20kg%20of%20CO2%20occupy.pdf
+    # https://www.icbe.com/carbondatabase/CO2volumecalculation.asp
+    # https://en.wikipedia.org/wiki/Boyle%27s_law
+    # https: // en.wikipedia.org / wiki / Atmospheric_pressure
+    def co2_l_h_to_g_h(V, temperature=25):
+        R = 8.3144598
+        P = 1.01325  # tlak v baroch
+        T = 275.15 + temperature
+
+        n = (V * P) / (R * T)
+
+        return n * UtilCO2.CO_MOLECULAR_WEIGHT * 100
+
+    @staticmethod
+    def estimate_time(Ci_t, V, Q, F):
+        """
+        Odhad casu, za ktory sa dosiahne dana koncentracia CO2.
+
+        :param Ci_t: cielova koncentracia [ppm]
+        :param V: objem miestnosti [m^3]
+        :param Q: vymena vzduhu medzi dnu/von [m^3/h]
+        :param F: rychlost generace [l/h]
+        :return: cas, za ktory sa dosiahne dana koncentracia [h]
+        """
+
+        Ci_t = UtilCO2.co2_ppm_to_mg_m3(Ci_t)
+        F = UtilCO2.co2_l_h_to_g_h(F) * 1000  # g to mg
+
+        return (V / Q) * math.log(F / (F - (Q * Ci_t)))
+
+    @staticmethod
+    def estimate_ppm(ti, C0, Ca, V, Q, F):
+        """
+        Odhad koncentracie CO2, pouzite jednotky mozu byt ppm.
+
+        :param ti: cas [h]
+        :param C0: pociatocna koncentracia v case t = 0 [ppm]
+        :param Ca: vonkajsia koncentracia [ppm]
+        :param V: objem miestnosti [m^3]
+        :param Q: vymena vzduhu medzi dnu/von [m^3/h]
+        :param F: rychlost generace [l/h]
+        :return: koncentrace v case ti [ppm]
+        """
+
+        l = Q / V
+
+        diff = (C0 - Ca) * math.exp(-l * ti)
+        emission = (F * 1000) / (l * V) * (1 - math.exp(-l * ti))
+
+        return Ca + diff + emission
+
+    @staticmethod
+    def estimate_mg_m3(ti, C0, Ca, V, Q, F):
+        """
+        Odhad koncentracie CO2, pouzite jednotky mozu byt g/m^3.
+
+        :param ti: cas [h]
+        :param C0: pociatocna koncentracia v case t = 0 [g/m^3]
+        :param Ca: vonkajsia koncentracia [g/m^3]
+        :param V: objem miestnosti [m^3]
+        :param Q: vymena vzduhu medzi dnu/von [m^3/h]
+        :param F: rychlost generace [l/h]
+        :return: koncentrace v case ti [g/m^3]
+        """
+
+        C0 = UtilCO2.co2_ppm_to_mg_m3(C0)
+        Ca = UtilCO2.co2_ppm_to_mg_m3(Ca)
+        F = UtilCO2.co2_l_h_to_g_h(F) * 1000  # g to mg
+
+        l = Q / V
+
+        diff = (C0 - Ca) * math.exp(-l * ti)
+        emission = F / (l * V) * (1 - math.exp(-l * ti))
+
+        return UtilCO2.co2_mg_m3_to_ppm(Ca + diff + emission)
+
+    @staticmethod
+    def generate_time_shift(events, time_interval, threshold):
+        """
+        Najdenie casoveho posunu, kde pokles CO2 za dany casovy interval je vacsi ako prah.
+
+        :param events:
+        :param time_interval: posun, v ktorom sa bude kontrolovat rozdiel hodnot
+        :param threshold: rozdiel hodnot CO2
+        :return:
+        """
+        for i in range(0, len(events)):
+            event = events[i]
+
+            for j in range(0, len(event['data'][0]['values'])):
+                module = event['data'][0]['values'][j]
+
+                if module['custom_name'] != 'co2':
+                    continue
+
+                for k in range(0, len(module['measured']) - time_interval):
+                    first_value = module['measured'][k]['value'] - threshold
+                    second_value = module['measured'][k + time_interval]['value']
+
+                    if first_value > second_value:
+                        event['time_shift'] = k
+                        break
+
+        return events
 
 
 def main():
