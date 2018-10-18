@@ -2473,6 +2473,23 @@ class UtilCO2:
 
         return n * UtilCO2.CO_MOLECULAR_WEIGHT * 100
 
+    @staticmethod
+    def estimate_time(Ci_t, V, Q, F):
+        """
+        Odhad casu, za ktory sa dosiahne dana koncentracia CO2.
+
+        :param Ci_t: cielova koncentracia [ppm]
+        :param V: objem miestnosti [m^3]
+        :param Q: vymena vzduhu medzi dnu/von [m^3/h]
+        :param F: rychlost generace [l/h]
+        :return: cas, za ktory sa dosiahne dana koncentracia [h]
+        """
+
+        Ci_t = UtilCO2.co2_ppm_to_mg_m3(Ci_t)
+        F = UtilCO2.co2_l_h_to_g_h(F) * 1000  # g to mg
+
+        return (V / Q) * math.log(F / (F - (Q * Ci_t)))
+
 
 def main():
     pass
