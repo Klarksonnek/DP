@@ -1573,26 +1573,6 @@ def gen_simple_graph(measured, color='blue', label='x value', key='value',
     }
 
 
-def split_into_intervals(data, interval):
-    new = []
-
-    next_cut = data[0]['at'] + interval
-
-    row = []
-    for i in data:
-        if i['at'] >= next_cut:
-            next_cut += interval
-            new.append(list(row))
-            row.clear()
-
-        row.append(i)
-
-    if len(row) % interval == 0:
-        new.append(list(row))
-
-    return new
-
-
 def normalization(data, local_min, local_max, key):
     for i in range(0, len(data)):
         if local_max - local_min == 0 and local_min == 0:
@@ -1606,20 +1586,6 @@ def normalization(data, local_min, local_max, key):
         data[i][key + "_norm"] = (data[i][key] - local_min) / (local_max - local_min)
 
     return data
-
-
-def compute_value(data, interval, delay, key):
-    ii = data[0][0][key]
-
-    for i in range(0, len(data)):
-        if (i + 1) * interval > delay:
-            rozdiel = data[i][0][key] - data[i][-1][key]
-            ii -= rozdiel/interval * (delay % interval)
-            break
-
-        ii -= data[i][0][key] - data[i+1][0][key]
-
-    return ii
 
 
 def compute_norm_values(measured):
@@ -1645,42 +1611,6 @@ def compute_norm_values(measured):
         measured = normalization(measured, l_min, l_max, key)
 
     return measured
-
-
-def value_estimate(data, interval, color='red', label='x value', key='value'):
-    data = copy.deepcopy(data)
-
-    measured = data['data'][0]['values'][0]['measured']
-    start = data['times']['event_start']
-
-    only_values = []
-    for row in measured:
-        only_values.append(row['value'])
-
-    l_min = min(only_values)
-    l_max = max(only_values)
-
-    after_normalization = normalization(measured, l_min, l_max, 'value')
-    with_intervals = split_into_intervals(after_normalization, interval)
-
-    y = []
-    x = []
-    end_loop = start + len(with_intervals) * interval
-    for i in range(start, end_loop, 1):
-        x.append(utc_timestamp_to_str(i, '%H:%M:%S'))
-
-        computed_value = compute_value(with_intervals, interval, i - start, key)
-        if key == 'value':
-            computed_value *= float(l_max - l_min) + l_min
-
-        y.append(computed_value)
-
-    return {
-        'timestamps': x,
-        'values': y,
-        'label_x': label,
-        'color': color,
-    }
 
 
 def weather_for_histogram(weather):
