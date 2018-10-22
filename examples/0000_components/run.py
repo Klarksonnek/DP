@@ -259,6 +259,18 @@ def graphs_all_measured_values(library_path, filename, storage):
     g.gen(graphs, filename, 0, 0)
 
 
+def historam_from_all_graphs(library_path, filename, storage):
+    events = storage.download_data_for_normalization(['co2'])
+
+    norm = dp.norm_all(events)
+
+    his_data = dp.gen_histogram(norm, 20, 0, 1, 0.1, 'value_norm')
+    histograms = dp.gen_histogram_graph(his_data)
+
+    g = dp.Graph(library_path)
+    g.gen(histograms, filename, 0, 0, 'bar')
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -278,3 +290,4 @@ if __name__ == '__main__':
     multiple_simple_web_graph(library_path, 'components_g_1.html')
     graph_measured_values(library_path, 'components_g_2.html', default_storage)
     graphs_all_measured_values(library_path, 'components_g_3.html', default_storage)
+    historam_from_all_graphs(library_path, 'components_g_4.html', default_storage)
