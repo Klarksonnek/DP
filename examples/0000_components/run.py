@@ -58,6 +58,25 @@ def data_storage_with_cache():
     return storage
 
 
+def weka_create_arff_file(filename):
+    weka_content = [
+        {
+            'title': 'open_close',
+            'data': [1, 0, 1, 0]
+        },
+        {
+            'title': 'der10',
+            'data': [20, 21, 22, 23]
+        },
+        {
+            'title': 'der20',
+            'data': [55, 56, 57, 58]
+        },
+    ]
+
+    dp.to_weka_file(weka_content, filename)
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -66,3 +85,5 @@ if __name__ == '__main__':
 
     data_storage_without_cache()
     default_storage = data_storage_with_cache()
+
+    weka_create_arff_file('weka_test_file.arff')
