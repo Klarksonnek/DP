@@ -219,6 +219,46 @@ def graph_measured_values(library_path, filename, storage):
     g.gen([graph1, graph2], filename, 0, 0)
 
 
+def graphs_all_measured_values(library_path, filename, storage):
+    events = storage.download_data_for_normalization(['co2'])
+    norm = dp.norm_all(events)
+
+    one_norm_graph = []
+    graphs = []
+
+    for i in range(0, len(norm)):
+        values = dp.filter_one_values(norm[i], 'co2')
+
+        norm_graph = dp.gen_simple_graph(values, dp.COLORS[i], 'Namerana hodnota',
+                                         'value_norm', 30)
+        one_norm_graph.append(norm_graph)
+
+        g = {
+            'title': 'Measured values',
+            'graphs': [
+                dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'value_norm', 30)
+            ]
+        }
+        graphs.append(g)
+
+        g = {
+            'title': 'Measured values',
+            'graphs': [
+                dp.gen_simple_graph(values, 'green', 'Namerana hodnota', 'value', 30)
+            ]
+        }
+
+        graphs.append(g)
+
+    graphs.append({
+        'title': 'Measured values',
+        'graphs': one_norm_graph
+    })
+
+    g = dp.Graph(library_path)
+    g.gen(graphs, filename, 0, 0)
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -237,3 +277,4 @@ if __name__ == '__main__':
     simple_web_graph(library_path, 'components_g_0.html')
     multiple_simple_web_graph(library_path, 'components_g_1.html')
     graph_measured_values(library_path, 'components_g_2.html', default_storage)
+    graphs_all_measured_values(library_path, 'components_g_3.html', default_storage)
