@@ -154,6 +154,47 @@ def simple_web_graph(library_path, filename):
     g.gen([data], filename, 2, 2)
 
 
+def multiple_simple_web_graph(library_path, filename):
+    g1 = {
+        'title': 'Test graph',
+        'graphs': [
+            {
+                'timestamps': [10, 11, 12],
+                'values': [5, 20, 7],
+                'label_x': 'x label',
+                'color': 'red',
+            },
+            {
+                'timestamps': [10, 11, 12],
+                'values': [15, 16, 17],
+                'label_x': 'x label 2',
+                'color': 'blue',
+            }
+        ]
+    }
+
+    g2 = {
+        'title': 'Test graph',
+        'graphs': [
+            {
+                'timestamps': [10, 11, 12],
+                'values': [5, 20, 7],
+                'label_x': 'x label',
+                'color': 'red',
+            },
+            {
+                'timestamps': [10, 11, 12],
+                'values': [15, 16, 17],
+                'label_x': 'x label 2',
+                'color': 'blue',
+            }
+        ]
+    }
+
+    g = dp.Graph(library_path)
+    g.gen([g1, g2], filename, 2, 2)
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -170,3 +211,4 @@ if __name__ == '__main__':
     compute_derivation()
 
     simple_web_graph(library_path, 'components_g_0.html')
+    multiple_simple_web_graph(library_path, 'components_g_1.html')
