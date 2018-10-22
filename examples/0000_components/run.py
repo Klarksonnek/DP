@@ -271,6 +271,29 @@ def historam_from_all_graphs(library_path, filename, storage):
     g.gen(histograms, filename, 0, 0, 'bar')
 
 
+def stacked_web_graph(library_path, filename):
+    data = {
+        'title': 'Test graph',
+        'graphs': [
+            {
+                'timestamps': [10, 11, 12],
+                'values': [5, 20, 7],
+                'label_x': 'x label',
+                'color': 'red',
+            },
+            {
+                'timestamps': [10, 11, 12],
+                'values': [15, 16, 17],
+                'label_x': 'x label 2',
+                'color': 'blue',
+            }
+        ]
+    }
+
+    g = dp.Graph(library_path)
+    g.gen([data], filename, 2, 2, 'bar')
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -291,3 +314,4 @@ if __name__ == '__main__':
     graph_measured_values(library_path, 'components_g_2.html', default_storage)
     graphs_all_measured_values(library_path, 'components_g_3.html', default_storage)
     historam_from_all_graphs(library_path, 'components_g_4.html', default_storage)
+    stacked_web_graph(library_path, 'components_g_5.html')
