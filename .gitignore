@@ -3,3 +3,4 @@ cache
 __pycache__
 weak_test_file.arff
 test_g.html
+components_g_*.html

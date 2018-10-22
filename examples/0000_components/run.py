@@ -131,8 +131,33 @@ def compute_derivation():
     logging.info(derivation.compute(input_data, 5))
 
 
+def simple_web_graph(library_path, filename):
+    data = {
+        'title': 'Test graph',
+        'graphs': [
+            {
+                'timestamps': [10, 11, 12],
+                'values': [5, 20, 7],
+                'label_x': 'x label',
+                'color': 'red',
+            },
+            {
+                'timestamps': [10, 11, 12],
+                'values': [15, 16, 17],
+                'label_x': 'x label 2',
+                'color': 'blue',
+            }
+        ]
+    }
+
+    g = dp.Graph(library_path)
+    g.gen([data], filename, 2, 2)
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
+
+    library_path = './../../src/graph'
 
     download_weather_without_cache()
     download_weather_with_cache()
@@ -143,3 +168,5 @@ if __name__ == '__main__':
     weka_create_arff_file('weka_test_file.arff')
 
     compute_derivation()
+
+    simple_web_graph(library_path, 'components_g_0.html')
