@@ -29,8 +29,23 @@ def download_weather_with_cache():
     logging.info(json.dumps(w.weather_data(1525503999, 1525504015), indent=4, sort_keys=True))
 
 
+def data_storage_without_cache():
+    cl = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=False)
+    cl.api_key = dp.api_key(CODE_DIR + '/api_key.config')
+
+    storage = dp.DataStorage(cl, dp.WeatherData(cache=False))
+    storage.read_meta_data('../devices_examples.json', '../events_examples.json')
+    storage.set_no_event_time(-10)
+
+    events = storage.download_data(10, 6)
+    data = storage.common_data(events)
+    logging.info(json.dumps(data, indent=4, sort_keys=True))
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
     download_weather_without_cache()
     download_weather_with_cache()
+
+    data_storage_without_cache()
