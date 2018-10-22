@@ -77,6 +77,60 @@ def weka_create_arff_file(filename):
     dp.to_weka_file(weka_content, filename)
 
 
+def compute_derivation():
+    input_data = [
+        {
+            'at': 1531224000,
+            'value': 1492,
+        },
+        {
+            'at': 1531224001,
+            'value': 1485,
+        },
+        {
+            'at': 1531224002,
+            'value': 1479,
+        },
+        {
+            'at': 1531224003,
+            'value': 1487,
+        },
+        {
+            'at': 1531224004,
+            'value': 1498,
+        },
+        {
+            'at': 1531224005,
+            'value': 1497,
+        },
+        {
+            'at': 1531224006,
+            'value': 1495,
+        },
+        {
+            'at': 1531224007,
+            'value': 1493,
+        },
+        {
+            'at': 1531224008,
+            'value': 1495,
+        },
+        {
+            'at': 1531224009,
+            'value': 1496,
+        },
+        {
+            'at': 1531224010,
+            'value': 1502,
+        }
+    ]
+
+    derivation = dp.Derivation()
+
+    input_data.reverse()
+    logging.info(derivation.compute(input_data, 5))
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -87,3 +141,5 @@ if __name__ == '__main__':
     default_storage = data_storage_with_cache()
 
     weka_create_arff_file('weka_test_file.arff')
+
+    compute_derivation()
