@@ -136,6 +136,24 @@ def filtered_hum_histogram_partial_pressure_norm_from_all_graphs(events):
     g.gen(histograms, 'histogram_9.html', 0, 0, 'bar', global_range=True)
 
 
+def stacked_hum_in_histogram_from_all_graphs(events):
+    filtered = storage.filter_downloaded_data(events, 'temperature_in', 'value',
+                                              'temperature_out', 'value', 5.0, 100.0)
+    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'partial_pressure',
+                                              'humidity_out', 'partial_pressure', 1.0, 100.0)
+    filtered = storage.filter_downloaded_data_one_module(filtered, 'temperature_out', 'value',
+                                                         30.0)
+    filtered = storage.filter_downloaded_data_general_attribute(filtered, "window",
+                                                                "ventilacka")
+
+    filtered_one_value = dp.filter_data(filtered, ['humidity_in'])
+    his_data = dp.gen_histogram(filtered_one_value, 15, 0, 1, 0.1, 'partial_pressure_norm')
+    histograms = dp.gen_histogram_graph_with_factor(his_data)
+
+    g = dp.Graph("./../../src/graph")
+    g.gen(histograms, 'histogram_10.html', 0, 0, 'bar', 0.0, 35.0)
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -164,3 +182,4 @@ if __name__ == '__main__':
     filtered_hum_histogram_from_all_graphs3(copy.deepcopy(norm))
     filtered_hum_histogram_partial_pressure_from_all_graphs(copy.deepcopy(norm))
     filtered_hum_histogram_partial_pressure_norm_from_all_graphs(copy.deepcopy(norm))
+    stacked_hum_in_histogram_from_all_graphs(copy.deepcopy(norm))
