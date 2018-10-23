@@ -604,7 +604,7 @@ class DataStorage:
 
             diff = abs(diff_item1[key1] - diff_item2[key2])
             if diff_min <= diff <= diff_max:
-                out.append(copy.deepcopy(event))
+                out.append(event)
 
         return out
 
@@ -616,7 +616,7 @@ class DataStorage:
                 for module in event_type['values']:
                     if module['custom_name'] == module1:
                         if module['measured'][0][key1] < limit:
-                            out.append(copy.deepcopy(event))
+                            out.append(event)
 
         return out
 
@@ -626,7 +626,7 @@ class DataStorage:
         for event in events:
             if event[attribute] == value:
                 continue
-            out.append(copy.deepcopy(event))
+            out.append(event)
 
         return out
 
@@ -640,7 +640,7 @@ class DataStorage:
             if event[attribute] != value:
                 continue
 
-            out.append(copy.deepcopy(event))
+            out.append(event)
 
         return out
 
@@ -662,7 +662,7 @@ class DataStorage:
             for event_type in event['data']:
                 for module in event_type['values']:
                     if module['custom_name'] == module1 and module['measured'][0][key1] < limit:
-                        out.append(copy.deepcopy(event))
+                        out.append(event)
                         continue
 
                     if module['custom_name'] == module1:
@@ -674,7 +674,7 @@ class DataStorage:
             if diff_item1 is not None and diff_item2 is not None:
                 diff = abs(diff_item1[key1] - diff_item2[key2])
                 if diff_min <= diff <= diff_max:
-                    out.append(copy.deepcopy(event))
+                    out.append(event)
 
         return out
 
