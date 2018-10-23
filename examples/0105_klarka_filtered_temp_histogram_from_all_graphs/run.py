@@ -58,6 +58,20 @@ def hum_histogram_from_all_graphs(events):
     g.gen(histograms, 'histogram_4.html', 0, 0, 'bar')
 
 
+def filtered_hum_histogram_from_all_graphs2(events):
+    filtered = storage.filter_downloaded_data(events, 'temperature_in', 'value',
+                                              'temperature_out', 'value', 7.0, 100.0)
+    filtered = storage.filter_downloaded_data(filtered, 'humidity_in', 'value',
+                                              'humidity_out', 'value', 5.0, 100.0)
+
+    filtered_one_value = dp.filter_data(filtered, ['temperature_in'])
+    his_data = dp.gen_histogram(filtered_one_value, 10, 10, 70, 2, 'value')
+    histograms = dp.gen_histogram_graph(his_data)
+
+    g = dp.Graph("./../../src/graph")
+    g.gen(histograms, 'histogram_5.html', 0, 0, 'bar')
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -76,3 +90,4 @@ if __name__ == '__main__':
     filtered_hum_histogram_from_all_graphs(copy.deepcopy(norm))
     temp_histogram_from_all_graphs(copy.deepcopy(norm))
     hum_histogram_from_all_graphs(copy.deepcopy(norm))
+    filtered_hum_histogram_from_all_graphs2(copy.deepcopy(norm))
