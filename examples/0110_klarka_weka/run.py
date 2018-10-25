@@ -30,7 +30,7 @@ def prepare(events):
     file = open('out.arff', 'w')
     file.write('@relation events\n\n')
 
-    class_name = 'g_type'
+    class_name = 'graph_hum_type_1'
     out = ''
     values = []
 
@@ -67,7 +67,7 @@ def prepare(events):
             ('rozdiel_spec_rh', round(abs(
                 norm_values_hum_in[0]['specific_humidity'] - norm_values_hum_out[0][
                     'specific_humidity']), precision)),
-            (class_name, event['g_type']),
+            (class_name, event['graph_hum_type_1']),
         ]
 
         for i in range(0, len(values)):
@@ -82,7 +82,7 @@ def prepare(events):
 
     for item, _ in values:
         if item == class_name:
-            file.write('@attribute class {strmy, mirny}\n')
+            file.write('@attribute class {linearni, lomeny}\n')
             continue
 
         file.write('@attribute %s numeric\n' % item)
@@ -109,8 +109,8 @@ if __name__ == '__main__':
     all = dp.cut_events(all, 0, 900)
     all = dp.filter_number_events(all, 900)
 
-    all = reduce_classes(all)
-    all = storage.filter_downloaded_data_general_attribute(all, "g_type", "unclassified")
+    #all = reduce_classes(all)
+    all = storage.filter_downloaded_data_general_attribute(all, "graph_hum_type_1", "none")
     all = storage.filter_downloaded_data_general_attribute(all, "location", "na stolku")
 
     all = dp.cut_events(all, 0, 900)
