@@ -67,9 +67,9 @@ do
 	echo $i
 
 	if [ ${SHOW_DEBUG_MSG} -eq 1 ] ; then
-		`${BIN} run.py >> /dev/null`
+		`time ${BIN} run.py >> /dev/null`
 	else
-		`${BIN} run.py &> /dev/null`
+		`time ${BIN} run.py &> /dev/null`
 	fi
 
 	check "OK"

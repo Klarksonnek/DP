@@ -12,6 +12,8 @@ import ssl
 import time
 import pytz
 from socket import error as SocketError
+import gzip
+
 
 COLORS = ['red', 'green', 'blue', 'orange', 'purple', 'silver', 'black']
 
@@ -446,12 +448,20 @@ class WeatherData:
 
 
 class DataStorage:
-    def __init__(self, client, weather_client, precision=1):
+    def __init__(self, client, weather_client, precision=1, cache=True,
+                 cache_folder='../cache/gzip'):
         self.__client = client
         self.__meta_data = []
         self.__log = logging.getLogger(self.__class__.__name__)
         self.__weather_client = weather_client
         self.__precision = precision
+        self.__cache = cache
+        self.__cache_folder = cache_folder
+        self.__events_file = ''
+
+        if cache:
+            if not os.path.exists(cache_folder):
+                os.makedirs(cache_folder)
 
     def __parser_date(self, date):
         return local_time_str_to_utc(date).timestamp()
@@ -487,6 +497,8 @@ class DataStorage:
         return out
 
     def read_meta_data(self, devices, events):
+        self.__events_file = events
+
         with open(devices) as f:
             j_devices = json.load(f)
 
@@ -592,7 +604,7 @@ class DataStorage:
 
             diff = abs(diff_item1[key1] - diff_item2[key2])
             if diff_min <= diff <= diff_max:
-                out.append(copy.deepcopy(event))
+                out.append(event)
 
         return out
 
@@ -604,7 +616,7 @@ class DataStorage:
                 for module in event_type['values']:
                     if module['custom_name'] == module1:
                         if module['measured'][0][key1] < limit:
-                            out.append(copy.deepcopy(event))
+                            out.append(event)
 
         return out
 
@@ -614,7 +626,7 @@ class DataStorage:
         for event in events:
             if event[attribute] == value:
                 continue
-            out.append(copy.deepcopy(event))
+            out.append(event)
 
         return out
 
@@ -628,7 +640,7 @@ class DataStorage:
             if event[attribute] != value:
                 continue
 
-            out.append(copy.deepcopy(event))
+            out.append(event)
 
         return out
 
@@ -650,7 +662,7 @@ class DataStorage:
             for event_type in event['data']:
                 for module in event_type['values']:
                     if module['custom_name'] == module1 and module['measured'][0][key1] < limit:
-                        out.append(copy.deepcopy(event))
+                        out.append(event)
                         continue
 
                     if module['custom_name'] == module1:
@@ -662,12 +674,29 @@ class DataStorage:
             if diff_item1 is not None and diff_item2 is not None:
                 diff = abs(diff_item1[key1] - diff_item2[key2])
                 if diff_min <= diff <= diff_max:
-                    out.append(copy.deepcopy(event))
+                    out.append(event)
 
         return out
 
 
     def download_data_for_normalization(self, type_id):
+        filename = self.__cache_folder + '/' + self.__events_file
+        if self.__cache:
+            for i in range(0, len(type_id)):
+                filename += type_id[i]
+
+                if i != len(type_id) - 1:
+                    filename += '_'
+
+            filename += '.gz'
+
+            if os.path.isfile(filename):
+                with gzip.GzipFile(filename, 'r') as fin:
+                    json_bytes = fin.read()
+
+                json_str = json_bytes.decode('utf-8')
+                return json.loads(json_str)
+
         # 15 minutes
         time_shift = 900
 
@@ -748,6 +777,11 @@ class DataStorage:
 
             if not fail:
                 out.append(event)
+
+        if self.__cache:
+            with gzip.open(filename, 'wb') as f:
+                json_bytes = json.dumps(out).encode('utf-8')
+                f.write(json_bytes)
 
         return out
 
