@@ -2470,6 +2470,43 @@ class UtilTempHum:
             start_hum_val = module['measured'][0]['lin_reg']
             return start_hum_val, drop_hum_val, info
 
+    @staticmethod
+    def lin_reg_second_drop(event):
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != 'humidity_in':
+                continue
+
+            x = []
+            y = []
+
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'value_for_first_drop' not in value:
+                    x.append(k)
+                    y.append(value['value'])
+
+            if not x:
+                continue
+
+            slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'lin_reg' not in value:
+                    value['lin_reg'] = intercept + slope * k
+
+            return {
+                'slope': slope,
+                'intercept': intercept,
+                'r_value': r_value,
+                'p_value': p_value,
+                'std_err': std_err,
+                'eq': str(intercept) + ' + (' + str(slope) + ') * x'
+            }
+
 
 def main():
     pass
