@@ -2379,5 +2379,50 @@ class UtilCO2:
         return events
 
 
+class UtilTempHum:
+    @staticmethod
+    def generate_time_shift(event, module_name, window_size, threshold_rastuce):
+        drop_time = None
+
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != module_name:
+                continue
+
+            der = []
+            for k in range(0, len(module['measured']) - 2):
+                value = module['measured'][k]
+                next_value = module['measured'][k + 2]
+
+                der.append(Derivation().compute([value, next_value], 1)[1])
+            der.append(0)
+            der.append(0)
+
+            for k in range(window_size, len(der)):
+                derivacie_klesajuce = 0
+                derivacie_nulove = 0
+
+                for p in range(0, window_size):
+                    if der[k - p] < 0:
+                        derivacie_klesajuce += 1
+
+                    if der[k - p] == 0:
+                        derivacie_nulove += 1
+
+                if (derivacie_klesajuce + derivacie_nulove) < threshold_rastuce:
+                    drop_time = k - (window_size - threshold_rastuce)
+                    break
+
+            for k in range(0, len(module['measured'])):
+                if k > drop_time:
+                    break
+
+                module['measured'][k]['value_for_first_drop'] = module['measured'][k]['value'] + 2
+
+
+        return drop_time
+
+
 def main():
     pass
