@@ -2148,6 +2148,18 @@ def find_module_measured(event, module_name):
     raise ValueError('unknown module %s' % module_name)
 
 
+def find_module(event, module_name):
+    modules = event['data'][0]['values']
+
+    for i in range(0, len(modules)):
+        module = modules[i]
+
+        if module_name == module['custom_name']:
+            return module
+
+    raise ValueError('unknown module %s' % module_name)
+
+
 def extract_value(modules, module_name, value_index):
     """Funkcia vyberie zo zoznamu modulov pozadovany modul a nasledne hodnotu na zadanom indexe.
     """
