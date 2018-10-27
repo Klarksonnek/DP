@@ -2507,6 +2507,30 @@ class UtilTempHum:
                 'eq': str(intercept) + ' + (' + str(slope) + ') * x'
             }
 
+    @staticmethod
+    def lin_reg_lomeny_graph(events, module_name, window_size, threshold_rastuce):
+        for i in range(0, len(events)):
+            event = events[i]
+
+            if event['graph_hum_type_1'] != 'lomeny':
+                continue
+
+            drop_time = UtilTempHum.generate_time_shift(event,
+                                                        module_name,
+                                                        window_size,
+                                                        threshold_rastuce)
+
+            start_hum, drop_hum, info = UtilTempHum.lin_reg_first_drop(event)
+
+            module = find_module(event, module_name)
+            module['lin_reg'] = {
+                'drop_shift': drop_time,
+                'hum_val_start' : start_hum,
+                'hum_val_drop': drop_hum,
+                'first_drop_lin_reg': info,
+                'second_drop_lin_reg': UtilTempHum.lin_reg_second_drop(event),
+            }
+
 
 def main():
     pass
