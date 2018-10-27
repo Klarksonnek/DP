@@ -1175,6 +1175,7 @@ class Derivation:
 class Graph:
     def __init__(self, path):
         self.__path = path
+        self.__log = logging.getLogger(self.__class__.__name__)
 
     def gen(self, data, output, scale_padding_min=0, scale_padding_max=0,
             g_type='line', min_value=None, max_value=None, global_range=False):
@@ -1251,7 +1252,7 @@ class Graph:
                     numbers = g['values']
 
                     if not numbers:
-                        raise ValueError('graph %s with label %s does not any value' %
+                        self.__log.warning('graph \'%s\' with label \'%s\' does not any value' %
                                          (data[i]['title'], g['label_x']))
 
                     if all_min is None:
@@ -1415,6 +1416,9 @@ def gen_simple_graph(measured, color='blue', label='x value', key='value',
 
         if i % step != 0:
             continue
+
+        if key not in value:
+            break
 
         x.append(utc_timestamp_to_str(value['at'], '%H:%M:%S'))
         y.append(value[key])
