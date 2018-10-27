@@ -13,6 +13,7 @@ import time
 import pytz
 from socket import error as SocketError
 import gzip
+from scipy import stats
 
 
 COLORS = ['red', 'green', 'blue', 'orange', 'purple', 'silver', 'black']
@@ -2422,6 +2423,52 @@ class UtilTempHum:
 
 
         return drop_time
+
+    @staticmethod
+    def lin_reg_first_drop(event):
+        start_hum_val = None
+        drop_hum_val = None
+
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != 'humidity_in':
+                continue
+
+            x = []
+            y = []
+
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'value_for_first_drop' in value:
+                    x.append(k)
+                    y.append(value['value_for_first_drop'] - 2)
+
+            if not x:
+                continue
+
+            slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'value_for_first_drop' in value:
+                    value['lin_reg'] = intercept + slope * k
+                else:
+                    drop_hum_val = module['measured'][k - 1]['lin_reg']
+                    break
+
+            info = {
+                'slope': slope,
+                'intercept': intercept,
+                'r_value': r_value,
+                'p_value': p_value,
+                'std_err': std_err,
+                'eq': str(intercept) + ' + (' + str(slope) + ') * x'
+            }
+
+            start_hum_val = module['measured'][0]['lin_reg']
+            return start_hum_val, drop_hum_val, info
 
 
 def main():
