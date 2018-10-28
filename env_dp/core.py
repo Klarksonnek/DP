@@ -13,6 +13,7 @@ import time
 import pytz
 from socket import error as SocketError
 import gzip
+from scipy import stats
 
 
 COLORS = ['red', 'green', 'blue', 'orange', 'purple', 'silver', 'black']
@@ -1175,6 +1176,7 @@ class Derivation:
 class Graph:
     def __init__(self, path):
         self.__path = path
+        self.__log = logging.getLogger(self.__class__.__name__)
 
     def gen(self, data, output, scale_padding_min=0, scale_padding_max=0,
             g_type='line', min_value=None, max_value=None, global_range=False):
@@ -1251,7 +1253,7 @@ class Graph:
                     numbers = g['values']
 
                     if not numbers:
-                        raise ValueError('graph %s with label %s does not any value' %
+                        self.__log.warning('graph \'%s\' with label \'%s\' does not any value' %
                                          (data[i]['title'], g['label_x']))
 
                     if all_min is None:
@@ -1415,6 +1417,9 @@ def gen_simple_graph(measured, color='blue', label='x value', key='value',
 
         if i % step != 0:
             continue
+
+        if key not in value:
+            break
 
         x.append(utc_timestamp_to_str(value['at'], '%H:%M:%S'))
         y.append(value[key])
@@ -2144,6 +2149,18 @@ def find_module_measured(event, module_name):
     raise ValueError('unknown module %s' % module_name)
 
 
+def find_module(event, module_name):
+    modules = event['data'][0]['values']
+
+    for i in range(0, len(modules)):
+        module = modules[i]
+
+        if module_name == module['custom_name']:
+            return module
+
+    raise ValueError('unknown module %s' % module_name)
+
+
 def extract_value(modules, module_name, value_index):
     """Funkcia vyberie zo zoznamu modulov pozadovany modul a nasledne hodnotu na zadanom indexe.
     """
@@ -2361,6 +2378,158 @@ class UtilCO2:
                         break
 
         return events
+
+
+class UtilTempHum:
+    @staticmethod
+    def generate_time_shift(event, module_name, window_size, threshold_rastuce):
+        drop_time = None
+
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != module_name:
+                continue
+
+            der = []
+            for k in range(0, len(module['measured']) - 2):
+                value = module['measured'][k]
+                next_value = module['measured'][k + 2]
+
+                der.append(Derivation().compute([value, next_value], 1)[1])
+            der.append(0)
+            der.append(0)
+
+            for k in range(window_size, len(der)):
+                derivacie_klesajuce = 0
+                derivacie_nulove = 0
+
+                for p in range(0, window_size):
+                    if der[k - p] < 0:
+                        derivacie_klesajuce += 1
+
+                    if der[k - p] == 0:
+                        derivacie_nulove += 1
+
+                if (derivacie_klesajuce + derivacie_nulove) < threshold_rastuce:
+                    drop_time = k - (window_size - threshold_rastuce)
+                    break
+
+            for k in range(0, len(module['measured'])):
+                if k > drop_time:
+                    break
+
+                module['measured'][k]['value_for_first_drop'] = module['measured'][k]['value'] + 2
+
+
+        return drop_time
+
+    @staticmethod
+    def lin_reg_first_drop(event):
+        start_hum_val = None
+        drop_hum_val = None
+
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != 'humidity_in':
+                continue
+
+            x = []
+            y = []
+
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'value_for_first_drop' in value:
+                    x.append(k)
+                    y.append(value['value_for_first_drop'] - 2)
+
+            if not x:
+                continue
+
+            slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'value_for_first_drop' in value:
+                    value['lin_reg'] = intercept + slope * k
+                else:
+                    drop_hum_val = module['measured'][k - 1]['lin_reg']
+                    break
+
+            info = {
+                'slope': slope,
+                'intercept': intercept,
+                'r_value': r_value,
+                'p_value': p_value,
+                'std_err': std_err,
+                'eq': str(intercept) + ' + (' + str(slope) + ') * x'
+            }
+
+            start_hum_val = module['measured'][0]['lin_reg']
+            return start_hum_val, drop_hum_val, info
+
+    @staticmethod
+    def lin_reg_second_drop(event):
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != 'humidity_in':
+                continue
+
+            x = []
+            y = []
+
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'value_for_first_drop' not in value:
+                    x.append(k)
+                    y.append(value['value'])
+
+            if not x:
+                continue
+
+            slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if 'lin_reg' not in value:
+                    value['lin_reg'] = intercept + slope * k
+
+            return {
+                'slope': slope,
+                'intercept': intercept,
+                'r_value': r_value,
+                'p_value': p_value,
+                'std_err': std_err,
+                'eq': str(intercept) + ' + (' + str(slope) + ') * x'
+            }
+
+    @staticmethod
+    def lin_reg_lomeny_graph(events, module_name, window_size, threshold_rastuce):
+        for i in range(0, len(events)):
+            event = events[i]
+
+            if event['graph_hum_type_1'] != 'lomeny':
+                continue
+
+            drop_time = UtilTempHum.generate_time_shift(event,
+                                                        module_name,
+                                                        window_size,
+                                                        threshold_rastuce)
+
+            start_hum, drop_hum, info = UtilTempHum.lin_reg_first_drop(event)
+
+            module = find_module(event, module_name)
+            module['lin_reg'] = {
+                'drop_shift': drop_time,
+                'hum_val_start' : start_hum,
+                'hum_val_drop': drop_hum,
+                'first_drop_lin_reg': info,
+                'second_drop_lin_reg': UtilTempHum.lin_reg_second_drop(event),
+            }
 
 
 def main():

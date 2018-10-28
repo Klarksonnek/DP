@@ -132,6 +132,8 @@ if __name__ == '__main__':
     filtered = dp.estimate_relative_humidity(filtered, 'humidity_in', 'humidity_out', 'temperature_in')
     print("Event count: %d" % len(filtered))
 
+    dp.UtilTempHum.lin_reg_lomeny_graph(filtered, 'humidity_in', 18, 15)
+
     one_norm_graph = []
     graphs = []
 
@@ -177,6 +179,16 @@ if __name__ == '__main__':
                    precision)),
         ]
 
+        if filtered[i]['graph_hum_type_1'] == 'lomeny':
+            module = dp.find_module(filtered[i], 'humidity_in')
+
+            stat.append(('', ''))
+            stat.append(('prvy zlom', module['lin_reg']['first_drop_lin_reg']['eq']))
+            stat.append(('druhy zlom', module['lin_reg']['second_drop_lin_reg']['eq']))
+            stat.append(('hum na zaciatku', module['lin_reg']['hum_val_start']))
+            stat.append(('hum pri zlome', module['lin_reg']['hum_val_drop']))
+            stat.append(('dlzka zlomu v [s]', module['lin_reg']['drop_shift']))
+
         g = {
             'title': 'Temp in and temp out ' + t,
             'stat': stat,
@@ -192,7 +204,10 @@ if __name__ == '__main__':
             'title': 'Hum in and hum out ' + t,
             'graphs': [
                 dp.gen_simple_graph(norm_values_hum_in, 'blue', 'hum in', 'value', 100),
-                dp.gen_simple_graph(norm_values_hum_out, 'red', 'hum out', 'value', 100)
+                dp.gen_simple_graph(norm_values_hum_out, 'red', 'hum out', 'value', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'orange', 'hum time',
+                                    'value_for_first_drop', 100),
+                dp.gen_simple_graph(norm_values_hum_in, 'green', 'hum out', 'lin_reg', 100),
             ]
         }
 
