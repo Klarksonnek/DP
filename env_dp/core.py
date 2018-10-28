@@ -2458,13 +2458,19 @@ class UtilTempHum:
                     drop_hum_val = module['measured'][k - 1]['lin_reg']
                     break
 
+            if slope < 0.0:
+                alpha = 90 - abs(math.degrees(math.atan(slope)))
+            else:
+                alpha = math.degrees(math.atan(slope)) + 90.0
+
             info = {
                 'slope': slope,
                 'intercept': intercept,
                 'r_value': r_value,
                 'p_value': p_value,
                 'std_err': std_err,
-                'eq': str(intercept) + ' + (' + str(slope) + ') * x'
+                'eq': str(intercept) + ' + (' + str(slope) + ') * x',
+                'alpha': alpha
             }
 
             start_hum_val = module['measured'][0]['lin_reg']
@@ -2498,13 +2504,19 @@ class UtilTempHum:
                 if 'lin_reg' not in value:
                     value['lin_reg'] = intercept + slope * k
 
+            if slope < 0.0:
+                alpha = 90 - abs(math.degrees(math.atan(slope)))
+            else:
+                alpha = math.degrees(math.atan(slope)) + 90.0
+
             return {
                 'slope': slope,
                 'intercept': intercept,
                 'r_value': r_value,
                 'p_value': p_value,
                 'std_err': std_err,
-                'eq': str(intercept) + ' + (' + str(slope) + ') * x'
+                'eq': str(intercept) + ' + (' + str(slope) + ') * x',
+                'alpha': alpha
             }
 
     @staticmethod
