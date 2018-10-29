@@ -10,6 +10,8 @@ sys.path.append(CODE_DIR)
 import env_dp.core as dp
 import logging
 import datetime
+import numpy as np
+from scipy.optimize import curve_fit
 
 
 def gen_emission(activities):
@@ -134,6 +136,96 @@ def prepare_weka_files(events):
     file.close()
 
 
+def gen_f_variant0(co2_start, co2_out):
+    return lambda x, a: co2_out + (co2_start - co2_out) * np.exp(-a * x)
+
+
+def gen_f_variant1(co2_start, co2_out, volume):
+    return lambda x, a: co2_out + (co2_start - co2_out) * np.exp(-a / volume * x)
+
+
+def gen_f_variant2(co2_start):
+    return lambda x, a, b: b + (co2_start - b) * np.exp(-a * x)
+
+
+# https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
+def exp_regression(events, co2_out, volume):
+    for i in range(0, len(events)):
+        event = events[i]
+
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != 'co2':
+                continue
+
+            x = []
+            y = []
+
+            for k in range(event['time_shift'], len(module['measured'])):
+                value = module['measured'][k]
+
+                x.append(k - event['time_shift'])
+                y.append(value['value'])
+
+            x = np.asarray(x)
+            y = np.asarray(y)
+
+            f_0 = gen_f_variant0(module['measured'][0]['value'], co2_out)
+            popt_0, pcov_0 = curve_fit(f_0, x, y)
+
+            f_1 = gen_f_variant1(module['measured'][0]['value'], co2_out, volume)
+            popt_1, pcov_1 = curve_fit(f_1, x, y)
+
+            f_2 = gen_f_variant2(module['measured'][0]['value'])
+            popt_2, pcov_2 = curve_fit(f_2, x, y)
+
+            event['exp_reg'] = {
+                'variant_0':
+                    {
+                        'a': tuple(popt_0)[0],
+                        # co2_out + (co2_start - co2_out) * np.exp(-a * x)
+                        'eq': str(co2_out) + ' + (' + str(
+                            module['measured'][0]['value']) + ' - ' + str(
+                            co2_out) + ') * exp(-' + str(tuple(popt_0)[0]) + ' * x)',
+                    },
+                'variant_1':
+                    {
+                        'a': tuple(popt_1)[0],
+                        # co2_out + (co2_start - co2_out) * np.exp(-a / volume * x)
+                        'eq': str(co2_out) + ' + (' + str(
+                            module['measured'][0]['value']) + ' - ' + str(
+                            co2_out) + ') * exp(-(' + str(
+                            tuple(popt_1)[0]) + ') / ' + str(volume) + ' * x)',
+                    },
+                'variant_2':
+                    {
+                        'a': tuple(popt_2)[0],
+                        'b': tuple(popt_2)[1],
+                        # b + (co2_start - b) * np.exp(-a * x)
+                        'eq': str(tuple(popt_2)[1]) + ' + (' + str(
+                            module['measured'][0]['value']) + ' - ' + str(
+                            tuple(popt_2)[1]) + ') * exp(-' + str(
+                            tuple(popt_2)[0]) + ' * x)',
+                    }
+            }
+
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                if k < event['time_shift']:
+                    value['exp_reg_v1'] = value['value']
+                    value['exp_reg_v2'] = value['value']
+                    continue
+
+                t = k - event['time_shift']
+
+                value['exp_reg_v1'] = f_1(t, event['exp_reg']['variant_1']['a'])
+                value['exp_reg_v2'] = f_2(t,
+                                          event['exp_reg']['variant_2']['a'],
+                                          event['exp_reg']['variant_2']['b'])
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
@@ -171,6 +263,7 @@ if __name__ == '__main__':
     dp.UtilCO2.generate_time_shift(norm, 10, 10)
     fill_estimate(norm, "odhad1", 48, 500, 460)
 
+    exp_regression(norm, 500, 48)
     prepare_weka_files(norm)
 
     one_norm_graph = []
@@ -227,6 +320,25 @@ if __name__ == '__main__':
             ('spec rh dnu', round(m_protronix_humidity[0]['specific_humidity'], precision)),
             ('spec rh von', round(m_beeeon_humidity_out[0]['specific_humidity'], precision)),
             ('rozdiel spec rh', round(abs(m_protronix_humidity[0]['specific_humidity'] - m_beeeon_humidity_out[0]['specific_humidity']), precision)),
+
+            ('', ''),
+            ('varianta0', ''),
+            ('eq', ev['exp_reg']['variant_0']['eq']),
+            ('a (intenzita vetrania [s<sup>-1</sup>])', round(ev['exp_reg']['variant_0']['a'], 6)),
+            ('a (intenzita vetrania [h<sup>-1</sup>])', round(ev['exp_reg']['variant_0']['a'] * 3600, precision)),
+
+            ('', ''),
+            ('varianta1', ''),
+            ('eq', ev['exp_reg']['variant_1']['eq']),
+            ('a (velkost vymeny vzduchu [m<sup>3</sup>/s])', round(ev['exp_reg']['variant_1']['a'], 6)),
+            ('a (velkost vymeny vzduchu [m<sup>3</sup>/hs])', round(ev['exp_reg']['variant_1']['a'] * 3600, precision)),
+
+            ('', ''),
+            ('varianta2', ''),
+            ('eq', ev['exp_reg']['variant_2']['eq']),
+            ('a (intenzita vetrania [s<sup>-1</sup>])', round(ev['exp_reg']['variant_2']['a'], 6)),
+            ('a (intenzita vetrania [h<sup>-1</sup>])', round(ev['exp_reg']['variant_2']['a'] * 3600, precision)),
+            ('b (vonkajcia koncentracia CO2 [ppm])', round(ev['exp_reg']['variant_2']['b'], precision)),
         ]
 
         g = {
@@ -235,6 +347,8 @@ if __name__ == '__main__':
             'graphs': [
                 dp.gen_simple_graph(co2, 'blue', 'CO2 in', 'value', 100),
                 dp.gen_simple_graph(co2, 'red', 'Odhad CO2 in', 'odhad1', 100),
+                dp.gen_simple_graph(co2, 'green', 'Exp reg. v1', 'exp_reg_v1', 100),
+                dp.gen_simple_graph(co2, 'orange', 'Exp reg. v2', 'exp_reg_v2', 100),
             ]
         }
         graphs.append(g)
