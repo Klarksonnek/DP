@@ -186,7 +186,9 @@ if __name__ == '__main__':
 
             stat.append(('', ''))
             stat.append(('prvy zlom', module['lin_reg']['first_drop_lin_reg']['eq']))
+            stat.append(('prvy uhol', module['lin_reg']['first_drop_lin_reg']['alpha']))
             stat.append(('druhy zlom', module['lin_reg']['second_drop_lin_reg']['eq']))
+            stat.append(('druhy uhol', module['lin_reg']['second_drop_lin_reg']['alpha']))
             stat.append(('hum na zaciatku', module['lin_reg']['hum_val_start']))
             stat.append(('hum pri zlome', module['lin_reg']['hum_val_drop']))
             stat.append(('dlzka zlomu v [s]', module['lin_reg']['drop_shift']))
