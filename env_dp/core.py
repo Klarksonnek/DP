@@ -2531,6 +2531,22 @@ class UtilTempHum:
                 'second_drop_lin_reg': UtilTempHum.lin_reg_second_drop(event),
             }
 
+    @staticmethod
+    def lin_reg_linearni_graph(events, module_name):
+        for i in range(0, len(events)):
+            event = events[i]
+
+            if event['graph_hum_type_1'] != 'linearni':
+                continue
+
+            start_hum, info = UtilTempHum.lin_reg_whole_curve(event)
+
+            module = find_module(event, module_name)
+            module['lin_reg'] = {
+                'hum_val_start': start_hum,
+                'lin_reg_info': info,
+            }
+
 
 def main():
     pass
