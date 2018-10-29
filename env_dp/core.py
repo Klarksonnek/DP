@@ -2425,6 +2425,45 @@ class UtilTempHum:
         return drop_time
 
     @staticmethod
+    def lin_reg_whole_curve(event):
+        for j in range(0, len(event['data'][0]['values'])):
+            module = event['data'][0]['values'][j]
+
+            if module['custom_name'] != 'humidity_in':
+                continue
+
+            x = []
+            y = []
+
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                x.append(k)
+                y.append(value['value'])
+
+            if not x:
+                continue
+
+            slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+            for k in range(0, len(module['measured'])):
+                value = module['measured'][k]
+
+                value['lin_reg'] = intercept + slope * k
+
+            info = {
+                'slope': slope,
+                'intercept': intercept,
+                'r_value': r_value,
+                'p_value': p_value,
+                'std_err': std_err,
+                'eq': str(intercept) + ' + (' + str(slope) + ') * x'
+            }
+
+            start_hum_val = module['measured'][0]['lin_reg']
+            return start_hum_val, info
+
+
+    @staticmethod
     def lin_reg_first_drop(event):
         start_hum_val = None
         drop_hum_val = None
@@ -2529,6 +2568,22 @@ class UtilTempHum:
                 'hum_val_drop': drop_hum,
                 'first_drop_lin_reg': info,
                 'second_drop_lin_reg': UtilTempHum.lin_reg_second_drop(event),
+            }
+
+    @staticmethod
+    def lin_reg_linearni_graph(events, module_name):
+        for i in range(0, len(events)):
+            event = events[i]
+
+            if event['graph_hum_type_1'] != 'linearni':
+                continue
+
+            start_hum, info = UtilTempHum.lin_reg_whole_curve(event)
+
+            module = find_module(event, module_name)
+            module['lin_reg'] = {
+                'hum_val_start': start_hum,
+                'lin_reg_info': info,
             }
 
 
