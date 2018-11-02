@@ -133,6 +133,7 @@ if __name__ == '__main__':
     print("Event count: %d" % len(filtered))
 
     dp.UtilTempHum.lin_reg_lomeny_graph(filtered, 'humidity_in', 18, 15)
+    dp.UtilTempHum.lin_reg_linearni_graph(filtered, 'humidity_in')
 
     one_norm_graph = []
     graphs = []
@@ -154,6 +155,7 @@ if __name__ == '__main__':
         precision = 2
 
         stat = [
+            ('typ grafu', filtered[i]['graph_hum_type_1']),
             ('teplota dnu', round(norm_values_temp_in[0]['value'], precision)),
             ('teplota von', round(norm_values_temp_out[0]['value'], precision)),
             ('rozdiel teplot',
@@ -184,10 +186,19 @@ if __name__ == '__main__':
 
             stat.append(('', ''))
             stat.append(('prvy zlom', module['lin_reg']['first_drop_lin_reg']['eq']))
+            stat.append(('prvy uhol', module['lin_reg']['first_drop_lin_reg']['alpha']))
             stat.append(('druhy zlom', module['lin_reg']['second_drop_lin_reg']['eq']))
+            stat.append(('druhy uhol', module['lin_reg']['second_drop_lin_reg']['alpha']))
             stat.append(('hum na zaciatku', module['lin_reg']['hum_val_start']))
             stat.append(('hum pri zlome', module['lin_reg']['hum_val_drop']))
             stat.append(('dlzka zlomu v [s]', module['lin_reg']['drop_shift']))
+
+        if filtered[i]['graph_hum_type_1'] == 'linearni':
+            module = dp.find_module(filtered[i], 'humidity_in')
+
+            stat.append(('', ''))
+            stat.append(('hum na zacatku', module['lin_reg']['hum_val_start']))
+            stat.append(('rovnice', module['lin_reg']['lin_reg_info']['eq']))
 
         g = {
             'title': 'Temp in and temp out ' + t,
