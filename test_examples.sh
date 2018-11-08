@@ -39,7 +39,7 @@ check () {
 # 1 - zobrazenie debug vypisov
 SHOW_DEBUG_MSG=0
 
-BIN=python3.5
+BIN=python3
 
 # absolutna cesta do adresara, kde sa nachadza spustany script
 # @see http://mywiki.wooledge.org/BashFAQ/028
