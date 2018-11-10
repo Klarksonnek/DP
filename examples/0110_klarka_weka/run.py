@@ -198,7 +198,7 @@ if __name__ == '__main__':
 
             stat.append(('', ''))
             stat.append(('hum na zacatku', module['lin_reg']['hum_val_start']))
-            stat.append(('rovnice', module['lin_reg']['lin_reg_info']['eq']))
+            stat.append(('rovnice', module['lin_reg']['first_drop_lin_reg']['eq']))
 
         g = {
             'title': 'Temp in and temp out ' + t,
