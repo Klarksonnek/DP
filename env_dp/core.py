@@ -2595,7 +2595,7 @@ class UtilTempHum:
             module = find_module(event, module_name)
             module['lin_reg'] = {
                 'hum_val_start': start_hum,
-                'lin_reg_info': info,
+                'first_drop_lin_reg': info,
             }
 
 
