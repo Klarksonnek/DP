@@ -2592,6 +2592,8 @@ class UtilTempHum:
                 'second_drop_lin_reg': UtilTempHum.lin_reg_second_drop(event),
             }
 
+            print("%s\t%s" % (module['lin_reg']['drop_shift'], event['g_type']))
+
     @staticmethod
     def lin_reg_linearni_graph(events, module_name):
         for i in range(0, len(events)):
