@@ -1345,7 +1345,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "strmy_narust",
+			"g_type": "mirny_narust",
 			"graph_hum_type_1": "lomeny",
 			"window": "dokoran",
 			"door": "zavrene",
@@ -3325,7 +3325,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"graph_hum_type_1": "lomeny",
 			"window": "dokoran",
 			"door": "zavrene",
@@ -3501,7 +3501,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"graph_hum_type_1": "lomeny",
 			"window": "dokoran",
 			"door": "zavrene",
@@ -3567,7 +3567,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "mirny",
 			"graph_hum_type_1": "lomeny",
 			"window": "dokoran",
 			"door": "zavrene",
@@ -3611,7 +3611,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"graph_hum_type_1": "lomeny",
 			"window": "dokoran",
 			"door": "zavrene",
@@ -3677,7 +3677,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"graph_hum_type_1": "lomeny",
 			"window": "dokoran",
 			"door": "zavrene",
@@ -3721,7 +3721,7 @@
 		{
 			"description": "...",
 			"location": "na parapetu",
-			"g_type": "",
+			"g_type": "strmy",
 			"graph_hum_type_1": "lomeny",
 			"window": "dokoran",
 			"door": "zavrene",
