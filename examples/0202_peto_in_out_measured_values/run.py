@@ -178,7 +178,7 @@ def exp_regression(events, co2_out, volume):
             popt_1, pcov_1 = curve_fit(f_1, x, y)
 
             f_2 = gen_f_variant2(module['measured'][0]['value'])
-            popt_2, pcov_2 = curve_fit(f_2, x, y)
+            popt_2, pcov_2 = curve_fit(f_2, x, y, maxfev=1500)
 
             event['exp_reg'] = {
                 'variant_0':
@@ -232,7 +232,7 @@ if __name__ == '__main__':
     client = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=True)
     client.api_key = dp.api_key(CODE_DIR + '/api_key.config')
 
-    storage = dp.DataStorage(client, dp.WeatherData(cache=True))
+    storage = dp.DataStorage(client, dp.WeatherData(cache=True), cache=False)
     storage.read_meta_data('../devices_peto.json', '../events_peto.json')
 
     modules = [
