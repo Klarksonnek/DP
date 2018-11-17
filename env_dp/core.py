@@ -1988,6 +1988,15 @@ def estimate_relative_humidity(events, hum_module_in, hum_module_out, temp_modul
     return out
 
 
+def calculate_ventilation_time(events):
+    out = copy.deepcopy(events)
+
+    for i in range(0, len(out)):
+        out[i]['times']['ventilation_time'] = out[i]['times']['event_end'] - out[i]['times']['event_start']
+
+    return out
+
+
 def gen_histogram_graph_with_factor(data):
     """
     https://www.windows2universe.org/earth/Atmosphere/wind_speeds.html
