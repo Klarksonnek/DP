@@ -621,6 +621,20 @@ class DataStorage:
 
         return out
 
+
+    def filter_downloaded_data_one_module_2(self, events, module1, key1, limit):
+        out = []
+
+        for event in events:
+            for event_type in event['data']:
+                for module in event_type['values']:
+                    if module['custom_name'] == module1:
+                        if module[key1] > limit:
+                            out.append(event)
+
+        return out
+
+
     def filter_downloaded_data_general_attribute(self, events, attribute, value):
         out = []
 
