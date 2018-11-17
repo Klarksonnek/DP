@@ -1997,6 +1997,30 @@ def calculate_ventilation_time(events):
     return out
 
 
+def calculate_relative_humidity_difference(events):
+    out = copy.deepcopy(events)
+
+    for i in range(0, len(out)):
+        if out[i]['graph_hum_type_1'] == "linearni":
+            rh_values_len = len(out[i]['data'][0]['values'][1]['measured']) - 1
+            out[i]['data'][0]['values'][1]['rh_in_diff'] = \
+                out[i]['data'][0]['values'][1]['measured'][0]['value'] \
+                - out[i]['data'][0]['values'][1]['measured'][rh_values_len]['value']
+
+        elif out[i]['graph_hum_type_1'] == "lomeny":
+            rh_values_len = len(out[i]['data'][0]['values'][1]['measured']) - 1
+            drop_time = out[i]['data'][0]['values'][1]['lin_reg']['drop_shift']
+            rh_diff_after_close = \
+                (out[i]['data'][0]['values'][1]['measured'][rh_values_len]['value']
+                 - out[i]['data'][0]['values'][1]['measured'][drop_time]['value']) / 2.0
+            rh_value_after_close = \
+                out[i]['data'][0]['values'][1]['measured'][drop_time]['value'] + rh_diff_after_close
+            out[i]['data'][0]['values'][1]['rh_in_diff'] = \
+                out[i]['data'][0]['values'][1]['measured'][0]['value'] - rh_value_after_close
+
+    return out
+
+
 def gen_histogram_graph_with_factor(data):
     """
     https://www.windows2universe.org/earth/Atmosphere/wind_speeds.html
