@@ -621,6 +621,20 @@ class DataStorage:
 
         return out
 
+
+    def filter_downloaded_data_one_module_2(self, events, module1, key1, limit):
+        out = []
+
+        for event in events:
+            for event_type in event['data']:
+                for module in event_type['values']:
+                    if module['custom_name'] == module1:
+                        if module[key1] > limit:
+                            out.append(event)
+
+        return out
+
+
     def filter_downloaded_data_general_attribute(self, events, attribute, value):
         out = []
 
@@ -1971,6 +1985,39 @@ def estimate_relative_humidity(events, hum_module_in, hum_module_out, temp_modul
                 measured_hum_in[k]['hum_in_estimated4'] = ((res4 * 101500) / (res4 + 622)) / saturated_partial_pressure * 100
                 measured_hum_in[k]['hum_in_estimated5'] = (((hum_in + res5) * 101500) / ((hum_in + res5) + 622)) / saturated_partial_pressure * 100
                 measured_hum_in[k]['hum_in_estimated6'] = ((res6 * 101500) / (res6 + 622)) / saturated_partial_pressure * 100
+    return out
+
+
+def calculate_ventilation_time(events):
+    out = copy.deepcopy(events)
+
+    for i in range(0, len(out)):
+        out[i]['times']['ventilation_time'] = out[i]['times']['event_end'] - out[i]['times']['event_start']
+
+    return out
+
+
+def calculate_relative_humidity_difference(events):
+    out = copy.deepcopy(events)
+
+    for i in range(0, len(out)):
+        if out[i]['graph_hum_type_1'] == "linearni":
+            rh_values_len = len(out[i]['data'][0]['values'][1]['measured']) - 1
+            out[i]['data'][0]['values'][1]['rh_in_diff'] = \
+                out[i]['data'][0]['values'][1]['measured'][0]['value'] \
+                - out[i]['data'][0]['values'][1]['measured'][rh_values_len]['value']
+
+        elif out[i]['graph_hum_type_1'] == "lomeny":
+            rh_values_len = len(out[i]['data'][0]['values'][1]['measured']) - 1
+            drop_time = out[i]['data'][0]['values'][1]['lin_reg']['drop_shift']
+            rh_diff_after_close = \
+                (out[i]['data'][0]['values'][1]['measured'][rh_values_len]['value']
+                 - out[i]['data'][0]['values'][1]['measured'][drop_time]['value']) / 2.0
+            rh_value_after_close = \
+                out[i]['data'][0]['values'][1]['measured'][drop_time]['value'] + rh_diff_after_close
+            out[i]['data'][0]['values'][1]['rh_in_diff'] = \
+                out[i]['data'][0]['values'][1]['measured'][0]['value'] - rh_value_after_close
+
     return out
 
 
