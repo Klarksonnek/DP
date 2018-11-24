@@ -14,6 +14,7 @@ import pytz
 from socket import error as SocketError
 import gzip
 from scipy import stats
+import configparser
 
 
 COLORS = ['red', 'green', 'blue', 'orange', 'purple', 'silver', 'black']
@@ -1368,12 +1369,11 @@ class Graph:
         f.close()
 
 
-def api_key(filename='api_key.config'):
-    with open(filename) as file:
-        for line in file:
-            return line.strip()
+def api_key(filename):
+    config = configparser.ConfigParser()
+    config.read(filename)
 
-    raise EnvironmentError('api key not found')
+    return config['beeeon']['api.key']
 
 
 def to_weka_file(data, filename='weka.arff', class_name='open_close'):

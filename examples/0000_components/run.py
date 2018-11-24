@@ -31,7 +31,7 @@ def download_weather_with_cache():
 
 def data_storage_without_cache():
     cl = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=False)
-    cl.api_key = dp.api_key(CODE_DIR + '/api_key.config')
+    cl.api_key = dp.api_key(CODE_DIR + '/config.ini')
 
     storage = dp.DataStorage(cl, dp.WeatherData(cache=False))
     storage.read_meta_data('../devices_examples.json', '../events_examples.json')
@@ -44,7 +44,7 @@ def data_storage_without_cache():
 
 def data_storage_with_cache():
     cl = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=True)
-    cl.api_key = dp.api_key(CODE_DIR + '/api_key.config')
+    cl.api_key = dp.api_key(CODE_DIR + '/config.ini')
 
     storage = dp.DataStorage(cl, dp.WeatherData(cache=True))
     storage.read_meta_data('../devices_examples.json', '../events_examples.json')

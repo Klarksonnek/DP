@@ -98,7 +98,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
     client = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=True)
-    client.api_key = dp.api_key(CODE_DIR + '/api_key.config')
+    client.api_key = dp.api_key(CODE_DIR + '/config.ini')
 
     storage = dp.DataStorage(client, dp.WeatherData(cache=True))
     storage.read_meta_data('../devices_klarka.json', '../events_klarka.json')
