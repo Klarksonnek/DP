@@ -1376,6 +1376,13 @@ def api_key(filename):
     return config['beeeon']['api.key']
 
 
+def db_config(filename):
+    config = configparser.ConfigParser()
+    config.read(filename)
+
+    return config['db']
+
+
 def to_weka_file(data, filename='weka.arff', class_name='open_close'):
     file = open(filename, 'w')
     file.write('@relation events\n\n')
