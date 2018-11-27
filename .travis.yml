@@ -2,7 +2,15 @@ sudo: required
 language: python
 python:
   - "3.5"
+services:
+  - mysql
+before_install:
+  - mysql -u root --password="" < test_environment/create_db.sql
+  - wget db-env.mienkofax.eu/view_all.sql.tar.gz
+  - tar -xvzf view_all.sql.tar.gz
+  - mysql -u root -p demo --password="" < view_all.sql
+  - rm view_all.sql.tar.gz view_all.sql
 install:
   - pip install -r requirements.txt
 script:
-  - travis_wait 120 ./test_examples.sh
+  - python examples2/0000_db_tests/run.py
