@@ -1,5 +1,10 @@
 import json
 import logging
+import sys
+from os.path import dirname, abspath, join
+
+CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
+sys.path.append(CODE_DIR)
 
 from dm.DBUtil import DBUtil
 from dm.PreProcessing import PreProcessing
