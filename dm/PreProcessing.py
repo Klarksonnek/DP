@@ -178,7 +178,7 @@ class PreProcessing:
             time_start = act_value[time_attribute]
             time_end = next_value[time_attribute]
 
-            if value_start - value_end == 0:
+            if round(value_start - value_end, precision) == round(0, precision):
                 value_increase = 0
             else:
                 value_diff = value_end - value_start
@@ -291,6 +291,46 @@ class PreProcessing:
         return item_out
 
     @staticmethod
+    def generate_missing_data(data: list, devices: list, start: int, end: int,
+                              time_attribute: str):
+        """Dogenerovanie chybajucich dat pre druhy senzor.
+
+        V pripade, ze sa pouzije aj druhy senzor a ten z nejakych dvovodov, este nezbieral
+        data alebo mal vypadok, tak tato funkcia dogeneruje chybajuce hodnoty a dostani Null.
+        Ak by sa tato metoda nepouzila, funkcia check_start_end_interva() by detekovala, ze
+        dany interval je kratsi ako ostatne a dany casovy interval by oznacila za nedostatocny.
+        Co by znamenalo, ze do db by sa ulozili len null hodnoty.
+
+        :param data:
+        :param devices:
+        :param start:
+        :param end:
+        :param time_attribute:
+        :return:
+        """
+
+        # Zoznam dat v data, respektuje poradie v devices, dane indexy su rovnake.
+        # Takto mozme prejst zoznamom zariadeni a ak natrafime
+        for i in range(0, len(devices)):
+            dev = devices[i]
+
+            # upravujeme len udaje zo senzoru cislo 2
+            if dev['db_column_name'] in ['temperature_in2_celsius', 'rh_in2_percentage']:
+                item = data[i]
+
+                # ak je dany interval spravne nacitany, preskocime generovanie
+                if len(item) == (end - start):
+                    continue
+
+                for t_time in range(start, end):
+                    item.append({
+                        time_attribute: t_time,
+                        dev['db_column_name']: None
+                    })
+
+        return data
+
+    @staticmethod
     def prepare_downloaded_data(client: BeeeOnClient, devices: list, start: int, end: int,
                                 time_shift: int, last_open_close_state) -> list:
 
@@ -373,7 +413,7 @@ class PreProcessing:
                     t += (owner,)
                     continue
 
-                if column in maps:
+                if column in maps and value[column] is not None:
                     t += (round(value[column], precision),)
                 else:
                     t += (None,)
@@ -391,9 +431,13 @@ class PreProcessing:
             values = PreProcessing.prepare_downloaded_data(client, devices, start, end,
                                                            time_shift, last_open_close_state)
 
+            # v pripade, ze druhy senzor neobsahuje data, tak sa doplni null hodnotami
+            values = PreProcessing.generate_missing_data(values, devices, start, end,
+                                                         PreProcessing.TIME_ATTR_NAME)
+
             PreProcessing.check_start_end_interval(values, PreProcessing.TIME_ATTR_NAME)
             values = PreProcessing.join_items(values, PreProcessing.TIME_ATTR_NAME)
-        except:
+        except Exception as e:
             maps = [
                 PreProcessing.TIME_ATTR_NAME,
                 PreProcessing.TIME_STRING_ATTR_NAME,
