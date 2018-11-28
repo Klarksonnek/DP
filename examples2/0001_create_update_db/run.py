@@ -1,18 +1,11 @@
-from os.path import dirname, abspath, join
-import sys
 import json
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-import env_dp.core as dp
-from env_dp.DBUtil import DBUtil
-from env_dp.PreProcessing import PreProcessing
-from env_dp.DateTimeUtil import DateTimeUtil
 import logging
 
-import mysql.connector
+from dm.DBUtil import DBUtil
+from dm.PreProcessing import PreProcessing
+from dm.DateTimeUtil import DateTimeUtil
+from dm.BeeeOnClient import BeeeOnClient
+from dm.ConnectionUtil import ConnectionUtil
 
 
 def devices(filename='devices.json'):
@@ -50,25 +43,17 @@ def create_table_fast_view(client, con, start, end, owner, devices, table_name, 
 
 
 if __name__ == '__main__':
-    exit(0)
     logging.basicConfig(level=logging.DEBUG)
 
-    config = dp.db_config(CODE_DIR + '/config.ini')
-    con = mysql.connector.connect(
-        host=config['host'],
-        user=config['user'],
-        passwd=config['passwd'],
-        database=config['database']
-    )
-
+    con = ConnectionUtil.create_con()
     cur = con.cursor()
 
-    client = dp.BeeeOnClient("ant-work.fit.vutbr.cz", 8010, cache=False)
-    client.api_key = dp.api_key(CODE_DIR + '/config.ini')
+    cl = BeeeOnClient("ant-work.fit.vutbr.cz", 8010)
+    cl.api_key = ConnectionUtil.api_key()
 
     # from 2018/09/20 00:01:00
-    start = int(dp.local_time_str_to_utc('2018/09/20 00:01:00').timestamp())
-    end = int(dp.local_time_str_to_utc('2018/11/24 22:59:59').timestamp())
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/09/20 00:01:00').timestamp())
+    end = int(DateTimeUtil.local_time_str_to_utc('2018/11/24 22:59:59').timestamp())
 
     table1 = 'fast_view'
     table2 = 'view_all'
@@ -96,7 +81,7 @@ if __name__ == '__main__':
                 s = end1[0]
 
             logging.debug('finding of last inserted interval for table %s - Klarka', table1)
-            create_table_fast_view(client, con, s, time, 'Klarka', devices()['klarka'], table1, 10)
+            create_table_fast_view(cl, con, s, time, 'Klarka', devices()['klarka'], table1, 10)
 
         # create or update fast_view table for Peto
         end1 = DBUtil.last_inserted_values(con, table1, 'Peto')
@@ -108,7 +93,7 @@ if __name__ == '__main__':
 
             logging.debug('finding of last inserted interval for table %s - Peto',
                           table1)
-            create_table_fast_view(client, con, s, time, 'Peto', devices()['peto'], table1, 10)
+            create_table_fast_view(cl, con, s, time, 'Peto', devices()['peto'], table1, 10)
 
         # create or update view_all table for Klarka
         end1 = DBUtil.last_inserted_values(con, table2, 'Klarka')
@@ -119,7 +104,7 @@ if __name__ == '__main__':
                 s = end1[0]
 
             logging.debug('finding of last inserted interval for table %s - Klarka', table2)
-            create_table_fast_view(client, con, s, time, 'Klarka', devices()['klarka'], table2, 1)
+            create_table_fast_view(cl, con, s, time, 'Klarka', devices()['klarka'], table2, 1)
 
         # create or update view_all table for Peto
         end1 = DBUtil.last_inserted_values(con, table2, 'Peto')
@@ -130,6 +115,6 @@ if __name__ == '__main__':
                 s = end1[0]
 
             logging.debug('finding of last inserted interval for table %s - Peto', table2)
-            create_table_fast_view(client, con, s, time, 'Peto', devices()['peto'], table2, 1)
+            create_table_fast_view(cl, con, s, time, 'Peto', devices()['peto'], table2, 1)
 
         last_generated_time = time
