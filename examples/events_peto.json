@@ -6380,6 +6380,1436 @@
 				"jablotron": ["open_close"],
 				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
 			}
+		},
+		{
+			"description": "179",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 0,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "",
+			"times": {
+				"event_start": "2018/11/11 10:31:34",
+				"event_end": "2018/11/11 11:26:51"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "180",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 1,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/11 20:17:22",
+				"event_end": "2018/11/11 21:05:14"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "181",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/11 22:25:29",
+				"event_end": "2018/11/11 22:58:01"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "182",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/12 07:19:13",
+				"event_end": "2018/11/12 07:35:31"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "183",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 1,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/12 11:40:56",
+				"event_end": "2018/11/12 12:01:28"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "184",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/12 14:40:35",
+				"event_end": "2018/11/12 15:17:24"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "185",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/12 22:40:30",
+				"event_end": "2018/11/12 23:06:53"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "186",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/13 07:21:04",
+				"event_end": "2018/11/13 07:43:35"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "187",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/13 10:46:55",
+				"event_end": "2018/11/13 11:00:36"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "188",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 1,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(10)",
+			"activity": "kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/13 11:36:09",
+				"event_end": "2018/11/13 11:50:05"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "189",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/13 14:29:00",
+				"event_end": "2018/11/13 15:10:25"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "190",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/13 19:33:59",
+				"event_end": "2018/11/13 20:31:29"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "191",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, spanok, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/14 00:11:20",
+				"event_end": "2018/11/14 00:30:01"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "192",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "clear",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/14 07:20:55",
+				"event_end": "2018/11/14 08:00:15"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "193",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 1,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "partly_cloudy",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/14 10:00:44",
+				"event_end": "2018/11/14 10:37:02"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "194",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "partly_cloudy",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/14 15:17:16",
+				"event_end": "2018/11/14 16:15:12"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "195",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/14 19:02:54",
+				"event_end": "2018/11/14 19:20:25"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "196",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/14 22:31:31",
+				"event_end": "2018/11/14 22:52:04"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "197",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "partly_cloudy",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/15 06:54:54",
+				"event_end": "2018/11/15 07:10:10"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "198",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/15 17:15:53",
+				"event_end": "2018/11/15 17:37:43"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "199",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/15 21:05:25",
+				"event_end": "2018/11/15 21:46:03"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "200",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/16 18:34:22",
+				"event_end": "2018/11/16 18:44:46"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "201",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/16 22:48:50",
+				"event_end": "2018/11/16 23:03:10"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "202",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "clear",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/17 07:29:57",
+				"event_end": "2018/11/17 07:57:46"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "203",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "clear",
+			"sun": "yes",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/17 11:26:08",
+				"event_end": "2018/11/17 11:41:12"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "204",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "clear",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/17 13:24:55",
+				"event_end": "2018/11/17 13:44:47"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "205",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "clear",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/17 15:14:15",
+				"event_end": "2018/11/17 15:25:35"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "206",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/17 19:31:13",
+				"event_end": "2018/11/17 19:42:10"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "207",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/18 07:33:24",
+				"event_end": "2018/11/18 07:50:37"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "208",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 1,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/18 13:29:19",
+				"event_end": "2018/11/18 13:41:05"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "209",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "yes",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/18 18:20:50",
+				"event_end": "2018/11/18 18:31:35"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "210",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/18 22:50:34",
+				"event_end": "2018/11/18 22:57:32"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "211",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "yes",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/19 07:23:27",
+				"event_end": "2018/11/19 07:29:18"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "212",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/19 15:58:08",
+				"event_end": "2018/11/19 16:05:50"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "213",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/19 17:30:45",
+				"event_end": "2018/11/19 17:38:08"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "214",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, spanok, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/20 00:48:07",
+				"event_end": "2018/11/20 00:55:06"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "215",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/20 10:16:21",
+				"event_end": "2018/11/20 10:30:56"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "216",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 1,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "yes",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/20 15:56:26",
+				"event_end": "2018/11/20 16:08:15"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "217",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/20 19:42:09",
+				"event_end": "2018/11/20 19:51:02"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "218",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/20 23:18:57",
+				"event_end": "2018/11/20 23:25:30"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "219",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/21 07:31:17",
+				"event_end": "2018/11/21 08:15:37"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "220",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/21 18:10:45",
+				"event_end": "2018/11/21 18:17:48"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "221",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/21 21:15:11",
+				"event_end": "2018/11/21 21:29:54"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "222",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "spanok, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/22 00:11:38",
+				"event_end": "2018/11/22 00:19:25"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "223",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/22 07:27:53",
+				"event_end": "2018/11/22 07:40:22"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "224",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/22 12:00:48",
+				"event_end": "2018/11/22 12:14:50"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "225",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/22 16:59:26",
+				"event_end": "2018/11/22 17:56:52"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "226",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 3,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/23 06:48:49",
+				"event_end": "2018/11/23 07:12:05"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "227",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 1,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/23 17:40:44",
+				"event_end": "2018/11/23 17:51:49"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "228",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 1,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "yes",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/24 00:10:35",
+				"event_end": "2018/11/24 00:18:36"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "229",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "yes",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/24 07:38:41",
+				"event_end": "2018/11/24 07:55:06"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "230",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/24 09:40:55",
+				"event_end": "2018/11/24 10:01:21"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "231",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "light",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "overcast",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/24 13:45:55",
+				"event_end": "2018/11/24 13:54:05"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "232",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "yes",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/24 16:37:00",
+				"event_end": "2018/11/24 16:44:16"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
+		},
+		{
+			"description": "233",
+			"location": "intrak_na_boku_skrini",
+			"graph_type": "",
+			"graph_type_hum": "",
+			"out_sensor": "yes",
+			"people": 2,
+			"wind": "calm",
+			"wind_speed": 0.0,
+			"rain": "no",
+			"sky": "night_sky",
+			"sun": "no",
+			"open_type": "kridlo(90)",
+			"activity": "kancelarska_praca, kancelarska_praca",
+			"times": {
+				"event_start": "2018/11/24 17:59:35",
+				"event_end": "2018/11/24 18:16:09"
+			},
+			"devices": {
+				"beeeon_gateway": ["pressure_in"],
+				"beeeon_in": ["beeeon_temperature_in", "beeeon_humidity_in"],
+				"beeeon_out": ["beeeon_temperature_out", "beeeon_humidity_out"],
+				"jablotron": ["open_close"],
+				"protronix": ["protronix_temperature", "protronix_humidity", "co2"]
+			}
 		}
 	]
 }
