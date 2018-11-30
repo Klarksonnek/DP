@@ -69,3 +69,18 @@ class FilterUtil:
                 out.append(event)
 
         return out
+
+    @staticmethod
+    def measured_values_not_empty(events, attributes):
+        out = []
+
+        for event in events:
+            valid = True
+            for key, value in event['measured'].items():
+                if key in attributes and value == []:
+                    valid = False
+
+            if valid:
+                out.append(event)
+
+        return out
