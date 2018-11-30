@@ -3,3 +3,4 @@ cache
 __pycache__
 weak_test_file.arff
 examples/*/*.html
+*.pyc
