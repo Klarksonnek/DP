@@ -14,3 +14,4 @@ install:
   - pip install -r requirements.txt
 script:
   - python examples2/0000_db_tests/run.py
+  - python examples2/0100_klarka_values_all_graphs/run.py
