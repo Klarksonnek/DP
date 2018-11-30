@@ -37,10 +37,14 @@ class Storage:
                 'measured': {
                     'pressure_in_hpa': [],
                     'temperature_in_celsius': [],
+                    'temperature_in2_celsius': [],
                     'temperature_out_celsius': [],
                     'rh_in_percentage': [],
                     'rh_in_absolute_g_m3': [],
                     'rh_in_specific_g_kg': [],
+                    'rh_in2_percentage': [],
+                    'rh_in2_absolute_g_m3': [],
+                    'rh_in2_specific_g_kg': [],
                     'rh_out_percentage': [],
                     'rh_out_absolute_g_m3': [],
                     'rh_out_specific_g_kg': [],
@@ -100,15 +104,19 @@ class Storage:
             for row in cur.fetchall():
                 event['measured']['pressure_in_hpa'].append(row[4])
                 event['measured']['temperature_in_celsius'].append(row[5])
-                event['measured']['temperature_out_celsius'].append(row[6])
-                event['measured']['rh_in_percentage'].append(row[7])
-                event['measured']['rh_in_absolute_g_m3'].append(row[8])
-                event['measured']['rh_in_specific_g_kg'].append(row[9])
-                event['measured']['rh_out_percentage'].append(row[10])
-                event['measured']['rh_out_absolute_g_m3'].append(row[11])
-                event['measured']['rh_out_specific_g_kg'].append(row[12])
-                event['measured']['co2_in_ppm'].append(row[13])
-                event['measured']['co2_in_g_m3'].append(row[14])
+                event['measured']['temperature_in2_celsius'].append(row[6])
+                event['measured']['temperature_out_celsius'].append(row[7])
+                event['measured']['rh_in_percentage'].append(row[8])
+                event['measured']['rh_in2_percentage'].append(row[9])
+                event['measured']['rh_in_absolute_g_m3'].append(row[10])
+                event['measured']['rh_in2_absolute_g_m3'].append(row[11])
+                event['measured']['rh_in_specific_g_kg'].append(row[12])
+                event['measured']['rh_in2_specific_g_kg'].append(row[13])
+                event['measured']['rh_out_percentage'].append(row[14])
+                event['measured']['rh_out_absolute_g_m3'].append(row[15])
+                event['measured']['rh_out_specific_g_kg'].append(row[16])
+                event['measured']['co2_in_ppm'].append(row[17])
+                event['measured']['co2_in_g_m3'].append(row[18])
 
             # ak je nastaveny posun no_eventu na nulu tato cast sa preskoci,
             # v opacnom priapde sa stiahne hodnota
