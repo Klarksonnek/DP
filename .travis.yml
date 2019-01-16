@@ -6,10 +6,13 @@ services:
   - mysql
 before_install:
   - mysql -u root --password="" < test_environment/create_db.sql
-  - wget db-env.mienkofax.eu/view_all.sql.tar.gz
-  - tar -xvzf view_all.sql.tar.gz
-  - mysql -u root -p demo --password="" < view_all.sql
-  - rm view_all.sql.tar.gz view_all.sql
+  - wget db-env.mienkofax.eu/measured_klarka.sql.tar.gz
+  - wget db-env.mienkofax.eu/measured_peto.sql.tar.gz
+  - tar -xvzf measured_klarka.sql.tar.gz
+  - tar -xvzf measured_peto.sql.tar.gz
+  - mysql -u root -p demo --password="" < measured_klarka.sql
+  - mysql -u root -p demo --password="" < measured_peto.sql
+  - rm *.sql *.gz
 install:
   - pip install -r requirements.txt
 script:
