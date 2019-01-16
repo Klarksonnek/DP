@@ -84,10 +84,10 @@ class PreProcessing:
         return out_values
 
     @staticmethod
-    def download_data(client: BeeeOnClient, devices: list, start: int, end: int) -> list:
+    def download_data(clients: list, devices: list, start: int, end: int) -> list:
         """ Stiahnutie potrebnych dat na zaklade zoznamu zariadeni.
 
-        :param client: klient, ktory umoznuje stiahnut data na zaklade zadanych dat
+        :param clients: zoznam kientov
         :param devices: zoznam informacii o zariadeniach
         :param start: cas, od ktoreho sa maju stiahnut data
         :param end: cas, do ktoreho sa maju stiahnut data
@@ -97,6 +97,8 @@ class PreProcessing:
         out_items = []
 
         for dev in devices:
+            client = clients[dev['server_name']]
+
             values = client.history(
                 dev['gateway'],
                 dev['device'],
@@ -335,10 +337,10 @@ class PreProcessing:
         return data
 
     @staticmethod
-    def prepare_downloaded_data(client: BeeeOnClient, devices: list, start: int, end: int,
+    def prepare_downloaded_data(clients: list, devices: list, start: int, end: int,
                                 time_shift: int, last_open_close_state) -> list:
 
-        data = PreProcessing.download_data(client, devices,
+        data = PreProcessing.download_data(clients, devices,
                                            start - time_shift,
                                            end + time_shift)
         data = PreProcessing.rename_all_attributes(data, devices)
@@ -392,14 +394,10 @@ class PreProcessing:
                 value['temperature_out_celsius'],
                 value['rh_out_percentage'])
 
-        # CO2 concentration
-        if 'co2_in_ppm' in value:
-            value['co2_in_g_m3'] = conv.co2_ppm_to_mg_m3(value['co2_in_ppm'])
-
         return value
 
     @staticmethod
-    def insert_values(conn, table_name, values, maps, owner, write_each, precision):
+    def insert_values(conn, table_name, values, maps, write_each, precision):
         for i in range(0, len(values)):
             value = values[i]
             t = ()
@@ -413,10 +411,6 @@ class PreProcessing:
                         value[PreProcessing.TIME_ATTR_NAME]),)
                     continue
 
-                if column == PreProcessing.OWNER_ATTR_NAME:
-                    t += (owner,)
-                    continue
-
                 if column in maps and value[column] is not None:
                     t += (round(value[column], precision),)
                 else:
@@ -426,13 +420,13 @@ class PreProcessing:
 
 
     @staticmethod
-    def prepare(client: BeeeOnClient, conn, table_name: str, devices: list, start: int,
-                end: int, last_open_close_state: int, owner: str,
+    def prepare(clients: list, conn, table_name: str, devices: list, start: int,
+                end: int, last_open_close_state: int,
                 time_shift: int, precision: int=2, write_each: int=1) -> None:
 
         values = []
         try:
-            values = PreProcessing.prepare_downloaded_data(client, devices, start, end,
+            values = PreProcessing.prepare_downloaded_data(clients, devices, start, end,
                                                            time_shift, last_open_close_state)
 
             # v pripade, ze druhy senzor neobsahuje data, tak sa doplni null hodnotami
@@ -449,8 +443,7 @@ class PreProcessing:
                 PreProcessing.OWNER_ATTR_NAME
             ]
 
-            PreProcessing.insert_values(conn, table_name, values[0], maps, owner,
-                                        write_each, precision)
+            PreProcessing.insert_values(conn, table_name, values[0], maps, write_each, precision)
 
             return
 
@@ -466,5 +459,5 @@ class PreProcessing:
         # odstranenie duplicit zo zonamu
         maps = list(set(maps))
 
-        PreProcessing.insert_values(conn, table_name, values, maps, owner,
+        PreProcessing.insert_values(conn, table_name, values, maps,
                                     write_each, precision)

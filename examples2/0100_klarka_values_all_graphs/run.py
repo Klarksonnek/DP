@@ -16,7 +16,7 @@ def generate_stats(event: dict, owner: str, precision: int=2):
     """Vygenerovanie zakladnych dat ako statistiku
 
     :param event: event, ktory sa pouzije pre generovanie statistiky
-    :param owner: vlastnik senzora (Klarka alebo Peto), nazov musi byt rovnaky ako v db
+    :param owner: vlastnik senzora (klarka|peto), nazov musi byt rovnaky ako v db
     :param precision: pocet desatinnych miest, na ktore sa ma vysledok zaokruhlit
     :return: vysledna statistika
     """
@@ -52,7 +52,7 @@ def generate_stats(event: dict, owner: str, precision: int=2):
                precision)),
     ]
 
-    if owner == 'Klarka':
+    if owner == 'klarka':
         out.append(('typ grafu', event['graph_hum_type_1']))
 
     return out
@@ -118,7 +118,7 @@ def generate_graphs_sensor_2(event: dict, owner: str, number_output_records: int
     """Vygenerovanie grafu zo senzora cislo dva.
 
    :param event: event, ktory sa pouzije pre generovanie statistiky
-   :param owner: vlastnik senzora (Klarka alebo Peto), nazov musi byt rovnaky ako v db
+   :param owner: vlastnik senzora (klarka|peto), nazov musi byt rovnaky ako v db
    :param number_output_records: pocet bodov, ktore maju byt vo vyslednom grafe
    :return: vysledny grah, ktory moze v sebe obsahovat niekolko grafov
    """
@@ -175,7 +175,7 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
     """
 
     :param events_file: cesta k suboru so zoznamom eventov
-    :param owner:vlastnik senzora (Klarka alebo Peto), nazov musi byt rovnaky ako v db
+    :param owner: vlastnik senzora (klarka|peto), nazov musi byt rovnaky ako v db
     :param start_shift: posun zaciatku, od kedy sa maju data stahovat
     :param end_shift: posun konca, do kedy sa maju stahovat data
     :param output_filename: nazov vysledneho grafu
@@ -183,12 +183,12 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
     :return:
     """
 
-    logging.info('start')
+    logging.info('start: ' + output_filename)
     graphs = Graph("./../../src/graph")
 
     # stiahnutie dat
     con = ConnectionUtil.create_con()
-    storage = Storage(events_file, 0, owner, 'view_all')
+    storage = Storage(events_file, 0, owner, 'measured_' + owner)
     d = storage.load_data(con, start_shift, end_shift, 'temperature_in_celsius')
     logging.info('downloaded events: %d' % len(d))
 
@@ -199,7 +199,7 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
     filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
 
     # tento atribut je validny len pre jedneho, pre Klarku
-    if owner == 'Klarka':
+    if owner == 'klarka':
         filtered = FilterUtil.attribute(filtered, 'window', 'dokoran')
 
     logging.info('events after applying the filter: %d' % len(filtered))
@@ -219,7 +219,7 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
     for event in sensor1_events:
         graphs_sensor_1 += generate_graphs_sensor_1(event, owner, number_output_records)
 
-    graphs.gen(graphs_sensor_1, owner + '_' + 'sensor1_' + output_filename, 0, 0)
+    graphs.gen(graphs_sensor_1, 'sensor1_' + output_filename, 0, 0)
     logging.info('end generating graphs of events from sensor 1')
 
     # generovanie grafov pre senzor dva
@@ -228,7 +228,7 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
     for event in sensor2_events:
         graphs_sensor_2 += generate_graphs_sensor_2(event, owner, number_output_records)
 
-    graphs.gen(graphs_sensor_2, owner + '_' + 'sensor2_' + output_filename, 0, 0)
+    graphs.gen(graphs_sensor_2, 'sensor2_' + output_filename, 0, 0)
     logging.info('end generating graphs of events from sensor 2')
 
     logging.info('end')
@@ -238,10 +238,10 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s',)
 
-    main('examples/events_klarka.json', 'Klarka', 0, 0, 'temp_hum_abs_spec.html', 75)
-    main('examples/events_peto.json', 'Peto', 0, 0, 'temp_hum_abs_spec.html', 75)
+    main('examples/events_klarka.json', 'klarka', 0, 0, 'klarka_temp_hum_abs_spec.html', 75)
+    main('examples/events_peto.json', 'peto', 0, 0, 'peto_temp_hum_abs_spec.html', 75)
 
-    main('examples/events_klarka.json', 'Klarka', 3600, 3600,
-         'temp_hum_abs_spec_shift.html', 75)
-    main('examples/events_peto.json', 'Peto', 3600, 3600,
-         'temp_hum_abs_spec_shift.html', 75)
+    main('examples/events_klarka.json', 'klarka', 3600, 3600,
+         'klarka_temp_hum_abs_spec_shift.html', 75)
+    main('examples/events_peto.json', 'peto', 3600, 3600,
+         'peto_temp_hum_abs_spec_shift.html', 75)

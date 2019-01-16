@@ -1,31 +1,35 @@
+import logging
 from mysql.connector.errors import Error
+from dm.DateTimeUtil import DateTimeUtil
 
 
 class DBUtil:
     @staticmethod
     def create_table(conn, table_name):
+        '''
+        http://www.mysqltutorial.org/mysql-decimal/
+        '''
+
         sql = """
             CREATE TABLE IF NOT EXISTS """ + table_name + """ (
-            measured_time int,
-            measured_time_str timestamp,
-            owner VARCHAR(8),
-            open_close boolean,
-            pressure_in_hpa float,
-            temperature_in_celsius float,
-            temperature_in2_celsius float,
-            temperature_out_celsius float,
-            rh_in_percentage float,
-            rh_in2_percentage float,
-            rh_in_absolute_g_m3 float,
-            rh_in2_absolute_g_m3 float,
-            rh_in_specific_g_kg float,
-            rh_in2_specific_g_kg float,
-            rh_out_percentage float,
-            rh_out_absolute_g_m3 float,
-            rh_out_specific_g_kg float,
-            co2_in_ppm float,
-            co2_in_g_m3 float,
-            PRIMARY KEY (measured_time,owner)
+            measured_time INT,
+            measured_time_str TIMESTAMP,
+            open_close BOOLEAN,
+            pressure_in_hpa DECIMAL(6,2),
+            temperature_in_celsius DECIMAL(4,2),
+            temperature_in2_celsius DECIMAL(4,2),
+            temperature_out_celsius DECIMAL(4,2),
+            rh_in_percentage DECIMAL(4,2),
+            rh_in2_percentage DECIMAL(4,2),
+            rh_in_absolute_g_m3 DECIMAL(4,2),
+            rh_in2_absolute_g_m3 DECIMAL(4,2),
+            rh_in_specific_g_kg DECIMAL(4,2),
+            rh_in2_specific_g_kg DECIMAL(4,2),
+            rh_out_percentage DECIMAL(4,2),
+            rh_out_absolute_g_m3 DECIMAL(4,2),
+            rh_out_specific_g_kg DECIMAL(4,2),
+            co2_in_ppm DECIMAL(6,2),
+            PRIMARY KEY (measured_time)
         )"""
 
         cur = conn.cursor()
@@ -43,7 +47,6 @@ class DBUtil:
         return [
             'measured_time',
             'measured_time_str',
-            'owner',
             'open_close',
             'pressure_in_hpa',
             'temperature_in_celsius',
@@ -58,8 +61,7 @@ class DBUtil:
             'rh_out_percentage',
             'rh_out_absolute_g_m3',
             'rh_out_specific_g_kg',
-            'co2_in_ppm',
-            'co2_in_g_m3'
+            'co2_in_ppm'
         ]
 
     @staticmethod
@@ -92,8 +94,8 @@ class DBUtil:
             conn.commit()
 
     @staticmethod
-    def last_inserted_open_close_state(conn, table_name, owner):
-        return DBUtil.last_inserted_values(conn, table_name, owner)[3]
+    def last_inserted_open_close_state(conn, table_name):
+        return DBUtil.last_inserted_values(conn, table_name)[2]
 
     @staticmethod
     def rows_count(conn, table_name):
@@ -102,13 +104,12 @@ class DBUtil:
         return cur.fetchall()[0][0]
 
     @staticmethod
-    def last_inserted_values(conn, table_name, owner):
+    def last_inserted_values(conn, table_name):
         cur = conn.cursor()
 
         sql = """
-            select * from `""" + table_name + """` 
-            where measured_time = (SELECT MAX(measured_time) as mm FROM """ + table_name + """
-            WHERE owner = '""" + owner + """') and owner = '""" + owner + '\''
+            select * from `""" + table_name + """`
+            where measured_time = (SELECT MAX(measured_time) as mm FROM """ + table_name + ')'
 
         cur.execute(sql)
 
