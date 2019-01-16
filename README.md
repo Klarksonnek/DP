@@ -13,3 +13,10 @@ server # echo `pwgen 80 1` "= ja@example.org" >> /etc/beeeon/server/apikeys.prop
 * 0100 - 0199 - priklady pre Klarku
 
 * 0200 - 0299 - priklady pre Peta
+
+## Export DB
+
+```bash
+    mysqldump -uroot -p statistiky measured_peto  > measured_peto.sql; \
+    mysqldump -uroot -p statistiky measured_klarka  > measured_klarka.sql
+```
