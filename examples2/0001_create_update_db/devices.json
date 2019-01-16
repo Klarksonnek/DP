@@ -5,49 +5,56 @@
               "name": "Jablotron open/close sensor",
               "gateway": "1413350823123315",
               "device": "0x9000000001d00b6",
-              "module": 0
+              "module": 0,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "temperature_in_celsius",
               "name": "BeeeOn sensor in (parapet) - temperature",
               "gateway": "1413350823123315",
               "device": "0xa1000000eb00000f",
-              "module": 1
+              "module": 1,
+              "server_name": "ant-work"
           },
         {
               "db_column_name": "temperature_in2_celsius",
               "name": "BeeeOn sensor in 2 (stolek) - temperature",
               "gateway": "1413350823123315",
               "device": "0xa1000000eb000020",
-              "module": 1
+              "module": 1,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "temperature_out_celsius",
               "name": "BeeeOn sensor out - temperature",
               "gateway": "1413350823123315",
               "device": "0xa1000000eb000018",
-              "module": 1
+              "module": 1,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "rh_in_percentage",
               "name": "BeeeOn sensor in (parapet) - humidity",
               "gateway": "1413350823123315",
               "device": "0xa1000000eb00000f",
-              "module": 3
+              "module": 3,
+              "server_name": "ant-work"
           },
         {
               "db_column_name": "rh_in2_percentage",
               "name": "BeeeOn sensor in 2 (stolek) - humidity",
               "gateway": "1413350823123315",
               "device": "0xa1000000eb000020",
-              "module": 3
+              "module": 3,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "rh_out_percentage",
               "name": "BeeeOn sensor out - humidity",
               "gateway": "1413350823123315",
               "device": "0xa1000000eb000018",
-              "module": 3
+              "module": 3,
+              "server_name": "ant-work"
           }
     ],
     "peto": [
@@ -56,63 +63,72 @@
               "name": "Jablotron open/close sensor",
               "gateway": "1908402624139667",
               "device": "0x900000000197053",
-              "module": 0
+              "module": 0,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "pressure_in_hpa",
               "name": "BeeeOn Atmospheric pressure sensor",
               "gateway": "1908402624139667",
               "device": "0xa2000000e9ab7ebe",
-              "module": 0
+              "module": 0,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "temperature_in_celsius",
               "name": "Protronix sensor co2, temperature and humidity - temperature",
               "gateway": "1816820318180747",
               "device": "0xa9004a4a147d0001",
-              "module": 0
+              "module": 0,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "temperature_in2_celsius",
               "name": "BeeeOn sensor in 2 - temperature",
               "gateway": "1908402624139667",
               "device": "0xa1000000ea000000",
-              "module": 1
+              "module": 1,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "temperature_out_celsius",
               "name": "BeeeOn sensor out - temperature",
               "gateway": "1908402624139667",
               "device": "0xa1000000eb000024",
-              "module": 1
+              "module": 1,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "rh_in_percentage",
               "name": "Protronix sensor co2, temperature and humidity - humidity",
               "gateway": "1816820318180747",
               "device": "0xa9004a4a147d0001",
-              "module": 1
+              "module": 1,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "rh_in2_percentage",
               "name": "BeeeOn sensor in 2 - humidity",
               "gateway": "1908402624139667",
               "device": "0xa1000000ea000000",
-              "module": 3
+              "module": 3,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "rh_out_percentage",
               "name": "BeeeOn sensor out - humidity",
               "gateway": "1908402624139667",
               "device": "0xa1000000eb000024",
-              "module": 3
+              "module": 3,
+              "server_name": "ant-work"
           },
           {
               "db_column_name": "co2_in_ppm",
               "name": "BeeeOn sensor",
               "gateway": "1816820318180747",
               "device": "0xa9004a4a147d0001",
-              "module": 2
+              "module": 2,
+              "server_name": "ant-work"
           }
     ]
 }
