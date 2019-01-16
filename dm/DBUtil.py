@@ -119,6 +119,22 @@ class DBUtil:
         return res[0]
 
     @staticmethod
+    def first_inserted_values(conn, table_name):
+        cur = conn.cursor()
+
+        sql = """
+            select * from `""" + table_name + """`
+            where measured_time = (SELECT MIN(measured_time) as mm FROM """ + table_name + ')'
+
+        cur.execute(sql)
+
+        res = cur.fetchall()
+        if not res:
+            return None
+
+        return res[0]
+
+    @staticmethod
     def check_timestamp_order(con, table_name):
         """Overenie ci db obsahuje databazu, kde nechyba ziadna hodnota
 
