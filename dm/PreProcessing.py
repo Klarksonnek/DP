@@ -182,7 +182,11 @@ class PreProcessing:
                 value_increase = 0
             else:
                 value_diff = value_end - value_start
-                value_increase = value_diff / (time_end - time_start)
+
+                if (time_end - time_start) == 0:
+                    value_increase = 0
+                else:
+                    value_increase = value_diff / (time_end - time_start)
 
             act_value = value_start
             for j in range(1, time_end - time_start + 1):
