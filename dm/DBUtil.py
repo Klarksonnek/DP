@@ -117,3 +117,44 @@ class DBUtil:
             return None
 
         return res[0]
+
+    @staticmethod
+    def check_timestamp_order(con, table_name):
+        """Overenie ci db obsahuje databazu, kde nechyba ziadna hodnota
+
+        :param con: spojenie s db
+        :param table_name: nazov tabulky pre overenie
+        """
+
+        cur = con.cursor()
+
+        rows = DBUtil.rows_count(con, table_name)
+        if rows == 0:
+            logging.debug('db is empty')
+            return
+
+        first_inserted_timestamp = DBUtil.first_inserted_values(con, table_name)[0]
+        last_inserted_timestamp = DBUtil.last_inserted_values(con, table_name)[0]
+        last_checked_timestamp = first_inserted_timestamp
+
+        if (last_inserted_timestamp - first_inserted_timestamp + 1) != rows:
+            raise ValueError('DB contains missing or extra rows')
+
+        step = 100000
+        for i in range(0, rows, step):
+            sql = 'SELECT measured_time, measured_time_str FROM '
+            sql += table_name + ' ORDER BY measured_time ASC'
+            sql += ' LIMIT ' + str(i) + ', ' + str(step)
+
+            interval = DateTimeUtil.create_interval_str(first_inserted_timestamp + i,
+                                                        first_inserted_timestamp + i + step)
+
+            logging.debug('check timestamp between %s' % interval)
+            cur.execute(sql)
+
+            res = cur.fetchall()
+            for r in res:
+                if last_checked_timestamp == r[0]:
+                    last_checked_timestamp += 1
+                else:
+                    raise IndexError('missing or extra row: ' + str(last_checked_timestamp))
