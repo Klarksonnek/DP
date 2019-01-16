@@ -382,6 +382,18 @@ class PreProcessing:
                 value['temperature_in_celsius'],
                 value['rh_in_percentage'])
 
+        # absolute humidity in 2
+        if 'temperature_in2_celsius' in value and 'rh_in2_percentage' in value:
+            value['rh_in2_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
+                value['temperature_in2_celsius'],
+                value['rh_in2_percentage'])
+
+        # specific humidity in 2
+        if 'temperature_in2_celsius' in value and 'rh_in2_percentage' in value:
+            value['rh_in2_specific_g_kg'] = conv.rh_to_specific_g_kg(
+                value['temperature_in2_celsius'],
+                value['rh_in2_percentage'])
+
         # absolute humidity out
         if 'temperature_out_celsius' in value and 'rh_out_percentage' in value:
             value['rh_out_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
