@@ -24,3 +24,11 @@ class DateTimeUtil:
         local_time = DateTimeUtil.utc_timestamp_to_local_time(timestamp, 'Europe/Prague')
 
         return local_time.strftime(format)
+
+    @staticmethod
+    def create_interval_str(start, end):
+        out = DateTimeUtil.utc_timestamp_to_str(start)
+        out += ' - '
+        out += DateTimeUtil.utc_timestamp_to_str(end, '%H:%M:%S')
+
+        return out

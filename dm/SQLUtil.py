@@ -1,9 +1,8 @@
 class SQLUtil:
     @staticmethod
-    def select_interval_size(table_name: str, start: int, end: int, column: str, owner: str):
+    def select_interval_size(table_name: str, start: int, end: int, column: str):
         """Zistenie poctu zaznamov, ktore nie su null v danom stlpci
 
-        :param owner:
         :param column:
         :param table_name:
         :param start:
@@ -15,12 +14,11 @@ class SQLUtil:
         sql += ' WHERE measured_time >= ' + str(start)
         sql += ' and measured_time <= ' + str(end)
         sql += ' and ' + column + ' IS NOT NULL'
-        sql += ' and owner = \'' + owner + '\''
 
         return sql
 
     @staticmethod
-    def select_interval(table_name: str, start: int, end: int, columns: str, owner: str):
+    def select_interval(table_name: str, start: int, end: int, columns: str):
         """Vyber casoveho intervalu na zaklade zadanych casov.
 
         :param columns: zoznam stlpcov, ktore sa maju vybrat, hviezdicka znaci vsetky stlpce
@@ -33,12 +31,11 @@ class SQLUtil:
         sql = 'SELECT ' + columns + ' FROM ' + table_name
         sql += ' WHERE measured_time >= ' + str(start)
         sql += ' and measured_time <= ' + str(end)
-        sql += ' and owner = \'' + owner + '\''
 
         return sql
 
     @staticmethod
-    def select_one_value(table_name: str, measured_time: int, columns: str, owner: str):
+    def select_one_value(table_name: str, measured_time: int, columns: str):
         """Vyber jednej hodnoty na zaklade zadaneho casu.
 
         :param columns: zoznam stlpcov, ktore sa maju vybrat, hviezdicka znaci vsetky stlpce
@@ -49,6 +46,5 @@ class SQLUtil:
 
         sql = 'SELECT ' + columns + ' FROM ' + table_name
         sql += ' WHERE measured_time = ' + str(measured_time)
-        sql += ' and owner = \'' + owner + '\''
 
         return sql

@@ -80,7 +80,6 @@ class Storage:
         cur = con.cursor()
         for i in range(0, len(data)):
             event = data[i]
-            owner = event['owner']
 
             event['start_shift'] = start_shift
             event['end_shift'] = end_shift
@@ -90,7 +89,7 @@ class Storage:
 
             # kontrola, ci velkost intervalu v db bez Null hodnot je rovnaka
             # ako rozdiel intervalov
-            sql = SQLUtil.select_interval_size(self.__table_name, start, end, column, owner)
+            sql = SQLUtil.select_interval_size(self.__table_name, start, end, column)
             cur.execute(sql)
 
             if end - start + 1 != cur.fetchone()[0]:
@@ -98,61 +97,58 @@ class Storage:
                 continue
 
             # zistanie pozadovaneho intervalu
-            cur.execute(SQLUtil.select_interval(self.__table_name, start, end, '*', owner))
+            cur.execute(SQLUtil.select_interval(self.__table_name, start, end, '*'))
 
             # doplnenie udajov z db do struktury
             for row in cur.fetchall():
+                if row[3] is not None:
+                    event['measured']['pressure_in_hpa'].append(row[3])
+
                 if row[4] is not None:
-                    event['measured']['pressure_in_hpa'].append(row[4])
+                    event['measured']['temperature_in_celsius'].append(row[4])
 
                 if row[5] is not None:
-                    event['measured']['temperature_in_celsius'].append(row[5])
+                    event['measured']['temperature_in2_celsius'].append(row[5])
 
                 if row[6] is not None:
-                    event['measured']['temperature_in2_celsius'].append(row[6])
+                    event['measured']['temperature_out_celsius'].append(row[6])
 
                 if row[7] is not None:
-                    event['measured']['temperature_out_celsius'].append(row[7])
+                    event['measured']['rh_in_percentage'].append(row[7])
 
                 if row[8] is not None:
-                    event['measured']['rh_in_percentage'].append(row[8])
+                    event['measured']['rh_in2_percentage'].append(row[8])
 
                 if row[9] is not None:
-                    event['measured']['rh_in2_percentage'].append(row[9])
+                    event['measured']['rh_in_absolute_g_m3'].append(row[9])
 
                 if row[10] is not None:
-                    event['measured']['rh_in_absolute_g_m3'].append(row[10])
+                    event['measured']['rh_in2_absolute_g_m3'].append(row[10])
 
                 if row[11] is not None:
-                    event['measured']['rh_in2_absolute_g_m3'].append(row[11])
+                    event['measured']['rh_in_specific_g_kg'].append(row[11])
 
                 if row[12] is not None:
-                    event['measured']['rh_in_specific_g_kg'].append(row[12])
+                    event['measured']['rh_in2_specific_g_kg'].append(row[12])
 
                 if row[13] is not None:
-                    event['measured']['rh_in2_specific_g_kg'].append(row[13])
+                    event['measured']['rh_out_percentage'].append(row[13])
 
                 if row[14] is not None:
-                    event['measured']['rh_out_percentage'].append(row[14])
+                    event['measured']['rh_out_absolute_g_m3'].append(row[14])
 
                 if row[15] is not None:
-                    event['measured']['rh_out_absolute_g_m3'].append(row[15])
+                    event['measured']['rh_out_specific_g_kg'].append(row[15])
 
                 if row[16] is not None:
-                    event['measured']['rh_out_specific_g_kg'].append(row[16])
-
-                if row[17] is not None:
-                    event['measured']['co2_in_ppm'].append(row[17])
-
-                if row[18] is not None:
-                    event['measured']['co2_in_g_m3'].append(row[18])
+                    event['measured']['co2_in_ppm'].append(row[16])
 
             # ak je nastaveny posun no_eventu na nulu tato cast sa preskoci,
             # v opacnom priapde sa stiahne hodnota
             if event['no_event_time_shift'] != 0:
                 sql = SQLUtil.select_one_value(self.__table_name,
                                                start + event['no_event_time_shift'],
-                                               '*', owner)
+                                               '*')
                 cur.execute(sql)
                 event['no_event_columns'] = cur.fetchone()
 

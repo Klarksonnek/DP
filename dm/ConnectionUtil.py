@@ -27,8 +27,8 @@ class ConnectionUtil:
         )
 
     @staticmethod
-    def api_key(config_file='/etc/dp/config.ini'):
+    def api_key(server_name, config_file='/etc/dp/config.ini'):
         config = configparser.ConfigParser()
         config.read(config_file)
 
-        return config['beeeon']['api.key']
+        return config['beeeon']['api.key.' + server_name]

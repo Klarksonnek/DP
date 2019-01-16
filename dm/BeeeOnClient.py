@@ -54,7 +54,6 @@ class BeeeOnClient:
 
         return json.loads(body)
 
-
     def __logout(self):
         if not self.__token_id:
             self.__log.warning('token is not set')
