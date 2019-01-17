@@ -16,7 +16,16 @@ server # echo `pwgen 80 1` "= ja@example.org" >> /etc/beeeon/server/apikeys.prop
 
 ## Export DB
 
+### Full db
+
 ```bash
     mysqldump -uroot -p statistiky measured_peto  > measured_peto.sql; \
     mysqldump -uroot -p statistiky measured_klarka  > measured_klarka.sql
+```
+
+### Reduced db
+
+```bash
+    mysqldump -uroot -p statistiky measured_peto_reduced  > measured_peto_reduced.sql; \
+    mysqldump -uroot -p statistiky measured_klarka_reduced  > measured_klarka_reduced.sql
 ```
