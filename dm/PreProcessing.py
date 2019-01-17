@@ -8,7 +8,6 @@ class PreProcessing:
     TIME_ATTR_NAME = 'measured_time'
     TIME_STRING_ATTR_NAME = 'measured_time_str'
     OPEN_CLOSE_ATTR_NAME = 'open_close'
-    OWNER_ATTR_NAME = 'owner'
 
     @staticmethod
     def db_name_maps(devices: list) -> list:
@@ -146,7 +145,6 @@ class PreProcessing:
             out[tt][open_close_attribute_name] = last_open_close_state
 
         return out
-
 
     @staticmethod
     def generate_data(values: list, value_attribute: str, time_attribute: str,
@@ -433,7 +431,6 @@ class PreProcessing:
 
             DBUtil.insert_value(conn, t, False, table_name)
 
-
     @staticmethod
     def prepare(clients: list, conn, table_name: str, devices: list, start: int,
                 end: int, last_open_close_state: int,
@@ -455,7 +452,6 @@ class PreProcessing:
                 PreProcessing.TIME_ATTR_NAME,
                 PreProcessing.TIME_STRING_ATTR_NAME,
                 PreProcessing.OPEN_CLOSE_ATTR_NAME,
-                PreProcessing.OWNER_ATTR_NAME
             ]
 
             PreProcessing.insert_values(conn, table_name, values[0], maps, write_each, precision)
