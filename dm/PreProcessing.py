@@ -8,7 +8,6 @@ class PreProcessing:
     TIME_ATTR_NAME = 'measured_time'
     TIME_STRING_ATTR_NAME = 'measured_time_str'
     OPEN_CLOSE_ATTR_NAME = 'open_close'
-    OWNER_ATTR_NAME = 'owner'
 
     @staticmethod
     def db_name_maps(devices: list) -> list:
@@ -146,7 +145,6 @@ class PreProcessing:
             out[tt][open_close_attribute_name] = last_open_close_state
 
         return out
-
 
     @staticmethod
     def generate_data(values: list, value_attribute: str, time_attribute: str,
@@ -382,6 +380,21 @@ class PreProcessing:
                 value['temperature_in_celsius'],
                 value['rh_in_percentage'])
 
+        # sensor 2
+        exists_in2 = 'temperature_in2_celsius' in value and 'rh_in2_percentage' in value
+        temperature_in2_celsius = value['temperature_in2_celsius']
+        rh_in2_percentage = value['rh_in2_percentage']
+        if exists_in2 and temperature_in2_celsius is not None and rh_in2_percentage is not None:
+            # absolute humidity in 2
+            value['rh_in2_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
+                value['temperature_in2_celsius'],
+                value['rh_in2_percentage'])
+
+            # specific humidity in 2
+            value['rh_in2_specific_g_kg'] = conv.rh_to_specific_g_kg(
+                value['temperature_in2_celsius'],
+                value['rh_in2_percentage'])
+
         # absolute humidity out
         if 'temperature_out_celsius' in value and 'rh_out_percentage' in value:
             value['rh_out_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
@@ -418,7 +431,6 @@ class PreProcessing:
 
             DBUtil.insert_value(conn, t, False, table_name)
 
-
     @staticmethod
     def prepare(clients: list, conn, table_name: str, devices: list, start: int,
                 end: int, last_open_close_state: int,
@@ -440,7 +452,6 @@ class PreProcessing:
                 PreProcessing.TIME_ATTR_NAME,
                 PreProcessing.TIME_STRING_ATTR_NAME,
                 PreProcessing.OPEN_CLOSE_ATTR_NAME,
-                PreProcessing.OWNER_ATTR_NAME
             ]
 
             PreProcessing.insert_values(conn, table_name, values[0], maps, write_each, precision)
