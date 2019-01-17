@@ -96,10 +96,10 @@ if __name__ == '__main__':
     create_update_table(con, cls, start, end, devices()['klarka'], 1, table_kl)
 
     # faster db
-    table_pt = 'measured_peto_reducted'
+    table_pt = 'measured_peto_reduced'
     DBUtil.create_table(con, table_pt)
     create_update_table(con, cls, start, end, devices()['peto'], 15, table_pt)
 
-    table_kl = 'measured_klarka_reducted'
+    table_kl = 'measured_klarka_reduced'
     DBUtil.create_table(con, table_kl)
     create_update_table(con, cls, start, end, devices()['klarka'], 15, table_kl)
