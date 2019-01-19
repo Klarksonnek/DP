@@ -188,7 +188,7 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
 
     # stiahnutie dat
     con = ConnectionUtil.create_con()
-    storage = Storage(events_file, 0, owner, 'measured_' + owner)
+    storage = Storage(events_file, 0, 'measured_' + owner)
     d = storage.load_data(con, start_shift, end_shift, 'temperature_in_celsius')
     logging.info('downloaded events: %d' % len(d))
 

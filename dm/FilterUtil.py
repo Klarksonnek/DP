@@ -84,3 +84,31 @@ class FilterUtil:
                 out.append(event)
 
         return out
+
+    @staticmethod
+    def derivation_not_zero(events):
+        out = []
+
+        derivation_key = [
+            'after',
+            'before',
+            'no_event_after',
+            'no_event_before',
+        ]
+
+        for event in events:
+            valid = True
+
+            for key in derivation_key:
+                values = event['derivation'][key]
+                if not valid:
+                    break
+
+                for value in values:
+                    if value == 0:
+                        valid = False
+                        break
+            if valid:
+                out.append(event)
+
+        return out

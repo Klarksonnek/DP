@@ -1,14 +1,14 @@
 import json
+import logging
 import os
 from dm.DateTimeUtil import DateTimeUtil
 from dm.SQLUtil import SQLUtil
 
 
 class Storage:
-    def __init__(self, filename: str, no_event_time_shift: int, owner: str, table_name: str):
+    def __init__(self, filename: str, no_event_time_shift: int, table_name: str):
         self.__filename = self.__root_folder() + filename
         self.__no_event_time_shift = no_event_time_shift
-        self.__owner = owner
         self.__table_name = table_name
 
     def __root_folder(self):
@@ -48,18 +48,16 @@ class Storage:
                     'rh_out_percentage': [],
                     'rh_out_absolute_g_m3': [],
                     'rh_out_specific_g_kg': [],
-                    'co2_in_ppm': [],
-                    'co2_in_g_m3': []
+                    'co2_in_ppm': []
                 },
-                'derivatives': {
+                'derivation': {
                     'after': [],
                     'before': [],
                     'no_event_after': [],
                     'no_event_before': []
                 },
                 'no_event_time_shift': self.__no_event_time_shift,
-                'no_event_columns': None,
-                'owner': self.__owner,
+                'no_event_values': None,
                 'valid_event': True
             }
 
@@ -102,46 +100,46 @@ class Storage:
             # doplnenie udajov z db do struktury
             for row in cur.fetchall():
                 if row[3] is not None:
-                    event['measured']['pressure_in_hpa'].append(row[3])
+                    event['measured']['pressure_in_hpa'].append(float(row[3]))
 
                 if row[4] is not None:
-                    event['measured']['temperature_in_celsius'].append(row[4])
+                    event['measured']['temperature_in_celsius'].append(float(row[4]))
 
                 if row[5] is not None:
-                    event['measured']['temperature_in2_celsius'].append(row[5])
+                    event['measured']['temperature_in2_celsius'].append(float(row[5]))
 
                 if row[6] is not None:
-                    event['measured']['temperature_out_celsius'].append(row[6])
+                    event['measured']['temperature_out_celsius'].append(float(row[6]))
 
                 if row[7] is not None:
-                    event['measured']['rh_in_percentage'].append(row[7])
+                    event['measured']['rh_in_percentage'].append(float(row[7]))
 
                 if row[8] is not None:
-                    event['measured']['rh_in2_percentage'].append(row[8])
+                    event['measured']['rh_in2_percentage'].append(float(row[8]))
 
                 if row[9] is not None:
-                    event['measured']['rh_in_absolute_g_m3'].append(row[9])
+                    event['measured']['rh_in_absolute_g_m3'].append(float(row[9]))
 
                 if row[10] is not None:
-                    event['measured']['rh_in2_absolute_g_m3'].append(row[10])
+                    event['measured']['rh_in2_absolute_g_m3'].append(float(row[10]))
 
                 if row[11] is not None:
-                    event['measured']['rh_in_specific_g_kg'].append(row[11])
+                    event['measured']['rh_in_specific_g_kg'].append(float(row[11]))
 
                 if row[12] is not None:
-                    event['measured']['rh_in2_specific_g_kg'].append(row[12])
+                    event['measured']['rh_in2_specific_g_kg'].append(float(row[12]))
 
                 if row[13] is not None:
-                    event['measured']['rh_out_percentage'].append(row[13])
+                    event['measured']['rh_out_percentage'].append(float(row[13]))
 
                 if row[14] is not None:
-                    event['measured']['rh_out_absolute_g_m3'].append(row[14])
+                    event['measured']['rh_out_absolute_g_m3'].append(float(row[14]))
 
                 if row[15] is not None:
-                    event['measured']['rh_out_specific_g_kg'].append(row[15])
+                    event['measured']['rh_out_specific_g_kg'].append(float(row[15]))
 
                 if row[16] is not None:
-                    event['measured']['co2_in_ppm'].append(row[16])
+                    event['measured']['co2_in_ppm'].append(float(row[16]))
 
             # ak je nastaveny posun no_eventu na nulu tato cast sa preskoci,
             # v opacnom priapde sa stiahne hodnota
@@ -150,6 +148,20 @@ class Storage:
                                                start + event['no_event_time_shift'],
                                                '*')
                 cur.execute(sql)
-                event['no_event_columns'] = cur.fetchone()
+                event['no_event_values'] = cur.fetchone()
 
         return data
+
+    @staticmethod
+    def one_row(con, table_name: str, columns: str, timestamp: int):
+        cur = con.cursor()
+
+        sql = SQLUtil.select_one_value(table_name, timestamp, columns)
+        cur.execute(sql)
+
+        res = cur.fetchone()
+        if res is None:
+            logging.warning('missing row in table `%s` for sql: %s' % (table_name, sql))
+            return None
+
+        return res

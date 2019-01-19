@@ -38,7 +38,7 @@ def generate_file(con, start_shift, end_shift, output_file):
     graphs = Graph("./../../src/graph")
 
     # stiahnutie dat
-    storage = Storage('examples/events_peto.json', 0, 'Peto', 'measured_peto')
+    storage = Storage('examples/events_peto.json', 0, 'measured_peto')
     d = storage.load_data(con, start_shift, end_shift, 'co2_in_ppm')
     logging.info('downloaded events: %d' % len(d))
 
