@@ -265,7 +265,7 @@ def prepare_file_3(events: list, last_index=-1, precision=1):
         end = event['e_end']['timestamp']
 
         if k > (end - start):
-            logging.warning('event with start in `%s` is too short' % event['e_start']['readable'])
+            # logging.warning('event with start in `%s` is too short' % event['e_start']['readable'])
             continue
 
         measured = event['measured']
