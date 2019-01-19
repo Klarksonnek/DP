@@ -112,3 +112,13 @@ class FilterUtil:
                 out.append(event)
 
         return out
+
+    @staticmethod
+    def min_timestamp(events, timestamp):
+        out = []
+
+        for event in events:
+            if event['e_start']['timestamp'] > timestamp:
+                out.append(event)
+
+        return out
