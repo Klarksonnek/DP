@@ -14,6 +14,22 @@ server # echo `pwgen 80 1` "= ja@example.org" >> /etc/beeeon/server/apikeys.prop
 
 * 0200 - 0299 - priklady pre Peta
 
+## Import DB
+
+### Full db
+
+```bash
+    mysql -u root -p statistiky  < measured_peto.sql; \
+    mysql -u root -p statistiky  < measured_klarka.sql
+```
+
+### Reduced db
+
+```bash
+    mysql -u root -p statistiky  < measured_peto_reduced.sql; \
+    mysql -u root -p statistiky  < measured_klarka_reduced.sql
+```
+
 ## Export DB
 
 ### Full db
