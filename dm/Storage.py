@@ -6,10 +6,9 @@ from dm.SQLUtil import SQLUtil
 
 
 class Storage:
-    def __init__(self, filename: str, no_event_time_shift: int, owner: str, table_name: str):
+    def __init__(self, filename: str, no_event_time_shift: int, table_name: str):
         self.__filename = self.__root_folder() + filename
         self.__no_event_time_shift = no_event_time_shift
-        self.__owner = owner
         self.__table_name = table_name
 
     def __root_folder(self):
@@ -59,7 +58,6 @@ class Storage:
                 },
                 'no_event_time_shift': self.__no_event_time_shift,
                 'no_event_values': None,
-                'owner': self.__owner,
                 'valid_event': True
             }
 
