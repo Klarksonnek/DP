@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 from dm.DateTimeUtil import DateTimeUtil
 from dm.SQLUtil import SQLUtil
@@ -150,6 +151,20 @@ class Storage:
                                                start + event['no_event_time_shift'],
                                                '*')
                 cur.execute(sql)
-                event['no_event_columns'] = cur.fetchone()
+                event['no_event_values'] = cur.fetchone()
 
         return data
+
+    @staticmethod
+    def one_row(con, table_name: str, columns: str, timestamp: int):
+        cur = con.cursor()
+
+        sql = SQLUtil.select_one_value(table_name, timestamp, columns)
+        cur.execute(sql)
+
+        res = cur.fetchone()
+        if res is None:
+            logging.warning('missing row in table `%s` for sql: %s' % (table_name, sql))
+            return None
+
+        return res
