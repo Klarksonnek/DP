@@ -35,7 +35,11 @@ class Graph:
 
             timestamp = start + i
             x.append(DateTimeUtil.utc_timestamp_to_str(timestamp, '%H:%M:%S'))
-            y.append(value)
+
+            if value is None:
+                y.append('Null')
+            else:
+                y.append(value)
 
         return {
             'timestamps': x,
@@ -71,6 +75,9 @@ class Graph:
 
                 for g in row['graphs']:
                     numbers = g['values']
+
+                    if 'Null' in numbers:
+                        continue
 
                     if row['group'] not in global_min:
                         global_min[row['group']] = min(numbers)
