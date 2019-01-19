@@ -18,5 +18,6 @@ install:
 script:
   - python examples2/0000_db_tests/run.py
   - python examples2/0100_klarka_values_all_graphs/run.py
+  - python examples2/0101_sh_diff_analysis/run.py
   - python examples2/0200_peto_measured_values_all_graphs/run.py
   - python examples2/0201_zzn_files/run.py
