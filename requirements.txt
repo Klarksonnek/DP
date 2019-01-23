@@ -3,3 +3,4 @@ pytz
 scipy
 numpy
 mysql-connector
+matplotlib
