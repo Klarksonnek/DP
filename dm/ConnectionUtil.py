@@ -31,4 +31,4 @@ class ConnectionUtil:
         config = configparser.ConfigParser()
         config.read(config_file)
 
-        return config['beeeon']['api.key.' + server_name]
+        return config[server_name]['api.key']
