@@ -16,7 +16,7 @@
               "module": 1,
               "server_name": "ant-work"
           },
-        {
+          {
               "db_column_name": "temperature_in2_celsius",
               "name": "BeeeOn sensor in 2 (stolek) - temperature",
               "gateway": "1413350823123315",
@@ -40,7 +40,7 @@
               "module": 3,
               "server_name": "ant-work"
           },
-        {
+          {
               "db_column_name": "rh_in2_percentage",
               "name": "BeeeOn sensor in 2 (stolek) - humidity",
               "gateway": "1413350823123315",
