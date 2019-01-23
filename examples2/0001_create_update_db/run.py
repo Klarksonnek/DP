@@ -73,12 +73,13 @@ if __name__ == '__main__':
     con = ConnectionUtil.create_con()
     cur = con.cursor()
 
-    beeonClient = BeeeOnClient("ant-work.fit.vutbr.cz", 8010)
     cls = {
-        "ant-work": beeonClient,
+        "ant-work": BeeeOnClient("ant-work.fit.vutbr.cz", 8010),
+        "rehivetech": BeeeOnClient("beeeon.rehivetech.com", 8010),
     }
 
     cls['ant-work'].api_key = ConnectionUtil.api_key('ant-work')
+    cls['rehivetech'].api_key = ConnectionUtil.api_key('rehivetech')
 
     # from 2018/09/20 00:01:00
     start = int(DateTimeUtil.local_time_str_to_utc('2018/09/20 00:01:00').timestamp())

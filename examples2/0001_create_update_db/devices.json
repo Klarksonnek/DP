@@ -55,6 +55,14 @@
               "device": "0xa1000000eb000018",
               "module": 3,
               "server_name": "ant-work"
+          },
+          {
+              "db_column_name": "co2_in_ppm",
+              "name": "BeeeOn sensor",
+              "gateway": "1220304084200581",
+              "device": "0xa90081111d0015af",
+              "module": 2,
+              "server_name": "rehivetech"
           }
     ],
     "peto": [
