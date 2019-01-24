@@ -296,7 +296,7 @@ class PreProcessing:
 
     @staticmethod
     def generate_missing_data(data: list, devices: list, start: int, end: int,
-                              time_attribute: str):
+                              time_attribute: str, table_name: str):
         """Dogenerovanie chybajucich dat pre druhy senzor.
 
         V pripade, ze sa pouzije aj druhy senzor a ten z nejakych dvovodov, este nezbieral
@@ -318,8 +318,12 @@ class PreProcessing:
         for i in range(0, len(devices)):
             dev = devices[i]
 
+            modules = ['temperature_in2_celsius', 'rh_in2_percentage']
+            if 'klarka' in table_name:
+                modules.append('co2_in_ppm')
+
             # upravujeme len udaje zo senzoru cislo 2
-            if dev['db_column_name'] in ['temperature_in2_celsius', 'rh_in2_percentage']:
+            if dev['db_column_name'] in modules:
                 item = data[i]
 
                 # ak je dany interval spravne nacitany, preskocime generovanie
@@ -443,7 +447,8 @@ class PreProcessing:
 
             # v pripade, ze druhy senzor neobsahuje data, tak sa doplni null hodnotami
             values = PreProcessing.generate_missing_data(values, devices, start, end,
-                                                         PreProcessing.TIME_ATTR_NAME)
+                                                         PreProcessing.TIME_ATTR_NAME,
+                                                         table_name)
 
             PreProcessing.check_start_end_interval(values, PreProcessing.TIME_ATTR_NAME)
             values = PreProcessing.join_items(values, PreProcessing.TIME_ATTR_NAME)
