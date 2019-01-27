@@ -46,6 +46,7 @@ class Graph:
             'values': y,
             'label_x': label,
             'color': color,
+            'open_close': column == 'open_close',
         }
 
     def gen(self, data, output, scale_padding_min=0, scale_padding_max=0,
@@ -75,6 +76,9 @@ class Graph:
 
                 for g in row['graphs']:
                     numbers = g['values']
+
+                    if 'open_close' in g and g['open_close']:
+                        continue
 
                     if 'Null' in numbers:
                         continue
@@ -125,6 +129,9 @@ class Graph:
                 all_max = max_value
             elif not global_range:
                 for g in row['graphs']:
+                    if 'open_close' in g and g['open_close']:
+                        continue
+
                     numbers = g['values']
 
                     if not numbers:
@@ -155,7 +162,11 @@ class Graph:
 
             str_dataset = ""
             g_id = 0
+            open_close_graph_type = False
             for g in row['graphs']:
+                if 'open_close' in g:
+                    open_close_graph_type = g['open_close']
+
                 str_dataset += '						{\n'
                 str_dataset += '							label: "' + g['label_x'] + '",\n'
                 str_dataset += '							borderColor: "' + g[
@@ -164,8 +175,13 @@ class Graph:
                     'color'] + '",\n'
                 str_dataset += '							fill: false,\n'
                 str_dataset += '							data: ' + str(g['values']) + ',\n'
-                str_dataset += '							yAxisID: "y-axis-' + str(
-                    g_id) + '"\n'
+
+                if open_close_graph_type:
+                    str_dataset += '							yAxisID: "open-close-y"\n'
+                else:
+                    str_dataset += '							yAxisID: "y-axis-' + str(
+                        g_id) + '"\n'
+
                 str_dataset += '						},\n'
 
             str_options = ""
@@ -183,6 +199,22 @@ class Graph:
             str_options += '									max: ' + str(all_max) + '\n'
             str_options += '								}\n'
             str_options += '							},\n'
+
+            if open_close_graph_type:
+                str_options += '							{\n'
+                str_options += '								type: "linear",\n'
+                str_options += '								display: true,\n'
+                str_options += '								position: "right",\n'
+                if g_type == 'bar':
+                    str_options += '								stacked: true,\n'
+                else:
+                    str_options += '								stacked: false,\n'
+                str_options += '								id: "open-close-y",\n'
+                str_options += '								ticks: {\n'
+                str_options += '									min: 0,\n'
+                str_options += '									max: 1\n'
+                str_options += '								}\n'
+                str_options += '							},\n'
 
             f.write('		<script>\n')
             f.write(
