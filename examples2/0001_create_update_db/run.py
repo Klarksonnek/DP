@@ -104,3 +104,20 @@ if __name__ == '__main__':
     table_kl = 'measured_klarka_reduced'
     DBUtil.create_table(con, table_kl)
     create_update_table(con, cls, start, end, devices()['klarka'], 15, table_kl)
+
+    #
+    # shower
+    #
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/07/18 00:06:00').timestamp())
+    end = int(time.time())
+
+    # full db
+    table_kl = 'measured_klarka_shower'
+    DBUtil.create_table(con, table_kl)
+    # DBUtil.check_timestamp_order(con, table_pt)
+    create_update_table(con, cls, start, end, devices()['klarka_shower2'], 1, table_kl)
+
+    # faster db
+    table_kl = 'measured_klarka_shower_reduced'
+    DBUtil.create_table(con, table_kl)
+    create_update_table(con, cls, start, end, devices()['klarka_shower2'], 15, table_kl)
