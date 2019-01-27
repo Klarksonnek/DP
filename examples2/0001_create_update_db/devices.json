@@ -65,6 +65,58 @@
               "server_name": "rehivetech"
           }
     ],
+    "klarka_shower1": [
+          {
+              "db_column_name": "open_close",
+              "name": "Jablotron open/close sensor",
+              "gateway": "1413350823123315",
+              "device": "0x9000000001961ca",
+              "module": 0,
+              "server_name": "ant-work"
+          },
+          {
+              "db_column_name": "temperature_in_celsius",
+              "name": "BeeeOn sensor in (parapet) I - temperature",
+              "gateway": "1413350823123315",
+              "device": "0xa1000000eb000012",
+              "module": 1,
+              "server_name": "ant-work"
+          },
+          {
+              "db_column_name": "rh_in_percentage",
+              "name": "BeeeOn sensor in (parapet) I - humidity",
+              "gateway": "1413350823123315",
+              "device": "0xa1000000eb000012",
+              "module": 3,
+              "server_name": "ant-work"
+          }
+    ],
+    "klarka_shower2": [
+          {
+              "db_column_name": "open_close",
+              "name": "Jablotron open/close sensor",
+              "gateway": "1413350823123315",
+              "device": "0x9000000001961ca",
+              "module": 0,
+              "server_name": "ant-work"
+          },
+          {
+              "db_column_name": "temperature_in_celsius",
+              "name": "BeeeOn sensor in (parapet) II - temperature",
+              "gateway": "1413350823123315",
+              "device": "0xa1000000eb000013",
+              "module": 1,
+              "server_name": "ant-work"
+          },
+          {
+              "db_column_name": "rh_in_percentage",
+              "name": "BeeeOn sensor in (parapet) II - humidity",
+              "gateway": "1413350823123315",
+              "device": "0xa1000000eb000013",
+              "module": 3,
+              "server_name": "ant-work"
+          }
+    ],
     "peto": [
           {
               "db_column_name": "open_close",

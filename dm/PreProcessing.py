@@ -386,18 +386,20 @@ class PreProcessing:
 
         # sensor 2
         exists_in2 = 'temperature_in2_celsius' in value and 'rh_in2_percentage' in value
-        temperature_in2_celsius = value['temperature_in2_celsius']
-        rh_in2_percentage = value['rh_in2_percentage']
-        if exists_in2 and temperature_in2_celsius is not None and rh_in2_percentage is not None:
-            # absolute humidity in 2
-            value['rh_in2_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
-                value['temperature_in2_celsius'],
-                value['rh_in2_percentage'])
+        if exists_in2:
+            temperature_in2_celsius = value['temperature_in2_celsius']
+            rh_in2_percentage = value['rh_in2_percentage']
 
-            # specific humidity in 2
-            value['rh_in2_specific_g_kg'] = conv.rh_to_specific_g_kg(
-                value['temperature_in2_celsius'],
-                value['rh_in2_percentage'])
+            if temperature_in2_celsius is not None and rh_in2_percentage is not None:
+                # absolute humidity in 2
+                value['rh_in2_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
+                    value['temperature_in2_celsius'],
+                    value['rh_in2_percentage'])
+
+                # specific humidity in 2
+                value['rh_in2_specific_g_kg'] = conv.rh_to_specific_g_kg(
+                    value['temperature_in2_celsius'],
+                    value['rh_in2_percentage'])
 
         # absolute humidity out
         if 'temperature_out_celsius' in value and 'rh_out_percentage' in value:
