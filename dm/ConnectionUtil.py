@@ -6,9 +6,7 @@ import mysql.connector
 class ConnectionUtil:
     @staticmethod
     def create_con(config_file='/etc/dp/config.ini'):
-        # example travis hostname: travis-job-d072bd30-f722-4d10-*
-        hostname = os.uname()[1]
-        if 'travis' in hostname:
+        if ConnectionUtil.is_testable_system():
             return mysql.connector.connect(
                 host='localhost',
                 user='root',
@@ -32,3 +30,15 @@ class ConnectionUtil:
         config.read(config_file)
 
         return config[server_name]['api.key']
+
+    @staticmethod
+    def rapid_miner(config_file='/etc/dp/config.ini'):
+        config = configparser.ConfigParser()
+        config.read(config_file)
+
+        return config['rapidminer']
+
+    @staticmethod
+    def is_testable_system():
+        # example travis hostname: travis-job-d072bd30-f722-4d10-*
+        return 'travis' in os.uname()[1]
