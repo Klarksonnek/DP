@@ -67,4 +67,8 @@ host =localhost
 user =
 passwd =
 database =statistiky
+
+[rapidminer]
+launcher = ./rapidminer-studio/RapidMiner-Studio.sh
+repository.processes.path =
 ```
