@@ -1,6 +1,5 @@
 from collections import OrderedDict
 from os.path import dirname, abspath, join
-import csv
 import sys
 import logging
 import numpy as np
@@ -16,6 +15,7 @@ from dm.ConnectionUtil import ConnectionUtil
 from dm.Storage import Storage
 from dm.Differences import Differences
 from dm.ValueUtil import ValueUtil
+from dm.CSVUtil import CSVUtil
 
 
 def prepare_file_1(events: list):
@@ -144,37 +144,6 @@ def prepare_file_3(events: list, last_index=-1, precision=1):
     return out
 
 
-def create_csv_file(data: list, filename: str):
-    field_names = []
-    for key, _ in data[0].items():
-        field_names.append(key)
-
-    with open(filename, 'w') as f:
-        csv_writer = csv.DictWriter(f, fieldnames=field_names)
-
-        csv_writer.writeheader()
-        for item in data:
-            csv_writer.writerow(item)
-
-
-def detect_sensor_delays(events, time_interval, threshold):
-    for i in range(0, len(events)):
-        event = events[i]
-
-        values = event['measured']['co2_in_ppm']
-        event['co2_sensor_delays'] = 0
-
-        for k in range(0, len(values) - time_interval):
-            first_value = values[k] - threshold
-            second_value = values[k + time_interval]
-
-            if first_value > second_value:
-                event['co2_sensor_delays'] = k
-                break
-
-    return events
-
-
 def gen_f_variant1(co2_start, co2_out, volume):
     return lambda x, a: co2_out + (co2_start - co2_out) * np.exp(-a / volume * x)
 
@@ -246,16 +215,17 @@ def main(events_file: str, interval_before: list, interval_after: list,
 
     logging.info('start preparing file with number: 1')
     data_1 = prepare_file_1(filtered)
-    create_csv_file(data_1, 'f1.csv')
+    CSVUtil.create_csv_file(data_1, 'f1.csv')
     logging.info('end preparing file with number: 1')
 
     logging.info('start preparing file with number: 2')
     data_2 = prepare_file_2(filtered)
-    create_csv_file(data_2, 'f2.csv')
+    CSVUtil.create_csv_file(data_2, 'f2.csv')
     logging.info('end preparing file with number: 2')
 
     logging.info('start detecting of sensor delays')
-    filtered = detect_sensor_delays(filtered, 10, 10)
+    filtered = ValueUtil.detect_sensor_delays(filtered, 10, 10, 'co2_in_ppm',
+                                              'co2_sensor_delays')
     logging.info('end detecting of sensor delays')
 
     logging.info('start exp regression')
@@ -266,7 +236,7 @@ def main(events_file: str, interval_before: list, interval_after: list,
     for k in [5*60, 10*60, 15*60, 20*60, 30*60, 40*60, 50*60, 60*60]:
         data_3 = prepare_file_3(filtered, k)
         filename = 'f3_{0}.csv'.format(k)
-        create_csv_file(data_3, filename)
+        CSVUtil.create_csv_file(data_3, filename)
         logging.info('%s with row: %s' % (filename, len(data_3)))
     logging.info('end preparing file with number: 3')
 
