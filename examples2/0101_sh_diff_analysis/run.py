@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import logging
 import sys
 from os.path import dirname, abspath, join
@@ -11,6 +12,7 @@ from dm.Graph import Graph
 from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
 from dm.Storage import Storage
+from dm.CSVUtil import CSVUtil
 
 
 def liner_reg_before(event: dict, column: str):
@@ -99,6 +101,50 @@ def linear_reg(sensor1_events: list, input_attr_name: str, output_attr_name: str
         event['measured'][output_attr_name] = out
 
 
+def humidity_info_csv(events, start_shift, end_shift, precision=2):
+    out = []
+
+    for event in events:
+        specific_in_start = event['measured']['linear1_sh'][0 - (start_shift + 1)]
+        specific_in_end = event['measured']['linear1_sh'][-end_shift + 1]
+
+        absolute_in_start = event['measured']['linear1_ah'][0 - (start_shift + 1)]
+        absolute_in_end = event['measured']['linear1_ah'][-end_shift + 1]
+
+        specific_in_start_2 = event['measured']['linear2_sh'][0 - (start_shift + 1)]
+        specific_in_end_2 = event['measured']['linear2_sh'][-end_shift + 1]
+
+        absolute_in_start_2 = event['measured']['linear2_ah'][0 - (start_shift + 1)]
+        absolute_in_end_2 = event['measured']['linear2_ah'][-end_shift + 1]
+
+        absolute_in = event['measured']['rh_in_absolute_g_m3'][0]
+        absolute_out = event['measured']['rh_out_absolute_g_m3'][0]
+
+        specific_in = event['measured']['rh_in_specific_g_kg'][0]
+        specific_out = event['measured']['rh_out_specific_g_kg'][0]
+
+        absolute_in_2 = event['measured']['rh_in2_absolute_g_m3'][0]
+
+        specific_in_2 = event['measured']['rh_in2_specific_g_kg'][0]
+
+        out.append(OrderedDict([
+            ('start_datetime', event['e_start']['readable']),
+            ('end_datetime', event['e_end']['readable']),
+            ('diff_sh_in_1', round(abs(specific_in_start - specific_in_end), precision)),
+            ('diff_sh_1', round(abs(specific_out - specific_in), precision)),
+            ('diff_ah_in_1', round(abs(absolute_in_start - absolute_in_end), precision)),
+            ('diff_ah_1', round(abs(absolute_out - absolute_in), precision)),
+            ('diff_sh_in_2', round(abs(specific_in_start_2 - specific_in_end_2), precision)),
+            ('diff_sh_2', round(abs(specific_out - specific_in_2), precision)),
+            ('diff_ah_in_2', round(abs(absolute_in_start_2 - absolute_in_end_2), precision)),
+            ('diff_ah_2', round(abs(absolute_out - absolute_in_2), precision))
+        ]))
+
+    CSVUtil.create_csv_file(out, 'humidity_info.csv')
+
+    return out
+
+
 def main(events_file: str, start_shift: int, end_shift: int, output_filename: str,
          output_records: int):
     logging.info('start')
@@ -121,13 +167,14 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
     # data pre generovanie grafov zo senzora 1
     sensor1_events = filtered
     logging.info('event count: %d for senzor 1' % len(sensor1_events))
-    linear_reg(sensor1_events, 'rh_in_specific_g_kg', 'linear1')
+    linear_reg(sensor1_events, 'rh_in_specific_g_kg', 'linear1_sh')
+    linear_reg(sensor1_events, 'rh_in_absolute_g_m3', 'linear1_ah')
 
     # generovanie grafov pre senzor 1
     logging.info('start generating graphs of events from sensor 1')
     graphs_sensor_1 = []
     for event in sensor1_events:
-        graphs_sensor_1 += gen_graphs(event, output_records, 'rh_in_specific_g_kg', 'linear1')
+        graphs_sensor_1 += gen_graphs(event, output_records, 'rh_in_specific_g_kg', 'linear1_sh')
 
     graphs.gen(graphs_sensor_1, 'sensor1_' + output_filename, 0, 0, global_range=True)
     logging.info('end generating graphs of events from sensor 1')
@@ -137,15 +184,19 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
     logging.info('event count: %d for sensor 2' % len(sensor2_events))
 
     sensor2_events = FilterUtil.measured_values_not_empty(sensor2_events, 'rh_in2_specific_g_kg')
+    sensor2_events = FilterUtil.measured_values_not_empty(sensor2_events, 'rh_in2_absolute_g_m3')
     logging.info('events after applying the filter: %d' % len(sensor2_events))
 
-    linear_reg(sensor2_events, 'rh_in2_specific_g_kg', 'linear2')
+    linear_reg(sensor2_events, 'rh_in2_specific_g_kg', 'linear2_sh')
+    linear_reg(sensor2_events, 'rh_in2_absolute_g_m3', 'linear2_ah')
+
+    humidity_info_csv(sensor2_events, start_shift, end_shift)
 
     # generovanie grafov pre senzor 2
     logging.info('start generating graphs of events from sensor 2')
     graphs_sensor_2 = []
     for event in sensor2_events:
-        graphs_sensor_2 += gen_graphs(event, output_records, 'rh_in2_specific_g_kg', 'linear2')
+        graphs_sensor_2 += gen_graphs(event, output_records, 'rh_in2_specific_g_kg', 'linear2_sh')
 
     graphs.gen(graphs_sensor_2, 'sensor2_' + output_filename, 0, 0, global_range=True)
     logging.info('end generating graphs of events from sensor 2')
