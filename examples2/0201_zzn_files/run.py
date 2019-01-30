@@ -206,7 +206,7 @@ def main(events_file: str, interval_before: list, interval_after: list,
     # aplikovanie filtra na overenie spravnosti eventov po vypocitani derivacii
     # dovodom nevalidneho eventu po tejto operacii moze byt napr. chybaju hodnota
     # v case, z ktoreho sa mala pocitat derivacia
-    filtered = FilterUtil.only_valid_events(d)
+    filtered = FilterUtil.only_valid_events(filtered)
     logging.info('events after applying the filter (invalid derivation): %d' % len(filtered))
 
     # aplikovanie filtra na nenulove derivacie
