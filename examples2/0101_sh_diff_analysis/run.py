@@ -171,11 +171,14 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
+    filtered = FilterUtil.temperature_diff(filtered, 5, 100)
+    filtered = FilterUtil.temperature_out_max(filtered, 15)
+    filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
 
     min_timestamp = int(DateTimeUtil.local_time_str_to_utc('2018/11/01 00:01:00').timestamp())
     filtered = FilterUtil.min_timestamp(filtered, min_timestamp)
 
-    logging.info('events after applying the filters: %d' % len(filtered))
+    filtered = FilterUtil.min_max_time_interval(filtered, 1440, 1620)
 
     # data pre generovanie grafov zo senzora 1
     sensor1_events = filtered
