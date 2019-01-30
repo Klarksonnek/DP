@@ -46,13 +46,13 @@ def linear_reg_after(event: dict, column: str):
     return slope, intercept
 
 
-def gen_graphs(event: dict, number_output_records: int, sh_attr_name: str,
-               lin_reg_attr_name: str):
+def gen_graphs(event: dict, number_output_records: int, attr_name: list,
+               lin_reg_attr_name: list):
     """Vygenerovanie grafu zo senzora cislo jedna.
 
     :param event: event, ktory sa pouzije pre generovanie statistiky
     :param number_output_records: pocet bodov, ktore maju byt vo vyslednom grafe
-    :param sh_attr_name:
+    :param attr_name:
     :param lin_reg_attr_name:
     :return: vysledny grah, ktory moze v sebe obsahovat niekolko grafov
     """
@@ -68,9 +68,31 @@ def gen_graphs(event: dict, number_output_records: int, sh_attr_name: str,
         'title': 'Specific hum in and out ' + t,
         'group': 'one',
         'graphs': [
-            Graph.db_to_simple_graph(event, sh_attr_name, 'blue', 'hum in', n),
-            Graph.db_to_simple_graph(event, 'rh_out_specific_g_kg', 'red', 'hum out', n),
-            Graph.db_to_simple_graph(event, lin_reg_attr_name, 'orange', 'Lin reg', n),
+            Graph.db_to_simple_graph(event, attr_name[0], 'blue', 'sh in', n),
+            Graph.db_to_simple_graph(event, 'rh_out_specific_g_kg', 'red', 'sh out', n),
+            Graph.db_to_simple_graph(event, lin_reg_attr_name[0], 'orange', 'sh lin reg', n),
+        ]
+    }
+    graphs.append(g)
+
+    g = {
+        'title': 'Absolute hum in and out ' + t,
+        'group': 'one',
+        'graphs': [
+            Graph.db_to_simple_graph(event, attr_name[1], 'blue', 'ah in', n),
+            Graph.db_to_simple_graph(event, 'rh_out_absolute_g_m3', 'red', 'ah out', n),
+            Graph.db_to_simple_graph(event, lin_reg_attr_name[1], 'orange', 'ah lin reg', n),
+        ]
+    }
+    graphs.append(g)
+
+    g = {
+        'title': 'Temperature in and out ' + t,
+        'group': 'one',
+        'graphs': [
+            Graph.db_to_simple_graph(event, attr_name[2], 'blue', 'temp in', n),
+            Graph.db_to_simple_graph(event, 'temperature_out_celsius', 'red', 'temp out', n),
+            Graph.db_to_simple_graph(event, lin_reg_attr_name[2], 'orange', 'temp lin reg', n),
         ]
     }
     graphs.append(g)
@@ -191,8 +213,8 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
     logging.info('start generating graphs of events from sensor 1')
     graphs_sensor_1 = []
     for event in sensor1_events:
-        graphs_sensor_1 += gen_graphs(event, output_records, 'rh_in_specific_g_kg', 'linear1_sh')
-        graphs_sensor_1 += gen_graphs(event, output_records, 'rh_in_absolute_g_m3', 'linear1_ah')
+        graphs_sensor_1 += gen_graphs(event, output_records, ['rh_in_specific_g_kg', 'rh_in_absolute_g_m3',
+                                'temperature_in_celsius'], ['linear1_sh', 'linear1_ah', 'linear1_temp'])
 
     graphs.gen(graphs_sensor_1, 'sensor1_' + output_filename, 0, 0, global_range=True)
     logging.info('end generating graphs of events from sensor 1')
@@ -216,7 +238,8 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
     logging.info('start generating graphs of events from sensor 2')
     graphs_sensor_2 = []
     for event in sensor2_events:
-        graphs_sensor_2 += gen_graphs(event, output_records, 'rh_in2_specific_g_kg', 'linear2_sh')
+        graphs_sensor_2 += gen_graphs(event, output_records, ['rh_in2_specific_g_kg', 'rh_in2_absolute_g_m3',
+                                'temperature_in2_celsius'], ['linear2_sh', 'linear2_ah', 'linear2_temp'])
 
     graphs.gen(graphs_sensor_2, 'sensor2_' + output_filename, 0, 0, global_range=True)
     logging.info('end generating graphs of events from sensor 2')
