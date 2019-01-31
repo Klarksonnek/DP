@@ -14,6 +14,7 @@ from dm.ConnectionUtil import ConnectionUtil
 from dm.Storage import Storage
 from dm.Differences import Differences
 from dm.CSVUtil import CSVUtil
+from scipy import stats
 
 
 def prepare_file_2(events: list):
@@ -43,16 +44,72 @@ def prepare_file_2(events: list):
     return out
 
 
+def liner_reg_before(event: dict, column: str):
+    values = event['measured'][column]
+
+    x = []
+    y = []
+
+    for i in range(0, event['start_shift']*(-1)):
+        x.append(i)
+        y.append(values[i])
+
+    slope, intercept, _, _, _ = stats.linregress(x, y)
+
+    return slope, intercept
+
+
+def linear_reg_after(event: dict, column: str):
+    values = event['measured'][column]
+
+    x = []
+    y = []
+
+    t = len(values) - event['end_shift']
+    for i in range(t, len(values)):
+        x.append(i - t)
+        y.append(values[i])
+
+    slope, intercept, _, _, _ = stats.linregress(x, y)
+
+    return slope, intercept
+
+
+def linear_reg(sensor1_events: list, input_attr_name: str, output_attr_name: str):
+    for i in range(0, len(sensor1_events)):
+        event = sensor1_events[i]
+
+        slope_b, intercept_b = liner_reg_before(event, input_attr_name)
+        slope_a, intercept_a = linear_reg_after(event, input_attr_name)
+
+        out = []
+        values = event['measured']['rh_in2_specific_g_kg']
+        for k in range(0, len(values)):
+            if k < (event['start_shift'] * (-1)):
+                out.append(intercept_b + slope_b * k)
+                continue
+
+            if k > (len(values) - event['end_shift']):
+                out.append(intercept_a + slope_a * (k - (len(values) - event['end_shift'])))
+                continue
+
+            out.append(None)
+
+        event['measured'][output_attr_name] = out
+
+
 def main(events_file: str, interval_before: list, interval_after: list,
          no_event_time_shift: int):
     logging.info('start')
 
     table_name = 'measured_klarka'
 
+    shift = max(interval_after)
+
     # stiahnutie dat
     con = ConnectionUtil.create_con()
     storage = Storage(events_file, no_event_time_shift, table_name)
-    d = storage.load_data(con, 0, 0, 'rh_in2_absolute_g_m3')
+    d = storage.load_data(con, -shift, shift, 'rh_in2_absolute_g_m3')
     logging.info('downloaded events: %d' % len(d))
 
     # aplikovanie filtrov na eventy
@@ -62,10 +119,12 @@ def main(events_file: str, interval_before: list, interval_after: list,
     filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
     logging.info('events after applying the filter: %d' % len(filtered))
 
+    linear_reg(filtered, 'rh_in2_specific_g_kg', 'linear2_sh')
+
     # pocitanie derivacii
     logging.info('start computing of derivation')
-    Differences.prepare_derivation(con, filtered, interval_before, interval_after, table_name,
-                                   10, 'rh_in2_absolute_g_m3', 12)
+    Differences.prepare_derivation_lin_reg(con, filtered, interval_before, interval_after, table_name,
+                                   10, 'rh_in2_specific_g_kg', (60, 60))
     logging.info('end computing of derivation')
 
     # aplikovanie filtra na overenie spravnosti eventov po vypocitani derivacii
