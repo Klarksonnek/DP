@@ -18,6 +18,16 @@ class FilterUtil:
         return out
 
     @staticmethod
+    def min_max_time_interval(events, min_time, max_time):
+        out = []
+
+        for event in events:
+            time_diff = event['e_end']['timestamp'] - event['e_start']['timestamp']
+            if min_time <= time_diff < max_time:
+                out.append(event)
+        return out
+
+    @staticmethod
     def temperature_diff(events, min_value, max_value):
         out = []
 
