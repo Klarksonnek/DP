@@ -148,3 +148,55 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
             last_shift = interval
 
         return before, after
+
+
+class SecondDifferenceAttr(FirstDifferenceAttrB):
+    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
+                normalize):
+        before, after = super(SecondDifferenceAttr, self).execute(timestamp, column, precision,
+                                                                  intervals_before,
+                                                                  intervals_after, normalize)
+        """Vypocet druhych derivacii.
+
+        Vypocet druhych derivacii sa vykona pomocou vypoctu prvych derivacii a naslednym
+        rozdielom medzi susednymi hodnotami.
+
+        :param timestamp: stred okienka, ktory sa pouzije ako bod od ktoreho sa posuva
+        :param column: stlpec, pre ktory sa maju spocitat atributy
+        :param precision: presnost vysledku
+        :param intervals_before: intervaly pred udalostou
+        :param intervals_after: interaly po udalosti
+        :param normalize: povolenie alebo zakazanie normalizacie diferencie
+        :return:
+        """
+
+        before_second = []
+        after_second = []
+
+        last_value = before[0][1]
+        for k in range(1, len(before)):
+            value = before[k][1]
+
+            if normalize:
+                name = self.attr_name(column, 'norm_before', k)
+            else:
+                name = self.attr_name(column, 'before', k)
+
+            derivation = round(last_value - value, precision)
+            before_second.append((name, derivation))
+            last_value = value
+
+        last_value = after[0][1]
+        for k in range(1, len(after)):
+            value = after[k][1]
+
+            if normalize:
+                name = self.attr_name(column, 'norm_after', k)
+            else:
+                name = self.attr_name(column, 'after', k)
+
+            derivation = round(value - last_value, precision)
+            after_second.append((name, derivation))
+            last_value = value
+
+        return before_second, after_second
