@@ -89,3 +89,62 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
             after.append((name, derivation))
 
         return before, after
+
+
+class FirstDifferenceAttrB(AbstractPrepareAttr):
+    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
+                normalize):
+        """Vypocet diferencii druhy sposob.
+
+        Vypocet diferencii sa vykona ako rozdiel medzi susednymi hodnotami, ktore su vsak
+        posunute o urcitu hodnotu z intervalu dopredu/dozadu.
+
+        :param timestamp: stred okienka, ktory sa pouzije ako bod od ktoreho sa posuva
+        :param column: stlpec, pre ktory sa maju spocitat atributy
+        :param precision: presnost vysledku
+        :param intervals_before: intervaly pred udalostou
+        :param intervals_after: interaly po udalosti
+        :param normalize: povolenie alebo zakazanie normalizacie diferencie
+        :return:
+        """
+
+        before = []
+        after = []
+
+        middle = self.select_one_row(column, timestamp)
+
+        last_value = middle
+        last_shift = 0
+        for interval in intervals_before:
+            value_time = timestamp - interval
+            value = self.select_one_row(column, value_time)
+
+            if normalize:
+                derivation = round((last_value - value) / (interval - last_shift), precision)
+                name = self.attr_name(column, 'norm_before', interval)
+            else:
+                derivation = round(last_value - value, precision)
+                name = self.attr_name(column, 'before', interval)
+
+            before.append((name, derivation))
+            last_value = value
+            last_shift = interval
+
+        last_value = middle
+        last_shift = 0
+        for interval in intervals_after:
+            value_time = timestamp + interval
+            value = self.select_one_row(column, value_time)
+
+            if normalize:
+                derivation = round((value - last_value) / (interval - last_shift), precision)
+                name = self.attr_name(column, 'norm_after', interval)
+            else:
+                derivation = round(value - last_value, precision)
+                name = self.attr_name(column, 'after', interval)
+
+            after.append((name, derivation))
+            last_value = value
+            last_shift = interval
+
+        return before, after
