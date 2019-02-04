@@ -38,3 +38,54 @@ class AbstractPrepareAttr(ABC):
 
     def attr_name(self, column_name, interval_type, interval):
         return '{0}_{1}_{2}_{3}'.format(self.name, column_name, interval_type, interval)
+
+
+class FirstDifferenceAttrA(AbstractPrepareAttr):
+    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
+                normalize):
+        """Vypocet diferencii.
+
+        Vypocet diferencii sa vykona ako rozdiel medzi hodnotou v case timestamp a hodnotou,
+        ktore je posunuta o urcity hodnotu z intervalu dopredu/dozadu.
+
+        :param timestamp: stred okienka, ktory sa pouzije ako bod od ktoreho sa posuva
+        :param column: stlpec, pre ktory sa maju spocitat atributy
+        :param precision: presnost vysledku
+        :param intervals_before: intervaly pred udalostou
+        :param intervals_after: interaly po udalosti
+        :param normalize: povolenie alebo zakazanie normalizacie diferencie
+        :return:
+        """
+
+        before = []
+        after = []
+
+        middle = self.select_one_row(column, timestamp)
+
+        for interval in intervals_before:
+            value_time = timestamp - interval
+            value = self.select_one_row(column, value_time)
+
+            if normalize:
+                derivation = round((middle - value) / interval, precision)
+                name = self.attr_name(column, 'norm_before', interval)
+            else:
+                derivation = round(middle - value, precision)
+                name = self.attr_name(column, 'before', interval)
+
+            before.append((name, derivation))
+
+        for interval in intervals_after:
+            value_time = timestamp + interval
+            value = self.select_one_row(column, value_time)
+
+            if normalize:
+                derivation = round((value - middle) / interval, precision)
+                name = self.attr_name(column, 'norm_after', interval)
+            else:
+                derivation = round(value - middle, precision)
+                name = self.attr_name(column, 'after', interval)
+
+            after.append((name, derivation))
+
+        return before, after
