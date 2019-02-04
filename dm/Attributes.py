@@ -13,6 +13,154 @@ from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage
 
 
+class AttributeUtil:
+    @staticmethod
+    def prepare_event(con, table_name, columns, timestamp, intervals_before, intervals_after,
+                      value_delay):
+        attrs = []
+
+        for column in columns:
+            op = FirstDifferenceAttrA(con, table_name)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after, normalize=True)
+            attrs += a + b
+
+            op = FirstDifferenceAttrA(con, table_name)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after, normalize=False)
+            attrs += a + b
+
+            op = FirstDifferenceAttrB(con, table_name)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after, normalize=True)
+            attrs += a + b
+
+            op = FirstDifferenceAttrB(con, table_name)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after, normalize=False)
+            attrs += a + b
+
+            op = SecondDifferenceAttr(con, table_name)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after, normalize=True)
+            attrs += a + b
+
+            op = SecondDifferenceAttr(con, table_name)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after, normalize=False)
+            attrs += a + b
+
+            op = GrowthRate(con, table_name)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after, value_delay=value_delay)
+            attrs += a + b
+
+        return attrs
+
+    @staticmethod
+    def training_data(con, table_name, columns, events, intervals_before, intervals_after,
+                      value_delay):
+        """Generovanie trenovacich dat.
+
+        :param con:
+        :param table_name: nazov tabulky
+        :param columns: zoznam stlpcov, pre ktore sa maju spocitat hodnoty
+        :param events: zoznam eventov
+        :param intervals_before: intervaly pred udalostou
+        :param intervals_after: interaly po udalosti
+        :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
+        :return:
+        """
+
+        attrs = []
+
+        for k in range(0, len(events)):
+            event = events[k]
+            start = event['e_start']['timestamp']
+            no_event_start = start + event['no_event_time_shift']
+
+            try:
+                data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
+                                                    intervals_before, intervals_after,
+                                                    value_delay)
+                data2 = AttributeUtil.prepare_event(con, table_name, columns, no_event_start,
+                                                    intervals_before, intervals_after,
+                                                    value_delay)
+
+                time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
+                data1.insert(0, ('datetime', time))
+                data1.insert(1, ('event', 'open'))
+                attrs.append(OrderedDict(data1))
+
+                no_time = DateTimeUtil.utc_timestamp_to_str(no_event_start, '%Y/%m/%d %H:%M:%S')
+                data2.insert(0, ('datetime', no_time))
+                data2.insert(1, ('event', 'nothing'))
+                attrs.append(OrderedDict(data2))
+            except Exception as e:
+                logging.error(str(e))
+
+        return attrs
+
+    @staticmethod
+    def testing_data(con, table_name, columns, start, end, intervals_before, intervals_after,
+                     value_delay, write_each):
+        """Generovanie testovacich dat.
+
+        :param con:
+        :param table_name: nazov tabulky
+        :param columns: zoznam stlpcov, pre ktore sa maju spocitat hodnoty
+        :param start: interval, od ktoreho sa budu generovat testovacie data
+        :param end:  interval, do ktoreho sa budu generovat testovacie data
+        :param intervals_before: intervaly pred udalostou
+        :param intervals_after: interaly po udalosti
+        :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
+        :param write_each:
+        :return:
+        """
+
+        attrs = []
+        count = 0
+
+        for t in range(start, end):
+            previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
+            act_row = Storage.one_row(con, table_name, 'open_close', t)
+
+            open_state = 'nothing'
+            if previous_row[0] == 0 and act_row[0] == 1:
+                open_state = 'open'
+
+            try:
+                data = AttributeUtil.prepare_event(con, table_name, columns, t,
+                                                   intervals_before, intervals_after,
+                                                   value_delay)
+            except Exception as e:
+                logging.error(str(e))
+                continue
+
+            if open_state == 'nothing':
+                if count < (write_each - 1):
+                    count += 1
+                    continue
+                else:
+                    count = 0
+            elif open_state == 'open':
+                count += 1
+
+            time = DateTimeUtil.utc_timestamp_to_str(t, '%Y/%m/%d %H:%M:%S')
+            data.insert(0, ('datetime', time))
+            data.insert(1, ('event', open_state))
+            attrs.append(OrderedDict(data))
+
+        return attrs
+
+
 # https://www.smartfile.com/blog/abstract-classes-in-python/
 # https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
 # http://homel.vsb.cz/~dor028/Casove_rady.pdf
