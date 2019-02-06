@@ -26,3 +26,4 @@ script:
   - python examples2/0103_zzn_files_window/run.py
   - python examples2/0200_peto_measured_values_all_graphs/run.py
   - python examples2/0201_zzn_files/run.py
+  - python examples2/0203_open_detector/run.py
