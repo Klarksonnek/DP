@@ -67,7 +67,7 @@ class AttributeUtil:
 
     @staticmethod
     def training_data(con, table_name, columns, events, intervals_before, intervals_after,
-                      value_delay, precision):
+                      value_delay, precision, **kwargs):
         """Generovanie trenovacich dat.
 
         :param con:
@@ -115,7 +115,7 @@ class AttributeUtil:
     @staticmethod
     def additional_training_set(con, table_name, columns, no_event_records,
                                 intervals_before, intervals_after,
-                                value_delay, precision):
+                                value_delay, precision, **kwargs):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
@@ -153,7 +153,7 @@ class AttributeUtil:
 
     @staticmethod
     def testing_data(con, table_name, columns, start, end, intervals_before, intervals_after,
-                     value_delay, write_each, precision):
+                     value_delay, write_each, precision, **kwargs):
         """Generovanie testovacich dat.
 
         :param con:

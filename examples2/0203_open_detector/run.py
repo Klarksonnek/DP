@@ -30,16 +30,30 @@ def main(events_file: str, intervals_before: list, intervals_after: list,
     filtered = FilterUtil.only_valid_events(d)
     logging.info('events after applying the filter: %d' % len(filtered))
 
+    # kwargs
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/12/1 07:28:28').timestamp())
+    kwargs = {
+        'con': con,
+        'table_name': table_name,
+        'columns': ['co2_in_ppm'],
+        'events': filtered,
+        'intervals_before': intervals_before,
+        'intervals_after': intervals_after,
+        'value_delay': [10, 20, 30, 40],
+        'precision': 2,
+        'start': start,
+        'end': start + 300,
+        'no_event_records': no_events_records,
+        'write_each': 30,
+    }
+
     # trenovacia mnozina
     logging.info('start computing of training set')
-    training = AttributeUtil.training_data(con, table_name, ['co2_in_ppm'], filtered,
-                                           intervals_before, intervals_after, 10)
+    training = AttributeUtil.training_data(**kwargs)
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count/2, count))
 
-    training2 = AttributeUtil.additional_training_set(con, table_name, ['co2_in_ppm'],
-                                                      no_events_records,
-                                                      intervals_before, intervals_after, 10)
+    training2 = AttributeUtil.additional_training_set(**kwargs)
     count2 = len(training2)
     logging.info('additional training set contains %d records' % count2)
 
@@ -52,9 +66,7 @@ def main(events_file: str, intervals_before: list, intervals_after: list,
 
     # testovacia mnozina
     logging.info('start computing of testing set')
-    s = int(DateTimeUtil.local_time_str_to_utc('2018/12/1 07:28:28').timestamp())
-    testing = AttributeUtil.testing_data(con, table_name, ['co2_in_ppm'], s, s + 300,
-                                         intervals_before, intervals_after, 10, 30)
+    testing = AttributeUtil.testing_data(**kwargs)
     logging.info('testing set contains %d records' % len(testing))
     logging.info('end computing of testing set')
 
