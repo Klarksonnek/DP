@@ -11,52 +11,53 @@ sys.path.append(CODE_DIR)
 
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage
+from scipy import stats
 
 
 class AttributeUtil:
     @staticmethod
     def prepare_event(con, table_name, columns, timestamp, intervals_before, intervals_after,
-                      value_delay):
+                      value_delay, selector):
         attrs = []
 
         for column in columns:
-            op = FirstDifferenceAttrA(con, table_name)
+            op = FirstDifferenceAttrA(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
-            op = FirstDifferenceAttrA(con, table_name)
+            op = FirstDifferenceAttrA(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
-            op = FirstDifferenceAttrB(con, table_name)
+            op = FirstDifferenceAttrB(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
-            op = FirstDifferenceAttrB(con, table_name)
+            op = FirstDifferenceAttrB(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
-            op = SecondDifferenceAttr(con, table_name)
+            op = SecondDifferenceAttr(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
-            op = SecondDifferenceAttr(con, table_name)
+            op = SecondDifferenceAttr(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
-            op = GrowthRate(con, table_name)
+            op = GrowthRate(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, value_delay=value_delay)
@@ -80,6 +81,7 @@ class AttributeUtil:
         """
 
         attrs = []
+        selector = SimpleCachedRowSelector(con, table_name)
 
         for k in range(0, len(events)):
             event = events[k]
@@ -89,10 +91,10 @@ class AttributeUtil:
             try:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
-                                                    value_delay)
+                                                    value_delay, selector)
                 data2 = AttributeUtil.prepare_event(con, table_name, columns, no_event_start,
                                                     intervals_before, intervals_after,
-                                                    value_delay)
+                                                    value_delay, selector)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -104,7 +106,8 @@ class AttributeUtil:
                 data2.insert(1, ('event', 'nothing'))
                 attrs.append(OrderedDict(data2))
             except Exception as e:
-                logging.error(str(e))
+                # logging.error(str(e))
+                continue
 
         return attrs
 
@@ -127,6 +130,7 @@ class AttributeUtil:
 
         attrs = []
         count = 0
+        selector = CachedRowWithIntervalSelector(con, table_name, start, end)
 
         for t in range(start, end):
             previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
@@ -139,9 +143,9 @@ class AttributeUtil:
             try:
                 data = AttributeUtil.prepare_event(con, table_name, columns, t,
                                                    intervals_before, intervals_after,
-                                                   value_delay)
+                                                   value_delay, selector)
             except Exception as e:
-                logging.error(str(e))
+                # logging.error(str(e))
                 continue
 
             if open_state == 'nothing':
@@ -161,21 +165,19 @@ class AttributeUtil:
         return attrs
 
 
-# https://www.smartfile.com/blog/abstract-classes-in-python/
-# https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
-# http://homel.vsb.cz/~dor028/Casove_rady.pdf
-class AbstractPrepareAttr(ABC):
+class AbstractRowSelector(ABC):
     def __init__(self, con, table_name):
         self.con = con
         self.table_name = table_name
-        self.name = self.__class__.__name__
-        super(AbstractPrepareAttr, self).__init__()
+        super(AbstractRowSelector, self).__init__()
 
     @abstractmethod
-    def execute(self, **kwargs):
+    def row(self, column_name, time):
         pass
 
-    def select_one_row(self, column_name, time):
+
+class SimpleRowSelector(AbstractRowSelector):
+    def row(self, column_name, time):
         res = Storage.one_row(self.con, self.table_name, column_name, time)
 
         if res is None or res[0] is None:
@@ -183,6 +185,125 @@ class AbstractPrepareAttr(ABC):
             raise ValueError('empty value at %s' % t)
 
         return float(res[0])
+
+
+class SimpleCachedRowSelector(AbstractRowSelector):
+    def __init__(self, con, table_name):
+        self.cache = {}
+        super(SimpleCachedRowSelector, self).__init__(con, table_name)
+
+    def row(self, column_name, time):
+        if column_name not in self.cache:
+            self.cache[column_name] = {}
+
+        value = None
+        if time in self.cache[column_name]:
+            value = self.cache[column_name][time]
+        else:
+            res = Storage.one_row(self.con, self.table_name, column_name, time)
+
+            if res is not None and res[0] is not None:
+                self.cache[column_name][time] = float(res[0])
+                value = float(res[0])
+
+        if value is None:
+            t = DateTimeUtil.utc_timestamp_to_str(time, '%Y/%m/%d %H:%M:%S')
+            raise ValueError('empty value at %s' % t)
+
+        return value
+
+
+class LinearSimpleCachedRowSelector(AbstractRowSelector):
+    def __init__(self, con, table_name, half_window_size):
+        self.cache = {}
+        self.half_window_size = half_window_size
+        super(LinearSimpleCachedRowSelector, self).__init__(con, table_name)
+
+    def row(self, column_name, time):
+        if column_name not in self.cache:
+            self.cache[column_name] = {}
+
+        if time in self.cache[column_name]:
+            value = self.cache[column_name][time]
+        else:
+            start = time - self.half_window_size
+            end = time + self.half_window_size
+            res = Storage.select_interval(self.con, start, end, column_name, self.table_name,
+                                          without_none_value=False)
+
+            error = False
+            if res is None or None in res:
+                error = True
+
+            if error:
+                self.cache[column_name][time] = None
+                t = DateTimeUtil.utc_timestamp_to_str(time, '%Y/%m/%d %H:%M:%S')
+                raise ValueError('empty value at %s' % t)
+
+            x = []
+            y = []
+            for i in range(0, len(res)):
+                x.append(i)
+                y.append(res[i])
+
+            slope, intercept, _, _, _ = stats.linregress(x, y)
+
+            value = intercept + slope * self.half_window_size
+            self.cache[column_name][time] = value
+
+        if value is None:
+            t = DateTimeUtil.utc_timestamp_to_str(time, '%Y/%m/%d %H:%M:%S')
+            raise ValueError('empty value at %s' % t)
+
+        return value
+
+
+class CachedRowWithIntervalSelector(SimpleCachedRowSelector):
+    def __init__(self, con, table_name, start, end):
+        self.start = start
+        self.end = end
+        self.cache = {}
+        super(CachedRowWithIntervalSelector, self).__init__(con, table_name)
+
+    def row(self, column_name, time):
+        if column_name not in self.cache:
+            self.cache[column_name] = {}
+            res = Storage.select_interval(self.con, self.start, self.end, column_name,
+                                          self.table_name, without_none_value=False)
+
+            actual_timestamp = self.start
+            for row in res:
+                if row is None:
+                    self.cache[column_name][actual_timestamp] = None
+                else:
+                    self.cache[column_name][actual_timestamp] = float(row)
+                actual_timestamp += 1
+
+        if time in self.cache[column_name]:
+            value = self.cache[column_name][time]
+        else:
+            value = super(CachedRowWithIntervalSelector, self).row(column_name, time)
+
+        if value is None:
+            t = DateTimeUtil.utc_timestamp_to_str(time, '%Y/%m/%d %H:%M:%S')
+            raise ValueError('empty value at %s' % t)
+        return value
+
+
+# https://www.smartfile.com/blog/abstract-classes-in-python/
+# https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
+# http://homel.vsb.cz/~dor028/Casove_rady.pdf
+class AbstractPrepareAttr(ABC):
+    def __init__(self, con, table_name, selector):
+        self.con = con
+        self.table_name = table_name
+        self.name = self.__class__.__name__
+        self.selector = selector
+        super(AbstractPrepareAttr, self).__init__()
+
+    @abstractmethod
+    def execute(self, **kwargs):
+        pass
 
     def attr_name(self, column_name, interval_type, interval):
         return '{0}_{1}_{2}_{3}'.format(self.name, column_name, interval_type, interval)
@@ -208,11 +329,11 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
         before = []
         after = []
 
-        middle = self.select_one_row(column, timestamp)
+        middle = self.selector.row(column, timestamp)
 
         for interval in intervals_before:
             value_time = timestamp - interval
-            value = self.select_one_row(column, value_time)
+            value = self.selector.row(column, value_time)
 
             if normalize:
                 derivation = round((middle - value) / interval, precision)
@@ -225,7 +346,7 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
 
         for interval in intervals_after:
             value_time = timestamp + interval
-            value = self.select_one_row(column, value_time)
+            value = self.selector.row(column, value_time)
 
             if normalize:
                 derivation = round((value - middle) / interval, precision)
@@ -259,13 +380,13 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
         before = []
         after = []
 
-        middle = self.select_one_row(column, timestamp)
+        middle = self.selector.row(column, timestamp)
 
         last_value = middle
         last_shift = 0
         for interval in intervals_before:
             value_time = timestamp - interval
-            value = self.select_one_row(column, value_time)
+            value = self.selector.row(column, value_time)
 
             if normalize:
                 derivation = round((last_value - value) / (interval - last_shift), precision)
@@ -282,7 +403,7 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
         last_shift = 0
         for interval in intervals_after:
             value_time = timestamp + interval
-            value = self.select_one_row(column, value_time)
+            value = self.selector.row(column, value_time)
 
             if normalize:
                 derivation = round((value - last_value) / (interval - last_shift), precision)
@@ -373,8 +494,8 @@ class GrowthRate(AbstractPrepareAttr):
 
         for interval in intervals_before:
             value_time = timestamp - interval
-            y_t = self.select_one_row(column, value_time)
-            y_t_1 = self.select_one_row(column, value_time - value_delay)  # t-1
+            y_t = self.selector.row(column, value_time)
+            y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, 'before', interval)
@@ -382,8 +503,8 @@ class GrowthRate(AbstractPrepareAttr):
 
         for interval in intervals_after:
             value_time = timestamp + interval
-            y_t = self.select_one_row(column, value_time)
-            y_t_1 = self.select_one_row(column, value_time - value_delay)  # t-1
+            y_t = self.selector.row(column, value_time)
+            y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, 'after', interval)

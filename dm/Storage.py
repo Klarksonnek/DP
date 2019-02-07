@@ -167,12 +167,12 @@ class Storage:
         return res
 
     @staticmethod
-    def select_interval(con, start, end, column, table_name):
+    def select_interval(con, start, end, column, table_name, without_none_value=True):
         cur = con.cursor()
         sql = SQLUtil.select_interval_size(table_name, start, end, column)
         cur.execute(sql)
 
-        if end - start + 1 != cur.fetchone()[0]:
+        if (end - start + 1) != cur.fetchone()[0] and without_none_value:
             return []
 
         # kontrola, ci velkost intervalu v db bez Null hodnot je rovnaka
@@ -182,6 +182,9 @@ class Storage:
 
         out = []
         for row in cur.fetchall():
-            out.append(float(row[0]))
+            if row[0] is None:
+                out.append(None)
+            else:
+                out.append(float(row[0]))
 
         return out

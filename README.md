@@ -56,7 +56,7 @@ path: `/etc/dp/config.ini`
 
 content:
 ```
-[beeeon]
+[ant-work]
 api.key = thaegeshecaz1EN9lutho0laeku1ahsh9eec5waeg0aiqua2buo7ieyoo0Shoow9ahpoosomie0weiqu
 
 [rehivetech]
