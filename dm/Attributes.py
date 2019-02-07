@@ -17,7 +17,7 @@ from scipy import stats
 class AttributeUtil:
     @staticmethod
     def prepare_event(con, table_name, columns, timestamp, intervals_before, intervals_after,
-                      value_delay, selector, precision):
+                      value_delays, selector, precision):
         attrs = []
 
         for column in columns:
@@ -58,10 +58,11 @@ class AttributeUtil:
             attrs += a + b
 
             op = GrowthRate(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
-                              intervals_before=intervals_before,
-                              intervals_after=intervals_after, value_delay=value_delay)
-            attrs += a + b
+            for value_delay in value_delays:
+                a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                                  intervals_before=intervals_before,
+                                  intervals_after=intervals_after, value_delay=value_delay)
+                attrs += a + b
 
         return attrs
 
