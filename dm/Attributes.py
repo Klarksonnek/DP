@@ -202,6 +202,22 @@ class AttributeUtil:
 
         return attrs
 
+    @staticmethod
+    def balance_set(training_set, addiotional_trainin_set):
+        out = []
+
+        index = 0
+        for row in training_set:
+            if row['event'] == 'nothing' and index < len(addiotional_trainin_set):
+                out.append(addiotional_trainin_set[index])
+                index += 1
+                continue
+
+            out.append(row)
+
+
+        return out
+
 
 class AbstractRowSelector(ABC):
     def __init__(self, con, table_name):
