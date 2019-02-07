@@ -206,13 +206,13 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
-    def balance_set(training_set, addiotional_trainin_set):
+    def balance_set(training_set, additional_training_set):
         out = []
 
         index = 0
         for row in training_set:
-            if row['event'] == 'nothing' and index < len(addiotional_trainin_set):
-                out.append(addiotional_trainin_set[index])
+            if row['event'] == 'nothing' and index < len(additional_training_set):
+                out.append(additional_training_set[index])
                 index += 1
                 continue
 
