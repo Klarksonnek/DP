@@ -130,7 +130,7 @@ class AttributeUtil:
 
         attrs = []
         count = 0
-        selector = SimpleCachedRowSelector(con, table_name)
+        selector = CachedRowWithIntervalSelector(con, table_name, start, end)
 
         for t in range(start, end):
             previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
