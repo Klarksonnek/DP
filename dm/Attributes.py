@@ -18,7 +18,7 @@ from scipy import stats
 class AttributeUtil:
     @staticmethod
     def prepare_event(con, table_name, columns, timestamp, intervals_before, intervals_after,
-                      value_delays, selector, precision):
+                      value_delays, selector, precision, counts, delays, step_yts):
         attrs = []
 
         for column in columns:
@@ -65,11 +65,21 @@ class AttributeUtil:
                                   intervals_after=intervals_after, value_delay=value_delay)
                 attrs += a + b
 
+            op = AvgGrowthRate(con, table_name, selector)
+            for count in counts:
+                for delay in delays:
+                    for step_yt in step_yts:
+                        for value_delay in value_delays:
+                            a, b = op.execute(timestamp=timestamp, column=column,
+                                              precision=precision, count=count, delay=delay,
+                                              step_yt=step_yt, delay_yt_1=value_delay)
+                            attrs += a + b
+
         return attrs
 
     @staticmethod
     def training_data(con, table_name, columns, events, intervals_before, intervals_after,
-                      value_delay, precision, **kwargs):
+                      value_delay, precision, counts, delays, step_yts, **kwargs):
         """Generovanie trenovacich dat.
 
         :param con:
@@ -80,6 +90,9 @@ class AttributeUtil:
         :param intervals_after: interaly po udalosti
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
         :param precision: presnost vypoctu
+        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
+        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
+        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
         :return:
         """
 
@@ -94,10 +107,12 @@ class AttributeUtil:
             try:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector, precision)
+                                                    value_delay, selector, precision,
+                                                    counts, delays, step_yts)
                 data2 = AttributeUtil.prepare_event(con, table_name, columns, no_event_start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector, precision)
+                                                    value_delay, selector, precision,
+                                                    counts, delays, step_yts)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -117,7 +132,7 @@ class AttributeUtil:
     @staticmethod
     def additional_training_set(con, table_name, columns, no_event_records,
                                 intervals_before, intervals_after,
-                                value_delay, precision, **kwargs):
+                                value_delay, precision, counts, delays, step_yts, **kwargs):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
@@ -128,6 +143,9 @@ class AttributeUtil:
         :param intervals_after: interaly po udalosti
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
         :param precision: presnost vypoctu
+        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
+        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
+        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
         :return:
         """
 
@@ -140,7 +158,8 @@ class AttributeUtil:
             try:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector, precision)
+                                                    value_delay, selector, precision,
+                                                    counts, delays, step_yts)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -155,7 +174,7 @@ class AttributeUtil:
 
     @staticmethod
     def testing_data(con, table_name, columns, start, end, intervals_before, intervals_after,
-                     value_delay, write_each, precision, **kwargs):
+                     value_delay, write_each, precision, counts, delays, step_yts, **kwargs):
         """Generovanie testovacich dat.
 
         :param con:
@@ -168,6 +187,9 @@ class AttributeUtil:
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
         :param write_each:
         :param precision: presnost vypoctu
+        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
+        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
+        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
         :return:
         """
 
@@ -186,7 +208,8 @@ class AttributeUtil:
             try:
                 data = AttributeUtil.prepare_event(con, table_name, columns, t,
                                                    intervals_before, intervals_after,
-                                                   value_delay, selector, precision)
+                                                   value_delay, selector, precision,
+                                                   counts, delays, step_yts)
             except Exception as e:
                 # logging.error(str(e))
                 continue

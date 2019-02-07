@@ -45,6 +45,9 @@ def main(events_file: str, intervals_before: list, intervals_after: list,
         'end': start + 300,
         'no_event_records': no_events_records,
         'write_each': 30,
+        'counts': [5, 10],
+        'delays': [10, 20],
+        'step_yts': [5, 10],
     }
 
     # trenovacia mnozina
