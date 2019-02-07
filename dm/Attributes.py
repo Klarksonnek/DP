@@ -80,7 +80,7 @@ class AttributeUtil:
         """
 
         attrs = []
-        selector = SimpleRowSelector(con, table_name)
+        selector = SimpleCachedRowSelector(con, table_name)
 
         for k in range(0, len(events)):
             event = events[k]
@@ -129,7 +129,7 @@ class AttributeUtil:
 
         attrs = []
         count = 0
-        selector = SimpleRowSelector(con, table_name)
+        selector = SimpleCachedRowSelector(con, table_name)
 
         for t in range(start, end):
             previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
@@ -186,10 +186,10 @@ class SimpleRowSelector(AbstractRowSelector):
         return float(res[0])
 
 
-class SimpleCacheRowSelector(AbstractRowSelector):
+class SimpleCachedRowSelector(AbstractRowSelector):
     def __init__(self, con, table_name):
         self.cache = {}
-        super(SimpleCacheRowSelector, self).__init__(con, table_name)
+        super(SimpleCachedRowSelector, self).__init__(con, table_name)
 
     def row(self, column_name, time):
         if column_name not in self.cache:
