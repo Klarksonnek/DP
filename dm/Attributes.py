@@ -556,7 +556,7 @@ class GrowthRate(AbstractPrepareAttr):
             y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
-            name = self.attr_name(column, str(value_delay) + '_before', interval)
+            name = self.attr_name(column, 'valDelay' + str(value_delay) + '_before', interval)
             before.append((name, ratio))
 
         for interval in intervals_after:
