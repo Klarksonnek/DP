@@ -172,21 +172,8 @@ class AbstractRowSelector(ABC):
         pass
 
 
-# https://www.smartfile.com/blog/abstract-classes-in-python/
-# https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
-# http://homel.vsb.cz/~dor028/Casove_rady.pdf
-class AbstractPrepareAttr(ABC):
-    def __init__(self, con, table_name):
-        self.con = con
-        self.table_name = table_name
-        self.name = self.__class__.__name__
-        super(AbstractPrepareAttr, self).__init__()
-
-    @abstractmethod
-    def execute(self, **kwargs):
-        pass
-
-    def select_one_row(self, column_name, time):
+class SimpleRowSelector(AbstractRowSelector):
+    def row(self, column_name, time):
         res = Storage.one_row(self.con, self.table_name, column_name, time)
 
         if res is None or res[0] is None:
@@ -194,6 +181,22 @@ class AbstractPrepareAttr(ABC):
             raise ValueError('empty value at %s' % t)
 
         return float(res[0])
+
+
+# https://www.smartfile.com/blog/abstract-classes-in-python/
+# https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
+# http://homel.vsb.cz/~dor028/Casove_rady.pdf
+class AbstractPrepareAttr(ABC):
+    def __init__(self, con, table_name, selector):
+        self.con = con
+        self.table_name = table_name
+        self.name = self.__class__.__name__
+        self.selector = selector
+        super(AbstractPrepareAttr, self).__init__()
+
+    @abstractmethod
+    def execute(self, **kwargs):
+        pass
 
     def attr_name(self, column_name, interval_type, interval):
         return '{0}_{1}_{2}_{3}'.format(self.name, column_name, interval_type, interval)
