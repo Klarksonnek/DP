@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from collections import OrderedDict
 
 from os.path import dirname, abspath, join
+from functools import reduce
 import sys
 import logging
 
@@ -565,7 +566,40 @@ class GrowthRate(AbstractPrepareAttr):
             y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
-            name = self.attr_name(column, str(value_delay) + '_after', interval)
+            name = self.attr_name(column, 'valDelay' + str(value_delay) + '_after', interval)
             after.append((name, ratio))
+
+        return before, after
+
+
+class AvgGrowthRate(AbstractPrepareAttr):
+    def execute(self, timestamp, column, precision, count, delay, step_yt, delay_yt_1):
+        infix = 'delay{0}_stepYt{1}_valDelay{2}'.format(delay, step_yt, delay_yt_1)
+        before = []
+        after = []
+
+        before_values = []
+        for k in range(0, count):
+            t = (timestamp - delay) - k * step_yt
+
+            y_t = self.selector.row(column, t)
+            y_t_1 = self.selector.row(column, t - delay_yt_1)  # t-1
+            before_values.append(y_t / y_t_1)
+
+        v1 = round(reduce((lambda a, b: a * b), before_values) ** (1/(count - 1)), precision)
+        name = self.attr_name(column, infix + '_before', count)
+        before.append((name, v1))
+
+        after_values = []
+        for k in range(0, count):
+            t = (timestamp + delay) + k * step_yt
+
+            y_t = self.selector.row(column, t)
+            y_t_1 = self.selector.row(column, t - delay_yt_1)  # t-1
+            after_values.append(y_t / y_t_1)
+
+        v1 = round(reduce((lambda a, b: a * b), after_values) ** (1/(count - 1)), precision)
+        name = self.attr_name(column, infix + '_after', count)
+        after.append((name, v1))
 
         return before, after
