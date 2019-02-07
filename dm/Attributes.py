@@ -105,7 +105,8 @@ class AttributeUtil:
                 data2.insert(1, ('event', 'nothing'))
                 attrs.append(OrderedDict(data2))
             except Exception as e:
-                logging.error(str(e))
+                # logging.error(str(e))
+                continue
 
         return attrs
 
@@ -141,9 +142,9 @@ class AttributeUtil:
             try:
                 data = AttributeUtil.prepare_event(con, table_name, columns, t,
                                                    intervals_before, intervals_after,
-                                                   value_delay)
+                                                   value_delay, selector)
             except Exception as e:
-                logging.error(str(e))
+                # logging.error(str(e))
                 continue
 
             if open_state == 'nothing':
