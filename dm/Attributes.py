@@ -16,47 +16,47 @@ from dm.Storage import Storage
 class AttributeUtil:
     @staticmethod
     def prepare_event(con, table_name, columns, timestamp, intervals_before, intervals_after,
-                      value_delay):
+                      value_delay, selector):
         attrs = []
 
         for column in columns:
-            op = FirstDifferenceAttrA(con, table_name)
+            op = FirstDifferenceAttrA(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
-            op = FirstDifferenceAttrA(con, table_name)
+            op = FirstDifferenceAttrA(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
-            op = FirstDifferenceAttrB(con, table_name)
+            op = FirstDifferenceAttrB(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
-            op = FirstDifferenceAttrB(con, table_name)
+            op = FirstDifferenceAttrB(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
-            op = SecondDifferenceAttr(con, table_name)
+            op = SecondDifferenceAttr(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
-            op = SecondDifferenceAttr(con, table_name)
+            op = SecondDifferenceAttr(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
-            op = GrowthRate(con, table_name)
+            op = GrowthRate(con, table_name, selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=2,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, value_delay=value_delay)
@@ -80,6 +80,7 @@ class AttributeUtil:
         """
 
         attrs = []
+        selector = SimpleRowSelector(con, table_name)
 
         for k in range(0, len(events)):
             event = events[k]
@@ -89,10 +90,10 @@ class AttributeUtil:
             try:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
-                                                    value_delay)
+                                                    value_delay, selector)
                 data2 = AttributeUtil.prepare_event(con, table_name, columns, no_event_start,
                                                     intervals_before, intervals_after,
-                                                    value_delay)
+                                                    value_delay, selector)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -127,6 +128,7 @@ class AttributeUtil:
 
         attrs = []
         count = 0
+        selector = SimpleRowSelector(con, table_name)
 
         for t in range(start, end):
             previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
@@ -222,11 +224,11 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
         before = []
         after = []
 
-        middle = self.select_one_row(column, timestamp)
+        middle = self.selector.row(column, timestamp)
 
         for interval in intervals_before:
             value_time = timestamp - interval
-            value = self.select_one_row(column, value_time)
+            value = self.selector.row(column, value_time)
 
             if normalize:
                 derivation = round((middle - value) / interval, precision)
@@ -239,7 +241,7 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
 
         for interval in intervals_after:
             value_time = timestamp + interval
-            value = self.select_one_row(column, value_time)
+            value = self.selector.row(column, value_time)
 
             if normalize:
                 derivation = round((value - middle) / interval, precision)
@@ -273,13 +275,13 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
         before = []
         after = []
 
-        middle = self.select_one_row(column, timestamp)
+        middle = self.selector.row(column, timestamp)
 
         last_value = middle
         last_shift = 0
         for interval in intervals_before:
             value_time = timestamp - interval
-            value = self.select_one_row(column, value_time)
+            value = self.selector.row(column, value_time)
 
             if normalize:
                 derivation = round((last_value - value) / (interval - last_shift), precision)
@@ -296,7 +298,7 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
         last_shift = 0
         for interval in intervals_after:
             value_time = timestamp + interval
-            value = self.select_one_row(column, value_time)
+            value = self.selector.row(column, value_time)
 
             if normalize:
                 derivation = round((value - last_value) / (interval - last_shift), precision)
@@ -387,8 +389,8 @@ class GrowthRate(AbstractPrepareAttr):
 
         for interval in intervals_before:
             value_time = timestamp - interval
-            y_t = self.select_one_row(column, value_time)
-            y_t_1 = self.select_one_row(column, value_time - value_delay)  # t-1
+            y_t = self.selector.row(column, value_time)
+            y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, 'before', interval)
@@ -396,8 +398,8 @@ class GrowthRate(AbstractPrepareAttr):
 
         for interval in intervals_after:
             value_time = timestamp + interval
-            y_t = self.select_one_row(column, value_time)
-            y_t_1 = self.select_one_row(column, value_time - value_delay)  # t-1
+            y_t = self.selector.row(column, value_time)
+            y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, 'after', interval)
