@@ -112,6 +112,44 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
+    def additional_training_set(con, table_name, columns, no_event_records,
+                                intervals_before, intervals_after,
+                                value_delay):
+        """Dodatocne generovanie trenovacich dat, zo zadanych casov.
+
+        :param con:
+        :param table_name: nazov tabulky
+        :param columns: zoznam stlpcov, pre ktore sa maju spocitat hodnoty
+        :param no_event_records: zoznam dvojic, z ktorych sa maju vygenerovat atributy
+        :param intervals_before: intervaly pred udalostou
+        :param intervals_after: interaly po udalosti
+        :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
+        :return:
+        """
+
+        attrs = []
+        selector = SimpleCachedRowSelector(con, table_name)
+
+        for row in no_event_records:
+            start = int(DateTimeUtil.local_time_str_to_utc(row[0]).timestamp())
+
+            try:
+                data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
+                                                    intervals_before, intervals_after,
+                                                    value_delay, selector)
+
+                time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
+                data1.insert(0, ('datetime', time))
+                data1.insert(1, ('event', row[1]))
+                attrs.append(OrderedDict(data1))
+            except Exception as e:
+                logging.error(str(e))
+                continue
+
+        return attrs
+
+
+    @staticmethod
     def testing_data(con, table_name, columns, start, end, intervals_before, intervals_after,
                      value_delay, write_each):
         """Generovanie testovacich dat.
