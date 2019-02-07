@@ -17,48 +17,48 @@ from scipy import stats
 class AttributeUtil:
     @staticmethod
     def prepare_event(con, table_name, columns, timestamp, intervals_before, intervals_after,
-                      value_delay, selector):
+                      value_delay, selector, precision):
         attrs = []
 
         for column in columns:
             op = FirstDifferenceAttrA(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
             op = FirstDifferenceAttrA(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
             op = FirstDifferenceAttrB(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
             op = FirstDifferenceAttrB(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
             op = SecondDifferenceAttr(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
             op = SecondDifferenceAttr(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
             op = GrowthRate(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, value_delay=value_delay)
             attrs += a + b
@@ -67,7 +67,7 @@ class AttributeUtil:
 
     @staticmethod
     def training_data(con, table_name, columns, events, intervals_before, intervals_after,
-                      value_delay):
+                      value_delay, precision):
         """Generovanie trenovacich dat.
 
         :param con:
@@ -77,6 +77,7 @@ class AttributeUtil:
         :param intervals_before: intervaly pred udalostou
         :param intervals_after: interaly po udalosti
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
+        :param precision: presnost vypoctu
         :return:
         """
 
@@ -91,10 +92,10 @@ class AttributeUtil:
             try:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector)
+                                                    value_delay, selector, precision)
                 data2 = AttributeUtil.prepare_event(con, table_name, columns, no_event_start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector)
+                                                    value_delay, selector, precision)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -114,7 +115,7 @@ class AttributeUtil:
     @staticmethod
     def additional_training_set(con, table_name, columns, no_event_records,
                                 intervals_before, intervals_after,
-                                value_delay):
+                                value_delay, precision):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
@@ -124,6 +125,7 @@ class AttributeUtil:
         :param intervals_before: intervaly pred udalostou
         :param intervals_after: interaly po udalosti
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
+        :param precision: presnost vypoctu
         :return:
         """
 
@@ -136,7 +138,7 @@ class AttributeUtil:
             try:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector)
+                                                    value_delay, selector, precision)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -151,7 +153,7 @@ class AttributeUtil:
 
     @staticmethod
     def testing_data(con, table_name, columns, start, end, intervals_before, intervals_after,
-                     value_delay, write_each):
+                     value_delay, write_each, precision):
         """Generovanie testovacich dat.
 
         :param con:
@@ -163,6 +165,7 @@ class AttributeUtil:
         :param intervals_after: interaly po udalosti
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
         :param write_each:
+        :param precision: presnost vypoctu
         :return:
         """
 
@@ -181,7 +184,7 @@ class AttributeUtil:
             try:
                 data = AttributeUtil.prepare_event(con, table_name, columns, t,
                                                    intervals_before, intervals_after,
-                                                   value_delay, selector)
+                                                   value_delay, selector, precision)
             except Exception as e:
                 # logging.error(str(e))
                 continue
