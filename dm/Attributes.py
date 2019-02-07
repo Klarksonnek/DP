@@ -18,7 +18,8 @@ from scipy import stats
 class AttributeUtil:
     @staticmethod
     def prepare_event(con, table_name, columns, timestamp, intervals_before, intervals_after,
-                      value_delays, selector, precision, counts, delays, step_yts):
+                      value_delays, selector, precision, counts, delays, step_yts,
+                      window_sizes):
         attrs = []
 
         for column in columns:
@@ -75,11 +76,19 @@ class AttributeUtil:
                                               step_yt=step_yt, delay_yt_1=value_delay)
                             attrs += a + b
 
+            for window_size in window_sizes:
+                op = DifferenceBetweenRealLinear(con, table_name, selector)
+                a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                                  intervals_before=intervals_before,
+                                  intervals_after=intervals_after, window_size=window_size)
+                attrs += a + b
+
         return attrs
 
     @staticmethod
     def training_data(con, table_name, columns, events, intervals_before, intervals_after,
-                      value_delay, precision, counts, delays, step_yts, **kwargs):
+                      value_delay, precision, counts, delays, step_yts,
+                      window_sizes, **kwargs):
         """Generovanie trenovacich dat.
 
         :param con:
@@ -93,6 +102,7 @@ class AttributeUtil:
         :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
         :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
         :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
+        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
         :return:
         """
 
@@ -108,11 +118,11 @@ class AttributeUtil:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
                                                     value_delay, selector, precision,
-                                                    counts, delays, step_yts)
+                                                    counts, delays, step_yts, window_sizes)
                 data2 = AttributeUtil.prepare_event(con, table_name, columns, no_event_start,
                                                     intervals_before, intervals_after,
                                                     value_delay, selector, precision,
-                                                    counts, delays, step_yts)
+                                                    counts, delays, step_yts, window_sizes)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -132,7 +142,8 @@ class AttributeUtil:
     @staticmethod
     def additional_training_set(con, table_name, columns, no_event_records,
                                 intervals_before, intervals_after,
-                                value_delay, precision, counts, delays, step_yts, **kwargs):
+                                value_delay, precision, counts, delays, step_yts,
+                                window_sizes, **kwargs):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
@@ -146,6 +157,7 @@ class AttributeUtil:
         :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
         :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
         :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
+        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
         :return:
         """
 
@@ -159,7 +171,7 @@ class AttributeUtil:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
                                                     value_delay, selector, precision,
-                                                    counts, delays, step_yts)
+                                                    counts, delays, step_yts, window_sizes)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -174,7 +186,8 @@ class AttributeUtil:
 
     @staticmethod
     def testing_data(con, table_name, columns, start, end, intervals_before, intervals_after,
-                     value_delay, write_each, precision, counts, delays, step_yts, **kwargs):
+                     value_delay, write_each, precision, counts, delays, step_yts,
+                     window_sizes, **kwargs):
         """Generovanie testovacich dat.
 
         :param con:
@@ -190,6 +203,7 @@ class AttributeUtil:
         :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
         :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
         :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
+        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
         :return:
         """
 
@@ -209,7 +223,7 @@ class AttributeUtil:
                 data = AttributeUtil.prepare_event(con, table_name, columns, t,
                                                    intervals_before, intervals_after,
                                                    value_delay, selector, precision,
-                                                   counts, delays, step_yts)
+                                                   counts, delays, step_yts, window_sizes)
             except Exception as e:
                 # logging.error(str(e))
                 continue
