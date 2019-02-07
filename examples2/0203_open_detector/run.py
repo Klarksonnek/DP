@@ -14,8 +14,7 @@ no_events_records = [
 ]
 
 
-def main(events_file: str, intervals_before: list, intervals_after: list,
-         no_event_time_shift: int):
+def main(events_file: str, no_event_time_shift: int):
     logging.info('start')
 
     table_name = 'measured_peto'
@@ -37,8 +36,8 @@ def main(events_file: str, intervals_before: list, intervals_after: list,
         'table_name': table_name,
         'columns': ['co2_in_ppm'],
         'events': filtered,
-        'intervals_before': intervals_before,
-        'intervals_after': intervals_after,
+        'intervals_before': [x for x in range(15, 45, 15)],
+        'intervals_after': [x for x in range(15, 45, 15)],
         'value_delay': [x for x in range(5, 10, 5)],
         'precision': 2,
         'start': start,
@@ -85,6 +84,4 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s')
 
-    before = [60, 75, 90]
-    after = [60, 75, 90]
-    main('examples/events_peto.json', before, after, -500)
+    main('examples/events_peto.json', -500)
