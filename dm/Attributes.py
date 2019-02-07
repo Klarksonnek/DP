@@ -626,3 +626,67 @@ class AvgGrowthRate(AbstractPrepareAttr):
         after.append((name, v1))
 
         return before, after
+
+
+class DifferenceBetweenRealLinear(AbstractPrepareAttr):
+    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
+                window_size):
+
+        intervals_before = [0] + intervals_before
+        before = []
+        after = []
+        infix = '_windowSize{0}'.format(window_size)
+
+        # compute before
+        x = []
+        y = []
+        values = {}
+
+        start = timestamp - window_size
+        end = timestamp + 1
+        for time in range(start, end, 1):
+            value = self.selector.row(column, time)
+            x.append(time)
+            y.append(value)
+            values[time] = value
+        slope, intercept, _, _, _ = stats.linregress(x, y)
+
+        for interval in intervals_before:
+            if interval > window_size:
+                break
+
+            time = timestamp - interval
+            orig_value = values[time]
+            linear_value = intercept + slope * time
+
+            diff = linear_value - orig_value
+            name = self.attr_name(column, infix + '_before', interval)
+            before.append((name, diff))
+
+        # compute after
+        x = []
+        y = []
+        values = {}
+
+        start = timestamp
+        end = timestamp + window_size + 1
+        for time in range(start, end, 1):
+            value = self.selector.row(column, time)
+            x.append(time)
+            y.append(value)
+            values[time] = value
+        slope, intercept, _, _, _ = stats.linregress(x, y)
+
+        for interval in intervals_after:
+            if interval > window_size:
+                break
+
+            time = timestamp + interval
+            orig_value = values[time]
+            linear_value = intercept + slope * time
+
+            diff = linear_value - orig_value
+            name = self.attr_name(column, infix + '_after', interval)
+            after.append((name, diff))
+
+        return before, after
