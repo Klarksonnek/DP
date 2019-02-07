@@ -186,6 +186,32 @@ class SimpleRowSelector(AbstractRowSelector):
         return float(res[0])
 
 
+class SimpleCacheRowSelector(AbstractRowSelector):
+    def __init__(self, con, table_name):
+        self.cache = {}
+        super(SimpleCacheRowSelector, self).__init__(con, table_name)
+
+    def row(self, column_name, time):
+        if column_name not in self.cache:
+            self.cache[column_name] = {}
+
+        value = None
+        if time in self.cache[column_name]:
+            value = self.cache[column_name][time]
+        else:
+            res = Storage.one_row(self.con, self.table_name, column_name, time)
+
+            if res is not None and res[0] is not None:
+                self.cache[column_name][time] = float(res[0])
+                value = float(res[0])
+
+        if value is None:
+            t = DateTimeUtil.utc_timestamp_to_str(time, '%Y/%m/%d %H:%M:%S')
+            raise ValueError('empty value at %s' % t)
+
+        return value
+
+
 # https://www.smartfile.com/blog/abstract-classes-in-python/
 # https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
 # http://homel.vsb.cz/~dor028/Casove_rady.pdf
