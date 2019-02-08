@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from collections import OrderedDict
 
 from os.path import dirname, abspath, join
+from functools import reduce
 import sys
 import logging
 
@@ -17,57 +18,77 @@ from scipy import stats
 class AttributeUtil:
     @staticmethod
     def prepare_event(con, table_name, columns, timestamp, intervals_before, intervals_after,
-                      value_delay, selector):
+                      value_delays, selector, precision, counts, delays, step_yts,
+                      window_sizes):
         attrs = []
 
         for column in columns:
             op = FirstDifferenceAttrA(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
             op = FirstDifferenceAttrA(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
             op = FirstDifferenceAttrB(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
             op = FirstDifferenceAttrB(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
             op = SecondDifferenceAttr(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=True)
             attrs += a + b
 
             op = SecondDifferenceAttr(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after, normalize=False)
             attrs += a + b
 
             op = GrowthRate(con, table_name, selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=2,
-                              intervals_before=intervals_before,
-                              intervals_after=intervals_after, value_delay=value_delay)
-            attrs += a + b
+            for value_delay in value_delays:
+                a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                                  intervals_before=intervals_before,
+                                  intervals_after=intervals_after, value_delay=value_delay)
+                attrs += a + b
+
+            op = AvgGrowthRate(con, table_name, selector)
+            for count in counts:
+                for delay in delays:
+                    for step_yt in step_yts:
+                        for value_delay in value_delays:
+                            a, b = op.execute(timestamp=timestamp, column=column,
+                                              precision=precision, count=count, delay=delay,
+                                              step_yt=step_yt, delay_yt_1=value_delay)
+                            attrs += a + b
+
+            for window_size in window_sizes:
+                op = DifferenceBetweenRealLinear(con, table_name, selector)
+                a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                                  intervals_before=intervals_before,
+                                  intervals_after=intervals_after, window_size=window_size)
+                attrs += a + b
 
         return attrs
 
     @staticmethod
     def training_data(con, table_name, columns, events, intervals_before, intervals_after,
-                      value_delay):
+                      value_delay, precision, counts, delays, step_yts,
+                      window_sizes, **kwargs):
         """Generovanie trenovacich dat.
 
         :param con:
@@ -77,6 +98,11 @@ class AttributeUtil:
         :param intervals_before: intervaly pred udalostou
         :param intervals_after: interaly po udalosti
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
+        :param precision: presnost vypoctu
+        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
+        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
+        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
+        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
         :return:
         """
 
@@ -91,10 +117,12 @@ class AttributeUtil:
             try:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector)
+                                                    value_delay, selector, precision,
+                                                    counts, delays, step_yts, window_sizes)
                 data2 = AttributeUtil.prepare_event(con, table_name, columns, no_event_start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector)
+                                                    value_delay, selector, precision,
+                                                    counts, delays, step_yts, window_sizes)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -114,7 +142,8 @@ class AttributeUtil:
     @staticmethod
     def additional_training_set(con, table_name, columns, no_event_records,
                                 intervals_before, intervals_after,
-                                value_delay):
+                                value_delay, precision, counts, delays, step_yts,
+                                window_sizes, **kwargs):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
@@ -124,6 +153,11 @@ class AttributeUtil:
         :param intervals_before: intervaly pred udalostou
         :param intervals_after: interaly po udalosti
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
+        :param precision: presnost vypoctu
+        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
+        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
+        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
+        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
         :return:
         """
 
@@ -136,7 +170,8 @@ class AttributeUtil:
             try:
                 data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
                                                     intervals_before, intervals_after,
-                                                    value_delay, selector)
+                                                    value_delay, selector, precision,
+                                                    counts, delays, step_yts, window_sizes)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -151,7 +186,8 @@ class AttributeUtil:
 
     @staticmethod
     def testing_data(con, table_name, columns, start, end, intervals_before, intervals_after,
-                     value_delay, write_each):
+                     value_delay, write_each, precision, counts, delays, step_yts,
+                     window_sizes, **kwargs):
         """Generovanie testovacich dat.
 
         :param con:
@@ -163,6 +199,11 @@ class AttributeUtil:
         :param intervals_after: interaly po udalosti
         :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
         :param write_each:
+        :param precision: presnost vypoctu
+        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
+        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
+        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
+        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
         :return:
         """
 
@@ -181,7 +222,8 @@ class AttributeUtil:
             try:
                 data = AttributeUtil.prepare_event(con, table_name, columns, t,
                                                    intervals_before, intervals_after,
-                                                   value_delay, selector)
+                                                   value_delay, selector, precision,
+                                                   counts, delays, step_yts, window_sizes)
             except Exception as e:
                 # logging.error(str(e))
                 continue
@@ -203,13 +245,13 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
-    def balance_set(training_set, addiotional_trainin_set):
+    def balance_set(training_set, additional_training_set):
         out = []
 
         index = 0
         for row in training_set:
-            if row['event'] == 'nothing' and index < len(addiotional_trainin_set):
-                out.append(addiotional_trainin_set[index])
+            if row['event'] == 'nothing' and index < len(additional_training_set):
+                out.append(additional_training_set[index])
                 index += 1
                 continue
 
@@ -552,7 +594,7 @@ class GrowthRate(AbstractPrepareAttr):
             y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
-            name = self.attr_name(column, 'before', interval)
+            name = self.attr_name(column, 'valDelay' + str(value_delay) + '_before', interval)
             before.append((name, ratio))
 
         for interval in intervals_after:
@@ -561,7 +603,104 @@ class GrowthRate(AbstractPrepareAttr):
             y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
-            name = self.attr_name(column, 'after', interval)
+            name = self.attr_name(column, 'valDelay' + str(value_delay) + '_after', interval)
             after.append((name, ratio))
+
+        return before, after
+
+
+class AvgGrowthRate(AbstractPrepareAttr):
+    def execute(self, timestamp, column, precision, count, delay, step_yt, delay_yt_1):
+        infix = 'delay{0}_stepYt{1}_valDelay{2}'.format(delay, step_yt, delay_yt_1)
+        before = []
+        after = []
+
+        before_values = []
+        for k in range(0, count):
+            t = (timestamp - delay) - k * step_yt
+
+            y_t = self.selector.row(column, t)
+            y_t_1 = self.selector.row(column, t - delay_yt_1)  # t-1
+            before_values.append(y_t / y_t_1)
+
+        v1 = round(reduce((lambda a, b: a * b), before_values) ** (1/(count - 1)), precision)
+        name = self.attr_name(column, infix + '_before', count)
+        before.append((name, v1))
+
+        after_values = []
+        for k in range(0, count):
+            t = (timestamp + delay) + k * step_yt
+
+            y_t = self.selector.row(column, t)
+            y_t_1 = self.selector.row(column, t - delay_yt_1)  # t-1
+            after_values.append(y_t / y_t_1)
+
+        v1 = round(reduce((lambda a, b: a * b), after_values) ** (1/(count - 1)), precision)
+        name = self.attr_name(column, infix + '_after', count)
+        after.append((name, v1))
+
+        return before, after
+
+
+class DifferenceBetweenRealLinear(AbstractPrepareAttr):
+    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
+                window_size):
+
+        intervals_before = [0] + intervals_before
+        before = []
+        after = []
+        infix = '_windowSize{0}'.format(window_size)
+
+        # compute before
+        x = []
+        y = []
+        values = {}
+
+        start = timestamp - window_size
+        end = timestamp + 1
+        for time in range(start, end, 1):
+            value = self.selector.row(column, time)
+            x.append(time)
+            y.append(value)
+            values[time] = value
+        slope, intercept, _, _, _ = stats.linregress(x, y)
+
+        for interval in intervals_before:
+            if interval > window_size:
+                break
+
+            time = timestamp - interval
+            orig_value = values[time]
+            linear_value = intercept + slope * time
+
+            diff = linear_value - orig_value
+            name = self.attr_name(column, infix + '_before', interval)
+            before.append((name, diff))
+
+        # compute after
+        x = []
+        y = []
+        values = {}
+
+        start = timestamp
+        end = timestamp + window_size + 1
+        for time in range(start, end, 1):
+            value = self.selector.row(column, time)
+            x.append(time)
+            y.append(value)
+            values[time] = value
+        slope, intercept, _, _, _ = stats.linregress(x, y)
+
+        for interval in intervals_after:
+            if interval > window_size:
+                break
+
+            time = timestamp + interval
+            orig_value = values[time]
+            linear_value = intercept + slope * time
+
+            diff = linear_value - orig_value
+            name = self.attr_name(column, infix + '_after', interval)
+            after.append((name, diff))
 
         return before, after
