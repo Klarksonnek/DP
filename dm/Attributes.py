@@ -86,43 +86,25 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
-    def training_data(con, table_name, columns, events, intervals_before, intervals_after,
-                      value_delay, precision, counts, delays, step_yts,
-                      window_sizes, **kwargs):
+    def training_data(con, table_name, events, func, selector):
         """Generovanie trenovacich dat.
 
         :param con:
         :param table_name: nazov tabulky
-        :param columns: zoznam stlpcov, pre ktore sa maju spocitat hodnoty
         :param events: zoznam eventov
-        :param intervals_before: intervaly pred udalostou
-        :param intervals_after: interaly po udalosti
-        :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
-        :param precision: presnost vypoctu
-        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
-        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
-        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
-        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
+        :param func:
         :return:
         """
 
         attrs = []
-        selector = SimpleCachedRowSelector(con, table_name)
-
         for k in range(0, len(events)):
             event = events[k]
             start = event['e_start']['timestamp']
             no_event_start = start + event['no_event_time_shift']
 
             try:
-                data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
-                                                    intervals_before, intervals_after,
-                                                    value_delay, selector, precision,
-                                                    counts, delays, step_yts, window_sizes)
-                data2 = AttributeUtil.prepare_event(con, table_name, columns, no_event_start,
-                                                    intervals_before, intervals_after,
-                                                    value_delay, selector, precision,
-                                                    counts, delays, step_yts, window_sizes)
+                data1 = func(con, table_name, start, selector)
+                data2 = func(con, table_name, no_event_start, selector)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -140,38 +122,22 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
-    def additional_training_set(con, table_name, columns, no_event_records,
-                                intervals_before, intervals_after,
-                                value_delay, precision, counts, delays, step_yts,
-                                window_sizes, **kwargs):
+    def additional_training_set(con, table_name, no_event_records, func, selector):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
         :param table_name: nazov tabulky
-        :param columns: zoznam stlpcov, pre ktore sa maju spocitat hodnoty
         :param no_event_records: zoznam dvojic, z ktorych sa maju vygenerovat atributy
-        :param intervals_before: intervaly pred udalostou
-        :param intervals_after: interaly po udalosti
-        :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
-        :param precision: presnost vypoctu
-        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
-        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
-        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
-        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
+        :param func:
         :return:
         """
 
         attrs = []
-        selector = SimpleCachedRowSelector(con, table_name)
-
         for row in no_event_records:
             start = int(DateTimeUtil.local_time_str_to_utc(row[0]).timestamp())
 
             try:
-                data1 = AttributeUtil.prepare_event(con, table_name, columns, start,
-                                                    intervals_before, intervals_after,
-                                                    value_delay, selector, precision,
-                                                    counts, delays, step_yts, window_sizes)
+                data1 = func(con, table_name, start, selector)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -185,31 +151,20 @@ class AttributeUtil:
 
 
     @staticmethod
-    def testing_data(con, table_name, columns, start, end, intervals_before, intervals_after,
-                     value_delay, write_each, precision, counts, delays, step_yts,
-                     window_sizes, **kwargs):
+    def testing_data(con, table_name, start, end, write_each, func, selector):
         """Generovanie testovacich dat.
 
         :param con:
         :param table_name: nazov tabulky
-        :param columns: zoznam stlpcov, pre ktore sa maju spocitat hodnoty
         :param start: interval, od ktoreho sa budu generovat testovacie data
-        :param end:  interval, do ktoreho sa budu generovat testovacie data
-        :param intervals_before: intervaly pred udalostou
-        :param intervals_after: interaly po udalosti
-        :param value_delay: posun hodnoty, pri pouziti metody GrowthRate
+        :param end: interval, do ktoreho sa budu generovat testovacie data
         :param write_each:
-        :param precision: presnost vypoctu
-        :param counts: pocet zaznamov, ktore sa pouziju pre vypocet priemerneho rastu
-        :param delays: oneskorenie od zadaneho timestampu pri vypocte hodnot pre priemerny rast
-        :param step_yts: posun medzi jednotlivymi hodnotami tempami rastu
-        :param window_sizes: velkost okna, ktore sa pouzije pre linearizaciu
+        :param func:
         :return:
         """
 
         attrs = []
         count = 0
-        selector = CachedRowWithIntervalSelector(con, table_name, start, end)
 
         for t in range(start, end):
             previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
@@ -220,10 +175,7 @@ class AttributeUtil:
                 open_state = 'open'
 
             try:
-                data = AttributeUtil.prepare_event(con, table_name, columns, t,
-                                                   intervals_before, intervals_after,
-                                                   value_delay, selector, precision,
-                                                   counts, delays, step_yts, window_sizes)
+                data = func(con, table_name, t, selector)
             except Exception as e:
                 # logging.error(str(e))
                 continue
