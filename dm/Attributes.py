@@ -356,6 +356,41 @@ class AbstractPrepareAttr(ABC):
     def attr_name(self, column_name, interval_type, interval):
         return '{0}_{1}_{2}_{3}'.format(self.name, column_name, interval_type, interval)
 
+    def _compute_increase(self, column, intervals_before, intervals_after,  before, after,
+                          selected_before, selected_after, prefix):
+        before_out = []
+        after_out = []
+
+        for intervals in selected_before:
+            before_increase = 0
+
+            for interval in intervals:
+                index = intervals_before.index(interval)
+                value = before[index][1]
+
+                if value > 0:
+                    before_increase += 1
+
+            suffix = '_'.join(str(x) for x in intervals)
+            name = self.attr_name(column, prefix, 'before_increase', suffix)
+            before_out.append((name, before_increase))
+
+        for intervals in selected_after:
+            after_increase = 0
+
+            for interval in intervals:
+                index = intervals_after.index(interval)
+                value = after[index][1]
+
+                if value > 0:
+                    after_increase += 1
+
+            suffix = '_'.join(str(x) for x in intervals)
+            name = self.attr_name(column, prefix, 'after_increase', suffix)
+            after_out.append((name, after_increase))
+
+        return before_out, after_out
+
 
 class FirstDifferenceAttrA(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
