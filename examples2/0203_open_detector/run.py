@@ -11,24 +11,78 @@ from dm.CSVUtil import CSVUtil
 from dm.Attributes import *
 
 no_events_records = [
-    ('2018/12/01 07:22:27', 'nothing'),
-    ('2018/12/01 07:22:57', 'nothing'),
-    ('2018/12/01 07:24:27', 'nothing'),
-    ('2018/12/01 07:24:57', 'nothing'),
-    ('2018/12/01 07:25:27', 'nothing'),
-    ('2018/12/01 07:34:27', 'nothing'),
-    ('2018/12/01 07:34:57', 'nothing'),
-    ('2018/12/01 07:35:27', 'nothing'),
-    ('2018/12/01 09:41:27', 'nothing'),
-    ('2018/12/01 09:41:57', 'nothing'),
-    ('2018/12/01 09:43:27', 'nothing'),
-    ('2018/12/01 09:44:57', 'nothing'),
-    ('2018/12/01 09:45:57', 'nothing'),
-    ('2018/12/01 09:46:27', 'nothing'),
-    ('2018/12/01 09:49:27', 'nothing'),
-    ('2018/12/01 09:50:57', 'nothing'),
-    ('2018/12/01 09:52:27', 'nothing'),
 ]
+
+
+def func(con, table_name, timestamp, selector):
+    attrs = []
+    columns = ['co2_in_ppm']
+    precision = 2
+
+    for column in columns:
+        for normalize in [False]:
+            intervals_before = [x for x in range(5, 601, 15)]
+            intervals_after = [x for x in range(5, 181, 10)]
+
+            op = FirstDifferenceAttrA(con, table_name, selector)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after,
+                              normalize=normalize,
+                              enable_count=True,
+                              prefix='',
+                              selected_before=[],
+                              selected_after=[])
+            attrs += a + b
+
+            # linearny posun
+            op = FirstDifferenceAttrB(con, table_name, selector)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after,
+                              normalize=normalize,
+                              enable_count=True,
+                              prefix='',
+                              selected_before=[],
+                              selected_after=[])
+            attrs += a + b
+
+            op = SecondDifferenceAttr(con, table_name, selector)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after,
+                              normalize=normalize,
+                              enable_count=True,
+                              prefix='',
+                              selected_before=[],
+                              selected_after=[])
+            attrs += a + b
+
+            # x^2 posun
+            op = SecondDifferenceAttr(con, table_name, selector)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[x*x for x in range(2, 25, 1)],
+                              intervals_after=[x*x for x in range(2, 14, 1)],
+                              normalize=normalize,
+                              enable_count=True,
+                              prefix='_x2',
+                              selected_before=[],
+                              selected_after=[])
+            attrs += a + b
+
+            # x^3 posun
+            op = SecondDifferenceAttr(con, table_name, selector)
+            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[x*x*x for x in range(2, 9, 1)],
+                              intervals_after=[x*x*x for x in range(2, 6, 1)],
+                              normalize=normalize,
+                              enable_count=True,
+                              prefix='_x3',
+                              selected_before=[],
+                              selected_after=[])
+            attrs += a + b
+
+    return attrs
 
 
 def main(events_file: str, no_event_time_shift: int):
@@ -46,34 +100,16 @@ def main(events_file: str, no_event_time_shift: int):
     filtered = FilterUtil.only_valid_events(d)
     logging.info('events after applying the filter: %d' % len(filtered))
 
-    # kwargs
-    start = int(DateTimeUtil.local_time_str_to_utc('2018/12/1 07:28:28').timestamp())
-    kwargs = {
-        'con': con,
-        'table_name': table_name,
-        'columns': ['co2_in_ppm'],
-        'events': filtered,
-        'intervals_before': [x for x in range(15, 45, 15)],
-        'intervals_after': [x for x in range(15, 45, 15)],
-        'value_delay': [x for x in range(5, 10, 5)],
-        'precision': 2,
-        'start': start,
-        'end': start + 100,
-        'no_event_records': no_events_records,
-        'write_each': 30,
-        'counts': [x for x in range(5, 10, 5)],
-        'delays': [x for x in range(5, 10, 5)],
-        'step_yts': [x for x in range(5, 10, 5)],
-        'window_sizes': [x for x in range(50, 65, 15)],
-    }
+    # selector pre data
+    selector = SimpleCachedRowSelector(con, table_name)
 
     # trenovacia mnozina
     logging.info('start computing of training set')
-    training = AttributeUtil.training_data(**kwargs)
+    training = AttributeUtil.training_data(con, table_name, filtered, func, selector)
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count/2, count))
 
-    training2 = AttributeUtil.additional_training_set(**kwargs)
+    training2 = AttributeUtil.additional_training_set(con, table_name, no_events_records, func, selector)
     count2 = len(training2)
     logging.info('additional training set contains %d records' % count2)
 
@@ -85,8 +121,10 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('end preparing file of training set')
 
     # testovacia mnozina
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/12/1 07:28:28').timestamp())
+
     logging.info('start computing of testing set')
-    testing = AttributeUtil.testing_data(**kwargs)
+    testing = AttributeUtil.testing_data(con, table_name, start, start + 100, 30, func, selector)
     logging.info('testing set contains %d records' % len(testing))
     logging.info('end computing of testing set')
 
