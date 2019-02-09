@@ -394,7 +394,7 @@ class AbstractPrepareAttr(ABC):
 
 class FirstDifferenceAttrA(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
-                normalize):
+                normalize, enable_count, prefix, selected_before, selected_after):
         """Vypocet diferencii.
 
         Vypocet diferencii sa vykona ako rozdiel medzi hodnotou v case timestamp a hodnotou,
@@ -420,10 +420,10 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
 
             if normalize:
                 derivation = round((middle - value) / interval, precision)
-                name = self.attr_name(column, 'norm_before', interval)
+                name = self.attr_name(column, prefix, 'norm_before', interval)
             else:
                 derivation = round(middle - value, precision)
-                name = self.attr_name(column, 'before', interval)
+                name = self.attr_name(column, prefix, 'before', interval)
 
             before.append((name, derivation))
 
@@ -433,19 +433,25 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
 
             if normalize:
                 derivation = round((value - middle) / interval, precision)
-                name = self.attr_name(column, 'norm_after', interval)
+                name = self.attr_name(column, prefix, 'norm_after', interval)
             else:
                 derivation = round(value - middle, precision)
-                name = self.attr_name(column, 'after', interval)
+                name = self.attr_name(column, prefix, 'after', interval)
 
             after.append((name, derivation))
+
+        if enable_count:
+            b, a = self._compute_increase(column, intervals_before, intervals_after,
+                                          before, after,
+                                          selected_before, selected_after, prefix)
+            return before + b, after + a
 
         return before, after
 
 
 class FirstDifferenceAttrB(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
-                normalize):
+                normalize, enable_count, prefix, selected_before, selected_after):
         """Vypocet diferencii druhy sposob.
 
         Vypocet diferencii sa vykona ako rozdiel medzi susednymi hodnotami, ktore su vsak
@@ -473,10 +479,10 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
 
             if normalize:
                 derivation = round((last_value - value) / (interval - last_shift), precision)
-                name = self.attr_name(column, 'norm_before', interval)
+                name = self.attr_name(column, prefix, 'norm_before', interval)
             else:
                 derivation = round(last_value - value, precision)
-                name = self.attr_name(column, 'before', interval)
+                name = self.attr_name(column, prefix, 'before', interval)
 
             before.append((name, derivation))
             last_value = value
@@ -490,24 +496,33 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
 
             if normalize:
                 derivation = round((value - last_value) / (interval - last_shift), precision)
-                name = self.attr_name(column, 'norm_after', interval)
+                name = self.attr_name(column, prefix, 'norm_after', interval)
             else:
                 derivation = round(value - last_value, precision)
-                name = self.attr_name(column, 'after', interval)
+                name = self.attr_name(column, prefix, 'after', interval)
 
             after.append((name, derivation))
             last_value = value
             last_shift = interval
+
+        if enable_count:
+            b, a = self._compute_increase(column, intervals_before, intervals_after,
+                                          before, after,
+                                          selected_before, selected_after, prefix)
+            return before + b, after + a
 
         return before, after
 
 
 class SecondDifferenceAttr(FirstDifferenceAttrB):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
-                normalize):
+                normalize, enable_count, prefix, selected_before, selected_after):
         before, after = super(SecondDifferenceAttr, self).execute(timestamp, column, precision,
                                                                   intervals_before,
-                                                                  intervals_after, normalize)
+                                                                  intervals_after, normalize,
+                                                                  False, prefix,
+                                                                  selected_before,
+                                                                  selected_after)
         """Vypocet druhych derivacii.
 
         Vypocet druhych derivacii sa vykona pomocou vypoctu prvych derivacii a naslednym
@@ -529,10 +544,11 @@ class SecondDifferenceAttr(FirstDifferenceAttrB):
         for k in range(1, len(before)):
             value = before[k][1]
 
+            interval = '{0}and{1}'.format(intervals_before[k - 1], intervals_before[k])
             if normalize:
-                name = self.attr_name(column, 'norm_before', k)
+                name = self.attr_name(column, prefix, 'norm_before', interval)
             else:
-                name = self.attr_name(column, 'before', k)
+                name = self.attr_name(column, prefix, 'before', interval)
 
             derivation = round(last_value - value, precision)
             before_second.append((name, derivation))
@@ -542,21 +558,28 @@ class SecondDifferenceAttr(FirstDifferenceAttrB):
         for k in range(1, len(after)):
             value = after[k][1]
 
+            interval = '{0}and{1}'.format(intervals_after[k - 1], intervals_after[k])
             if normalize:
-                name = self.attr_name(column, 'norm_after', k)
+                name = self.attr_name(column, prefix, 'norm_after', interval)
             else:
-                name = self.attr_name(column, 'after', k)
+                name = self.attr_name(column, prefix, 'after', interval)
 
             derivation = round(value - last_value, precision)
             after_second.append((name, derivation))
             last_value = value
 
-        return before_second, after_second
+        if enable_count:
+            b, a = self._compute_increase(column, intervals_before, intervals_after,
+                                          before, after,
+                                          selected_before, selected_after, prefix)
+            return before + b, after + a
+
+        return before, after
 
 
 class GrowthRate(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
-                value_delay):
+                value_delay, prefix):
         """Vypocet tempa rastu.
 
         Vypocet tempa rastu sa vypocita ako pomer y_t/y_t_-1. Hodnota y_t sa vyberie na
@@ -581,7 +604,7 @@ class GrowthRate(AbstractPrepareAttr):
             y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
-            name = self.attr_name(column, 'valDelay' + str(value_delay) + '_before', interval)
+            name = self.attr_name(column, prefix, 'valDelay' + str(value_delay) + '_before', interval)
             before.append((name, ratio))
 
         for interval in intervals_after:
@@ -590,14 +613,15 @@ class GrowthRate(AbstractPrepareAttr):
             y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
-            name = self.attr_name(column, 'valDelay' + str(value_delay) + '_after', interval)
+            name = self.attr_name(column, prefix, 'valDelay' + str(value_delay) + '_after', interval)
             after.append((name, ratio))
 
         return before, after
 
 
 class AvgGrowthRate(AbstractPrepareAttr):
-    def execute(self, timestamp, column, precision, count, delay, step_yt, delay_yt_1):
+    def execute(self, timestamp, column, precision, count, delay, step_yt, delay_yt_1,
+                prefix=''):
         infix = 'delay{0}_stepYt{1}_valDelay{2}'.format(delay, step_yt, delay_yt_1)
         before = []
         after = []
@@ -611,7 +635,7 @@ class AvgGrowthRate(AbstractPrepareAttr):
             before_values.append(y_t / y_t_1)
 
         v1 = round(reduce((lambda a, b: a * b), before_values) ** (1/(count - 1)), precision)
-        name = self.attr_name(column, infix + '_before', count)
+        name = self.attr_name(column, prefix, infix + '_before', count)
         before.append((name, v1))
 
         after_values = []
@@ -623,7 +647,7 @@ class AvgGrowthRate(AbstractPrepareAttr):
             after_values.append(y_t / y_t_1)
 
         v1 = round(reduce((lambda a, b: a * b), after_values) ** (1/(count - 1)), precision)
-        name = self.attr_name(column, infix + '_after', count)
+        name = self.attr_name(column, prefix, infix + '_after', count)
         after.append((name, v1))
 
         return before, after
@@ -631,7 +655,7 @@ class AvgGrowthRate(AbstractPrepareAttr):
 
 class DifferenceBetweenRealLinear(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
-                window_size):
+                window_size, prefix=''):
 
         intervals_before = [0] + intervals_before
         before = []
@@ -661,7 +685,7 @@ class DifferenceBetweenRealLinear(AbstractPrepareAttr):
             linear_value = intercept + slope * time
 
             diff = linear_value - orig_value
-            name = self.attr_name(column, infix + '_before', interval)
+            name = self.attr_name(column, prefix, infix + '_before', interval)
             before.append((name, diff))
 
         # compute after
@@ -687,7 +711,7 @@ class DifferenceBetweenRealLinear(AbstractPrepareAttr):
             linear_value = intercept + slope * time
 
             diff = linear_value - orig_value
-            name = self.attr_name(column, infix + '_after', interval)
+            name = self.attr_name(column, prefix, infix + '_after', interval)
             after.append((name, diff))
 
         return before, after
