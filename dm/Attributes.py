@@ -353,8 +353,9 @@ class AbstractPrepareAttr(ABC):
     def execute(self, **kwargs):
         pass
 
-    def attr_name(self, column_name, interval_type, interval):
-        return '{0}_{1}_{2}_{3}'.format(self.name, column_name, interval_type, interval)
+    def attr_name(self, column_name, prefix, interval_type, interval):
+        return '{0}_{1}{2}_{3}_{4}'.format(self.name, column_name, prefix, interval_type,
+                                           interval)
 
     def _compute_increase(self, column, intervals_before, intervals_after,  before, after,
                           selected_before, selected_after, prefix):
