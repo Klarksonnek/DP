@@ -620,36 +620,28 @@ class GrowthRate(AbstractPrepareAttr):
         return before, after
 
 
-class AvgGrowthRate(AbstractPrepareAttr):
-    def execute(self, timestamp, column, precision, count, delay, step_yt, delay_yt_1,
-                prefix=''):
-        infix = 'delay{0}_stepYt{1}_valDelay{2}'.format(delay, step_yt, delay_yt_1)
-        before = []
-        after = []
+class AvgGrowthRate(GrowthRate):
+    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
+                value_delay, prefix):
+        b, a = super(AvgGrowthRate, self).execute(timestamp, column, precision,
+                                                  intervals_before, intervals_after,
+                                                  value_delay, prefix)
 
-        before_values = []
-        for k in range(0, count):
-            t = (timestamp - delay) - k * step_yt
+        def compute(grow_rates, intervals, interval_name):
+            count = len(grow_rates)
+            values = []
+            for row in grow_rates:
+                values.append(row[1])
 
-            y_t = self.selector.row(column, t)
-            y_t_1 = self.selector.row(column, t - delay_yt_1)  # t-1
-            before_values.append(y_t / y_t_1)
+            vals = values[1:]
+            suffix = '_'.join(str(x) for x in intervals[1:])
+            v1 = round(reduce((lambda x, y: x * y), vals) ** (1/(count - 1)), precision)
+            name = self.attr_name(column, prefix,
+                                  interval_name, suffix)
+            return (name, v1)
 
-        v1 = round(reduce((lambda a, b: a * b), before_values) ** (1/(count - 1)), precision)
-        name = self.attr_name(column, prefix, infix + '_before', count)
-        before.append((name, v1))
-
-        after_values = []
-        for k in range(0, count):
-            t = (timestamp + delay) + k * step_yt
-
-            y_t = self.selector.row(column, t)
-            y_t_1 = self.selector.row(column, t - delay_yt_1)  # t-1
-            after_values.append(y_t / y_t_1)
-
-        v1 = round(reduce((lambda a, b: a * b), after_values) ** (1/(count - 1)), precision)
-        name = self.attr_name(column, prefix, infix + '_after', count)
-        after.append((name, v1))
+        before = [compute(b, intervals_before, 'before')]
+        after = [compute(a, intervals_after, 'after')]
 
         return before, after
 
