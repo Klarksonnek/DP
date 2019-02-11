@@ -5,6 +5,7 @@ from os.path import dirname, abspath, join
 from functools import reduce
 import sys
 import logging
+import math
 
 THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
@@ -392,6 +393,79 @@ class AbstractPrepareAttr(ABC):
 
         return before_out, after_out
 
+    def _extract_values(self, values):
+        out = []
+        for row in values:
+            out.append(row[1])
+
+        return out
+
+    def geometric_mean(self, column, precision, values_before, values_after, prefix):
+        def compute(input_values, interval_name):
+            count = len(input_values)
+            values = self._extract_values(input_values)
+
+            vals = values[1:]
+            v1 = round(reduce((lambda x, y: x * y), vals) ** (1/(count - 1)), precision)
+
+            attr_prefix = '_geometricMean' + prefix
+            name = self.attr_name(column, attr_prefix, interval_name, '')
+            return name, v1
+
+        before = [compute(values_before, 'before')]
+        after = [compute(values_after, 'after')]
+
+        return before, after
+
+    def arithmetic_mean(self, column, precision, values_before, values_after, prefix):
+        def compute(input_values, interval_name):
+            count = len(input_values)
+            values_sum = sum(self._extract_values(input_values))
+            avg = round(values_sum / count, precision)
+
+            attr_prefix = '_arithmeticMean' + prefix
+            name = self.attr_name(column, attr_prefix, interval_name, '')
+            return name, avg
+
+        before = [compute(values_before, 'before')]
+        after = [compute(values_after, 'after')]
+
+        return before, after
+
+    def variance(self, column, precision, values_before, values_after, prefix):
+        def compute(input_values, interval_name):
+            count = len(input_values)
+            values = self._extract_values(input_values)
+            values_sum = sum(values)
+            avg = values_sum / count
+
+            res = 0
+            for row in values:
+                res += (row - avg) ** 2
+            res = round(res/count, precision)
+
+            attr_prefix = '_variance' + prefix
+            name = self.attr_name(column, attr_prefix, interval_name, '')
+            return name, res
+
+        before = [compute(values_before, 'before')]
+        after = [compute(values_after, 'after')]
+
+        return before, after
+
+    def standard_deviation(self, column, precision, values_before, values_after, prefix):
+        def compute(value, interval_name):
+            attr_prefix = '_standardDeviation' + prefix
+            name = self.attr_name(column, attr_prefix, interval_name, '')
+            return name, round(value, precision)
+
+        b, a = self.variance(column, precision, values_before, values_after, prefix)
+
+        before = [compute(math.sqrt(b[0][1]), 'before')]
+        after = [compute(math.sqrt(a[0][1]), 'after')]
+
+        return before, after
+
 
 class FirstDifferenceAttrA(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
@@ -616,32 +690,6 @@ class GrowthRate(AbstractPrepareAttr):
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, prefix, 'valDelay' + str(value_delay) + '_after', interval)
             after.append((name, ratio))
-
-        return before, after
-
-
-class AvgGrowthRate(GrowthRate):
-    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
-                value_delay, prefix):
-        b, a = super(AvgGrowthRate, self).execute(timestamp, column, precision,
-                                                  intervals_before, intervals_after,
-                                                  value_delay, prefix)
-
-        def compute(grow_rates, intervals, interval_name):
-            count = len(grow_rates)
-            values = []
-            for row in grow_rates:
-                values.append(row[1])
-
-            vals = values[1:]
-            suffix = '_'.join(str(x) for x in intervals[1:])
-            v1 = round(reduce((lambda x, y: x * y), vals) ** (1/(count - 1)), precision)
-            name = self.attr_name(column, prefix,
-                                  interval_name, suffix)
-            return (name, v1)
-
-        before = [compute(b, intervals_before, 'before')]
-        after = [compute(a, intervals_after, 'after')]
 
         return before, after
 
