@@ -431,6 +431,28 @@ class AbstractPrepareAttr(ABC):
 
         return before, after
 
+    def variance(self, column, precision, values_before, values_after, prefix):
+        def compute(input_values, interval_name):
+            count = len(input_values)
+            values = self._extract_values(input_values)
+            values_sum = sum(values)
+            avg = values_sum / count
+
+            res = 0
+            for row in values:
+                res += (row - avg) ** 2
+            res = round(res/count, precision)
+
+            attr_prefix = '_variance' + prefix
+            name = self.attr_name(column, attr_prefix, interval_name, '')
+            return name, res
+
+        before = [compute(values_before, 'before')]
+        after = [compute(values_after, 'after')]
+
+        return before, after
+
+
 class FirstDifferenceAttrA(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
                 normalize, enable_count, prefix, selected_before, selected_after):
