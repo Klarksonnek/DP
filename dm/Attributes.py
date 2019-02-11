@@ -5,6 +5,7 @@ from os.path import dirname, abspath, join
 from functools import reduce
 import sys
 import logging
+import math
 
 THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
@@ -449,6 +450,19 @@ class AbstractPrepareAttr(ABC):
 
         before = [compute(values_before, 'before')]
         after = [compute(values_after, 'after')]
+
+        return before, after
+
+    def standard_deviation(self, column, precision, values_before, values_after, prefix):
+        def compute(value, interval_name):
+            attr_prefix = '_standardDeviation' + prefix
+            name = self.attr_name(column, attr_prefix, interval_name, '')
+            return name, round(value, precision)
+
+        b, a = self.variance(column, precision, values_before, values_after, prefix)
+
+        before = [compute(math.sqrt(b[0][1]), 'before')]
+        after = [compute(math.sqrt(a[0][1]), 'after')]
 
         return before, after
 
