@@ -14,7 +14,7 @@ no_events_records = [
 ]
 
 
-def func(con, table_name, timestamp, selector):
+def func(con, table_name, timestamp, row_selector, interval_selector):
     attrs = []
     columns = ['co2_in_ppm']
     precision = 2
@@ -24,7 +24,7 @@ def func(con, table_name, timestamp, selector):
             intervals_before = [x for x in range(5, 601, 15)]
             intervals_after = [x for x in range(5, 181, 10)]
 
-            op = FirstDifferenceAttrA(con, table_name, selector)
+            op = FirstDifferenceAttrA(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
@@ -36,7 +36,7 @@ def func(con, table_name, timestamp, selector):
             attrs += a + b
 
             # linearny posun
-            op = FirstDifferenceAttrB(con, table_name, selector)
+            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
@@ -47,7 +47,7 @@ def func(con, table_name, timestamp, selector):
                               selected_after=[])
             attrs += a + b
 
-            op = SecondDifferenceAttr(con, table_name, selector)
+            op = SecondDifferenceAttr(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
@@ -59,7 +59,7 @@ def func(con, table_name, timestamp, selector):
             attrs += a + b
 
             # x^2 posun
-            op = SecondDifferenceAttr(con, table_name, selector)
+            op = SecondDifferenceAttr(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x*x for x in range(2, 25, 1)],
                               intervals_after=[x*x for x in range(2, 14, 1)],
@@ -71,7 +71,7 @@ def func(con, table_name, timestamp, selector):
             attrs += a + b
 
             # x^3 posun
-            op = SecondDifferenceAttr(con, table_name, selector)
+            op = SecondDifferenceAttr(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x*x*x for x in range(2, 9, 1)],
                               intervals_after=[x*x*x for x in range(2, 6, 1)],
@@ -101,15 +101,18 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
-    selector = SimpleCachedRowSelector(con, table_name)
+    row_selector = SimpleCachedRowSelector(con, table_name)
+    interval_selector = None
 
     # trenovacia mnozina
     logging.info('start computing of training set')
-    training = AttributeUtil.training_data(con, table_name, filtered, func, selector)
+    training = AttributeUtil.training_data(con, table_name, filtered, func,
+                                           row_selector, interval_selector)
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count/2, count))
 
-    training2 = AttributeUtil.additional_training_set(con, table_name, no_events_records, func, selector)
+    training2 = AttributeUtil.additional_training_set(con, table_name, no_events_records, func,
+                                                      row_selector, interval_selector)
     count2 = len(training2)
     logging.info('additional training set contains %d records' % count2)
 
@@ -124,7 +127,8 @@ def main(events_file: str, no_event_time_shift: int):
     start = int(DateTimeUtil.local_time_str_to_utc('2018/12/1 07:28:28').timestamp())
 
     logging.info('start computing of testing set')
-    testing = AttributeUtil.testing_data(con, table_name, start, start + 100, 30, func, selector)
+    testing = AttributeUtil.testing_data(con, table_name, start, start + 100, 30, func,
+                                         row_selector, interval_selector)
     logging.info('testing set contains %d records' % len(testing))
     logging.info('end computing of testing set')
 

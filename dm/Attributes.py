@@ -87,7 +87,29 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
-    def training_data(con, table_name, events, func, selector):
+    def training_data_without_opposite(con, table_name, events, func,
+                                       row_selector, interval_selector):
+
+        attrs = []
+        for k in range(0, len(events)):
+            event = events[k]
+            start = event['e_start']['timestamp']
+            end = event['e_end']['timestamp']
+
+            try:
+                data1 = func(con, table_name, start, row_selector, interval_selector, end)
+
+                time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
+                data1.insert(0, ('datetime', time))
+                attrs.append(OrderedDict(data1))
+            except Exception as e:
+                logging.error(str(e))
+                continue
+
+        return attrs
+
+    @staticmethod
+    def training_data(con, table_name, events, func, row_selector, interval_selector):
         """Generovanie trenovacich dat.
 
         :param con:
@@ -104,8 +126,8 @@ class AttributeUtil:
             no_event_start = start + event['no_event_time_shift']
 
             try:
-                data1 = func(con, table_name, start, selector)
-                data2 = func(con, table_name, no_event_start, selector)
+                data1 = func(con, table_name, start, row_selector, interval_selector)
+                data2 = func(con, table_name, no_event_start, row_selector, interval_selector)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -123,7 +145,7 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
-    def additional_training_set(con, table_name, no_event_records, func, selector):
+    def additional_training_set(con, table_name, no_event_records, func, row_selector, interval_selector):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
@@ -138,7 +160,7 @@ class AttributeUtil:
             start = int(DateTimeUtil.local_time_str_to_utc(row[0]).timestamp())
 
             try:
-                data1 = func(con, table_name, start, selector)
+                data1 = func(con, table_name, start, row_selector, interval_selector)
 
                 time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
@@ -152,7 +174,7 @@ class AttributeUtil:
 
 
     @staticmethod
-    def testing_data(con, table_name, start, end, write_each, func, selector):
+    def testing_data(con, table_name, start, end, write_each, func, row_selector, interval_selector):
         """Generovanie testovacich dat.
 
         :param con:
@@ -176,7 +198,7 @@ class AttributeUtil:
                 open_state = 'open'
 
             try:
-                data = func(con, table_name, t, selector)
+                data = func(con, table_name, t, row_selector, interval_selector)
             except Exception as e:
                 # logging.error(str(e))
                 continue
@@ -262,6 +284,55 @@ class SimpleCachedRowSelector(AbstractRowSelector):
         return value
 
 
+class SimpleDiffRowSelector(SimpleCachedRowSelector):
+    def row(self, column_name, time):
+        value = None
+        if column_name == 'rh_in_percentage_diff':
+            v1 = super(SimpleDiffRowSelector, self).row('rh_in_percentage', time)
+            v2 = super(SimpleDiffRowSelector, self).row('rh_out_percentage', time)
+            value = v1 - v2
+
+        elif column_name == 'rh_in_specific_g_kg_diff':
+            v1 = super(SimpleDiffRowSelector, self).row('rh_in_specific_g_kg', time)
+            v2 = super(SimpleDiffRowSelector, self).row('rh_out_specific_g_kg', time)
+            value = v1 - v2
+
+        elif column_name == 'rh_in_absolute_g_m3_diff':
+            v1 = super(SimpleDiffRowSelector, self).row('rh_in_absolute_g_m3', time)
+            v2 = super(SimpleDiffRowSelector, self).row('rh_out_absolute_g_m3', time)
+            value = v1 - v2
+
+        elif column_name == 'temperature_in_celsius_diff':
+            v1 = super(SimpleDiffRowSelector, self).row('temperature_in_celsius', time)
+            v2 = super(SimpleDiffRowSelector, self).row('temperature_out_celsius', time)
+            value = v1 - v2
+
+        elif column_name == 'rh_in2_percentage_diff':
+            v1 = super(SimpleDiffRowSelector, self).row('rh_in2_percentage', time)
+            v2 = super(SimpleDiffRowSelector, self).row('rh_out_percentage', time)
+            value = v1 - v2
+
+        elif column_name == 'rh_in2_specific_g_kg_diff':
+            v1 = super(SimpleDiffRowSelector, self).row('rh_in2_specific_g_kg', time)
+            v2 = super(SimpleDiffRowSelector, self).row('rh_out_specific_g_kg', time)
+            value = v1 - v2
+
+        elif column_name == 'rh_in2_absolute_g_m3_diff':
+            v1 = super(SimpleDiffRowSelector, self).row('rh_in2_absolute_g_m3', time)
+            v2 = super(SimpleDiffRowSelector, self).row('rh_out_absolute_g_m3', time)
+            value = v1 - v2
+
+        elif column_name == 'temperature_in2_celsius_diff':
+            v1 = super(SimpleDiffRowSelector, self).row('temperature_in2_celsius', time)
+            v2 = super(SimpleDiffRowSelector, self).row('temperature_out_celsius', time)
+            value = v1 - v2
+
+        else:
+            value = super(SimpleDiffRowSelector, self).row(column_name, time)
+
+        return value
+
+
 class LinearSimpleCachedRowSelector(AbstractRowSelector):
     def __init__(self, con, table_name, half_window_size):
         self.cache = {}
@@ -339,15 +410,32 @@ class CachedRowWithIntervalSelector(SimpleCachedRowSelector):
         return value
 
 
+class AbstractIntervalSelector(ABC):
+    def __init__(self, con, table_name):
+        self.con = con
+        self.table_name = table_name
+        super(AbstractIntervalSelector, self).__init__()
+
+    @abstractmethod
+    def interval(self, column_name, start, end):
+        pass
+
+
+class SimpleIntervalSelector(AbstractIntervalSelector):
+    def interval(self, column_name, start, end):
+        return Storage.select_interval(self.con, start, end, column_name, self.table_name)
+
+
 # https://www.smartfile.com/blog/abstract-classes-in-python/
 # https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
 # http://homel.vsb.cz/~dor028/Casove_rady.pdf
 class AbstractPrepareAttr(ABC):
-    def __init__(self, con, table_name, selector):
+    def __init__(self, con, table_name, row_selector, interval_selector):
         self.con = con
         self.table_name = table_name
         self.name = self.__class__.__name__
-        self.selector = selector
+        self.row_selector = row_selector
+        self.interval_selector = interval_selector
         super(AbstractPrepareAttr, self).__init__()
 
     @abstractmethod
@@ -487,11 +575,11 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
         before = []
         after = []
 
-        middle = self.selector.row(column, timestamp)
+        middle = self.row_selector.row(column, timestamp)
 
         for interval in intervals_before:
             value_time = timestamp - interval
-            value = self.selector.row(column, value_time)
+            value = self.row_selector.row(column, value_time)
 
             if normalize:
                 derivation = round((middle - value) / interval, precision)
@@ -504,7 +592,7 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
 
         for interval in intervals_after:
             value_time = timestamp + interval
-            value = self.selector.row(column, value_time)
+            value = self.row_selector.row(column, value_time)
 
             if normalize:
                 derivation = round((value - middle) / interval, precision)
@@ -544,13 +632,13 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
         before = []
         after = []
 
-        middle = self.selector.row(column, timestamp)
+        middle = self.row_selector.row(column, timestamp)
 
         last_value = middle
         last_shift = 0
         for interval in intervals_before:
             value_time = timestamp - interval
-            value = self.selector.row(column, value_time)
+            value = self.row_selector.row(column, value_time)
 
             if normalize:
                 derivation = round((last_value - value) / (interval - last_shift), precision)
@@ -567,7 +655,7 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
         last_shift = 0
         for interval in intervals_after:
             value_time = timestamp + interval
-            value = self.selector.row(column, value_time)
+            value = self.row_selector.row(column, value_time)
 
             if normalize:
                 derivation = round((value - last_value) / (interval - last_shift), precision)
@@ -675,8 +763,8 @@ class GrowthRate(AbstractPrepareAttr):
 
         for interval in intervals_before:
             value_time = timestamp - interval
-            y_t = self.selector.row(column, value_time)
-            y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
+            y_t = self.row_selector.row(column, value_time)
+            y_t_1 = self.row_selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, prefix, 'valDelay' + str(value_delay) + '_before', interval)
@@ -684,8 +772,8 @@ class GrowthRate(AbstractPrepareAttr):
 
         for interval in intervals_after:
             value_time = timestamp + interval
-            y_t = self.selector.row(column, value_time)
-            y_t_1 = self.selector.row(column, value_time - value_delay)  # t-1
+            y_t = self.row_selector.row(column, value_time)
+            y_t_1 = self.row_selector.row(column, value_time - value_delay)  # t-1
 
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, prefix, 'valDelay' + str(value_delay) + '_after', interval)
@@ -711,7 +799,7 @@ class DifferenceBetweenRealLinear(AbstractPrepareAttr):
         start = timestamp - window_size
         end = timestamp + 1
         for time in range(start, end, 1):
-            value = self.selector.row(column, time)
+            value = self.row_selector.row(column, time)
             x.append(time)
             y.append(value)
             values[time] = value
@@ -737,7 +825,7 @@ class DifferenceBetweenRealLinear(AbstractPrepareAttr):
         start = timestamp
         end = timestamp + window_size + 1
         for time in range(start, end, 1):
-            value = self.selector.row(column, time)
+            value = self.row_selector.row(column, time)
             x.append(time)
             y.append(value)
             values[time] = value
@@ -754,5 +842,66 @@ class DifferenceBetweenRealLinear(AbstractPrepareAttr):
             diff = linear_value - orig_value
             name = self.attr_name(column, prefix, infix + '_after', interval)
             after.append((name, diff))
+
+        return before, after
+
+
+class InOutDifference(AbstractPrepareAttr):
+    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
+                prefix):
+
+        before = []
+        after = []
+
+        for interval in intervals_before:
+            res = round(self.row_selector.row(column, timestamp - interval), precision)
+            name = self.attr_name(column, prefix, 'before', interval)
+            before.append((name, res))
+
+        for interval in intervals_after:
+            res = round(self.row_selector.row(column, timestamp + interval), precision)
+            name = self.attr_name(column, prefix, 'after', interval)
+            before.append((name, res))
+
+        return before, after
+
+
+class InLinear(AbstractPrepareAttr):
+    def execute(self, timestamp_before, timestamp_after, column, precision,
+                start_before, end_before, start_after, end_after, prefix):
+        def compute(start, end, timestamp, interval_name):
+            res = self.interval_selector.interval(column, start, end)
+            x = []
+            y = []
+            for i in range(0, len(res)):
+                x.append(i + start)
+                y.append(res[i])
+
+            slope, intercept, _, _, _ = stats.linregress(x, y)
+            res = intercept + slope * timestamp
+
+            name = self.attr_name(column, prefix, interval_name, '')
+            return name, res
+
+        before = [compute(start_before, end_before, timestamp_before, 'before')]
+        after = [compute(start_after, end_after, timestamp_after, 'after')]
+
+        return before, after
+
+
+class VentilationLength(AbstractPrepareAttr):
+    def execute(self, event_start, event_end, intervals, threshold, prefix):
+        diff = event_end - event_start
+
+        value = 'unknown'
+
+        for interval in intervals:
+            if (interval - threshold) < diff < (interval + threshold):
+                value = str(interval)
+                break
+
+        name = self.attr_name('event', prefix, '', '')
+        before = [(name, value)]
+        after = []
 
         return before, after
