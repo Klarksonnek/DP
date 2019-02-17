@@ -388,6 +388,17 @@ class CachedRowWithIntervalSelector(SimpleCachedRowSelector):
         return value
 
 
+class AbstractIntervalSelector(ABC):
+    def __init__(self, con, table_name):
+        self.con = con
+        self.table_name = table_name
+        super(AbstractIntervalSelector, self).__init__()
+
+    @abstractmethod
+    def interval(self, column_name, start, end):
+        pass
+
+
 # https://www.smartfile.com/blog/abstract-classes-in-python/
 # https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
 # http://homel.vsb.cz/~dor028/Casove_rady.pdf
