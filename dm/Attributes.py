@@ -401,7 +401,7 @@ class AbstractIntervalSelector(ABC):
 
 class SimpleIntervalSelector(AbstractIntervalSelector):
     def interval(self, column_name, start, end):
-        return Storage.select_interval(self.con, start, end, self.table_name, column_name)
+        return Storage.select_interval(self.con, start, end, column_name, self.table_name)
 
 
 # https://www.smartfile.com/blog/abstract-classes-in-python/
