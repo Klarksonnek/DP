@@ -87,6 +87,28 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
+    def training_data_without_opposite(con, table_name, events, func,
+                                       row_selector, interval_selector):
+
+        attrs = []
+        for k in range(0, len(events)):
+            event = events[k]
+            start = event['e_start']['timestamp']
+            end = event['e_end']['timestamp']
+
+            try:
+                data1 = func(con, table_name, start, row_selector, interval_selector, end)
+
+                time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
+                data1.insert(0, ('datetime', time))
+                attrs.append(OrderedDict(data1))
+            except Exception as e:
+                logging.error(str(e))
+                continue
+
+        return attrs
+
+    @staticmethod
     def training_data(con, table_name, events, func, row_selector, interval_selector):
         """Generovanie trenovacich dat.
 
