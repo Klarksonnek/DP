@@ -28,8 +28,8 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     precision = 5
 
     for column in columns:
-        intervals_before = [x for x in range(15, 31, 15)]
-        intervals_after = [x for x in range(15, 31, 15)]
+        intervals_before = [x for x in range(15, 61, 15)]
+        intervals_after = [x for x in range(15, 61, 15)]
 
         op = InOutDifference(con, table_name, row_selector, interval_selector)
         a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
@@ -47,7 +47,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
         attrs += a + b
 
         op = VentilationLength(con, table_name, row_selector, interval_selector)
-        a, b = op.execute(event_start=timestamp, event_end=end, intervals=[5*60, 15*60, 25*60],
+        a, b = op.execute(event_start=timestamp, event_end=end, intervals=[5*60, 10*60, 25*60],
                           threshold=120, prefix='')
         attrs += a + b
 
