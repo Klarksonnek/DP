@@ -865,3 +865,21 @@ class InLinear(AbstractPrepareAttr):
         after = [compute(start_after, end_after, timestamp_after, 'after')]
 
         return before, after
+
+
+class VentilationLength(AbstractPrepareAttr):
+    def execute(self, event_start, event_end, intervals, threshold, prefix):
+        diff = event_end - event_start
+
+        value = 'unknown'
+
+        for interval in intervals:
+            if (interval - threshold) < diff < (interval + threshold):
+                value = str(interval)
+                break
+
+        name = self.attr_name('event', prefix, '', '')
+        before = [(name, value)]
+        after = []
+
+        return before, after
