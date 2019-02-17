@@ -20,10 +20,11 @@ install:
   - pip install -r requirements.txt
 script:
   - python examples2/0000_db_tests/run.py
-  - python examples2/0100_klarka_values_all_graphs/run.py
-  - python examples2/0101_sh_diff_analysis/run.py
-  - python examples2/0102_shower_all/run.py
-  - python examples2/0103_zzn_files_window/run.py
-  - python examples2/0200_peto_measured_values_all_graphs/run.py
-  - python examples2/0201_zzn_files/run.py
-  - python examples2/0203_open_detector/run.py
+  - python examples2/0100_open_close_all_graphs/run.py
+  - python examples2/0101_shower_all_graphs/run.py
+  - python examples2/0102_sh_diff_graphs_analysis/run.py
+  - python examples2/0103_open_ventilation_length_detector/run.py
+  - python examples2/0104_open_detector/run.py
+  - python examples2/0200_open_close_all_graphs/run.py
+  - python examples2/0201_co2_delays_histogram/run.py
+  - python examples2/0202_open_detector/run.py
