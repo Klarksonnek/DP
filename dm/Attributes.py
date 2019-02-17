@@ -842,3 +842,26 @@ class InOutDifference(AbstractPrepareAttr):
             before.append((name, res))
 
         return before, after
+
+
+class InLinear(AbstractPrepareAttr):
+    def execute(self, timestamp_before, timestamp_after, column, precision,
+                start_before, end_before, start_after, end_after, prefix):
+        def compute(start, end, timestamp, interval_name):
+            res = self.interval_selector.interval(column, start, end)
+            x = []
+            y = []
+            for i in range(0, len(res)):
+                x.append(i + start)
+                y.append(res[i])
+
+            slope, intercept, _, _, _ = stats.linregress(x, y)
+            res = intercept + slope * timestamp
+
+            name = self.attr_name(column, prefix, interval_name, '')
+            return name, res
+
+        before = [compute(start_before, end_before, timestamp_before, 'before')]
+        after = [compute(start_after, end_after, timestamp_after, 'after')]
+
+        return before, after
