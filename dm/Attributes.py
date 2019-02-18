@@ -878,9 +878,14 @@ class InLinear(AbstractPrepareAttr):
                 y.append(res[i])
 
             slope, intercept, _, _, _ = stats.linregress(x, y)
-            res = intercept + slope * timestamp
+            res = round(intercept + slope * timestamp, precision)
 
-            name = self.attr_name(column, prefix, interval_name, '')
+            if interval_name == 'before':
+                interval = end_before - start_before
+            else:
+                interval = end_after - start_after
+            name = self.attr_name(column, prefix, interval_name, str(interval))
+
             return name, res
 
         before = [compute(start_before, end_before, timestamp_before, 'before')]
