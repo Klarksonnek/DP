@@ -54,6 +54,42 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     return attrs
 
 
+def training_testing_data(data, splitting):
+    length_map = {}
+    for row in data:
+        attr_value = row['VentilationLength_event__']
+
+        if attr_value in length_map:
+            length_map[attr_value] += 1
+        else:
+            length_map[attr_value] = 1
+
+    minimum = None
+    for _, value in length_map.items():
+        if minimum is None:
+            minimum = value
+        else:
+            if minimum > value:
+                minimum = value
+
+    minimum = round(minimum * splitting)
+    for key, value in length_map.items():
+        length_map[key] = minimum
+
+    training = []
+    testing = []
+    for row in data:
+        attr_value = row['VentilationLength_event__']
+
+        if length_map[attr_value] > 0:
+            training.append(row)
+            length_map[attr_value] -= 1
+        else:
+            testing.append(row)
+
+    return training, testing, minimum
+
+
 def main(events_file: str, no_event_time_shift: int):
     logging.info('start')
 
@@ -76,18 +112,23 @@ def main(events_file: str, no_event_time_shift: int):
     row_selector = SimpleDiffRowSelector(con, table_name)
     interval_selector = SimpleIntervalSelector(con, table_name)
 
-    # trenovacia mnozina
-    logging.info('start computing of training set')
-    training = AttributeUtil.training_data_without_opposite(con, table_name, filtered, func,
-                                                            row_selector, interval_selector)
-    count = len(training)
-    logging.info('training set contains %d events (%d records)' % (count / 2, count))
+    # datova mnozina
+    logging.info('start computing of data set')
+    data = AttributeUtil.training_data_without_opposite(con, table_name, filtered, func,
+                                                        row_selector, interval_selector)
+    logging.info('data set contains %d events' % len(data))
+    logging.info('end computing of data set')
 
-    logging.info('end computing of training set')
+    # rozdelenie dat na trenovaciu a testovaciu mnozinu
+    training, testing, minimum = training_testing_data(data, 0.7)
+    logging.info('training set contains %d records, each %d-krat' % (len(training), minimum))
+    logging.info('testing set contains %d records' % len(testing))
 
-    logging.info('start preparing file of training set')
+    # generovanie suborov
+    logging.info('start preparing file of training and testing set')
     CSVUtil.create_csv_file(training, 'training.csv')
-    logging.info('end preparing file of training set')
+    CSVUtil.create_csv_file(testing, 'testing.csv')
+    logging.info('end preparing file of training and testing set')
 
     logging.info('end')
 

@@ -897,13 +897,15 @@ class InLinear(AbstractPrepareAttr):
 class VentilationLength(AbstractPrepareAttr):
     def execute(self, event_start, event_end, intervals, threshold, prefix):
         diff = event_end - event_start
-
-        value = 'unknown'
+        value = None
 
         for interval in intervals:
             if (interval - threshold) < diff < (interval + threshold):
                 value = str(interval)
                 break
+
+        if value is None:
+            raise ValueError('the value can not be assigned to any class')
 
         name = self.attr_name('event', prefix, '', '')
         before = [(name, value)]
