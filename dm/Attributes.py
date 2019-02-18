@@ -908,7 +908,7 @@ class VentilationLength(AbstractPrepareAttr):
             raise ValueError('the value can not be assigned to any class')
 
         name = self.attr_name('event', prefix, '', '')
-        before = [(name, value)]
+        before = [(name, "'" + value + "'")]
         after = []
 
         return before, after
