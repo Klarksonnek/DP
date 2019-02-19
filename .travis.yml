@@ -5,6 +5,8 @@ python:
 services:
   - mysql
 before_install:
+  - sudo apt update
+  - sudo apt install python3-tk
   - mysql -u root --password="" < test_environment/create_db.sql
   - wget db-env.mienkofax.eu/measured_klarka.sql.tar.gz
   - wget db-env.mienkofax.eu/measured_klarka_shower.sql.tar.gz
@@ -25,6 +27,7 @@ script:
   - python examples2/0102_sh_diff_graphs_analysis/run.py
   - python examples2/0103_open_ventilation_length_detector/run.py
   - python examples2/0104_open_detector/run.py
+  - python examples2/0105_open_ventilation_length_analytics/run.py
   - python examples2/0200_open_close_all_graphs/run.py
   - python examples2/0201_co2_delays_histogram/run.py
   - python examples2/0202_open_detector/run.py
