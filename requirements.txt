@@ -4,3 +4,5 @@ scipy
 numpy
 mysql-connector
 matplotlib
+sklearn
+sympy
