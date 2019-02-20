@@ -34,7 +34,7 @@ class AttributeUtil:
                 data1.insert(0, ('datetime', time))
                 attrs.append(OrderedDict(data1))
             except Exception as e:
-                logging.error(str(e))
+                # logging.error(str(e))
                 continue
 
         return attrs
