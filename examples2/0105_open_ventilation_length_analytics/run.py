@@ -106,6 +106,20 @@ def ventilation_length_events(training: list, ventilation_length: int):
     return out
 
 
+def ventilation_length_count(data: list, intervals: list):
+    out = {}
+
+    for interval in intervals:
+        i = 0
+        for item in data:
+            if int(item['VentilationLength_event__']) == interval * 60:
+                i += 1
+
+        out[interval] = i
+
+    return out
+
+
 def convert_line_to_general(coeffs):
     """ Converts line equation y = kx + q to the form ax + by + c = 0 (general form)
     """
@@ -291,7 +305,10 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('end computing of data set')
 
     # aplikovanie filtrov na data
-    data = diff(data, 'InOutDifference_temperature_in2_celsius_diff_before_0', 10.0, 15.0)
+    data = diff(data, 'InOutDifference_temperature_in2_celsius_diff_before_0', 05.0, 25.0)
+
+    counts = ventilation_length_count(data, [5, 10, 25])
+    logging.debug("counts: %s" % counts)
 
     # rozdelenie dat na trenovaciu a testovaciu mnozinu
     training, testing, minimum = training_testing_data(data, 0.7)
