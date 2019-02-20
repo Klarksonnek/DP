@@ -220,22 +220,6 @@ class PreProcessing:
         return out_values
 
     @staticmethod
-    def check_equal_size(items: list) -> None:
-        """Kontrola, ci zoznamy hodnot v zozname maju rovnaku velkost.
-
-        :param items: zoznam, v ktorom je zoznam hodnot
-        """
-
-        length = None
-        for item in items:
-            if length is None:
-                length = len(item)
-                continue
-
-            if length != len(item):
-                raise SyntaxError('size of all list must be equal')
-
-    @staticmethod
     def check_start_end_interval(items: list, time_attribute: str) -> None:
         """Kontrola, zoznamy hodnot maju rovnaky pociatocny a koncovy cas.
 
@@ -270,13 +254,14 @@ class PreProcessing:
         Vysledny zoznam obsahuje len jeden atributom s casom, pretoze su casy rovnake.
         Obsahuje ale rozne hodnoty, ktore boli v roznych zoznamoch.
 
+        Metoda musi byt volana len na hodnotach, ktore boli skontrolovane metodou
+        check_start_end_interval(), ktora kontroluje ci su jednotlive zoznamy
+        rovnako dlhe a ci zacinaju a koncia v rovnaky cas.
+
         :param items: zoznam, v ktorom je zoznam hodnot
         :param time_attribute: nazov atributu, ktory obsahuje cas
         :return: jeden zoznam hodnot zo vsetkymi atributmi a casom
         """
-
-        PreProcessing.check_equal_size(items)
-        PreProcessing.check_start_end_interval(items, time_attribute)
 
         item_out = items[0]
         for values in items[1:]:
@@ -293,50 +278,6 @@ class PreProcessing:
                     item_out[i][key] = value
 
         return item_out
-
-    @staticmethod
-    def generate_missing_data(data: list, devices: list, start: int, end: int,
-                              time_attribute: str, table_name: str):
-        """Dogenerovanie chybajucich dat pre druhy senzor.
-
-        V pripade, ze sa pouzije aj druhy senzor a ten z nejakych dvovodov, este nezbieral
-        data alebo mal vypadok, tak tato funkcia dogeneruje chybajuce hodnoty a dostani Null.
-        Ak by sa tato metoda nepouzila, funkcia check_start_end_interva() by detekovala, ze
-        dany interval je kratsi ako ostatne a dany casovy interval by oznacila za nedostatocny.
-        Co by znamenalo, ze do db by sa ulozili len null hodnoty.
-
-        :param data:
-        :param devices:
-        :param start:
-        :param end:
-        :param time_attribute:
-        :return:
-        """
-
-        # Zoznam dat v data, respektuje poradie v devices, dane indexy su rovnake.
-        # Takto mozme prejst zoznamom zariadeni a ak natrafime
-        for i in range(0, len(devices)):
-            dev = devices[i]
-
-            modules = ['temperature_in2_celsius', 'rh_in2_percentage']
-            if 'klarka' in table_name:
-                modules.append('co2_in_ppm')
-
-            # upravujeme len udaje zo senzoru cislo 2
-            if dev['db_column_name'] in modules:
-                item = data[i]
-
-                # ak je dany interval spravne nacitany, preskocime generovanie
-                if len(item) == (end - start):
-                    continue
-
-                for t_time in range(start, end):
-                    item.append({
-                        time_attribute: t_time,
-                        dev['db_column_name']: None
-                    })
-
-        return data
 
     @staticmethod
     def prepare_downloaded_data(clients: list, devices: list, start: int, end: int,
@@ -358,12 +299,14 @@ class PreProcessing:
                 val = PreProcessing.generate_open_close(item, PreProcessing.TIME_ATTR_NAME,
                                                         key, start, end, last_open_close_state)
             else:
-                val = PreProcessing.generate_data(item, key, PreProcessing.TIME_ATTR_NAME)
-                val = PreProcessing.generate_data(val, key, PreProcessing.TIME_ATTR_NAME)
+                if len(item) == 0:
+                    for k in range(start, end):
+                        val.append({'measured_time': k, key: None})
+                else:
+                    val = PreProcessing.generate_data(item, key, PreProcessing.TIME_ATTR_NAME)
+                    val = PreProcessing.generate_data(val, key, PreProcessing.TIME_ATTR_NAME)
 
             val = PreProcessing.cut_interval(val, start, end, PreProcessing.TIME_ATTR_NAME)
-
-            PreProcessing.check_equal_size(val)
             new_data.append(val)
 
             i += 1
@@ -372,17 +315,22 @@ class PreProcessing:
 
     @staticmethod
     def prepare_value_conversion(value):
-        # absolute humidity in
-        if 'temperature_in_celsius' in value and 'rh_in_percentage' in value:
-            value['rh_in_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
-                value['temperature_in_celsius'],
-                value['rh_in_percentage'])
+        # sensor 1
+        exists_in = 'temperature_in_celsius' in value and 'rh_in_percentage' in value
+        if exists_in:
+            temperature_in_celsius = value['temperature_in_celsius']
+            rh_in_percentage = value['rh_in_percentage']
 
-        # specific humidity in
-        if 'temperature_in_celsius' in value and 'rh_in_percentage' in value:
-            value['rh_in_specific_g_kg'] = conv.rh_to_specific_g_kg(
-                value['temperature_in_celsius'],
-                value['rh_in_percentage'])
+            if temperature_in_celsius is not None and rh_in_percentage is not None:
+                # absolute humidity in 1
+                value['rh_in_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
+                    value['temperature_in_celsius'],
+                    value['rh_in_percentage'])
+
+                # specific humidity in 1
+                value['rh_in_specific_g_kg'] = conv.rh_to_specific_g_kg(
+                    value['temperature_in_celsius'],
+                    value['rh_in_percentage'])
 
         # sensor 2
         exists_in2 = 'temperature_in2_celsius' in value and 'rh_in2_percentage' in value
@@ -401,17 +349,22 @@ class PreProcessing:
                     value['temperature_in2_celsius'],
                     value['rh_in2_percentage'])
 
-        # absolute humidity out
-        if 'temperature_out_celsius' in value and 'rh_out_percentage' in value:
-            value['rh_out_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
-                value['temperature_out_celsius'],
-                value['rh_out_percentage'])
+        # sensor out
+        exists_out = 'temperature_out_celsius' in value and 'rh_out_percentage' in value
+        if exists_out:
+            temperature_out_celsius = value['temperature_out_celsius']
+            rh_out_percentage = value['rh_out_percentage']
 
-        # specific humidity out
-        if 'temperature_out_celsius' in value and 'rh_out_percentage' in value:
-            value['rh_out_specific_g_kg'] = conv.rh_to_specific_g_kg(
-                value['temperature_out_celsius'],
-                value['rh_out_percentage'])
+            if temperature_out_celsius is not None and rh_out_percentage is not None:
+                # absolute humidity out
+                value['rh_out_absolute_g_m3'] = conv.rh_to_absolute_g_m3(
+                    value['temperature_out_celsius'],
+                    value['rh_out_percentage'])
+
+                # specific humidity out
+                value['rh_out_specific_g_kg'] = conv.rh_to_specific_g_kg(
+                    value['temperature_out_celsius'],
+                    value['rh_out_percentage'])
 
         return value
 
@@ -447,11 +400,6 @@ class PreProcessing:
             values = PreProcessing.prepare_downloaded_data(clients, devices, start, end,
                                                            time_shift, last_open_close_state)
 
-            # v pripade, ze druhy senzor neobsahuje data, tak sa doplni null hodnotami
-            values = PreProcessing.generate_missing_data(values, devices, start, end,
-                                                         PreProcessing.TIME_ATTR_NAME,
-                                                         table_name)
-
             PreProcessing.check_start_end_interval(values, PreProcessing.TIME_ATTR_NAME)
             values = PreProcessing.join_items(values, PreProcessing.TIME_ATTR_NAME)
         except Exception as e:
@@ -462,11 +410,11 @@ class PreProcessing:
             ]
 
             PreProcessing.insert_values(conn, table_name, values[0], maps, write_each, precision)
-
             return
 
+        out_values = []
         for value in values:
-            PreProcessing.prepare_value_conversion(value)
+            out_values.append(PreProcessing.prepare_value_conversion(value))
 
         maps = PreProcessing.db_name_maps(devices)
         for value in values:

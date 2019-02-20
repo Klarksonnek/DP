@@ -175,3 +175,20 @@ class DBUtil:
                     last_checked_timestamp += 1
                 else:
                     raise IndexError('missing or extra row: ' + str(last_checked_timestamp))
+
+    @staticmethod
+    def delete_from_time(con, table_name, delay):
+        cur = con.cursor()
+
+        maximum_sql = 'SELECT MAX(measured_time) as mm FROM ' + table_name
+        cur.execute(maximum_sql)
+
+        res = cur.fetchone()
+        if res[0] is None:
+            return
+
+        maximum = res[0]
+        sql = 'DELETE FROM {0} WHERE measured_time > {1}'.format(table_name, maximum - delay)
+        cur.execute(sql)
+        con.commit()
+
