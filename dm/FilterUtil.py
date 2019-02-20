@@ -32,6 +32,11 @@ class FilterUtil:
         out = []
 
         for event in events:
+            if len(event['measured']['temperature_in_celsius']) == 0:
+                continue
+            if len(event['measured']['temperature_out_celsius']) == 0:
+                continue
+
             temp_in = event['measured']['temperature_in_celsius'][0]
             temp_out = event['measured']['temperature_out_celsius'][0]
 
