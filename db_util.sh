@@ -14,6 +14,8 @@ TABLE_NAMES=(
     "measured_klarka_shower_reduced"
     "measured_peto"
     "measured_peto_reduced"
+    "measured_klarka_iqhome"
+    "measured_klarka_iqhome_reduced"
 )
 
 EXPORT_DIR="tables"
