@@ -14,6 +14,7 @@ class BeeeOnClient:
         self.__log = logging.getLogger(self.__class__.__name__)
 
     def refresh_token(self):
+        logging.debug('obtaining token id')
         data = {'key': self.__api_key, 'provider': 'apikey'}
         try:
             req = HTTPClient(self.__host, self.__port, "/auth", "POST", False)
@@ -54,6 +55,19 @@ class BeeeOnClient:
 
         return json.loads(body)
 
+    def sensors_info(self, gateway_id, device_id):
+        if not self.__token_id:
+            self.__token_id = self.refresh_token()
+
+        endpoint = '/gateways/' + str(gateway_id) + '/devices/' + str(
+            device_id) + '/sensors'
+
+        req = HTTPClient(self.__host, self.__port, endpoint, "GET", False)
+        req.authorize(self.__token_id)
+        res, body = req.perform()
+
+        return json.loads(body)['data']
+
     def __logout(self):
         if not self.__token_id:
             self.__log.warning('token is not set')
@@ -69,7 +83,10 @@ class BeeeOnClient:
         self.__log.debug('logout was successful')
 
     def __del__(self):
-        self.__logout()
+        try:
+            self.__logout()
+        except:
+            logging.error('problem with logout')
 
     @property
     def api_key(self):
@@ -78,3 +95,17 @@ class BeeeOnClient:
     @api_key.setter
     def api_key(self, key):
         self.__api_key = key
+
+    @property
+    def token_id(self):
+        if not self.__token_id:
+            self.__token_id = self.refresh_token()
+
+        return self.__token_id
+
+    @token_id.setter
+    def token_id(self, token):
+        if self.__token_id:
+            logging.warning('token is set')
+        else:
+            self.__token_id = token
