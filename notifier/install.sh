@@ -3,8 +3,8 @@
 rm -rf /opt/notifier
 
 mkdir /opt/notifier
-mkdir /opt/notifier/env_dp
-cp -r ../env_dp/*.py /opt/notifier/env_dp/.
+mkdir /opt/notifier/dm
+cp -r ../dm/*.py /opt/notifier/dm/.
 
 mkdir /opt/notifier/notifier
 cp co2-notifier.py /opt/notifier/notifier/co2_notifier.py
