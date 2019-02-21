@@ -82,7 +82,10 @@ class BeeeOnClient:
         self.__log.debug('logout was successful')
 
     def __del__(self):
-        self.__logout()
+        try:
+            self.__logout()
+        except:
+            logging.error('problem with logout')
 
     @property
     def api_key(self):
