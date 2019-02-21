@@ -43,5 +43,6 @@ elif [[ ${ACTION} == "export" ]] ; then
     do
         mysqldump -u ${DB_USERNAME} -p ${DB_NAME} --password=${DB_PASSWORD} ${table} > ${table}.sql
         tar -zcvf ${table}.sql.tar.gz ${table}.sql
+        rm -rf ${table}.sql
     done
 fi
