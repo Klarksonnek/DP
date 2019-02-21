@@ -54,6 +54,19 @@ class BeeeOnClient:
 
         return json.loads(body)
 
+    def sensors_info(self, gateway_id, device_id):
+        if not self.__token_id:
+            self.__token_id = self.refresh_token()
+
+        endpoint = '/gateways/' + str(gateway_id) + '/devices/' + str(
+            device_id) + '/sensors'
+
+        req = HTTPClient(self.__host, self.__port, endpoint, "GET", False)
+        req.authorize(self.__token_id)
+        res, body = req.perform()
+
+        return json.loads(body)['data']
+
     def __logout(self):
         if not self.__token_id:
             self.__log.warning('token is not set')
