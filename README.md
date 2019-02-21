@@ -16,38 +16,14 @@ server # echo `pwgen 80 1` "= ja@example.org" >> /etc/beeeon/server/apikeys.prop
 
 ## Import DB
 
-### Full db
-
 ```bash
-mysql -u root -p statistiky  < measured_peto.sql; \
-	mysql -u root -p statistiky  < measured_klarka.sql; \
-	mysql -u root -p statistiky  < measured_klarka_shower.sql;
-```
-
-### Reduced db
-
-```bash
-mysql -u root -p statistiky  < measured_peto_reduced.sql; \
-	mysql -u root -p statistiky  < measured_klarka_reduced.sql; \
-	mysql -u root -p statistiky  < measured_klarka_shower_reduced.sql
+./db_util.sh import
 ```
 
 ## Export DB
 
-### Full db
-
 ```bash
-mysqldump -uroot -p statistiky measured_peto  > measured_peto.sql; \
-	mysqldump -uroot -p statistiky measured_klarka  > measured_klarka.sql; \
-	mysqldump -uroot -p statistiky measured_klarka_shower  > measured_klarka_shower.sql
-```
-
-### Reduced db
-
-```bash
-mysqldump -uroot -p statistiky measured_peto_reduced  > measured_peto_reduced.sql; \
-	mysqldump -uroot -p statistiky measured_klarka_reduced  > measured_klarka_reduced.sql; \
-	mysqldump -uroot -p statistiky measured_klarka_shower_reduced  > measured_klarka_shower_reduced.sql
+./db_util.sh export
 ```
 
 ## Config file with keys
