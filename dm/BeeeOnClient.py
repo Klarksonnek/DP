@@ -91,3 +91,17 @@ class BeeeOnClient:
     @api_key.setter
     def api_key(self, key):
         self.__api_key = key
+
+    @property
+    def token_id(self):
+        if not self.__token_id:
+            self.__token_id = self.refresh_token()
+
+        return self.__token_id
+
+    @token_id.setter
+    def token_id(self, token):
+        if self.__token_id:
+            logging.warning('token is set')
+        else:
+            self.__token_id = token
