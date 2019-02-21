@@ -14,6 +14,7 @@ class BeeeOnClient:
         self.__log = logging.getLogger(self.__class__.__name__)
 
     def refresh_token(self):
+        logging.debug('obtaining token id')
         data = {'key': self.__api_key, 'provider': 'apikey'}
         try:
             req = HTTPClient(self.__host, self.__port, "/auth", "POST", False)
