@@ -23,10 +23,6 @@ no_events_records = [
 def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     attrs = []
     columns = [
-        'rh_in_specific_g_kg_diff',
-        'rh_in_absolute_g_m3_diff',
-        'rh_in_percentage_diff',
-        'temperature_in_celsius_diff',
         'rh_in2_specific_g_kg_diff',
         'rh_in2_absolute_g_m3_diff',
         'rh_in2_percentage_diff',
@@ -237,7 +233,7 @@ def testing_evaluation(testing, intervals, coefficients, fig):
         dist = []
         x = float(row['InLinear_rh_in2_specific_g_kg_before_1200'])
         x -= float(row['InLinear_rh_in2_specific_g_kg_after_1200'])
-        y = float(row['InOutDifference_rh_in_specific_g_kg_diff_before_0'])
+        y = float(row['InOutDifference_rh_in2_specific_g_kg_diff_before_0'])
 
         for interval in intervals:
             coeff = coefficients[interval]
@@ -323,7 +319,7 @@ def main(events_file: str, no_event_time_shift: int):
     out, fig = humidity_clusters(training,
                                  'InLinear_rh_in2_specific_g_kg_before_1200',
                                  'InLinear_rh_in2_specific_g_kg_after_1200',
-                                 'InOutDifference_rh_in_specific_g_kg_diff_before_0',
+                                 'InOutDifference_rh_in2_specific_g_kg_diff_before_0',
                                  intervals)
 
     success_rate = testing_evaluation(testing, intervals, out, fig)
