@@ -256,6 +256,8 @@ def testing_evaluation(testing, intervals, coefficients, fig):
         title_graph = 'P = [%g, %g], predict: %g min, real: %g min, point-line\n' % (x, y, intervals[min_i],
                                                                                      real_interval)
         plt.title(title_graph)
+        plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
+        plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
         fig.savefig(fname)
 
         plt.scatter(x, y, 80, marker='o', color='white')
