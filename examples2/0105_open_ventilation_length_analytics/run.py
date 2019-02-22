@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sympy import var
 from fractions import Fraction
+from dm.CSVUtil import CSVUtil
 
 no_events_records = [
 ]
@@ -303,6 +304,9 @@ def main(events_file: str, no_event_time_shift: int):
                                                         row_selector, interval_selector)
     logging.info('data set contains %d events' % len(data))
     logging.info('end computing of data set')
+
+    events = ventilation_length_events(data, 1500)
+    CSVUtil.create_csv_file(events, 'humidity_info_25_minut.csv')
 
     # aplikovanie filtrov na data
     data = diff(data, 'InOutDifference_temperature_in2_celsius_diff_before_0', 05.0, 25.0)
