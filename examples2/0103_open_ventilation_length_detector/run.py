@@ -17,19 +17,16 @@ no_events_records = [
 def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     attrs = []
     columns = [
-        'rh_in_specific_g_kg_diff',
-        'rh_in_absolute_g_m3_diff',
-        'rh_in_percentage_diff',
-        'temperature_in_celsius_diff',
         'rh_in2_specific_g_kg_diff',
         'rh_in2_absolute_g_m3_diff',
         'rh_in2_percentage_diff',
-        'temperature_in2_celsius_diff']
+        'temperature_in2_celsius_diff',
+        'rh_in2_specific_g_kg_diff_in_out']
     precision = 5
 
     for column in columns:
-        intervals_before = [x for x in range(15, 61, 15)]
-        intervals_after = [x for x in range(15, 61, 15)]
+        intervals_before = [x for x in range(0, 61, 15)]
+        intervals_after = [x for x in range(0, 61, 15)]
 
         op = InOutDifference(con, table_name, row_selector, interval_selector)
         a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
@@ -50,6 +47,15 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
         a, b = op.execute(event_start=timestamp, event_end=end, intervals=[5*60, 10*60, 25*60],
                           threshold=120, prefix='')
         attrs += a + b
+
+        op = DiffInLinear(con, table_name, row_selector, interval_selector)
+        a, b = op.execute(timestamp_before=timestamp, timestamp_after=end,
+                          column='rh_in2_specific_g_kg', precision=precision,
+                          start_before=timestamp - 1200, end_before=timestamp,
+                          start_after=end, end_after=end + 1200,
+                          prefix='')
+
+        attrs += a
 
     return attrs
 
