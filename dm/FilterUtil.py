@@ -32,12 +32,12 @@ class FilterUtil:
         out = []
 
         for event in events:
-            if len(event['measured']['temperature_in_celsius']) == 0:
+            if len(event['measured']['temperature_in2_celsius']) == 0:
                 continue
             if len(event['measured']['temperature_out_celsius']) == 0:
                 continue
 
-            temp_in = event['measured']['temperature_in_celsius'][0]
+            temp_in = event['measured']['temperature_in2_celsius'][0]
             temp_out = event['measured']['temperature_out_celsius'][0]
 
             if min_value <= abs(temp_in - temp_out) <= max_value:
@@ -62,7 +62,7 @@ class FilterUtil:
         out = []
 
         for event in events:
-            specific_in = event['measured']['rh_in_specific_g_kg'][0]
+            specific_in = event['measured']['rh_in2_specific_g_kg'][0]
             specific_out = event['measured']['rh_out_specific_g_kg'][0]
 
             if specific_out < min_out_specific_humidity:
