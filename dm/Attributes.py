@@ -258,6 +258,11 @@ class SimpleDiffRowSelector(SimpleCachedRowSelector):
             v2 = super(SimpleDiffRowSelector, self).row('temperature_out_celsius', time)
             value = v1 - v2
 
+        elif column_name == 'rh_in2_specific_g_kg_diff_in_out':
+            v1 = super(SimpleDiffRowSelector, self).row('rh_in2_specific_g_kg', time)
+            v2 = super(SimpleDiffRowSelector, self).row('rh_out_specific_g_kg', time)
+            value = v1 - v2
+
         else:
             value = super(SimpleDiffRowSelector, self).row(column_name, time)
 
@@ -844,3 +849,17 @@ class VentilationLength(AbstractPrepareAttr):
         after = []
 
         return before, after
+
+
+class DiffInLinear(InLinear):
+    def execute(self, timestamp_before, timestamp_after, column, precision,
+                start_before, end_before, start_after, end_after, prefix):
+        b, a = super(DiffInLinear, self).execute(timestamp_before, timestamp_after,
+                                                 column, precision,
+                                                 start_before, end_before,
+                                                 start_after, end_after, prefix)
+
+        name = self.attr_name(column, prefix, 'before', '')
+        before = [(name, round(b[0][1] - a[0][1], 2))]
+
+        return before, []
