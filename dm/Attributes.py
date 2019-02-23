@@ -258,6 +258,11 @@ class SimpleDiffRowSelector(SimpleCachedRowSelector):
             v2 = super(SimpleDiffRowSelector, self).row('temperature_out_celsius', time)
             value = v1 - v2
 
+        elif column_name == 'rh_in2_specific_g_kg_diff_in_out':
+            v1 = super(SimpleDiffRowSelector, self).row('rh_in2_specific_g_kg', time)
+            v2 = super(SimpleDiffRowSelector, self).row('rh_out_specific_g_kg', time)
+            value = v1 - v2
+
         else:
             value = super(SimpleDiffRowSelector, self).row(column_name, time)
 
