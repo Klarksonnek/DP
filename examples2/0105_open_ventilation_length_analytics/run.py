@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sympy import var
 from fractions import Fraction
+from dm.CSVUtil import CSVUtil
 
 no_events_records = [
 ]
@@ -22,10 +23,6 @@ no_events_records = [
 def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     attrs = []
     columns = [
-        'rh_in_specific_g_kg_diff',
-        'rh_in_absolute_g_m3_diff',
-        'rh_in_percentage_diff',
-        'temperature_in_celsius_diff',
         'rh_in2_specific_g_kg_diff',
         'rh_in2_absolute_g_m3_diff',
         'rh_in2_percentage_diff',
@@ -99,7 +96,6 @@ def ventilation_length_events(training: list, ventilation_length: int):
     out = []
 
     for row in training:
-        #ventilation_len = "'" + str(ventilation_length) + "'"
         if row['VentilationLength_event__'] == str(ventilation_length):
             out.append(row)
 
@@ -167,6 +163,18 @@ def distance_point_line(a1, a2, a, b, c):
     return float(abs(a * a1 + b * a2 + c) / (np.sqrt(a**2 + b**2)))
 
 
+def  distance_point_point_Euclidean(a1, a2, b1, b2):
+    """ Calculates distance from point to point (Euclidean)
+
+    :param a1: point 1 coordinate x
+    :param a2: point 1 coordinate y
+    :param b1: point 2 coordinate x
+    :param b2: point 2 coordinate y
+    """
+
+    return float(np.sqrt((b1 - a1)**2 + (b2 - a2)**2))
+
+
 def humidity_clusters(training, col1, col2, col3, intervals):
     # colors
     colors = ['red', 'green', 'blue', 'magenta', 'cyan']
@@ -174,7 +182,8 @@ def humidity_clusters(training, col1, col2, col3, intervals):
     i = 0
     fig = plt.figure()
     leg = []
-    out = {}
+    out_point_line = {}
+    out_point_point = {}
 
     for interval in intervals:
         sh_decrease = []
@@ -199,10 +208,15 @@ def humidity_clusters(training, col1, col2, col3, intervals):
 
         # convert the line equation
         (a, b, c) = convert_line_to_general(coeffs)
-        out[interval] = {
+        out_point_line[interval] = {
             'a': a,
             'b': b,
             'c': c
+        }
+
+        out_point_point[interval] = {
+            'cx': C[0][0],
+            'cy': C[0][1],
         }
 
         # evaluate polynom
@@ -225,40 +239,82 @@ def humidity_clusters(training, col1, col2, col3, intervals):
     plt.legend(leg)
     plt.grid()
 
-    return out, fig
+    return out_point_line, out_point_point, fig
 
 
-def testing_evaluation(testing, intervals, coefficients, fig):
+def testing_evaluation(testing, intervals, coefficients, coordinates, fig, strategy, optimization):
 
-    # calculate the distance point-line
     success = 0
     for row in testing:
-        dist = []
+        dist_point_line = []
+        dist_point_point = []
+        point_point = False
         x = float(row['InLinear_rh_in2_specific_g_kg_before_1200'])
         x -= float(row['InLinear_rh_in2_specific_g_kg_after_1200'])
-        y = float(row['InOutDifference_rh_in_specific_g_kg_diff_before_0'])
+        y = float(row['InOutDifference_rh_in2_specific_g_kg_diff_before_0'])
+        real_interval = int(row['VentilationLength_event__']) // 60
 
         for interval in intervals:
             coeff = coefficients[interval]
-            dist_curr = distance_point_line(x, y, float(coeff['a']), float(coeff['b']), coeff['c'])
-            dist.append(dist_curr)
+            # calculate the distance point-line
+            dist_curr_point_line = distance_point_line(x, y,
+                                                       float(coeff['a']),
+                                                       float(coeff['b']),
+                                                       coeff['c'])
+            dist_point_line.append(dist_curr_point_line)
+            coord = coordinates[interval]
+            # calculate the distance point-point
+            dist_curr_point_point = distance_point_point_Euclidean(x, y,
+                                                                   float(coord['cx']),
+                                                                   float(coord['cy']))
+            dist_point_point.append(dist_curr_point_point)
 
         # minumum distance
-        min_i = dist.index(min(dist))
+        min_point_line = dist_point_line.index(min(dist_point_line))
+        min_point_point = dist_point_point.index(min(dist_point_point))
 
-        real_interval = int(row['VentilationLength_event__']) // 60
+        min_pl = intervals[min_point_line]
+        min_pp = intervals[min_point_point]
 
-        logging.info('ideal ventilation interval: %s' % intervals[min_i])
+        logging.info('ideal ventilation interval point-line: %s' % min_pl)
+        logging.info('ideal ventilation interval point-point: %s' % min_pp)
         logging.info('real ventilation interval: %s' % real_interval)
 
-        if intervals[min_i] == real_interval:
+        if strategy == 'pl' and min_pl == real_interval:
             success += 1
+
+        if strategy == 'pp' and min_pp == real_interval:
+            success += 1
+
+        if optimization:
+            # akceptovani zarazeni 5 minutoveho vetrani do 10 minutoveho nebo naopak
+            if (min_pl == 5 and real_interval == 10) or (min_pl == 10 and real_interval == 5):
+                success += 1
+            # pokud je bod zarazen do 10 minutoveho vetrani misto 25 minutoveho nebo naopak
+            # klasifikace podle nejkratsi vzdalenosti ke stredu shluku
+            elif (min_pl == 10 and real_interval == 25) or (min_pl == 25 and real_interval == 10):
+                # vzdalenost ke stredu shluku vetrani 5 minut se nebere v uvahu
+                min_point_point = dist_point_point.index(min(dist_point_point[1:]))
+                if min_pp == real_interval:
+                    success += 1
+                    point_point = True
 
         plt.scatter(x, y, 80, marker='o', color='black')
         fname = 'out_{0}_{1}.png'.format(x, y)
-        title_graph = 'P = [%g, %g], predict: %g min, real: %g min, point-line\n' % (x, y, intervals[min_i],
-                                                                                     real_interval)
+        if strategy == 'pp' or point_point:
+            title_graph = 'P = [%g, %g], ' % (x, y)
+            title_graph += 'predict: %g min, ' % min_pp
+            title_graph += 'real: %g min, ' % real_interval
+            title_graph += 'point-point\n'
+        else:
+            title_graph = 'P = [%g, %g], ' % (x, y)
+            title_graph += 'predict: %g min, ' % min_pl
+            title_graph += 'real: %g min, ' % real_interval
+            title_graph += 'point-line\n'
+
         plt.title(title_graph)
+        plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
+        plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
         fig.savefig(fname)
 
         plt.scatter(x, y, 80, marker='o', color='white')
@@ -266,7 +322,7 @@ def testing_evaluation(testing, intervals, coefficients, fig):
     return success / len(testing)
 
 
-def diff(data, col, min_value, max_value):
+def select_limited_value_range(data, col, min_value, max_value):
     out = []
     for item in data:
         if min_value <= item[col] <= max_value:
@@ -304,8 +360,11 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('data set contains %d events' % len(data))
     logging.info('end computing of data set')
 
+    events = ventilation_length_events(data, 1500)
+    CSVUtil.create_csv_file(events, 'humidity_info_25_minut.csv')
+
     # aplikovanie filtrov na data
-    data = diff(data, 'InOutDifference_temperature_in2_celsius_diff_before_0', 05.0, 25.0)
+    data = select_limited_value_range(data, 'InOutDifference_temperature_in2_celsius_diff_before_0', 05.0, 25.0)
 
     counts = ventilation_length_count(data, [5, 10, 25])
     logging.debug("counts: %s" % counts)
@@ -316,13 +375,13 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('testing set contains %d records' % len(testing))
 
     intervals = [5, 10, 25]
-    out, fig = humidity_clusters(training,
-                                 'InLinear_rh_in2_specific_g_kg_before_1200',
-                                 'InLinear_rh_in2_specific_g_kg_after_1200',
-                                 'InOutDifference_rh_in_specific_g_kg_diff_before_0',
-                                 intervals)
+    out_point_line, out_point_point, fig = humidity_clusters(training,
+                                                             'InLinear_rh_in2_specific_g_kg_before_1200',
+                                                             'InLinear_rh_in2_specific_g_kg_after_1200',
+                                                             'InOutDifference_rh_in2_specific_g_kg_diff_before_0',
+                                                             intervals)
 
-    success_rate = testing_evaluation(testing, intervals, out, fig)
+    success_rate = testing_evaluation(testing, intervals, out_point_line, out_point_point, fig, 'pl', False)
 
     logging.info('success rate: %s' % round(success_rate, 2))
 
