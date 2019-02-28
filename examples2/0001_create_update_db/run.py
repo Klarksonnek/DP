@@ -46,10 +46,7 @@ def create_update_table(con, clients, start, end, devices, write_each, table_nam
         # o nove udaje
         if last_inserted_row is not None:
             if interval_to < last_inserted_row[0]:
-                interval = DateTimeUtil.create_interval_str(interval_from,
-                                                            interval_from + step_size)
-
-                logging.debug('processed interval %s has been already inserted' % interval)
+                # skip inserted interval
                 continue
 
         logging.debug('processed interval %s' % DateTimeUtil.create_interval_str(interval_from,
