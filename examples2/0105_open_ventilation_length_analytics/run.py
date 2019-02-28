@@ -56,6 +56,42 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     return attrs
 
 
+def func_test_pt(con, table_name, timestamp, row_selector, interval_selector, end=None):
+    attrs = []
+    columns = [
+        'rh_in2_specific_g_kg_diff',
+        'rh_in2_absolute_g_m3_diff',
+        'rh_in2_percentage_diff',
+        'temperature_in2_celsius_diff']
+    precision = 5
+
+    for column in columns:
+        intervals_before = [x for x in range(0, 61, 15)]
+        intervals_after = [x for x in range(0, 61, 15)]
+
+        op = InOutDifference(con, table_name, row_selector, interval_selector)
+        a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+                          intervals_before=intervals_before,
+                          intervals_after=intervals_after,
+                          prefix='')
+        attrs += a + b
+
+        op = InLinear(con, table_name, row_selector, interval_selector)
+        a, b = op.execute(timestamp_before=timestamp, timestamp_after=end,
+                          column='rh_in2_specific_g_kg', precision=precision,
+                          start_before=timestamp - 1200, end_before=timestamp,
+                          start_after=end, end_after=end + 1200,
+                          prefix='')
+        attrs += a + b
+
+        op = VentilationLength(con, table_name, row_selector, interval_selector)
+        a, b = op.execute(event_start=timestamp, event_end=end, intervals=[5*60, 10*60],
+                          threshold=120, prefix='')
+        attrs += a + b
+
+    return attrs
+
+
 def training_testing_data(data, splitting):
     length_map = {}
     for row in data:
@@ -322,6 +358,80 @@ def testing_evaluation(testing, intervals, coefficients, coordinates, fig, strat
     return success / len(testing)
 
 
+def testing_evaluation_test_pt(testing, intervals, coefficients, coordinates, fig, strategy, optimization):
+
+    success = 0
+    for row in testing:
+        dist_point_line = []
+        dist_point_point = []
+        point_point = False
+        x = float(row['InLinear_rh_in2_specific_g_kg_before_1200'])
+        x -= float(row['InLinear_rh_in2_specific_g_kg_after_1200'])
+        y = float(row['InOutDifference_rh_in2_specific_g_kg_diff_before_0'])
+        real_interval = int(row['VentilationLength_event__']) // 60
+
+        for interval in intervals:
+            coeff = coefficients[interval]
+            # calculate the distance point-line
+            dist_curr_point_line = distance_point_line(x, y,
+                                                       float(coeff['a']),
+                                                       float(coeff['b']),
+                                                       coeff['c'])
+            dist_point_line.append(dist_curr_point_line)
+            coord = coordinates[interval]
+            # calculate the distance point-point
+            dist_curr_point_point = distance_point_point_Euclidean(x, y,
+                                                                   float(coord['cx']),
+                                                                   float(coord['cy']))
+            dist_point_point.append(dist_curr_point_point)
+
+        # minumum distance
+        min_point_line = dist_point_line.index(min(dist_point_line))
+        min_point_point = dist_point_point.index(min(dist_point_point))
+
+        min_pl = intervals[min_point_line]
+        min_pp = intervals[min_point_point]
+
+        logging.info('ideal ventilation interval point-line: %s' % min_pl)
+        logging.info('ideal ventilation interval point-point: %s' % min_pp)
+        logging.info('real ventilation interval: %s' % real_interval)
+
+        if strategy == 'pl' and min_pl == real_interval:
+            success += 1
+
+        if strategy == 'pp' and min_pp == real_interval:
+            success += 1
+
+        if optimization:
+            # akceptovani zarazeni 5 minutoveho vetrani do 10 minutoveho nebo naopak
+            if (min_pl == 5 and real_interval == 10) or (min_pl == 10 and real_interval == 5):
+                if min_pp == real_interval:
+                    success += 1
+                    point_point = True
+
+        plt.scatter(x, y, 80, marker='o', color='black')
+        fname = 'out_{0}_{1}.png'.format(x, y)
+        if strategy == 'pp' or point_point:
+            title_graph = 'P = [%g, %g], ' % (x, y)
+            title_graph += 'predict: %g min, ' % min_pp
+            title_graph += 'real: %g min, ' % real_interval
+            title_graph += 'point-point\n'
+        else:
+            title_graph = 'P = [%g, %g], ' % (x, y)
+            title_graph += 'predict: %g min, ' % min_pl
+            title_graph += 'real: %g min, ' % real_interval
+            title_graph += 'point-line\n'
+
+        plt.title(title_graph)
+        plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
+        plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
+        fig.savefig(fname)
+
+        plt.scatter(x, y, 80, marker='o', color='white')
+
+    return success / len(testing)
+
+
 def select_limited_value_range(data, col, min_value, max_value):
     out = []
     for item in data:
@@ -388,8 +498,84 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('end')
 
 
+def main_test_pt(events_file_training: str, events_file_testing: str, no_event_time_shift: int):
+    logging.info('start')
+
+    table_name_training = 'measured_klarka'
+    table_name_testing = 'measured_peto'
+
+    # stiahnutie dat
+    con = ConnectionUtil.create_con()
+    storage_training = Storage(events_file_training, no_event_time_shift, table_name_training)
+    d_training = storage_training.load_data(con, 0, 0, 'rh_in2_specific_g_kg')
+    logging.info('downloaded events for training: %d' % len(d_training))
+
+    storage_testing = Storage(events_file_testing, no_event_time_shift, table_name_testing)
+    d_testing = storage_testing.load_data(con, 0, 0, 'temperature_in_celsius')
+    logging.info('downloaded events for testing: %d' % len(d_testing))
+
+    # aplikovanie filtrov na eventy
+    filtered_training = FilterUtil.only_valid_events(d_training)
+    filtered_training = FilterUtil.temperature_diff(filtered_training, 5, 100)
+    filtered_training = FilterUtil.temperature_out_max(filtered_training, 15)
+    filtered_training = FilterUtil.humidity(filtered_training, 6, 1.6, 100)
+    logging.info('events for training after applying the filter: %d' % len(filtered_training))
+
+    # aplikovanie filtrov na eventy
+    filtered_testing = FilterUtil.only_valid_events(d_testing)
+    filtered_testing = FilterUtil.temperature_diff(filtered_testing, 5, 100)
+    filtered_testing = FilterUtil.temperature_out_max(filtered_testing, 15)
+    filtered_testing = FilterUtil.humidity(filtered_testing, 6, 1.6, 100)
+    logging.info('events for testing after applying the filter: %d' % len(filtered_testing))
+
+    # selector pre data
+    row_selector_training = SimpleDiffRowSelector(con, table_name_training)
+    interval_selector_training = SimpleIntervalSelector(con, table_name_training)
+
+    # selector pre data
+    row_selector_testing = SimpleDiffRowSelector(con, table_name_testing)
+    interval_selector_testing = SimpleIntervalSelector(con, table_name_testing)
+
+    # datova mnozina
+    logging.info('start computing of training set')
+    data_training = AttributeUtil.training_data_without_opposite(con, table_name_training, filtered_training, func_test_pt,
+                                                                 row_selector_training, interval_selector_training)
+    logging.info('training set contains %d events' % len(data_training))
+    logging.info('end computing of training set')
+
+    # datova mnozina
+    logging.info('start computing of testing set')
+    data_testing = AttributeUtil.training_data_without_opposite(con, table_name_testing, filtered_testing, func_test_pt,
+                                                                row_selector_testing, interval_selector_testing)
+    logging.info('testing set contains %d events' % len(data_testing))
+    logging.info('end computing of testing set')
+
+    # aplikovanie filtrov na data
+    #data = select_limited_value_range(data, 'InOutDifference_temperature_in2_celsius_diff_before_0', 05.0, 25.0)
+
+    counts = ventilation_length_count(data_training, [5, 10])
+    logging.debug("training counts: %s" % counts)
+
+    counts = ventilation_length_count(data_testing, [5, 10])
+    logging.debug("testing counts: %s" % counts)
+
+    intervals = [5, 10]
+    out_point_line, out_point_point, fig = humidity_clusters(data_training,
+                                                             'InLinear_rh_in2_specific_g_kg_before_1200',
+                                                             'InLinear_rh_in2_specific_g_kg_after_1200',
+                                                             'InOutDifference_rh_in2_specific_g_kg_diff_before_0',
+                                                             intervals)
+
+    success_rate = testing_evaluation_test_pt(data_testing, intervals, out_point_line, out_point_point, fig, 'pl', True)
+
+    logging.info('success rate: %s' % round(success_rate, 2))
+
+    logging.info('end')
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s')
 
     main('examples/events_klarka.json', -500)
+    main_test_pt('examples/events_klarka.json', 'examples/events_peto.json', -500)
