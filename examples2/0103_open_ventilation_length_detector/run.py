@@ -28,34 +28,34 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
         intervals_before = [x for x in range(0, 601, 30)]
         intervals_after = [x for x in range(0, 181, 30)]
 
-        op = InOutDifference(con, table_name, row_selector, interval_selector)
+        op = InOutDiff(con, table_name, row_selector, interval_selector)
         a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                           intervals_before=intervals_before,
                           intervals_after=intervals_after,
                           prefix='')
         attrs += a + b
 
-        op = InLinear(con, table_name, row_selector, interval_selector)
-        a, b = op.execute(timestamp_before=timestamp, timestamp_after=end,
-                          column='rh_in2_specific_g_kg', precision=precision,
-                          start_before=timestamp - 1200, end_before=timestamp,
-                          start_after=end, end_after=end + 1200,
-                          prefix='')
-        attrs += a + b
+    op = InLinear(con, table_name, row_selector, interval_selector)
+    a, b = op.execute(timestamp_before=timestamp, timestamp_after=end,
+                      column='rh_in2_specific_g_kg', precision=precision,
+                      start_before=timestamp - 1200, end_before=timestamp,
+                      start_after=end, end_after=end + 1200,
+                      prefix='')
+    attrs += a + b
 
-        op = VentilationLength(con, table_name, row_selector, interval_selector)
-        a, b = op.execute(event_start=timestamp, event_end=end, intervals=[5*60, 10*60, 25*60],
-                          threshold=120, prefix='')
-        attrs += a + b
+    op = VentilationLength(con, table_name, row_selector, interval_selector)
+    a, b = op.execute(event_start=timestamp, event_end=end, intervals=[5*60, 10*60, 25*60],
+                      threshold=120, prefix='')
+    attrs += a + b
 
-        op = DiffInLinear(con, table_name, row_selector, interval_selector)
-        a, b = op.execute(timestamp_before=timestamp, timestamp_after=end,
-                          column='rh_in2_specific_g_kg', precision=precision,
-                          start_before=timestamp - 1200, end_before=timestamp,
-                          start_after=end, end_after=end + 1200,
-                          prefix='')
+    op = DiffInLinear(con, table_name, row_selector, interval_selector)
+    a, b = op.execute(timestamp_before=timestamp, timestamp_after=end,
+                      column='rh_in2_specific_g_kg', precision=precision,
+                      start_before=timestamp - 1200, end_before=timestamp,
+                      start_after=end, end_after=end + 1200,
+                      prefix='')
 
-        attrs += a
+    attrs += a
 
     return attrs
 
@@ -130,6 +130,12 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('training set contains %d records, each %d-krat' % (len(training), minimum))
     logging.info('testing set contains %d records' % len(testing))
 
+    op = DistanceToLine(training)
+    testing = op.exec([5, 10, 25], testing,
+                      'InLinear_rh_in2_specific_g_kg_before_1200',
+                      'InLinear_rh_in2_specific_g_kg_after_1200',
+                      'InOutDiff_rh_in2_specific_g_kg_diff_before_0')
+
     # generovanie suborov
     logging.info('start preparing file of training and testing set')
     CSVUtil.create_csv_file(training, 'training.csv')
@@ -192,6 +198,12 @@ def main_test_pt(events_file_training: str, events_file_testing: str, no_event_t
     logging.info('testing set contains %d events' % len(data_testing))
     logging.info('end computing of testing set')
 
+    op = DistanceToLine(data_training)
+    data_testing = op.exec([5, 10], data_testing,
+                           'InLinear_rh_in2_specific_g_kg_before_1200',
+                           'InLinear_rh_in2_specific_g_kg_after_1200',
+                           'InOutDiff_rh_in2_specific_g_kg_diff_before_0')
+
     # generovanie suborov
     logging.info('start preparing file of training and testing set')
     CSVUtil.create_csv_file(data_training, 'training.csv')
@@ -206,4 +218,4 @@ if __name__ == '__main__':
                         format='%(asctime)s %(levelname)s %(message)s')
 
     main('examples/events_klarka.json', -500)
-    main_test_pt('examples/events_klarka.json', 'examples/events_peto.json', -500)
+    # main_test_pt('examples/events_klarka.json', 'examples/events_peto.json', -500)

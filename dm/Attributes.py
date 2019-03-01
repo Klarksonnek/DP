@@ -14,6 +14,11 @@ sys.path.append(CODE_DIR)
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage
 from scipy import stats
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from fractions import Fraction
+from sympy import *
 
 
 class AttributeUtil:
@@ -47,6 +52,8 @@ class AttributeUtil:
         :param table_name: nazov tabulky
         :param events: zoznam eventov
         :param func:
+        :param row_selector:
+        :param interval_selector:
         :return:
         """
 
@@ -83,6 +90,8 @@ class AttributeUtil:
         :param table_name: nazov tabulky
         :param no_event_records: zoznam dvojic, z ktorych sa maju vygenerovat atributy
         :param func:
+        :param row_selector:
+        :param interval_selector:
         :return:
         """
 
@@ -114,6 +123,8 @@ class AttributeUtil:
         :param end: interval, do ktoreho sa budu generovat testovacie data
         :param write_each:
         :param func:
+        :param row_selector:
+        :param interval_selector:
         :return:
         """
 
@@ -510,6 +521,10 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
         :param intervals_before: intervaly pred udalostou
         :param intervals_after: interaly po udalosti
         :param normalize: povolenie alebo zakazanie normalizacie diferencie
+        :param enable_count:
+        :param prefix:
+        :param selected_before:
+        :param selected_after:
         :return:
         """
 
@@ -567,6 +582,10 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
         :param intervals_before: intervaly pred udalostou
         :param intervals_after: interaly po udalosti
         :param normalize: povolenie alebo zakazanie normalizacie diferencie
+        :param enable_count:
+        :param prefix:
+        :param selected_before:
+        :param selected_after:
         :return:
         """
 
@@ -696,6 +715,7 @@ class GrowthRate(AbstractPrepareAttr):
         :param intervals_before: intervaly pred udalostou
         :param intervals_after: interaly po udalosti
         :param value_delay: posun do historie, z ktorej sa vyberie hodnota pre vypocet
+        :param prefix
         :return:
         """
 
@@ -787,7 +807,7 @@ class DifferenceBetweenRealLinear(AbstractPrepareAttr):
         return before, after
 
 
-class InOutDifference(AbstractPrepareAttr):
+class InOutDiff(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
                 prefix):
 
@@ -849,8 +869,8 @@ class VentilationLength(AbstractPrepareAttr):
             raise ValueError('the value can not be assigned to any class')
 
         name = self.attr_name('event', prefix, '', '')
-        #before = [(name, "'" + value + "'")]
-        before = [(name, value)]
+        before = [(name, "'" + value + "'")]
+        #before = [(name, value)]
         after = []
 
         return before, after
@@ -868,3 +888,181 @@ class DiffInLinear(InLinear):
         before = [(name, round(b[0][1] - a[0][1], 2))]
 
         return before, []
+
+
+class DistanceToLine:
+    def __init__(self, training):
+        self.training = training
+        self.model = None
+
+    def ventilation_length_events(self, training: list, ventilation_length: int):
+        out = []
+
+        for row in training:
+            if row['VentilationLength_event__'] == "'" + str(ventilation_length) + "'":
+                out.append(row)
+
+        return out
+
+    def convert_line_to_general(self, coeffs):
+        """ Converts line equation y = kx + q to the form ax + by + c = 0 (general form)
+        """
+
+        # represents coeffs as fractions
+        tmp = Fraction(str(coeffs[0])).limit_denominator(1000)
+        n1 = tmp.numerator
+        d1 = tmp.denominator
+
+        tmp2 = Fraction(str(coeffs[1])).limit_denominator(1000)
+        n2 = tmp2.numerator
+        d2 = tmp2.denominator
+
+        # find LCM
+        L = np.lcm(d1, d2)
+
+        # symbolic variables
+        x = var('x')
+
+        y1 = (n1 * x) / d1
+        y2 = n2 / d2
+
+        y_mult1 = y1 * L
+
+        a = y_mult1.subs('x', 1) * (-1)
+
+        y_mult2 = (y2 * L)
+        c = y_mult2 * (-1)
+
+        b = L
+
+        return a, b, c
+
+    def humidity_clusters(self, training, col1, col2, col3, intervals):
+        # colors
+        colors = ['red', 'green', 'blue', 'magenta', 'cyan']
+        # counter for colors
+        i = 0
+        fig = plt.figure()
+        leg = []
+        out_point_line = {}
+        out_point_point = {}
+
+        for interval in intervals:
+            sh_decrease = []
+            sh_diff = []
+            for res in self.ventilation_length_events(training, interval * 60):
+                sh_decrease.append(float(res[col1]) - float(res[col2]))
+                sh_diff.append(float(res[col3]))
+
+            logging.debug('sh_decrease: %s, sh_diff: %s' % (str(sh_decrease), str(sh_diff)))
+
+            # k-means clustering
+            X = np.array(list(zip(sh_decrease, sh_diff)))
+            # number of clusters (we assume one cluster: K=1)
+            kmeans = KMeans(n_clusters=1)
+            # fitting the input data
+            kmeans = kmeans.fit(X)
+            # centroid values
+            C = kmeans.cluster_centers_
+
+            # get coefficients of the line (1st order polynom = line)
+            coeffs = np.polyfit(sh_decrease, sh_diff, 1)
+
+            # convert the line equation
+            (a, b, c) = self.convert_line_to_general(coeffs)
+            out_point_line[interval] = {
+                'a': a,
+                'b': b,
+                'c': c
+            }
+
+            out_point_point[interval] = {
+                'cx': C[0][0],
+                'cy': C[0][1],
+            }
+
+            # evaluate polynom
+            yFitted = np.polyval(coeffs, sh_decrease)
+
+            # plot graphs
+            # plot points
+            plt.scatter(sh_decrease, sh_diff, marker='x', color=colors[i])
+
+            # plot cluster centroid
+            plt.scatter(C[0][0], C[0][1], marker='o', color=colors[i])
+
+            # plot trendline of the cluster
+            plt.plot(sh_decrease, yFitted, color=colors[i])
+
+            leg.append(str(intervals[i]) + ' min')
+
+            i += 1
+
+        plt.legend(leg)
+        plt.grid()
+
+        return out_point_line, out_point_point, fig
+
+    def distance_point_line(self, a1, a2, a, b, c):
+        """ Calculates distance from point to line
+
+        :param a1: point coordinate x
+        :param a2: point coordinate y
+        :param a: parameter of the line equation
+        :param b: parameter of the line equation
+        :param c: parameter of the line equation
+        """
+
+        return float(abs(a * a1 + b * a2 + c) / (np.sqrt(a ** 2 + b ** 2)))
+
+    def distance_point_point_Euclidean(self, a1, a2, b1, b2):
+        """ Calculates distance from point to point (Euclidean)
+
+        :param a1: point 1 coordinate x
+        :param a2: point 1 coordinate y
+        :param b1: point 2 coordinate x
+        :param b2: point 2 coordinate y
+        """
+
+        return float(np.sqrt((b1 - a1) ** 2 + (b2 - a2) ** 2))
+
+    def exec(self, intervals, data_testing, col1, col2, col3, precision=2):
+        if self.model is None:
+            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals)
+
+            self.model = {
+                'line': line,
+                'point': point,
+                'fig': fig,
+            }
+
+        out = []
+        for row in data_testing:
+            dist_point_line = []
+            dist_point_point = []
+            x = float(row[col1]) - float(row[col2])
+            y = float(row[col3])
+
+            for interval in intervals:
+                coeff = self.model['line'][interval]
+
+                # calculate the distance point-line
+                dist = self.distance_point_line(x, y,
+                                                float(coeff['a']),
+                                                float(coeff['b']),
+                                                coeff['c'])
+                dist_point_line.append(dist)
+                coord = self.model['point'][interval]
+
+                # calculate the distance point-point
+                dist = self.distance_point_point_Euclidean(x, y, coord['cx'], coord['cy'])
+                dist_point_point.append(dist)
+
+            # minumum distance
+            row['min_pp'] = round(min(dist_point_line), precision)
+            row['min_pl'] = round(min(dist_point_point), precision)
+            out.append(row)
+
+        return out
+
+
