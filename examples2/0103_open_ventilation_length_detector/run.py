@@ -25,8 +25,8 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     precision = 5
 
     for column in columns:
-        intervals_before = [x for x in range(0, 61, 15)]
-        intervals_after = [x for x in range(0, 61, 15)]
+        intervals_before = [x for x in range(0, 601, 30)]
+        intervals_after = [x for x in range(0, 181, 30)]
 
         op = InOutDifference(con, table_name, row_selector, interval_selector)
         a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
@@ -139,8 +139,71 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('end')
 
 
+def main_test_pt(events_file_training: str, events_file_testing: str, no_event_time_shift: int):
+    logging.info('start')
+
+    table_name_training = 'measured_klarka'
+    table_name_testing = 'measured_peto'
+
+    # stiahnutie dat
+    con = ConnectionUtil.create_con()
+    storage_training = Storage(events_file_training, no_event_time_shift, table_name_training)
+    d_training = storage_training.load_data(con, 0, 0, 'rh_in2_specific_g_kg')
+    logging.info('downloaded events for training: %d' % len(d_training))
+
+    storage_testing = Storage(events_file_testing, no_event_time_shift, table_name_testing)
+    d_testing = storage_testing.load_data(con, 0, 0, 'temperature_in_celsius')
+    logging.info('downloaded events for testing: %d' % len(d_testing))
+
+    # aplikovanie filtrov na eventy
+    filtered_training = FilterUtil.only_valid_events(d_training)
+    filtered_training = FilterUtil.temperature_diff(filtered_training, 5, 100)
+    filtered_training = FilterUtil.temperature_out_max(filtered_training, 15)
+    filtered_training = FilterUtil.humidity(filtered_training, 6, 1.6, 100)
+    logging.info('events for training after applying the filter: %d' % len(filtered_training))
+
+    # aplikovanie filtrov na eventy
+    filtered_testing = FilterUtil.only_valid_events(d_testing)
+    filtered_testing = FilterUtil.temperature_diff(filtered_testing, 5, 100)
+    filtered_testing = FilterUtil.temperature_out_max(filtered_testing, 15)
+    filtered_testing = FilterUtil.humidity(filtered_testing, 6, 1.6, 100)
+    logging.info('events for testing after applying the filter: %d' % len(filtered_testing))
+
+    # selector pre data
+    row_selector_training = SimpleDiffRowSelector(con, table_name_training)
+    interval_selector_training = SimpleIntervalSelector(con, table_name_training)
+
+    # selector pre data
+    row_selector_testing = SimpleDiffRowSelector(con, table_name_testing)
+    interval_selector_testing = SimpleIntervalSelector(con, table_name_testing)
+
+    # datova mnozina
+    logging.info('start computing of training set')
+    data_training = AttributeUtil.training_data_without_opposite(con, table_name_training, filtered_training,
+                                                                 func,
+                                                                 row_selector_training, interval_selector_training)
+    logging.info('training set contains %d events' % len(data_training))
+    logging.info('end computing of training set')
+
+    # datova mnozina
+    logging.info('start computing of testing set')
+    data_testing = AttributeUtil.training_data_without_opposite(con, table_name_testing, filtered_testing, func,
+                                                                row_selector_testing, interval_selector_testing)
+    logging.info('testing set contains %d events' % len(data_testing))
+    logging.info('end computing of testing set')
+
+    # generovanie suborov
+    logging.info('start preparing file of training and testing set')
+    CSVUtil.create_csv_file(data_training, 'training.csv')
+    CSVUtil.create_csv_file(data_testing, 'testing.csv')
+    logging.info('end preparing file of training and testing set')
+
+    logging.info('end')
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s')
 
     main('examples/events_klarka.json', -500)
+    main_test_pt('examples/events_klarka.json', 'examples/events_peto.json', -500)
