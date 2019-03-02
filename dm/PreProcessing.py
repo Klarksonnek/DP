@@ -299,14 +299,20 @@ class PreProcessing:
                 val = PreProcessing.generate_open_close(item, PreProcessing.TIME_ATTR_NAME,
                                                         key, start, end, last_open_close_state)
             else:
-                if len(item) == 0:
-                    for k in range(start, end):
-                        val.append({'measured_time': k, key: None})
-                else:
+                if len(item) != 0:
                     val = PreProcessing.generate_data(item, key, PreProcessing.TIME_ATTR_NAME)
                     val = PreProcessing.generate_data(val, key, PreProcessing.TIME_ATTR_NAME)
 
             val = PreProcessing.cut_interval(val, start, end, PreProcessing.TIME_ATTR_NAME)
+
+            # v pripade, ze vybrany interval pre danu hodnotu neobsahuje vsetky data tak sa vynuluje
+            if (end - start) != len(val):
+                if len(val) == 0:
+                    val = []
+
+                for k in range(start, end):
+                    val.append({'measured_time': k, key: None})
+
             new_data.append(val)
 
             i += 1

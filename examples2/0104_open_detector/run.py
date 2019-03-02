@@ -110,7 +110,7 @@ def main(events_file: str, no_event_time_shift: int):
 
     logging.info('start computing of training set')
     training = AttributeUtil.training_data(con, table_name, filtered, func,
-                                           row_selector, interval_selector)
+                                           row_selector, interval_selector, 'open')
 
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count/2, count))
@@ -130,7 +130,7 @@ def main(events_file: str, no_event_time_shift: int):
 
     logging.info('start computing of testing set')
     testing = AttributeUtil.testing_data(con, table_name, s, s + 300, 30, func,
-                                         row_selector, interval_selector)
+                                         row_selector, interval_selector, 'open')
     logging.info('testing set contains %d records' % len(testing))
     logging.info('end computing of testing set')
 
