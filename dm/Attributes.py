@@ -45,7 +45,8 @@ class AttributeUtil:
         return attrs
 
     @staticmethod
-    def training_data(con, table_name, events, func, row_selector, interval_selector):
+    def training_data(con, table_name, events, func, row_selector, interval_selector,
+                      event_type):
         """Generovanie trenovacich dat.
 
         :param con:
@@ -61,18 +62,29 @@ class AttributeUtil:
         for k in range(0, len(events)):
             event = events[k]
             start = event['e_start']['timestamp']
+            end = event['e_end']['timestamp']
             no_event_start = start + event['no_event_time_shift']
+            no_event_end = end - event['no_event_time_shift']
+
+            if event_type == 'open':
+                event_time = start
+                no_event_time = no_event_start
+            elif event_type == 'close':
+                event_time = end
+                no_event_time = no_event_end
+            else:
+                raise ValueError('event type must be: open or close')
 
             try:
-                data1 = func(con, table_name, start, row_selector, interval_selector)
-                data2 = func(con, table_name, no_event_start, row_selector, interval_selector)
+                data1 = func(con, table_name, event_time, row_selector, interval_selector)
+                data2 = func(con, table_name, no_event_time, row_selector, interval_selector)
 
-                time = DateTimeUtil.utc_timestamp_to_str(start, '%Y/%m/%d %H:%M:%S')
+                time = DateTimeUtil.utc_timestamp_to_str(event_time, '%Y/%m/%d %H:%M:%S')
                 data1.insert(0, ('datetime', time))
-                data1.insert(1, ('event', 'open'))
+                data1.insert(1, ('event', event_type))
                 attrs.append(OrderedDict(data1))
 
-                no_time = DateTimeUtil.utc_timestamp_to_str(no_event_start, '%Y/%m/%d %H:%M:%S')
+                no_time = DateTimeUtil.utc_timestamp_to_str(no_event_time, '%Y/%m/%d %H:%M:%S')
                 data2.insert(0, ('datetime', no_time))
                 data2.insert(1, ('event', 'nothing'))
                 attrs.append(OrderedDict(data2))
@@ -115,7 +127,7 @@ class AttributeUtil:
 
     @staticmethod
     def testing_data(con, table_name, start, end, write_each, func, row_selector, interval_selector,
-                     log_every_hour=3):
+                     event_type, log_every_hour=3):
         """Generovanie testovacich dat.
 
         :param con:
@@ -139,9 +151,14 @@ class AttributeUtil:
             previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
             act_row = Storage.one_row(con, table_name, 'open_close', t)
 
+            if event_type not in ['open', 'close']:
+                raise ValueError('event type must be: open or close')
+
             open_state = 'nothing'
-            if previous_row[0] == 0 and act_row[0] == 1:
-                open_state = 'open'
+            if event_type == 'open' and previous_row[0] == 0 and act_row[0] == 1:
+                open_state = event_type
+            elif event_type == 'close' and previous_row[0] == 1 and act_row[0] == 0:
+                open_state = event_type
 
             try:
                 data = func(con, table_name, t, row_selector, interval_selector)
@@ -155,7 +172,7 @@ class AttributeUtil:
                     continue
                 else:
                     count = 0
-            elif open_state == 'open':
+            elif open_state == event_type:
                 count += 1
 
             time = DateTimeUtil.utc_timestamp_to_str(t, '%Y/%m/%d %H:%M:%S')
