@@ -105,7 +105,8 @@ class AttributeUtil:
 
 
     @staticmethod
-    def testing_data(con, table_name, start, end, write_each, func, row_selector, interval_selector):
+    def testing_data(con, table_name, start, end, write_each, func, row_selector, interval_selector,
+                     log_every_hour=3):
         """Generovanie testovacich dat.
 
         :param con:
@@ -121,6 +122,9 @@ class AttributeUtil:
         count = 0
 
         for t in range(start, end):
+            if t % (log_every_hour * 3600) == 0:
+                logging.debug(DateTimeUtil.utc_timestamp_to_str(t))
+
             previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
             act_row = Storage.one_row(con, table_name, 'open_close', t)
 
