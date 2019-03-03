@@ -14,6 +14,21 @@ from dm.BeeeOnClient import BeeeOnClient
 from dm.ConnectionUtil import ConnectionUtil
 
 
+def update_invalid_values(con):
+    cur = con.cursor()
+
+    # Peto
+    cur.execute('''UPDATE `measured_peto` SET `open_close` = '1' WHERE `measured_time` = 1538920482''')
+    cur.execute('''UPDATE `measured_peto` SET `open_close` = '0' WHERE measured_time >= 1539410852 AND measured_time <= 1539410865''')
+    cur.execute('''UPDATE `measured_peto` SET `open_close` = '0' WHERE measured_time >= 1542011517 AND measured_time <= 1542011529''')
+    con.commit()
+
+    # Klarka
+    cur.execute('''UPDATE `measured_klarka` SET `open_close` = '0' WHERE `measured_time` = 1547490233''')
+    cur.execute('''UPDATE `measured_klarka` SET `open_close` = '0' WHERE `measured_time` = 1547642276''')
+    con.commit()
+
+
 def devices(filename='devices.json'):
     with open(filename, 'r') as f:
         data = json.load(f)
@@ -144,3 +159,5 @@ if __name__ == '__main__':
 
     start = int(DateTimeUtil.local_time_str_to_utc('2018/07/18 06:00:00').timestamp())
     klarka_sprcha_db(con, cls, start, end, devs)
+
+    update_invalid_values(con)
