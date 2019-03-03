@@ -58,6 +58,7 @@ class AttributeUtil:
         :return:
         """
 
+        training_events = []
         attrs = []
         for k in range(0, len(events)):
             event = events[k]
@@ -88,11 +89,12 @@ class AttributeUtil:
                 data2.insert(0, ('datetime', no_time))
                 data2.insert(1, ('event', 'nothing'))
                 attrs.append(OrderedDict(data2))
+                training_events.append(event)
             except Exception as e:
                 # logging.error(str(e))
                 continue
 
-        return attrs
+        return attrs, training_events
 
     @staticmethod
     def additional_training_set(con, table_name, no_event_records, func, row_selector, interval_selector):
