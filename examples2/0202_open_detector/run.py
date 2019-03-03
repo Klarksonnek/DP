@@ -9,6 +9,7 @@ from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
 from dm.CSVUtil import CSVUtil
 from dm.Attributes import *
+from dm.GraphUtil import GraphUtil
 
 no_events_records = [
 ]
@@ -106,10 +107,13 @@ def main(events_file: str, no_event_time_shift: int):
 
     # trenovacia mnozina
     logging.info('start computing of training set')
-    training = AttributeUtil.training_data(con, table_name, filtered, func,
-                                           row_selector, interval_selector, 'open')
+    training, tr_events = AttributeUtil.training_data(con, table_name, filtered, func,
+                                                      row_selector, interval_selector, 'open')
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count/2, count))
+
+    GraphUtil.gen_duration_histogram(tr_events, 'save', ['png'], 'Histogram dlzok vetrania',
+                                     [x for x in range(5, 60, 5)], 1)
 
     training2 = AttributeUtil.additional_training_set(con, table_name, no_events_records, func,
                                                       row_selector, interval_selector)

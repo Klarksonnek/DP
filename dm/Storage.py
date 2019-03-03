@@ -61,6 +61,10 @@ class Storage:
                 'valid_event': True
             }
 
+            start = attributes['e_start']['timestamp']
+            end = attributes['e_end']['timestamp']
+            attributes['event_duration'] = end - start
+
             # doplnenie atributov, ktore su specificke pre dany json
             # len sa nakopuruju jednotlive polozky json struktury
             for key, value in event.items():

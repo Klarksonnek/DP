@@ -125,3 +125,13 @@ class ValueUtil:
             ('humidity_absolute_g_m3_difference', round(humidity_abs_diff, p)),
             ('humidity_specific_g_kg_difference', round(humidity_spec_diff, p)),
         ])
+
+    @staticmethod
+    def events_duration(events, max_duration):
+        durations = []
+        for event in events:
+            duration = event['event_duration']
+            if max_duration is None or duration < max_duration:
+                durations.append(event['event_duration'])
+
+        return durations
