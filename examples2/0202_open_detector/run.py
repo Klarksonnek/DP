@@ -128,10 +128,15 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('end preparing file of training set')
 
     # testovacia mnozina
-    start = int(DateTimeUtil.local_time_str_to_utc('2018/12/1 07:28:28').timestamp())
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/10/03 01:00:00').timestamp())
+    end = start + 100
+
+    logging.debug('start caching row selector')
+    row_selector = CachedRowWithIntervalSelector(con, table_name, start, end)
+    logging.debug('end caching row selector')
 
     logging.info('start computing of testing set')
-    testing = AttributeUtil.testing_data(con, table_name, start, start + 100, 30, func,
+    testing = AttributeUtil.testing_data(con, table_name, start, end, 30, func,
                                          row_selector, interval_selector, 'open')
     logging.info('testing set contains %d records' % len(testing))
     logging.info('end computing of testing set')
