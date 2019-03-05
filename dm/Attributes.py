@@ -211,6 +211,10 @@ class AbstractRowSelector(ABC):
     def row(self, column_name, time):
         pass
 
+    @abstractmethod
+    def clear(self):
+        pass
+
 
 class SimpleRowSelector(AbstractRowSelector):
     def row(self, column_name, time):
@@ -221,6 +225,9 @@ class SimpleRowSelector(AbstractRowSelector):
             raise ValueError('empty value at %s' % t)
 
         return float(res[0])
+
+    def clear(self):
+        pass
 
 
 class SimpleCachedRowSelector(AbstractRowSelector):
@@ -247,6 +254,9 @@ class SimpleCachedRowSelector(AbstractRowSelector):
             raise ValueError('empty value at %s' % t)
 
         return value
+
+    def clear(self):
+        del self.cache
 
 
 class SimpleDiffRowSelector(SimpleCachedRowSelector):
@@ -351,6 +361,9 @@ class LinearSimpleCachedRowSelector(AbstractRowSelector):
             raise ValueError('empty value at %s' % t)
 
         return value
+
+    def clear(self):
+        del self.cache
 
 
 class CachedRowWithIntervalSelector(SimpleCachedRowSelector):
