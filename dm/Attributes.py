@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from collections import OrderedDict
 
 from os.path import dirname, abspath, join
+import os
 from functools import reduce
 import sys
 import logging
@@ -12,6 +13,7 @@ CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
 sys.path.append(CODE_DIR)
 
 from dm.DateTimeUtil import DateTimeUtil
+from dm.CSVUtil import CSVUtil
 from dm.Storage import Storage
 from scipy import stats
 import numpy as np
@@ -126,6 +128,55 @@ class AttributeUtil:
 
         return attrs
 
+    @staticmethod
+    def testing_data_with_write(con, table_name, start, end, write_each, func, row_selector,
+                                interval_selector, event_type, output_filename,
+                                row_count=2048, log_every_hour=1):
+        """Generovanie testovacich dat s moznostou priebezneho zapisu do suboru.
+
+        Ak bude row_selector nastaveny na None, vytvori sa pre kazdy zapis vlastny selector,
+        ktory sa uvolni po zapise do intervalu.
+
+        :param con:
+        :param table_name: nazov tabulky
+        :param start: interval, od ktoreho sa budu generovat testovacie data
+        :param end: interval, do ktoreho sa budu generovat testovacie data
+        :param write_each:
+        :param func:
+        :param row_selector:
+        :param interval_selector:
+        :param event_type: typ eventu open alebo close
+        :param output_filename: subor, do ktoreho sa maju ukladat testovacie data
+        :param row_count: pocet riadkov, ktore sa ma naraz zapisat do suboru
+        :return:
+        """
+
+        step = row_count * write_each
+        records = 0
+
+        if os.path.isfile(output_filename):
+            os.remove(output_filename)
+
+        last_timestamp = start
+        for timestamp in range(start + step, end + step, step):
+            if timestamp > end:
+                timestamp = timestamp - (timestamp - end)
+
+            if row_selector is None:
+                selector = CachedRowWithIntervalSelector(con, table_name, last_timestamp, timestamp)
+            else:
+                selector = row_selector
+
+            tr = AttributeUtil.testing_data(con, table_name, last_timestamp, timestamp, write_each, func,
+                                            selector, interval_selector, event_type, log_every_hour)
+            CSVUtil.create_csv_file(tr, output_filename, enable_append=True)
+            last_timestamp = timestamp
+            records += len(tr)
+
+            if row_selector is None:
+                selector.clear()
+
+        return records
 
     @staticmethod
     def testing_data(con, table_name, start, end, write_each, func, row_selector, interval_selector,
