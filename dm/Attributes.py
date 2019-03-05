@@ -1138,16 +1138,15 @@ class DistanceToLine:
                                                 float(coeff['a']),
                                                 float(coeff['b']),
                                                 coeff['c'])
+                row['min_pl_' + str(interval)] = round(dist, precision)
                 dist_point_line.append(dist)
                 coord = self.model['point'][interval]
 
                 # calculate the distance point-point
                 dist = self.distance_point_point_Euclidean(x, y, coord['cx'], coord['cy'])
+                row['min_pp_' + str(interval)] = round(dist, precision)
                 dist_point_point.append(dist)
 
-            # minumum distance
-            row['min_pp'] = round(min(dist_point_line), precision)
-            row['min_pl'] = round(min(dist_point_point), precision)
             out.append(row)
 
         return out
