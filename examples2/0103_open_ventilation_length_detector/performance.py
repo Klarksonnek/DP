@@ -9,30 +9,58 @@ from dm.DateTimeUtil import DateTimeUtil
 import csv
 
 
-def table(length, true_5, bad_10_true_5, bad_25_true_5, true_10, bad_5_true_10, bad_25_true_10,
-          true_25, bad_5_true_25, bad_10_true_25):
+def table(length, length_training, vent_5_min, vent_10_min, vent_25_min, true_5, bad_10_true_5, bad_25_true_5, true_10,
+          bad_5_true_10, bad_25_true_10, true_25, bad_5_true_25, bad_10_true_25):
     uspesnost = round(((true_5 + true_10 + true_25) / length) * 100, 2)
 
     out = ''
-    out += '-------------------------------------------------------------------------\n'
-    out += '|records: {0:5}                                                         |\n'.format(length)
-    out += '-------------------------------------------------------------------------\n'
-    out += '|accuracy: {0:5}%                                                       |\n'.format(uspesnost)
-    out += '-------------------------------------------------------------------------\n'
-    out += '|                         | true 5         | true 10         | true 25            |\n'
-    out += '-------------------------------------------------------------------------\n'
-    out += '|prediction 5       |{0:20}  |{1:20}  |{2:20}  |\n'.format(true_5, bad_5_true_10, bad_5_true_25)
-    out += '-------------------------------------------------------------------------\n'
-    out += '|prediction 10          |{0:20}  |{1:20}  |{2:20}  |\n'.format(bad_10_true_5, true_10, bad_10_true_25)
-    out += '-------------------------------------------------------------------------\n'
-    out += '|prediction 25          |{0:20}  |{1:20}  |{2:20}  |\n'.format(bad_25_true_5, bad_25_true_10, true_25)
-    out += '-------------------------------------------------------------------------\n'
+    out += '--------------------------------------------------------------------------\n'
+    out += '|                         | 5 minutes    | 10 minutes     | 25 minutes   |\n'
+    out += '--------------------------------------------------------------------------\n'
+    out += '|training records: {0:5}  |{1:5}         |{2:5}           |{3:5}         |\n'.format(length_training,
+                                                                                                 vent_5_min,
+                                                                                                 vent_10_min,
+                                                                                                 vent_25_min)
+    out += '--------------------------------------------------------------------------\n'
+    out += '|testing records:  {0:5}                                                 |\n'.format(length)
+    out += '--------------------------------------------------------------------------\n'
+    out += '|accuracy: {0:5}%                                                        |\n'.format(uspesnost)
+    out += '--------------------------------------------------------------------------\n'
+    out += '|                         | true 5     | true 10     | true 25           |\n'
+    out += '--------------------------------------------------------------------------\n'
+    out += '|prediction 5             |{0:5}       |{1:5}        |{2:5}              |\n'.format(true_5,
+                                                                                                 bad_5_true_10,
+                                                                                                 bad_5_true_25)
+    out += '--------------------------------------------------------------------------\n'
+    out += '|prediction 10            |{0:5}       |{1:5}        |{2:5}              |\n'.format(bad_10_true_5,
+                                                                                                 true_10,
+                                                                                                 bad_10_true_25)
+    out += '--------------------------------------------------------------------------\n'
+    out += '|prediction 25            |{0:5}       |{1:5}        |{2:5}              |\n'.format(bad_25_true_5,
+                                                                                                 bad_25_true_10,
+                                                                                                 true_25)
+    out += '--------------------------------------------------------------------------\n'
 
     print(out)
 
 
 if __name__ == '__main__':
     out = []
+    len_training = 0
+    vent_5_min = 0
+    vent_10_min = 0
+    vent_25_min = 0
+
+    with open('training.csv', mode='r') as csv_file:
+        csv_reader = csv.DictReader(csv_file, delimiter=',')
+        for row in csv_reader:
+            len_training += 1
+            if row['VentilationLength_event__'] == "'300'":
+                vent_5_min += 1
+            elif row['VentilationLength_event__'] == "'600'":
+                vent_10_min += 1
+            elif row['VentilationLength_event__'] == "'1500'":
+                vent_25_min += 1
 
     with open('out.csv', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
@@ -84,6 +112,10 @@ if __name__ == '__main__':
 
     table(
         len(out),
+        len_training,
+        vent_5_min,
+        vent_10_min,
+        vent_25_min,
         true_5,
         bad_10_true_5,
         bad_25_true_5,
@@ -127,6 +159,10 @@ if __name__ == '__main__':
 
     table(
         len(out),
+        len_training,
+        vent_5_min,
+        vent_10_min,
+        vent_25_min,
         true_5,
         bad_10_true_5,
         bad_25_true_5,
