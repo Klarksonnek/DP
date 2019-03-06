@@ -46,6 +46,7 @@ def table(length, length_training, vent_5_min, vent_10_min, vent_25_min, true_5,
 
 if __name__ == '__main__':
     out = []
+
     len_training = 0
     vent_5_min = 0
     vent_10_min = 0
@@ -144,18 +145,18 @@ if __name__ == '__main__':
                 true_10 += 1
             elif row['ventilation_length'] == "'1500'":
                 true_25 += 1
-        elif row['ventilation_length'] == "'300'" and row['prediction'] == "'600'":
-            true_5 += 1
-        elif row['ventilation_length'] == "'600'" and row['prediction'] == "'300'":
+        elif row['ventilation_length'] == "'600'" and row['prediction'] == "'1500'":
             true_10 += 1
+        elif row['ventilation_length'] == "'1500'" and row['prediction'] == "'600'":
+            true_25 += 1
         elif row['ventilation_length'] == "'300'" and row['prediction'] == "'1500'":
             bad_25_true_5 += 1
-        elif row['ventilation_length'] == "'600'" and row['prediction'] == "'1500'":
-            bad_25_true_10 += 1
+        elif row['ventilation_length'] == "'300'" and row['prediction'] == "'600'":
+            bad_10_true_5 += 1
+        elif row['ventilation_length'] == "'600'" and row['prediction'] == "'300'":
+            bad_5_true_10 += 1
         elif row['ventilation_length'] == "'1500'" and row['prediction'] == "'300'":
             bad_5_true_25 += 1
-        elif row['ventilation_length'] == "'1500'" and row['prediction'] == "'600'":
-            bad_10_true_25 += 1
 
     table(
         len(out),

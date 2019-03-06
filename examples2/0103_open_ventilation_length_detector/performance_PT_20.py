@@ -9,36 +9,36 @@ from dm.DateTimeUtil import DateTimeUtil
 import csv
 
 
-def table(length, length_training, vent_5_min, vent_10_min, vent_25_min, true_5, bad_10_true_5, bad_25_true_5, true_10,
-          bad_5_true_10, bad_25_true_10, true_25, bad_5_true_25, bad_10_true_25):
-    uspesnost = round(((true_5 + true_10 + true_25) / length) * 100, 2)
+def table(length, length_training, vent_5_min, vent_10_min, vent_20_min, true_5, bad_10_true_5, bad_20_true_5, true_10,
+          bad_5_true_10, bad_20_true_10, true_20, bad_5_true_20, bad_10_true_20):
+    uspesnost = round(((true_5 + true_10 + true_20) / length) * 100, 2)
 
     out = ''
     out += '--------------------------------------------------------------------------\n'
-    out += '|                         | 5 minutes    | 10 minutes     | 25 minutes   |\n'
+    out += '|                         | 5 minutes    | 10 minutes     | 20 minutes   |\n'
     out += '--------------------------------------------------------------------------\n'
     out += '|training records: {0:5}  |{1:5}         |{2:5}           |{3:5}         |\n'.format(length_training,
                                                                                                  vent_5_min,
                                                                                                  vent_10_min,
-                                                                                                 vent_25_min)
+                                                                                                 vent_20_min)
     out += '--------------------------------------------------------------------------\n'
     out += '|testing records:  {0:5}                                                 |\n'.format(length)
     out += '--------------------------------------------------------------------------\n'
     out += '|accuracy: {0:5}%                                                        |\n'.format(uspesnost)
     out += '--------------------------------------------------------------------------\n'
-    out += '|                         | true 5     | true 10     | true 25           |\n'
+    out += '|                         | true 5     | true 10     | true 20           |\n'
     out += '--------------------------------------------------------------------------\n'
     out += '|prediction 5             |{0:5}       |{1:5}        |{2:5}              |\n'.format(true_5,
                                                                                                  bad_5_true_10,
-                                                                                                 bad_5_true_25)
+                                                                                                 bad_5_true_20)
     out += '--------------------------------------------------------------------------\n'
     out += '|prediction 10            |{0:5}       |{1:5}        |{2:5}              |\n'.format(bad_10_true_5,
                                                                                                  true_10,
-                                                                                                 bad_10_true_25)
+                                                                                                 bad_10_true_20)
     out += '--------------------------------------------------------------------------\n'
-    out += '|prediction 25            |{0:5}       |{1:5}        |{2:5}              |\n'.format(bad_25_true_5,
-                                                                                                 bad_25_true_10,
-                                                                                                 true_25)
+    out += '|prediction 20            |{0:5}       |{1:5}        |{2:5}              |\n'.format(bad_20_true_5,
+                                                                                                 bad_20_true_10,
+                                                                                                 true_20)
     out += '--------------------------------------------------------------------------\n'
 
     print(out)
@@ -46,10 +46,11 @@ def table(length, length_training, vent_5_min, vent_10_min, vent_25_min, true_5,
 
 if __name__ == '__main__':
     out = []
+
     len_training = 0
     vent_5_min = 0
     vent_10_min = 0
-    vent_25_min = 0
+    vent_20_min = 0
 
     with open('training.csv', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
@@ -59,8 +60,8 @@ if __name__ == '__main__':
                 vent_5_min += 1
             elif row['VentilationLength_event__'] == "'600'":
                 vent_10_min += 1
-            elif row['VentilationLength_event__'] == "'1500'":
-                vent_25_min += 1
+            elif row['VentilationLength_event__'] == "'1200'":
+                vent_20_min += 1
 
     with open('out.csv', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
@@ -77,13 +78,13 @@ if __name__ == '__main__':
 
     true_5 = 0
     bad_10_true_5 = 0
-    bad_25_true_5 = 0
+    bad_20_true_5 = 0
     true_10 = 0
     bad_5_true_10 = 0
-    bad_25_true_10 = 0
-    true_25 = 0
-    bad_5_true_25 = 0
-    bad_10_true_25 = 0
+    bad_20_true_10 = 0
+    true_20 = 0
+    bad_5_true_20 = 0
+    bad_10_true_20 = 0
     for row in out:
         fail = True
 
@@ -92,84 +93,84 @@ if __name__ == '__main__':
                 true_5 += 1
             elif row['ventilation_length'] == "'600'":
                 true_10 += 1
-            elif row['ventilation_length'] == "'1500'":
-                true_25 += 1
+            elif row['ventilation_length'] == "'1200'":
+                true_20 += 1
             else:
                 raise ValueError('chyba')
         else:
             if row['ventilation_length'] == "'300'" and row['prediction'] == "'600'":
                 bad_10_true_5 += 1
-            elif row['ventilation_length'] == "'300'" and row['prediction'] == "'1500'":
-                bad_25_true_5 += 1
+            elif row['ventilation_length'] == "'300'" and row['prediction'] == "'1200'":
+                bad_20_true_5 += 1
             elif row['ventilation_length'] == "'600'" and row['prediction'] == "'300'":
                 bad_5_true_10 += 1
-            elif row['ventilation_length'] == "'600'" and row['prediction'] == "'1500'":
-                bad_25_true_10 += 1
-            elif row['ventilation_length'] == "'1500'" and row['prediction'] == "'300'":
-                bad_5_true_25 += 1
-            elif row['ventilation_length'] == "'1500'" and row['prediction'] == "'600'":
-                bad_10_true_25 += 1
+            elif row['ventilation_length'] == "'600'" and row['prediction'] == "'1200'":
+                bad_20_true_10 += 1
+            elif row['ventilation_length'] == "'1200'" and row['prediction'] == "'300'":
+                bad_5_true_20 += 1
+            elif row['ventilation_length'] == "'1200'" and row['prediction'] == "'600'":
+                bad_10_true_20 += 1
 
     table(
         len(out),
         len_training,
         vent_5_min,
         vent_10_min,
-        vent_25_min,
+        vent_20_min,
         true_5,
         bad_10_true_5,
-        bad_25_true_5,
+        bad_20_true_5,
         true_10,
         bad_5_true_10,
-        bad_25_true_10,
-        true_25,
-        bad_5_true_25,
-        bad_10_true_25
+        bad_20_true_10,
+        true_20,
+        bad_5_true_20,
+        bad_10_true_20
     )
 
     true_5 = 0
     bad_10_true_5 = 0
-    bad_25_true_5 = 0
+    bad_20_true_5 = 0
     true_10 = 0
     bad_5_true_10 = 0
-    bad_25_true_10 = 0
-    true_25 = 0
-    bad_5_true_25 = 0
-    bad_10_true_25 = 0
+    bad_20_true_10 = 0
+    true_20 = 0
+    bad_5_true_20 = 0
+    bad_10_true_20 = 0
     for row in out:
         if row['ventilation_length'] == row['prediction']:
             if row['ventilation_length'] == "'300'":
                 true_5 += 1
             elif row['ventilation_length'] == "'600'":
                 true_10 += 1
-            elif row['ventilation_length'] == "'1500'":
-                true_25 += 1
-        elif row['ventilation_length'] == "'300'" and row['prediction'] == "'600'":
-            true_5 += 1
-        elif row['ventilation_length'] == "'600'" and row['prediction'] == "'300'":
+            elif row['ventilation_length'] == "'1200'":
+                true_20 += 1
+        elif row['ventilation_length'] == "'600'" and row['prediction'] == "'1200'":
             true_10 += 1
-        elif row['ventilation_length'] == "'300'" and row['prediction'] == "'1500'":
-            bad_25_true_5 += 1
-        elif row['ventilation_length'] == "'600'" and row['prediction'] == "'1500'":
-            bad_25_true_10 += 1
-        elif row['ventilation_length'] == "'1500'" and row['prediction'] == "'300'":
-            bad_5_true_25 += 1
-        elif row['ventilation_length'] == "'1500'" and row['prediction'] == "'600'":
-            bad_10_true_25 += 1
+        elif row['ventilation_length'] == "'1200'" and row['prediction'] == "'600'":
+            true_20 += 1
+        elif row['ventilation_length'] == "'300'" and row['prediction'] == "'1200'":
+            bad_20_true_5 += 1
+        elif row['ventilation_length'] == "'300'" and row['prediction'] == "'600'":
+            bad_10_true_5 += 1
+        elif row['ventilation_length'] == "'600'" and row['prediction'] == "'300'":
+            bad_5_true_10 += 1
+        elif row['ventilation_length'] == "'1200'" and row['prediction'] == "'300'":
+            bad_5_true_20 += 1
 
     table(
         len(out),
         len_training,
         vent_5_min,
         vent_10_min,
-        vent_25_min,
+        vent_20_min,
         true_5,
         bad_10_true_5,
-        bad_25_true_5,
+        bad_20_true_5,
         true_10,
         bad_5_true_10,
-        bad_25_true_10,
-        true_25,
-        bad_5_true_25,
-        bad_10_true_25
+        bad_20_true_10,
+        true_20,
+        bad_5_true_20,
+        bad_10_true_20
     )
