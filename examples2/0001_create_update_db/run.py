@@ -18,14 +18,49 @@ def update_invalid_values(con):
     cur = con.cursor()
 
     # Peto
-    cur.execute('''UPDATE `measured_peto` SET `open_close` = '1' WHERE `measured_time` = 1538920482''')
-    cur.execute('''UPDATE `measured_peto` SET `open_close` = '0' WHERE measured_time >= 1539410852 AND measured_time <= 1539410865''')
-    cur.execute('''UPDATE `measured_peto` SET `open_close` = '0' WHERE measured_time >= 1542011517 AND measured_time <= 1542011529''')
+    for table in ['measured_peto', 'measured_peto_reduced']:
+        cur.execute('UPDATE ' + table + ' SET open_close = 1 WHERE measured_time = 1538920482')
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1539410852 AND measured_time <= 1539410865')
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1542011517 AND measured_time <= 1542011529')
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1551896814 AND measured_time <= 1551902894')
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1551890462 AND measured_time <= 1551890556')
+
+        cur.execute('UPDATE ' + table + ' SET pressure_in_hpa = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET temperature_in_celsius = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET temperature_in2_celsius = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET temperature_out_celsius = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_in_percentage = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_in2_percentage = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_in_absolute_g_m3 = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_in2_absolute_g_m3 = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_in_specific_g_kg = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_in2_specific_g_kg = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_out_percentage = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_out_absolute_g_m3 = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET rh_out_specific_g_kg = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+        cur.execute('UPDATE ' + table + ' SET co2_in_ppm = Null WHERE measured_time >= 1551847133 AND measured_time <= 1551889587')
+
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET pressure_in_hpa = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET temperature_in_celsius = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET temperature_in2_celsius = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET temperature_out_celsius = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_in_percentage = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_in2_percentage = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_in_absolute_g_m3 = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_in2_absolute_g_m3 = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_in_specific_g_kg = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_in2_specific_g_kg = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_out_percentage = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_out_absolute_g_m3 = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET rh_out_specific_g_kg = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
+        cur.execute('UPDATE ' + table + ' SET co2_in_ppm = Null WHERE measured_time >= 1551903872 AND measured_time <= 1551908262')
     con.commit()
 
     # Klarka
-    cur.execute('''UPDATE `measured_klarka` SET `open_close` = '0' WHERE `measured_time` = 1547490233''')
-    cur.execute('''UPDATE `measured_klarka` SET `open_close` = '0' WHERE `measured_time` = 1547642276''')
+    for table in ['measured_klarka', 'measured_klarka_reduced']:
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time = 1547490233')
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time = 1547642276')
     con.commit()
 
 
