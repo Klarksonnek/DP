@@ -1149,6 +1149,15 @@ class DistanceToLine:
 
             out.append(row)
 
+            plt.scatter(x, y, 80, marker='o', color='black')
+            fname = 'out_{0}_{1}.png'.format(x, y)
+            title_graph = 'P = [%g, %g]' % (x, y)
+            plt.title(title_graph)
+            plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
+            plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
+            fig.savefig(fname)
+            plt.scatter(x, y, 80, marker='o', color='white')
+
         return out
 
 
