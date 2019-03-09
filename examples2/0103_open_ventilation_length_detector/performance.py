@@ -6,6 +6,7 @@ CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
 sys.path.append(CODE_DIR)
 
 from dm.DateTimeUtil import DateTimeUtil
+from dm.GraphUtil import GraphUtil
 import csv
 
 
@@ -42,6 +43,9 @@ def table(length, length_training, vent_5_min, vent_10_min, vent_25_min, true_5,
     out += '--------------------------------------------------------------------------\n'
 
     print(out)
+
+    GraphUtil.gen_stacked_bar_graph((true_5, bad_5_true_10, bad_5_true_25), (bad_10_true_5,
+    true_10, bad_10_true_25), (bad_25_true_5, bad_25_true_10, true_25))
 
 
 if __name__ == '__main__':
