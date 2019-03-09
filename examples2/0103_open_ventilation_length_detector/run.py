@@ -127,6 +127,10 @@ def main(events_file: str, no_event_time_shift: int):
 
     # rozdelenie dat na trenovaciu a testovaciu mnozinu
     training, testing, minimum = training_testing_data(data, 0.7)
+    for row in training:
+        logging.debug(row['datetime'], row['VentilationLength_event__'],
+                      row['DiffInLinear_rh_in2_specific_g_kg_before_'],
+                      row['InOutDiff_rh_in2_specific_g_kg_diff_before_0'])
     logging.info('training set contains %d records, each %d-krat' % (len(training), minimum))
     logging.info('testing set contains %d records' % len(testing))
 
