@@ -9341,6 +9341,240 @@
 				"jablotron_bathroom": ["open_close"],
 				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
 			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/05 18:22:00",
+				"event_end": "2019/03/05 18:37:06"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/05 20:02:53",
+				"event_end": "2019/03/05 20:13:26"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "pootevrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/05 21:05:00",
+				"event_end": "2019/03/05 21:12:59"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/06 05:49:04",
+				"event_end": "2019/03/06 05:49:56"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/06 17:10:25",
+				"event_end": "2019/03/06 17:18:24"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/06 21:02:57",
+				"event_end": "2019/03/06 21:12:55"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "pootevrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/06 21:22:54",
+				"event_end": "2019/03/06 21:28:02"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/07 05:44:08",
+				"event_end": "2019/03/07 05:46:08"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/07 06:22:02",
+				"event_end": "2019/03/07 06:24:02"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/07 18:52:03",
+				"event_end": "2019/03/07 19:08:52"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/07 20:10:08",
+				"event_end": "2019/03/07 20:18:58"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/08 05:57:44",
+				"event_end": "2019/03/08 06:01:10"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na stene",
+			"window": "zavrene",
+			"door": "zavrene",
+			"weather": "",
+			"people": 1,
+			"type": "shower",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/08 21:15:54",
+				"event_end": "2019/03/08 21:23:53"
+			},
+			"devices": {
+				"jablotron_bathroom": ["open_close"],
+				"beeeon_bathroom_ii": ["temperature_bathroom_ii", "humidity_bathroom_ii"]
+			}
 		}
 	]
 }
