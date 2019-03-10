@@ -127,10 +127,18 @@ def main(events_file: str, no_event_time_shift: int):
 
     # rozdelenie dat na trenovaciu a testovaciu mnozinu
     training, testing, minimum = training_testing_data(data, 0.7)
+    for row in training:
+        logging.debug(row['datetime'], row['VentilationLength_event__'],
+                      row['DiffInLinear_rh_in2_specific_g_kg_before_'],
+                      row['InOutDiff_rh_in2_specific_g_kg_diff_before_0'])
     logging.info('training set contains %d records, each %d-krat' % (len(training), minimum))
     logging.info('testing set contains %d records' % len(testing))
 
     op = DistanceToLine(training)
+    training = op.exec([5, 10, 25], training,
+                       'InLinear_rh_in2_specific_g_kg_before_1200',
+                       'InLinear_rh_in2_specific_g_kg_after_1200',
+                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0')
     testing = op.exec([5, 10, 25], testing,
                       'InLinear_rh_in2_specific_g_kg_before_1200',
                       'InLinear_rh_in2_specific_g_kg_after_1200',
@@ -199,6 +207,10 @@ def main_test_pt(events_file_training: str, events_file_testing: str, no_event_t
     logging.info('end computing of testing set')
 
     op = DistanceToLine(data_training)
+    data_training = op.exec([5, 10], data_training,
+                            'InLinear_rh_in2_specific_g_kg_before_1200',
+                            'InLinear_rh_in2_specific_g_kg_after_1200',
+                            'InOutDiff_rh_in2_specific_g_kg_diff_before_0')
     data_testing = op.exec([5, 10], data_testing,
                            'InLinear_rh_in2_specific_g_kg_before_1200',
                            'InLinear_rh_in2_specific_g_kg_after_1200',

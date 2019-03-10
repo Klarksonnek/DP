@@ -1123,6 +1123,10 @@ class DistanceToLine:
                 'fig': fig,
             }
 
+            plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
+            plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
+            self.model['fig'].savefig('model.png')
+
         out = []
         for row in data_testing:
             dist_point_line = []
@@ -1155,7 +1159,7 @@ class DistanceToLine:
             plt.title(title_graph)
             plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
             plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
-            fig.savefig(fname)
+            self.model['fig'].savefig(fname)
             plt.scatter(x, y, 80, marker='o', color='white')
 
         return out
