@@ -1072,6 +1072,14 @@ class MathLineCoefficients(AbstractLineCoefficients):
         return avg_direction
 
 
+class CenterLineCoefficients(AbstractLineCoefficients):
+    def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
+        a = point_x
+        b = point_y
+
+        return -a / b
+
+
 class DistanceToLine:
     def __init__(self, training):
         self.training = training
