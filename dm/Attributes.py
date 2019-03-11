@@ -529,9 +529,17 @@ class AbstractPrepareAttr(ABC):
         def compute(input_values, interval_name):
             count = len(input_values)
             values = self._extract_values(input_values)
-
             vals = values[1:]
-            v1 = round(reduce((lambda x, y: x * y), vals) ** (1/(count - 1)), precision)
+
+            # sqrt can be positive
+            is_negative = False
+            tmp = reduce((lambda x, y: x * y), vals)
+            if tmp < 0:
+                is_negative = True
+                tmp *= -1
+            v1 = round(tmp ** (1/(count - 1)), precision)
+            if is_negative:
+                v1 *= -1
 
             attr_prefix = '_geometricMean' + prefix
             name = self.attr_name(column, attr_prefix, interval_name, '')
