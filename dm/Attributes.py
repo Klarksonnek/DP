@@ -1234,4 +1234,17 @@ class DistanceToLine:
 
         return out
 
+    @staticmethod
+    def select_attributes(data, attributes):
+        out = []
+        for row in data:
+            new_row = []
+            for key, value in row.items():
+                if key in attributes:
+                    new_row.append((key, value))
+            out.append(OrderedDict(new_row))
+
+        return out
+
+
 
