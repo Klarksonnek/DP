@@ -1085,7 +1085,8 @@ class DistanceToLine:
         self.training = training
         self.model = None
 
-    def ventilation_length_events(self, training: list, ventilation_length: int):
+    @staticmethod
+    def ventilation_length_events(training: list, ventilation_length: int):
         out = []
 
         for row in training:
