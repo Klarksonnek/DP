@@ -1045,6 +1045,19 @@ class AbstractLineCoefficients(ABC):
         return a, b, 0
 
 
+class PolyfitLineCoefficients(AbstractLineCoefficients):
+    def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
+        direction = []
+        for row in DistanceToLine.ventilation_length_events(data, interval):
+            b = -(float(row[col1]) - float(row[col2]))
+            a = float(row[col3])
+            direction.append(-a / b)
+
+        avg_direction = sum(direction) / float(len(direction))
+
+        return avg_direction
+
+
 class DistanceToLine:
     def __init__(self, training):
         self.training = training
