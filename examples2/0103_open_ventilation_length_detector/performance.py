@@ -13,6 +13,8 @@ import csv
 def table(length, length_training, vent_5_min, vent_10_min, vent_25_min, true_5, bad_10_true_5, bad_25_true_5, true_10,
           bad_5_true_10, bad_25_true_10, true_25, bad_5_true_25, bad_10_true_25):
     uspesnost = round(((true_5 + true_10 + true_25) / length) * 100, 2)
+    uspesnost_modified = round(((true_5 + true_10 + true_25 + (bad_10_true_5 / 2) + (bad_5_true_10 / 2)
+                                 + (bad_10_true_25 / 2) + (bad_25_true_10 / 2)) / length) * 100, 2)
 
     out = ''
     out += '--------------------------------------------------------------------------\n'
@@ -26,6 +28,8 @@ def table(length, length_training, vent_5_min, vent_10_min, vent_25_min, true_5,
     out += '|testing records:  {0:5}                                                 |\n'.format(length)
     out += '--------------------------------------------------------------------------\n'
     out += '|accuracy: {0:5}%                                                        |\n'.format(uspesnost)
+    out += '--------------------------------------------------------------------------\n'
+    out += '|modified accuracy: {0:5}%                                               |\n'.format(uspesnost_modified)
     out += '--------------------------------------------------------------------------\n'
     out += '|                         | true 5     | true 10     | true 25           |\n'
     out += '--------------------------------------------------------------------------\n'

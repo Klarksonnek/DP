@@ -975,21 +975,21 @@ class DiffInLinear(InLinear):
         return before, []
 
 
-class DistanceToLine:
-    def __init__(self, training):
-        self.training = training
-        self.model = None
+class AbstractLineCoefficients(ABC):
+    def __init__(self):
+        super(AbstractLineCoefficients, self).__init__()
 
-    def ventilation_length_events(self, training: list, ventilation_length: int):
-        out = []
+    @abstractmethod
+    def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
+        pass
 
-        for row in training:
-            if row['VentilationLength_event__'] == "'" + str(ventilation_length) + "'":
-                out.append(row)
+    def convert_line(self, coeffs):
+        if coeffs[1] == 0:
+            return self._convert_line_to_general_without_c(coeffs)
 
-        return out
+        return self._convert_line_to_general(coeffs)
 
-    def convert_line_to_general(self, coeffs):
+    def _convert_line_to_general(self, coeffs):
         """ Converts line equation y = kx + q to the form ax + by + c = 0 (general form)
         """
 
@@ -1022,7 +1022,91 @@ class DistanceToLine:
 
         return a, b, c
 
-    def humidity_clusters(self, training, col1, col2, col3, intervals):
+    def _convert_line_to_general_without_c(self, coeffs):
+        """ Converts line equation y = kx to the form ax + by = 0 (general form)
+        """
+
+        # represents coeffs as fractions
+        tmp = Fraction(str(coeffs[0])).limit_denominator(1000)
+        n1 = tmp.numerator
+        d1 = tmp.denominator
+
+        # symbolic variables
+        x = var('x')
+
+        y1 = (n1 * x) / d1
+
+        y_mult1 = y1 * d1
+
+        a = y_mult1.subs('x', 1) * (-1)
+
+        b = d1
+
+        return a, b, 0
+
+
+class PolyfitLineCoefficients(AbstractLineCoefficients):
+    def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
+        direction = []
+        for row in DistanceToLine.ventilation_length_events(data, interval):
+            b = -(float(row[col1]) - float(row[col2]))
+            a = float(row[col3])
+            direction.append(-a / b)
+
+        avg_direction = sum(direction) / float(len(direction))
+
+        return avg_direction
+
+
+class MathLineCoefficients(AbstractLineCoefficients):
+    def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
+        direction = []
+        for row in DistanceToLine.ventilation_length_events(data, interval):
+            sh_decrease_tmp = [0, float(row[col1]) - float(row[col2])]
+            sh_diff_tmp = [0, float(row[col3])]
+            coeffs_point = np.polyfit(sh_decrease_tmp, sh_diff_tmp, 1)
+            direction.append(coeffs_point[0])
+
+        avg_direction = sum(direction) / float(len(direction))
+
+        return avg_direction
+
+
+class CenterLineCoefficients(AbstractLineCoefficients):
+    def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
+        a = point_x
+        b = point_y
+
+        return -a / b
+
+
+class DistanceToLine:
+    def __init__(self, training):
+        self.training = training
+        self.model = None
+
+    @staticmethod
+    def ventilation_length_events(training: list, ventilation_length: int):
+        out = []
+
+        for row in training:
+            if row['VentilationLength_event__'] == "'" + str(ventilation_length) + "'":
+                out.append(row)
+
+        return out
+
+    def humidity_clusters(self, training, col1, col2, col3, intervals, strategy):
+        """
+
+        :param training:
+        :param col1:
+        :param col2:
+        :param col3:
+        :param intervals:
+        :param strategy:
+        :return:
+        """
+
         # colors
         colors = ['red', 'green', 'blue', 'magenta', 'cyan']
         # counter for colors
@@ -1053,8 +1137,12 @@ class DistanceToLine:
             # get coefficients of the line (1st order polynom = line)
             coeffs = np.polyfit(sh_decrease, sh_diff, 1)
 
+            direction = strategy.calculate(training, interval * 60, col1, col2, col3, C[0][0], C[0][1])
+            y = direction * max(sh_decrease)
+            plt.plot([0, max(sh_decrease)], [0, y])
+
             # convert the line equation
-            (a, b, c) = self.convert_line_to_general(coeffs)
+            (a, b, c) = strategy.convert_line([direction, 0])
             out_point_line[interval] = {
                 'a': a,
                 'b': b,
@@ -1111,9 +1199,9 @@ class DistanceToLine:
 
         return float(np.sqrt((b1 - a1) ** 2 + (b2 - a2) ** 2))
 
-    def exec(self, intervals, data_testing, col1, col2, col3, precision=2):
+    def exec(self, intervals, data_testing, col1, col2, col3, strategy, precision=2):
         if self.model is None:
-            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals)
+            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals, strategy)
 
             self.model = {
                 'line': line,
@@ -1161,5 +1249,18 @@ class DistanceToLine:
             plt.scatter(x, y, 80, marker='o', color='white')
 
         return out
+
+    @staticmethod
+    def select_attributes(data, attributes):
+        out = []
+        for row in data:
+            new_row = []
+            for key, value in row.items():
+                if key in attributes:
+                    new_row.append((key, value))
+            out.append(OrderedDict(new_row))
+
+        return out
+
 
 
