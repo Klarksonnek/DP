@@ -48,7 +48,7 @@ class AttributeUtil:
 
     @staticmethod
     def training_data(con, table_name, events, func, row_selector, interval_selector,
-                      event_type):
+                      event_type, print_each=10):
         """Generovanie trenovacich dat.
 
         :param con:
@@ -68,6 +68,9 @@ class AttributeUtil:
             end = event['e_end']['timestamp']
             no_event_start = start + event['no_event_time_shift']
             no_event_end = end - event['no_event_time_shift']
+
+            if k % print_each == 0:
+                logging.debug('{0}/{1} events'.format(k, len(events)))
 
             if event_type == 'open':
                 event_time = start
