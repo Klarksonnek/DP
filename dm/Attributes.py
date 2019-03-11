@@ -213,20 +213,15 @@ class AttributeUtil:
             elif event_type == 'close' and previous_row[0] == 1 and act_row[0] == 0:
                 open_state = event_type
 
+            if open_state == 'nothing':
+                if t % write_each != 0:
+                    continue
+
             try:
                 data = func(con, table_name, t, row_selector, interval_selector)
             except Exception as e:
                 # logging.error(str(e))
                 continue
-
-            if open_state == 'nothing':
-                if count < (write_each - 1):
-                    count += 1
-                    continue
-                else:
-                    count = 0
-            elif open_state == event_type:
-                count += 1
 
             time = DateTimeUtil.utc_timestamp_to_str(t, '%Y/%m/%d %H:%M:%S')
             data.insert(0, ('datetime', time))
