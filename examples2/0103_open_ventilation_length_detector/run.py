@@ -135,14 +135,22 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('testing set contains %d records' % len(testing))
 
     op = DistanceToLine(training)
+    strategy = PolyfitLineCoefficients()
     training = op.exec([5, 10, 25], training,
                        'InLinear_rh_in2_specific_g_kg_before_1200',
                        'InLinear_rh_in2_specific_g_kg_after_1200',
-                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0')
+                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy)
+    training = DistanceToLine.select_attributes(training, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
+                                                           'min_pl_5', 'min_pl_10', 'min_pl_25',
+                                                           'VentilationLength_event__'])
+
     testing = op.exec([5, 10, 25], testing,
                       'InLinear_rh_in2_specific_g_kg_before_1200',
                       'InLinear_rh_in2_specific_g_kg_after_1200',
-                      'InOutDiff_rh_in2_specific_g_kg_diff_before_0')
+                      'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy)
+    testing = DistanceToLine.select_attributes(testing, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
+                                                         'min_pl_5', 'min_pl_10', 'min_pl_25',
+                                                         'VentilationLength_event__'])
 
     # generovanie suborov
     logging.info('start preparing file of training and testing set')
