@@ -1095,7 +1095,18 @@ class DistanceToLine:
 
         return out
 
-    def humidity_clusters(self, training, col1, col2, col3, intervals):
+    def humidity_clusters(self, training, col1, col2, col3, intervals, strategy):
+        """
+
+        :param training:
+        :param col1:
+        :param col2:
+        :param col3:
+        :param intervals:
+        :param strategy:
+        :return:
+        """
+
         # colors
         colors = ['red', 'green', 'blue', 'magenta', 'cyan']
         # counter for colors
@@ -1126,8 +1137,12 @@ class DistanceToLine:
             # get coefficients of the line (1st order polynom = line)
             coeffs = np.polyfit(sh_decrease, sh_diff, 1)
 
+            direction = strategy.calculate(training, interval * 60, col1, col2, col3, C[0][0], C[0][1])
+            y = direction * max(sh_decrease)
+            plt.plot([0, max(sh_decrease)], [0, y])
+
             # convert the line equation
-            (a, b, c) = self.convert_line_to_general(coeffs)
+            (a, b, c) = strategy.convert_line([direction, 0])
             out_point_line[interval] = {
                 'a': a,
                 'b': b,
@@ -1184,9 +1199,9 @@ class DistanceToLine:
 
         return float(np.sqrt((b1 - a1) ** 2 + (b2 - a2) ** 2))
 
-    def exec(self, intervals, data_testing, col1, col2, col3, precision=2):
+    def exec(self, intervals, data_testing, col1, col2, col3, strategy, precision=2):
         if self.model is None:
-            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals)
+            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals, strategy)
 
             self.model = {
                 'line': line,
