@@ -26,7 +26,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             intervals_after = [x for x in range(5, 181, 10)]
 
             op = FirstDifferenceAttrA(con, table_name, row_selector, interval_selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
                               normalize=normalize,
@@ -34,11 +34,22 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               prefix='',
                               selected_before=[],
                               selected_after=[])
-            attrs += a + b
+            attrs += b + a
 
+            pr = ''
+            be, af = op.geometric_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.arithmetic_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.variance(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.standard_deviation(column, precision, b, a, pr)
+            attrs += be + af
+
+            #
             # linearny posun
             op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
                               normalize=normalize,
@@ -46,10 +57,20 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               prefix='',
                               selected_before=[],
                               selected_after=[])
-            attrs += a + b
+            attrs += b + a
+
+            pr = 'B_linearne'
+            be, af = op.geometric_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.arithmetic_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.variance(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.standard_deviation(column, precision, b, a, pr)
+            attrs += be + af
 
             op = SecondDifferenceAttr(con, table_name, row_selector, interval_selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
                               normalize=normalize,
@@ -57,11 +78,41 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               prefix='',
                               selected_before=[],
                               selected_after=[])
-            attrs += a + b
+            attrs += b + a
 
+            op = DifferenceBetweenRealLinear(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after,
+                              window_size_before=15*60, window_size_after=3*60,
+                              prefix='')
+            attrs += b + a
+
+            #
             # x^2 posun
+            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[x * x for x in range(2, 25, 1)],
+                              intervals_after=[x * x for x in range(2, 14, 1)],
+                              normalize=normalize,
+                              enable_count=True,
+                              prefix='_x2',
+                              selected_before=[],
+                              selected_after=[])
+            attrs += b + a
+
+            pr = 'B_x2'
+            be, af = op.geometric_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.arithmetic_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.variance(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.standard_deviation(column, precision, b, a, pr)
+            attrs += be + af
+
             op = SecondDifferenceAttr(con, table_name, row_selector, interval_selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x*x for x in range(2, 25, 1)],
                               intervals_after=[x*x for x in range(2, 14, 1)],
                               normalize=normalize,
@@ -69,11 +120,41 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               prefix='_x2',
                               selected_before=[],
                               selected_after=[])
-            attrs += a + b
+            attrs += b + a
 
+            op = DifferenceBetweenRealLinear(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after,
+                              window_size_before=15 * 60, window_size_after=3 * 60,
+                              prefix='_x2')
+            attrs += b + a
+
+            #
             # x^3 posun
+            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[x * x * x for x in range(2, 9, 1)],
+                              intervals_after=[x * x * x for x in range(2, 6, 1)],
+                              normalize=normalize,
+                              enable_count=True,
+                              prefix='_x3',
+                              selected_before=[],
+                              selected_after=[])
+            attrs += b + a
+
+            pr = 'B_x3'
+            be, af = op.geometric_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.arithmetic_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.variance(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.standard_deviation(column, precision, b, a, pr)
+            attrs += be + af
+
             op = SecondDifferenceAttr(con, table_name, row_selector, interval_selector)
-            a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x*x*x for x in range(2, 9, 1)],
                               intervals_after=[x*x*x for x in range(2, 6, 1)],
                               normalize=normalize,
@@ -81,7 +162,53 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               prefix='_x3',
                               selected_before=[],
                               selected_after=[])
-            attrs += a + b
+            attrs += b + a
+
+            op = DifferenceBetweenRealLinear(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[x*x*x for x in range(2, 9, 1)],
+                              intervals_after=[x*x*x for x in range(2, 6, 1)],
+                              window_size_before=15 * 60, window_size_after=3 * 60,
+                              prefix='_x3')
+            attrs += b + a
+
+            #
+            # 5x
+            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[5 * x for x in range(2, 121, 1)],
+                              intervals_after=[2 * x for x in range(2, 91, 1)],
+                              normalize=normalize,
+                              enable_count=True,
+                              prefix='_5x',
+                              selected_before=[],
+                              selected_after=[])
+            attrs += b + a
+
+            pr = 'B_5x'
+            be, af = op.geometric_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.arithmetic_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.variance(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.standard_deviation(column, precision, b, a, pr)
+            attrs += be + af
+
+            op = DifferenceBetweenRealLinear(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[5 * x for x in range(2, 121, 1)],
+                              intervals_after=[2 * x for x in range(2, 91, 1)],
+                              window_size_before=15 * 60, window_size_after=3 * 60,
+                              prefix='_5x')
+            attrs += b + a
+
+            op = InOutDiff(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=intervals_before,
+                              intervals_after=intervals_after,
+                              prefix='')
+            attrs += b + a
 
     return attrs
 
