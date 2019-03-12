@@ -255,7 +255,7 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('end preparing file of training set')
 
     # testovacia mnozina
-    start = int(DateTimeUtil.local_time_str_to_utc('2018/10/07 01:00:00').timestamp())
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/10/07 06:00:00').timestamp())
     end = start + 100
 
     logging.info('start computing of testing set')
