@@ -1112,11 +1112,11 @@ class DistanceToLine:
         """
 
         # colors
-        colors = ['red', 'green', 'blue', 'magenta', 'cyan']
+        colors_trendline = [(0.854, 0.035, 0.027), (0.101, 0.454, 0.125), (0, 0, 1)]
+        colors_line = [(1, 0.5, 0.5), (0.5, 1, 0.5), (0.5, 0.5, 1)]
         # counter for colors
         i = 0
         fig = plt.figure()
-        leg = []
         out_point_line = {}
         out_point_point = {}
 
@@ -1143,7 +1143,7 @@ class DistanceToLine:
 
             direction = strategy.calculate(training, interval * 60, col1, col2, col3, C[0][0], C[0][1])
             y = direction * max(sh_decrease)
-            plt.plot([0, max(sh_decrease)], [0, y])
+            plt.plot([0, max(sh_decrease)], [0, y], color=colors_line[i])
 
             # convert the line equation
             (a, b, c) = strategy.convert_line([direction, 0])
@@ -1163,19 +1163,17 @@ class DistanceToLine:
 
             # plot graphs
             # plot points
-            plt.scatter(sh_decrease, sh_diff, marker='x', color=colors[i])
+            plt.scatter(sh_decrease, sh_diff, marker='x', color=colors_trendline[i])
 
             # plot cluster centroid
-            plt.scatter(C[0][0], C[0][1], marker='o', color=colors[i])
+            plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i])
 
             # plot trendline of the cluster
-            plt.plot(sh_decrease, yFitted, color=colors[i])
-
-            leg.append(str(intervals[i]) + ' min')
+            plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + 'min')
 
             i += 1
 
-        plt.legend(leg)
+        plt.legend()
         plt.grid()
 
         return out_point_line, out_point_point, fig
