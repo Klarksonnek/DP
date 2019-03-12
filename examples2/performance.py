@@ -128,6 +128,7 @@ if __name__ == '__main__':
                     bad_true_nothing += 1
                 else:
                     bad_true_open += 1
+                print(row['readable'])
 
     for _, interval in extended.items():
         found = False
