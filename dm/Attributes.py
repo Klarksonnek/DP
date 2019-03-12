@@ -1053,7 +1053,7 @@ class AbstractLineCoefficients(ABC):
         return a, b, 0
 
 
-class PolyfitLineCoefficients(AbstractLineCoefficients):
+class MathLineCoefficients(AbstractLineCoefficients):
     def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
         direction = []
         for row in DistanceToLine.ventilation_length_events(data, interval):
@@ -1061,12 +1061,10 @@ class PolyfitLineCoefficients(AbstractLineCoefficients):
             a = float(row[col3])
             direction.append(-a / b)
 
-        avg_direction = sum(direction) / float(len(direction))
-
-        return avg_direction
+        return sum(direction) / float(len(direction))
 
 
-class MathLineCoefficients(AbstractLineCoefficients):
+class PolyfitLineCoefficients(AbstractLineCoefficients):
     def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
         direction = []
         for row in DistanceToLine.ventilation_length_events(data, interval):
@@ -1075,9 +1073,7 @@ class MathLineCoefficients(AbstractLineCoefficients):
             coeffs_point = np.polyfit(sh_decrease_tmp, sh_diff_tmp, 1)
             direction.append(coeffs_point[0])
 
-        avg_direction = sum(direction) / float(len(direction))
-
-        return avg_direction
+        return sum(direction) / float(len(direction))
 
 
 class CenterLineCoefficients(AbstractLineCoefficients):
