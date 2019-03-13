@@ -278,7 +278,7 @@
             "db_column_name": "temperature_in_celsius",
             "name": "Protronix sensor co2, temperature and humidity - temperature",
             "gateway": "1816820318180747",
-            "device": "0xa9004a4a147d0001",
+            "device": "0xa900811026800001",
             "module": 0,
             "server_name": "ant-work"
         },
@@ -302,7 +302,7 @@
             "db_column_name": "rh_in_percentage",
             "name": "Protronix sensor co2, temperature and humidity - humidity",
             "gateway": "1816820318180747",
-            "device": "0xa9004a4a147d0001",
+            "device": "0xa900811026800001",
             "module": 1,
             "server_name": "ant-work"
         },
