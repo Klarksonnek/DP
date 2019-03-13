@@ -81,10 +81,11 @@ class GraphUtil:
         y_offset = y_offset + second_col
 
         p3 = plt.bar(ind, third_col, width, bottom=y_offset)
-        plt.xticks(ind, ('5 minutes', '10 minutes', '25 minutes'))
-
+        plt.xticks(ind, ('5', '10', '25'))
+        plt.xlabel('Ventilation length [min]')
+        plt.ylabel('Count')
         plt.legend((p1[0], p2[1], p3[2]), ('pred 5 min', 'pred 10 min', 'pred 25 min'),
-                   loc='lower center', bbox_to_anchor=(0.5, -0.1), bbox_transform=fig.transFigure)
+                   loc='lower center', bbox_to_anchor=(0.5, -0.15), bbox_transform=fig.transFigure)
 
         plt.subplots_adjust(bottom=0.15)
 
