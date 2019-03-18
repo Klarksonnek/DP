@@ -530,6 +530,11 @@ class AbstractPrepareAttr(ABC):
             count = len(input_values)
             values = self._extract_values(input_values)
             vals = values[1:]
+            try:
+                vals.remove(0.0)
+                vals.remove(0)
+            except:
+                pass
 
             # sqrt can be positive
             is_negative = False
