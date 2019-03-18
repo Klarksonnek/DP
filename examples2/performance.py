@@ -41,6 +41,7 @@ if __name__ == '__main__':
     intervals = []
     event_type = None
     event_types = {}
+    invalid = 0
 
     with open(OUTPUT_FILENAME, mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=',')
@@ -53,6 +54,9 @@ if __name__ == '__main__':
                 'prediction': row['prediction(event)'],
             }
 
+            if row['valid'] == 'no':
+                invalid += 1
+
             out.append(record)
             event_types[row['event']] = None
 
@@ -63,6 +67,8 @@ if __name__ == '__main__':
             event_type = 'close'
         else:
             raise ValueError('%s must contains only 2 type of event column')
+    elif len(event_types) == 1 and 'nothing' in event_types:
+        event_type = 'open'
     else:
         raise ValueError('%s must contains only 2 type of event column')
 
@@ -92,7 +98,7 @@ if __name__ == '__main__':
                 bad_true_open += 1
 
     table(
-        len(out),
+        len(out) - invalid,
         true_nothing,
         bad_true_open,
         true_open,
@@ -146,7 +152,7 @@ if __name__ == '__main__':
         true_nothing += len(interval) - 1
 
     table(
-        len(out),
+        len(out) - invalid,
         true_nothing,
         bad_true_open,
         true_open,

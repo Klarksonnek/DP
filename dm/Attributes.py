@@ -198,7 +198,8 @@ class AttributeUtil:
         """
 
         attrs = []
-        count = 0
+        data = None
+        bad_open_type_events = []
 
         for t in range(start, end):
             if t % (log_every_hour * 3600) == 0:
@@ -224,12 +225,30 @@ class AttributeUtil:
                 data = func(con, table_name, t, row_selector, interval_selector)
             except Exception as e:
                 # logging.error(str(e))
+
+                if open_state in ['open', 'close']:
+                    bad_open_type_events.append(t)
                 continue
 
             time = DateTimeUtil.utc_timestamp_to_str(t, '%Y/%m/%d %H:%M:%S')
             data.insert(0, ('datetime', time))
             data.insert(1, ('event', open_state))
+            data.append(('valid', 'yes'))
             attrs.append(OrderedDict(data))
+
+        if data is None:
+            logging.warning('any {0} events can be skipped'.format(event_type))
+        else:
+            tmp = {}
+            for item in data:
+                key = item[0]
+                tmp[key] = None
+
+            tmp['event'] = event_type
+            tmp['valid'] = 'no'
+            for timestamp in bad_open_type_events:
+                tmp['datetime'] = DateTimeUtil.utc_timestamp_to_str(timestamp, '%Y/%m/%d %H:%M:%S')
+                attrs.append(OrderedDict(tmp))
 
         return attrs
 
