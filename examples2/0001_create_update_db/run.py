@@ -78,7 +78,8 @@ def create_update_table(con, clients, start, end, devices, write_each, table_nam
 
     # odstranenie posledneho intervalu, ktory mohol obsahovat chybajuce hodnoty
     # z dovodu, ze tento interval este neexistoval
-    DBUtil.delete_from_time(con, table_name, step_size)
+    delete_step = 1 * step_size
+    DBUtil.delete_from_time(con, table_name, delete_step)
 
     last_inserted_row = DBUtil.last_inserted_values(con, table_name)
 
@@ -87,7 +88,7 @@ def create_update_table(con, clients, start, end, devices, write_each, table_nam
 
     logging.info('table: %s' % table_name)
 
-    for interval_from in range(start, end, step_size):
+    for interval_from in range(start - delete_step, end, step_size):
         interval_to = interval_from + step_size
 
         # ak sa v databaze nachadzaju nejake data a timestamp posledne vlozeneho casu,
