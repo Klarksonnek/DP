@@ -546,7 +546,6 @@ class AbstractPrepareAttr(ABC):
 
     def geometric_mean(self, column, precision, values_before, values_after, prefix):
         def compute(input_values, interval_name):
-            count = len(input_values)
             values = self._extract_values(input_values)
             vals = values[1:]
             try:
@@ -554,6 +553,8 @@ class AbstractPrepareAttr(ABC):
                 vals.remove(0)
             except:
                 pass
+
+            count = len(input_values)
 
             # sqrt can be positive
             is_negative = False
