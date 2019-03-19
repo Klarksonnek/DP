@@ -182,7 +182,7 @@ def klarka_sprcha_db(con, cls, start, end, devs):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     devs = devices()
 
     con = ConnectionUtil.create_con()
