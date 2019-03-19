@@ -10,129 +10,8 @@ CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
 sys.path.append(CODE_DIR)
 
 from dm.ConnectionUtil import ConnectionUtil
+from dm.Performance import Performance
 from dm.Attributes import *
-
-
-def performance():
-    out = []
-    res = {}
-
-    intervals = []
-    event_type = None
-    event_types = {}
-
-    with open(OUTPUT_FILENAME, mode='r') as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter=',')
-        line_count = 0
-        for row in csv_reader:
-            record = {
-                'datetime': int(DateTimeUtil.local_time_str_to_utc(row['datetime']).timestamp()),
-                'readable': row['datetime'],
-                'event': row['event'],
-                'prediction': row['prediction(event)'],
-            }
-
-            out.append(record)
-            event_types[row['event']] = None
-
-    if len(event_types) == 2:
-        if 'open' in event_types and 'nothing' in event_types:
-            event_type = 'open'
-        elif 'close' in event_types and 'nothing' in event_types:
-            event_type = 'close'
-        else:
-            raise ValueError('%s must contains only 2 type of event column')
-    else:
-        raise ValueError('%s must contains only 2 type of event column')
-
-    for row in out:
-        if row['event'] == event_type:
-            t = row['datetime']
-            intervals.append((t - BEFORE_TIME, t, t + AFTER_TIME))
-
-    true_nothing = 0
-    bad_true_nothing = 0
-    true_open = 0
-    bad_true_open = 0
-    for row in out:
-        fail = True
-
-        if row['event'] == row['prediction']:
-            if row['event'] == event_type:
-                true_open += 1
-            elif row['event'] == 'nothing':
-                true_nothing += 1
-            else:
-                raise ValueError('chyba')
-        else:
-            if row['event'] == 'nothing' and row['prediction'] == event_type:
-                bad_true_nothing += 1
-            else:
-                bad_true_open += 1
-
-    res['perf1'] = {
-        'records': len(out),
-        'accuracy': round(((true_nothing + true_open) / len(out)) * 100, 2),
-        'nothing_as_true_nothing': true_nothing,
-        'open_as_true_nothing': bad_true_nothing,
-        'open_as_true_open': true_open,
-        'nothing_as_true_open': bad_true_open,
-    }
-
-    true_nothing = 0
-    bad_true_nothing = 0
-    true_open = 0
-    bad_true_open = 0
-    extended = {}
-    for row in intervals:
-        extended[row[1]] = []
-
-    for row in out:
-        found = False
-        for interval in intervals:
-            if interval[0] < row['datetime'] < interval[2]:
-                extended[interval[1]].append(row['prediction'])
-                found = True
-
-        if not found:
-            if row['event'] == row['prediction']:
-                if row['event'] == event_type:
-                    true_open += 1
-                elif row['event'] == 'nothing':
-                    true_nothing += 1
-                else:
-                    raise ValueError('chyba')
-            else:
-                if row['event'] == 'nothing' and row['prediction'] == event_type:
-                    bad_true_nothing += 1
-                else:
-                    bad_true_open += 1
-
-    for _, interval in extended.items():
-        found = False
-        for row in interval:
-
-            if row == event_type:
-                found = True
-                break
-
-        if not found:
-            bad_true_open += 1
-        else:
-            true_open += 1
-
-        true_nothing += len(interval) - 1
-
-    res['perf2'] = {
-        'records': len(out),
-        'accuracy': round(((true_nothing + true_open) / len(out)) * 100, 2),
-        'nothing_as_true_nothing': true_nothing,
-        'open_as_true_nothing': bad_true_nothing,
-        'open_as_true_open': true_open,
-        'nothing_as_true_open': bad_true_open,
-    }
-
-    return res
 
 
 processes = [
@@ -193,8 +72,8 @@ processes = [
 ]
 
 OUTPUT_FILENAME = 'out.csv'
-BEFORE_TIME = 2 * 60
-AFTER_TIME = 3 * 60
+BEFORE_TIME = 10 * 60
+AFTER_TIME = 10 * 60
 
 from subprocess import PIPE, run
 if __name__ == '__main__':
@@ -239,20 +118,22 @@ if __name__ == '__main__':
 
         if os.path.isfile('out.csv'):
             start_time2 = time.monotonic()
-            perform = performance()
+            p = Performance(abspath(OUTPUT_FILENAME))
+            _, _, p1 = p.simple()
+            table2, wrong2, p2 = p.with_delay(BEFORE_TIME, AFTER_TIME)
             end_time2 = time.monotonic()
             duration2 = timedelta(seconds=end_time2 - start_time2)
 
-            output += '{0:6.2f}%'.format(perform['perf1']['accuracy'])
-            output += '{0:12}   '.format(perform['perf1']['nothing_as_true_nothing'])
-            output += '{0:13}   '.format(perform['perf1']['open_as_true_nothing'])
-            output += '{0:14}   '.format(perform['perf1']['open_as_true_open'])
-            output += '{0:13}   '.format(perform['perf1']['nothing_as_true_open'])
-            output += '    {0:6.2f}%'.format(perform['perf2']['accuracy'])
-            output += '{0:12}   '.format(perform['perf2']['nothing_as_true_nothing'])
-            output += '{0:13}   '.format(perform['perf2']['open_as_true_nothing'])
-            output += '{0:14}   '.format(perform['perf2']['open_as_true_open'])
-            output += '{0:13}   '.format(perform['perf2']['nothing_as_true_open'])
+            output += '{0:6.2f}%'.format(p1['accuracy'])
+            output += '{0:12}   '.format(p1['nothing_as_true_nothing'])
+            output += '{0:13}   '.format(p1['open_as_true_nothing'])
+            output += '{0:14}   '.format(p1['open_as_true_open'])
+            output += '{0:13}   '.format(p1['nothing_as_true_open'])
+            output += '    {0:6.2f}%'.format(p2['accuracy'])
+            output += '{0:12}   '.format(p2['nothing_as_true_nothing'])
+            output += '{0:13}   '.format(p2['open_as_true_nothing'])
+            output += '{0:14}   '.format(p2['open_as_true_open'])
+            output += '{0:13}   '.format(p2['nothing_as_true_open'])
             output += '    {0}  {1}'.format(str(duration)[:9], str(duration2)[:9])
             logging.debug(output)
         else:
