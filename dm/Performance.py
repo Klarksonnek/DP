@@ -56,9 +56,9 @@ class Performance:
         out += '-------------------------------------------------------------------------\n'
         out += '|                         | true nothing         | true {0}           |\n'.format(event_type)
         out += '-------------------------------------------------------------------------\n'
-        out += '|prediction nothing       |{0:20}  |{1:20}  |\n'.format(res['nothing_as_true_nothing'], res['open_as_true_open'])
+        out += '|prediction nothing       |{0:20}  |{1:20}  |\n'.format(res['nothing_as_true_nothing'], res['nothing_as_true_open'])
         out += '-------------------------------------------------------------------------\n'
-        out += '|prediction {0}         |{1:20}  |{2:20}  |\n'.format(event_type, res['open_as_true_nothing'], res['nothing_as_true_open'])
+        out += '|prediction {0}         |{1:20}  |{2:20}  |\n'.format(event_type, res['open_as_true_nothing'], res['open_as_true_open'])
         out += '-------------------------------------------------------------------------\n'
         return out
 
@@ -83,12 +83,12 @@ class Performance:
             else:
                 if row['event'] == 'nothing' and row['prediction'] == self.__event_type:
                     open_as_true_nothing += 1
+
+                    if row['event'] != self.__event_type:
+                        wrong_prediction.append(row['readable'])
                 else:
                     if row['valid'] == 'yes':
                         nothing_as_true_open += 1
-
-                if row['event'] != self.__event_type:
-                    wrong_prediction.append(row['readable'])
 
         res = {
             'records': self.__count,
@@ -142,12 +142,12 @@ class Performance:
                 else:
                     if row['event'] == 'nothing' and row['prediction'] == self.__event_type:
                         open_as_true_nothing += 1
-                    else:
-                        if row['valid'] == 'yes':
-                            nothing_as_true_open += 1
 
                         if row['event'] != self.__event_type:
                             wrong_prediction.append(row['readable'])
+                    else:
+                        if row['valid'] == 'yes':
+                            nothing_as_true_open += 1
 
         for key, interval in extended.items():
             found = False
