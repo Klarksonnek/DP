@@ -1,5 +1,6 @@
 import logging
 from mysql.connector.errors import Error
+from mysql.connector.errors import DataError
 from dm.DateTimeUtil import DateTimeUtil
 
 
@@ -87,6 +88,9 @@ class DBUtil:
         try:
             cur = conn.cursor()
             cur.execute(sql, task)
+        except DataError as e:
+            logging.exception(e)
+            exit(1)
         except Error:
             return
 
