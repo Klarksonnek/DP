@@ -288,7 +288,7 @@ class PreProcessing:
                 item = row[k]
 
                 key = 'rh_in_percentage'
-                if key in item and float(item[key]) > 100:
+                if key in item and item[key] is not None and float(item[key]) > 100:
                     t = DateTimeUtil.utc_timestamp_to_str(item['measured_time'])
                     value = float(item[key])
                     logging.error('{0}, {1}: value {2} is out of range, skipped'.format(
