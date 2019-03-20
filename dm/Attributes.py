@@ -22,6 +22,8 @@ from sklearn.cluster import KMeans
 from fractions import Fraction
 from sympy import *
 
+DATA_CACHE = None
+
 
 class AttributeUtil:
     @staticmethod
@@ -198,8 +200,8 @@ class AttributeUtil:
         """
 
         attrs = []
-        data = None
         bad_open_type_events = []
+        global DATA_CACHE
 
         for t in range(start, end):
             if t % (log_every_hour * 3600) == 0:
@@ -222,7 +224,7 @@ class AttributeUtil:
                     continue
 
             try:
-                data = func(con, table_name, t, row_selector, interval_selector)
+                DATA_CACHE = func(con, table_name, t, row_selector, interval_selector)
             except Exception as e:
                 # logging.error(str(e))
 
@@ -231,16 +233,16 @@ class AttributeUtil:
                 continue
 
             time = DateTimeUtil.utc_timestamp_to_str(t, '%Y/%m/%d %H:%M:%S')
-            data.insert(0, ('datetime', time))
-            data.insert(1, ('event', open_state))
-            data.append(('valid', 'yes'))
-            attrs.append(OrderedDict(data))
+            DATA_CACHE.insert(0, ('datetime', time))
+            DATA_CACHE.insert(1, ('event', open_state))
+            DATA_CACHE.append(('valid', 'yes'))
+            attrs.append(OrderedDict(DATA_CACHE))
 
-        if data is None:
+        if DATA_CACHE is None:
             logging.warning('any {0} events can be skipped'.format(event_type))
         else:
             tmp = {}
-            for item in data:
+            for item in DATA_CACHE:
                 key = item[0]
                 tmp[key] = None
 
