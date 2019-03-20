@@ -1,3 +1,4 @@
+import logging
 from env_dp.core import BeeeOnClient
 from dm.DBUtil import DBUtil
 from dm.ValueConversionUtil import ValueConversionUtil as conv
@@ -280,6 +281,23 @@ class PreProcessing:
         return item_out
 
     @staticmethod
+    def value_filter(data):
+        for i in range(0, len(data)):
+            row = data[i]
+            for k in range(0, len(row)):
+                item = row[k]
+
+                key = 'rh_in_percentage'
+                if key in item and float(item[key]) > 100:
+                    t = DateTimeUtil.utc_timestamp_to_str(item['measured_time'])
+                    value = float(item[key])
+                    logging.error('{0}, {1}: value {2} is out of range, skipped'.format(
+                                  t, key, value))
+                    item[key] = None
+
+        return data
+
+    @staticmethod
     def prepare_downloaded_data(clients: list, devices: list, start: int, end: int,
                                 time_shift: int, last_open_close_state) -> list:
 
@@ -287,6 +305,7 @@ class PreProcessing:
                                            start - time_shift,
                                            end + time_shift)
         data = PreProcessing.rename_all_attributes(data, devices)
+        data = PreProcessing.value_filter(data)
 
         new_data = []
         maps = PreProcessing.db_name_maps(devices)
