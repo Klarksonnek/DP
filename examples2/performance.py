@@ -19,4 +19,7 @@ if __name__ == '__main__':
     print(table)
 
     table, wrong, _ = p.with_delay(BEFORE_TIME, AFTER_TIME)
-    print(table, wrong)
+    print(table)
+
+    for row in wrong:
+        print(row)
