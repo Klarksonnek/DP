@@ -42,7 +42,7 @@ def update_invalid_values(con):
     cur = con.cursor()
 
     # Peto
-    for table in ['measured_peto', 'measured_peto_reduced']:
+    for table in ['measured_peto', 'measured_peto_reduced', 'measured_filtered_peto', 'measured_filtered_peto_reduced']:
         cur.execute('UPDATE ' + table + ' SET open_close = 1 WHERE measured_time = 1538920482')
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1539410852 AND measured_time <= 1539410865')
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1542011517 AND measured_time <= 1542011529')
@@ -81,7 +81,7 @@ def devices(filename='devices.json'):
     return data
 
 
-def create_update_table(con, clients, start, end, devices, write_each, table_name):
+def create_update_table(con, clients, start, end, devices, write_each, table_name, enable_ppm_filter):
     step_size = 600
     time_shift = 1200
     min_commit_size = 5000
@@ -114,7 +114,8 @@ def create_update_table(con, clients, start, end, devices, write_each, table_nam
                                                                                  interval_to))
 
         PreProcessing.prepare(clients, con, table_name, devices, interval_from, interval_to,
-                              last_open_close_state, time_shift, write_each=write_each)
+                              last_open_close_state, enable_ppm_filter, time_shift,
+                              write_each=write_each)
 
         actual_commit_size += step_size // write_each
         if actual_commit_size > min_commit_size:
@@ -137,48 +138,60 @@ def peto_intrak_db(con, cls, start, end, devs):
     # full db
     table_pt = 'measured_peto'
     DBUtil.create_table(con, table_pt)
-    create_update_table(con, cls, start, middle, devs['peto'], 1, table_pt)
-    create_update_table(con, cls, middle, end, devs['peto2'], 1, table_pt)
+    create_update_table(con, cls, start, middle, devs['peto'], 1, table_pt, False)
+    create_update_table(con, cls, middle, end, devs['peto2'], 1, table_pt, False)
 
     # faster db
     table_pt = 'measured_peto_reduced'
     DBUtil.create_table(con, table_pt)
-    create_update_table(con, cls, start, middle, devs['peto'], 15, table_pt)
-    create_update_table(con, cls, middle, end, devs['peto2'], 15, table_pt)
+    create_update_table(con, cls, start, middle, devs['peto'], 15, table_pt, False)
+    create_update_table(con, cls, middle, end, devs['peto2'], 15, table_pt, False)
+
+    # full db
+    table_pt = 'measured_filtered_peto'
+    DBUtil.create_table(con, table_pt)
+    create_update_table(con, cls, start, middle, devs['peto'], 1, table_pt, True)
+    create_update_table(con, cls, middle, end, devs['peto2'], 1, table_pt, True)
+
+    # faster db
+    table_pt = 'measured_filtered_peto_reduced'
+    DBUtil.create_table(con, table_pt)
+    create_update_table(con, cls, start, middle, devs['peto'], 15, table_pt, True)
+    create_update_table(con, cls, middle, end, devs['peto2'], 15, table_pt, True)
 
 
 def klarka_izba_db(con, cls, start, end, devs):
     table_kl = 'measured_klarka'
     DBUtil.create_table(con, table_kl)
-    create_update_table(con, cls, start, end, devs['klarka'], 1, table_kl)
+    create_update_table(con, cls, start, end, devs['klarka'], 1, table_kl, False)
 
     table_kl = 'measured_klarka_reduced'
     DBUtil.create_table(con, table_kl)
-    create_update_table(con, cls, start, end, devs['klarka'], 15, table_kl)
+    create_update_table(con, cls, start, end, devs['klarka'], 15, table_kl, False)
 
     # druha DB obsahuje od urciteho datumu vonkajsi IQ Home senzor
     middle = int(DateTimeUtil.local_time_str_to_utc('2019/02/19 12:00:00').timestamp())
     table_kl2 = 'measured_klarka_iqhome'
     DBUtil.create_table(con, table_kl2)
-    create_update_table(con, cls, start, middle, devs['klarka'], 1, table_kl2)
-    create_update_table(con, cls, middle, end, devs['klarka2'], 1, table_kl2)
+    create_update_table(con, cls, start, middle, devs['klarka'], 1, table_kl2, False)
+    create_update_table(con, cls, middle, end, devs['klarka2'], 1, table_kl2, False)
 
     table_kl2 = 'measured_klarka_iqhome_reduced'
     DBUtil.create_table(con, table_kl2)
-    create_update_table(con, cls, start, middle, devs['klarka'], 15, table_kl2)
-    create_update_table(con, cls, middle, end, devs['klarka2'], 15, table_kl2)
+    create_update_table(con, cls, start, middle, devs['klarka'], 15, table_kl2, False)
+    create_update_table(con, cls, middle, end, devs['klarka2'], 15, table_kl2, False)
 
 
 def klarka_sprcha_db(con, cls, start, end, devs):
     # full db
     table_kl = 'measured_klarka_shower'
     DBUtil.create_table(con, table_kl)
-    create_update_table(con, cls, start, end, devs['klarka_shower1'], 1, table_kl)
+    create_update_table(con, cls, start, end, devs['klarka_shower1'], 1, table_kl, False)
 
     # faster db
     table_kl = 'measured_klarka_shower_reduced'
     DBUtil.create_table(con, table_kl)
-    create_update_table(con, cls, start, end, devs['klarka_shower2'], 15, table_kl)
+    create_update_table(con, cls, start, end, devs['klarka_shower2'], 15, table_kl, False)
 
 
 if __name__ == '__main__':

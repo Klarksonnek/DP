@@ -416,8 +416,18 @@ class PreProcessing:
             DBUtil.insert_value(conn, t, False, table_name)
 
     @staticmethod
+    def ppm_filter(data, ppm_limit=2000):
+        for i in range(0, len(data)):
+            row = data[i]
+            key = 'co2_in_ppm'
+            if row[key] is not None and row[key] >= ppm_limit:
+                row[key] = None
+
+        return data
+
+    @staticmethod
     def prepare(clients: list, conn, table_name: str, devices: list, start: int,
-                end: int, last_open_close_state: int,
+                end: int, last_open_close_state: int, enable_ppm_filter,
                 time_shift: int, precision: int=2, write_each: int=1) -> None:
 
         values = []
@@ -427,6 +437,9 @@ class PreProcessing:
 
             PreProcessing.check_start_end_interval(values, PreProcessing.TIME_ATTR_NAME)
             values = PreProcessing.join_items(values, PreProcessing.TIME_ATTR_NAME)
+
+            if enable_ppm_filter:
+                values = PreProcessing.ppm_filter(values)
         except Exception as e:
             maps = [
                 PreProcessing.TIME_ATTR_NAME,

@@ -115,7 +115,7 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
-    row_selector = CachedDiffRowWithIntervalSelector(con, table_name)
+    row_selector = CachedDiffRowWithIntervalSelector(con, table_name, 0, 0)
     interval_selector = SimpleIntervalSelector(con, table_name)
 
     # datova mnozina
