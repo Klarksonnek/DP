@@ -48,6 +48,10 @@ def update_invalid_values(con):
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1542011517 AND measured_time <= 1542011529')
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1551896814 AND measured_time <= 1551902894')
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1551890462 AND measured_time <= 1551890556')
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1540144019 AND measured_time <= 1540144924')
+        cur.execute('UPDATE ' + table + ' SET open_close = 1 WHERE measured_time >= 1545208319 AND measured_time <= 1545208364')
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1547292105 AND measured_time <= 1547292149')
+        cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1551339840 AND measured_time <= 1551339852')
 
         delete_rows(con, 1551847133, 1551889587, table)
         delete_rows(con, 1551903872, 1551908262, table)
@@ -64,6 +68,20 @@ def update_invalid_values(con):
         delete_rows(con, 1547017612, 1547017804, table)
         delete_rows(con, 1547764885, 1547797834, table)
         delete_rows(con, 1549952386, 1549954380, table)
+
+        delete_rows(con, 1538951188, 1538951527, table)
+        delete_rows(con, 1542105369, 1542106204, table)
+        delete_rows(con, 1543180780, 1543182998, table)
+        delete_rows(con, 1544377532, 1544378399, table)
+        delete_rows(con, 1544733452, 1544736700, table)
+        delete_rows(con, 1546466972, 1546529446, table)
+        delete_rows(con, 1546792707, 1546812008, table)
+        delete_rows(con, 1548016983, 1548076447, table)
+        delete_rows(con, 1548117828, 1548135492, table)
+        delete_rows(con, 1548211577, 1548228314, table)
+        delete_rows(con, 1548238685, 1548239010, table)
+        delete_rows(con, 1548279855, 1548280843, table)
+        delete_rows(con, 1548826585, 1548828602, table)
 
     con.commit()
 
