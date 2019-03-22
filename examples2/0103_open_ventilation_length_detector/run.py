@@ -115,7 +115,7 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
-    row_selector = SimpleDiffRowSelector(con, table_name)
+    row_selector = CachedDiffRowWithIntervalSelector(con, table_name, 0, 0)
     interval_selector = SimpleIntervalSelector(con, table_name)
 
     # datova mnozina
@@ -192,11 +192,11 @@ def main_test_pt(events_file_training: str, events_file_testing: str, no_event_t
     logging.info('events for testing after applying the filter: %d' % len(filtered_testing))
 
     # selector pre data
-    row_selector_training = SimpleDiffRowSelector(con, table_name_training)
+    row_selector_training = CachedDiffRowWithIntervalSelector(con, table_name_training, 0, 0)
     interval_selector_training = SimpleIntervalSelector(con, table_name_training)
 
     # selector pre data
-    row_selector_testing = SimpleDiffRowSelector(con, table_name_testing)
+    row_selector_testing = CachedDiffRowWithIntervalSelector(con, table_name_testing, 0, 0)
     interval_selector_testing = SimpleIntervalSelector(con, table_name_testing)
 
     # datova mnozina
