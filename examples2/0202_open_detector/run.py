@@ -141,13 +141,19 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               prefix='_x3')
             attrs += b + a
 
+        op = InOutDiff(con, table_name, row_selector, interval_selector)
+        b, a = op.execute(timestamp=timestamp, column='co2_in_ppm_diff', precision=precision,
+                          intervals_before=[1],
+                          intervals_after=[],
+
+                          prefix='_x3')
+        attrs += b + a
+
     return attrs
 
 
-def main(events_file: str, no_event_time_shift: int):
+def training_set(events_file: str, no_event_time_shift: int, table_name: str):
     logging.info('start')
-
-    table_name = 'measured_peto'
 
     # stiahnutie dat
     con = ConnectionUtil.create_con()
@@ -160,7 +166,7 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
-    row_selector = SimpleCachedRowSelector(con, table_name)
+    row_selector = CachedDiffRowWithIntervalSelector(con, table_name, 0, 0)
     interval_selector = None
 
     # trenovacia mnozina
@@ -168,7 +174,7 @@ def main(events_file: str, no_event_time_shift: int):
     training, tr_events = AttributeUtil.training_data(con, table_name, filtered, func,
                                                       row_selector, interval_selector, 'open')
     count = len(training)
-    logging.info('training set contains %d events (%d records)' % (count/2, count))
+    logging.info('training set contains %d events (%d records)' % (count / 2, count))
 
     GraphUtil.gen_duration_histogram(tr_events, 'save', ['png'], 'Histogram dlzok vetrania',
                                      [x for x in range(5, 60, 5)], 1)
@@ -185,13 +191,19 @@ def main(events_file: str, no_event_time_shift: int):
     CSVUtil.create_csv_file(balanced, 'training.csv')
     logging.info('end preparing file of training set')
 
+
+def testing_set(table_name: str):
+    logging.info('start')
+
+    con = ConnectionUtil.create_con()
+
     # testovacia mnozina
     start = int(DateTimeUtil.local_time_str_to_utc('2018/10/07 06:00:00').timestamp())
     end = start + 100
 
     logging.info('start computing of testing set')
     length = AttributeUtil.testing_data_with_write(con, table_name, start, end, 30, func,
-                                                   None, interval_selector, 'open', 'testing.csv')
+                                                   None, None, 'open', 'testing.csv')
     logging.info('testing set contains %d records' % length)
     logging.info('end computing of testing set')
 
@@ -202,4 +214,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s')
 
-    main('examples/events_peto.json', -500)
+    table_name = 'measured_peto'
+
+    training_set('examples/events_peto.json', -500, table_name)
+    testing_set(table_name)
