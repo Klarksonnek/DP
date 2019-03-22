@@ -15,60 +15,20 @@ from dm.Attributes import *
 
 
 processes = [
-    '//DIP/clean/DecisionTree',
-    '//DIP/clean/DeepLearning',
-    '//DIP/clean/NaiveBayes',
-    '//DIP/clean/RandomForest',
-    '//DIP/clean/SVM',
+    '//DIP/clean/clean/SVM',
+    '//DIP/with_cross/clean/SVM',
 
-    '//DIP/filter/correlation/DecisionTree',
-    '//DIP/filter/correlation/DeepLearning',
-    '//DIP/filter/correlation/NaiveBayes',
-    '//DIP/filter/correlation/RandomForest',
-    '//DIP/filter/correlation/SVM',
+    '//DIP/clean/clean/DecisionTree',
+    '//DIP/with_cross/clean/DecisionTree',
 
-    '//DIP/filter/gain_ratio/DecisionTree',
-    '//DIP/filter/gain_ratio/DeepLearning',
-    '//DIP/filter/gain_ratio/NaiveBayes',
-    '//DIP/filter/gain_ratio/RandomForest',
-    '//DIP/filter/gain_ratio/SVM',
+    '//DIP/clean/clean/DeepLearning',
+    '//DIP/with_cross/clean/DeepLearning',
 
-    '//DIP/filter/pca/DecisionTree',
-    '//DIP/filter/pca/DeepLearning',
-    '//DIP/filter/pca/NaiveBayes',
-    '//DIP/filter/pca/RandomForest',
-    '//DIP/filter/pca/SVM',
+    '//DIP/clean/clean/NaiveBayes',
+    '//DIP/with_cross/clean/NaiveBayes',
 
-    '//DIP/filter/relief/DecisionTree',
-    '//DIP/filter/relief/DeepLearning',
-    '//DIP/filter/relief/NaiveBayes',
-    '//DIP/filter/relief/RandomForest',
-    '//DIP/filter/relief/SVM',
-
-    '//DIP/filter/svm/DecisionTree',
-    '//DIP/filter/svm/DeepLearning',
-    '//DIP/filter/svm/NaiveBayes',
-    '//DIP/filter/svm/RandomForest',
-    '//DIP/filter/svm/SVM',
-
-    '//DIP/clean/NeuralNet',
-    '//DIP/filter/correlation/NeuralNet',
-    '//DIP/filter/gain_ratio/NeuralNet',
-    '//DIP/filter/pca/NeuralNet',
-    '//DIP/filter/relief/NeuralNet',
-    '//DIP/filter/svm/NeuralNet',
-
-    # '//DIP/wrapper/backward/OptimizeSelectionDecisionTree',
-    # '//DIP/wrapper/backward/OptimizeSelectionDeepLearning',
-    # '//DIP/wrapper/backward/OptimizeSelectionNaiveBayes',
-    # '//DIP/wrapper/backward/OptimizeSelectionNeuralNet',
-    # '//DIP/wrapper/backward/OptimizeSelectionSVM',
-
-    # '//DIP/wrapper/forward/OptimizeSelectionDecisionTree',
-    # '//DIP/wrapper/forward/OptimizeSelectionDeepLearning',
-    # '//DIP/wrapper/forward/OptimizeSelectionNaiveBayes',
-    # '//DIP/wrapper/forward/OptimizeSelectionNeuralNet',
-    # '//DIP/wrapper/forward/OptimizeSelectionSVM',
+    '//DIP/clean/clean/RandomForest',
+    '//DIP/with_cross/clean/RandomForest',
 ]
 
 OUTPUT_FILENAME = 'out.csv'
