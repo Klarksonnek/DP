@@ -105,7 +105,7 @@ def main(events_file: str, no_event_time_shift: int):
     filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
     logging.info('events after applying the filter: %d' % len(filtered))
 
-    row_selector = SimpleDiffRowSelector(con, table_name)
+    row_selector = CachedDiffRowWithIntervalSelector(con, table_name, 0, 0)
     interval_selector = SimpleIntervalSelector(con, table_name)
 
     logging.info('start computing of training set')
