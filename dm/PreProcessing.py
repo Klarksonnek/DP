@@ -425,9 +425,8 @@ class PreProcessing:
         return data
 
     @staticmethod
-    def prepare(clients: list, conn, table_name: str, devices: list, start: int,
-                end: int, last_open_close_state: int, enable_ppm_filter,
-                time_shift: int, precision: int=2, write_each: int=1) -> None:
+    def prepare(clients: list, devices: list, start: int, end: int,
+                last_open_close_state: int, time_shift: int):
 
         values = []
         try:
@@ -436,9 +435,6 @@ class PreProcessing:
 
             PreProcessing.check_start_end_interval(values, PreProcessing.TIME_ATTR_NAME)
             values = PreProcessing.join_items(values, PreProcessing.TIME_ATTR_NAME)
-
-            if enable_ppm_filter:
-                values = PreProcessing.ppm_filter(values)
         except Exception as e:
             maps = [
                 PreProcessing.TIME_ATTR_NAME,
@@ -446,12 +442,11 @@ class PreProcessing:
                 PreProcessing.OPEN_CLOSE_ATTR_NAME,
             ]
 
-            PreProcessing.insert_values(conn, table_name, values[0], maps, write_each, precision)
-            return
+            return maps, values[0]
 
-        out_values = []
-        for value in values:
-            out_values.append(PreProcessing.prepare_value_conversion(value))
+        for i in range(0, len(values)):
+            value = values[i]
+            PreProcessing.prepare_value_conversion(value)
 
         maps = PreProcessing.db_name_maps(devices)
         for value in values:
@@ -460,7 +455,4 @@ class PreProcessing:
             break
 
         # odstranenie duplicit zo zonamu
-        maps = list(set(maps))
-
-        PreProcessing.insert_values(conn, table_name, values, maps,
-                                    write_each, precision)
+        return list(set(maps)), values
