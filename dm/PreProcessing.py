@@ -326,8 +326,7 @@ class PreProcessing:
 
             # v pripade, ze vybrany interval pre danu hodnotu neobsahuje vsetky data tak sa vynuluje
             if (end - start) != len(val):
-                if len(val) == 0:
-                    val = []
+                val = []
 
                 for k in range(start, end):
                     val.append({'measured_time': k, key: None})
