@@ -84,7 +84,8 @@ def update_invalid_values(con):
         delete_rows(con, 1548238685, 1548239010, table)
         delete_rows(con, 1548279855, 1548280843, table)
         delete_rows(con, 1548826585, 1548828602, table)
-
+        delete_rows(con, 1547291955, 1547292307, table)
+        delete_rows(con, 1554060946, 1554063977, table)
     con.commit()
 
     # Klarka
