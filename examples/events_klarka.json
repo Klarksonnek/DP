@@ -14871,6 +14871,644 @@
 				"beeeon_in": ["temperature_in", "humidity_in"],
 				"beeeon_out": ["temperature_out", "humidity_out"]
 			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/20 22:11:22",
+				"event_end": "2019/03/20 22:25:26"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, jasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/21 06:09:00",
+				"event_end": "2019/03/21 06:34:00"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, polojasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/21 08:44:35",
+				"event_end": "2019/03/21 08:49:20"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, jasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/21 10:22:04",
+				"event_end": "2019/03/21 10:42:41"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, polojasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/21 12:44:13",
+				"event_end": "2019/03/21 12:59:31"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, polojasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/21 15:17:01",
+				"event_end": "2019/03/21 15:27:23"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, jasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/22 06:06:24",
+				"event_end": "2019/03/22 06:32:17"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, polojasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/22 08:44:27",
+				"event_end": "2019/03/22 08:54:52"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/22 18:56:31",
+				"event_end": "2019/03/22 19:22:04"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, jasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/23 06:04:04",
+				"event_end": "2019/03/23 06:29:17"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/23 19:07:33",
+				"event_end": "2019/03/23 19:12:26"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/23 20:38:54",
+				"event_end": "2019/03/23 20:44:13"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, jasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/24 06:25:41",
+				"event_end": "2019/03/24 06:37:00"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/24 19:07:03",
+				"event_end": "2019/03/24 19:12:26"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "silny vitr",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/24 21:07:36",
+				"event_end": "2019/03/24 21:12:22"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/25 06:04:39",
+				"event_end": "2019/03/25 06:34:23"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "silny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/26 16:01:57",
+				"event_end": "2019/03/26 16:07:21"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "silny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/26 17:14:17",
+				"event_end": "2019/03/26 17:20:07"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "silny vitr",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/26 21:09:49",
+				"event_end": "2019/03/26 21:14:26"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/27 07:27:13",
+				"event_end": "2019/03/27 07:52:22"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/27 09:28:14",
+				"event_end": "2019/03/27 09:33:33"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "silny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/27 10:47:15",
+				"event_end": "2019/03/27 11:12:36"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "silny vitr, polojasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/27 12:24:24",
+				"event_end": "2019/03/27 12:49:26"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/27 14:15:21",
+				"event_end": "2019/03/27 14:20:36"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, polojasno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/27 15:32:57",
+				"event_end": "2019/03/27 15:58:20"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/27 21:59:40",
+				"event_end": "2019/03/27 22:26:07"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "slaby vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/28 06:05:55",
+				"event_end": "2019/03/28 06:31:05"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/28 08:21:21",
+				"event_end": "2019/03/28 08:26:21"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
+		},
+		{
+			"description": "...",
+			"location": "na parapetu",
+			"g_type": "",
+			"graph_hum_type_1": "",
+			"window": "dokoran",
+			"door": "zavrene",
+			"weather": "mirny vitr, oblacno",
+			"wind_speed": 0.0,
+			"people": 1,
+			"type": "window",
+			"certainty": "",
+			"times": {
+				"event_start": "2019/03/28 10:55:52",
+				"event_end": "2019/03/28 11:21:21"
+			},
+			"devices": {
+				"jablotron": ["open_close"],
+				"beeeon_in": ["temperature_in", "humidity_in"],
+				"beeeon_out": ["temperature_out", "humidity_out"]
+			}
 		}
 	]
 }
