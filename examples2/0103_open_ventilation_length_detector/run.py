@@ -96,6 +96,26 @@ def training_testing_data(data, splitting):
     return training, testing, minimum
 
 
+def training_testing_data_with_distance(training, testing, number, strategy, strategyFlag):
+    op = DistanceToLine(training)
+
+    training = op.exec([5, 10, 25], training,
+                       'InLinear_rh_in2_specific_g_kg_before_1200',
+                       'InLinear_rh_in2_specific_g_kg_after_1200',
+                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy,  strategyFlag)
+
+    testing = op.exec([5, 10, 25], testing,
+                      'InLinear_rh_in2_specific_g_kg_before_1200',
+                      'InLinear_rh_in2_specific_g_kg_after_1200',
+                      'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy, strategyFlag)
+
+    # generovanie suborov
+    logging.info('start preparing file of training and testing set')
+    CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
+    CSVUtil.create_csv_file(testing, 'testing' + str(number) + '.csv')
+    logging.info('end preparing file of training and testing set')
+
+
 def main(events_file: str, no_event_time_shift: int):
     logging.info('start')
 
