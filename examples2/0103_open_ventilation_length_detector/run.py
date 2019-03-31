@@ -9,6 +9,7 @@ from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
 from dm.CSVUtil import CSVUtil
 from dm.Attributes import *
+import copy
 
 no_events_records = [
 ]
@@ -186,36 +187,26 @@ def main(events_file: str, no_event_time_shift: int):
 
     # rozdelenie dat na trenovaciu a testovaciu mnozinu
     training, testing, minimum = training_testing_data(data, 0.7)
-    for row in training:
-        logging.debug(row['datetime'], row['VentilationLength_event__'],
-                      row['DiffInLinear_rh_in2_specific_g_kg_before_'],
-                      row['InOutDiff_rh_in2_specific_g_kg_diff_before_0'])
+
     logging.info('training set contains %d records, each %d-krat' % (len(training), minimum))
     logging.info('testing set contains %d records' % len(testing))
 
-    op = DistanceToLine(training)
-    strategy = PolyfitLineCoefficients()
-    training = op.exec([5, 10, 25], training,
-                       'InLinear_rh_in2_specific_g_kg_before_1200',
-                       'InLinear_rh_in2_specific_g_kg_after_1200',
-                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy)
-    training = DistanceToLine.select_attributes(training, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
-                                                           'min_pl_5', 'min_pl_10', 'min_pl_25',
-                                                           'VentilationLength_event__'])
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 0,
+                                        CenterLineCoefficients(), "trendline_")
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 1,
+                                        PolyfitLineCoefficients(), "polyfit_")
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 2,
+                                        CenterLineCoefficients(), "center_")
 
-    testing = op.exec([5, 10, 25], testing,
-                      'InLinear_rh_in2_specific_g_kg_before_1200',
-                      'InLinear_rh_in2_specific_g_kg_after_1200',
-                      'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy)
-    testing = DistanceToLine.select_attributes(testing, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
-                                                         'min_pl_5', 'min_pl_10', 'min_pl_25',
-                                                         'VentilationLength_event__'])
+    training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 3,
+                                        CenterLineCoefficients(), "trendline_")
+    training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 4,
+                                        PolyfitLineCoefficients(), "polyfit_")
+    training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 5,
+                                        CenterLineCoefficients(), "center_")
 
-    # generovanie suborov
-    logging.info('start preparing file of training and testing set')
-    CSVUtil.create_csv_file(training, 'training.csv')
-    CSVUtil.create_csv_file(testing, 'testing.csv')
-    logging.info('end preparing file of training and testing set')
+    training_testing_data_without_distance(copy.deepcopy(training), copy.deepcopy(testing), 6,
+                                           CenterLineCoefficients(), "trendline_")
 
     logging.info('end')
 
