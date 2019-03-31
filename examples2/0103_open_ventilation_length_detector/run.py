@@ -147,6 +147,14 @@ def training_testing_data_only_distance(training, testing, number, strategy, str
     logging.info('end preparing file of training and testing set')
 
 
+def training_testing_data_without_distance(training, testing, number, strategy, strategyFlag):
+    # generovanie suborov
+    logging.info('start preparing file of training and testing set')
+    CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
+    CSVUtil.create_csv_file(testing, 'testing' + str(number) + '.csv')
+    logging.info('end preparing file of training and testing set')
+
+
 def main(events_file: str, no_event_time_shift: int):
     logging.info('start')
 
