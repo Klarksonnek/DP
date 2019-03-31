@@ -20,7 +20,6 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     columns = [
         'rh_in2_specific_g_kg_diff',
         'rh_in2_absolute_g_m3_diff',
-        'rh_in2_percentage_diff',
         'temperature_in2_celsius_diff',
         'rh_in2_specific_g_kg_diff_in_out']
     precision = 5
