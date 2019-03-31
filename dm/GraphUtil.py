@@ -92,3 +92,33 @@ class GraphUtil:
         fig.savefig('result.png', bbox_inches="tight")
 
         plt.show()
+
+    @staticmethod
+    def gen_grouped_barplot(first_col, second_col, third_col, action, filename):
+        fig = plt.figure()
+
+        barWidth = 0.1
+        bars1 = [second_col[0] / third_col[0], second_col[3] / third_col[3], second_col[6] / third_col[6]]
+        bars2 = [second_col[1] / third_col[1],second_col[4] / third_col[4], second_col[6] / third_col[6]]
+        bars3 = [second_col[2] / third_col[2], second_col[5] / third_col[5], second_col[6] / third_col[6]]
+
+        r1 = np.arange(len(bars1))
+        r2 = [x + barWidth for x in r1]
+        r3 = [x + barWidth for x in r2]
+
+        plt.bar(r1, bars1, color=(0.854, 0.035, 0.027), width=barWidth, edgecolor='white', label='trendline')
+        plt.bar(r2, bars2, color=(0.101, 0.454, 0.125), width=barWidth, edgecolor='white', label='avg_trendline')
+        plt.bar(r3, bars3, color=(0, 0, 1), width=barWidth, edgecolor='white', label='cluster centroid')
+
+        plt.xlabel('attributes', fontweight='bold')
+        plt.ylabel('success rate [%]', fontweight='bold')
+        plt.xticks([r + barWidth for r in range(len(bars1))], ['all', 'only distance', 'without distance'])
+
+        plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.35))
+
+        if 'save' in action:
+            fig.savefig(filename, bbox_inches='tight', pad_inches=0)
+
+        if 'show' in action:
+            plt.show()
+
