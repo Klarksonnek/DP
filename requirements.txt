@@ -2,7 +2,7 @@ requests
 pytz
 scipy
 numpy
-mysql-connector
+mysql-connector-python
 matplotlib
 sklearn
 sympy
