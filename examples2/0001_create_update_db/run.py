@@ -207,7 +207,7 @@ def klarka_sprcha_db(con, cls, start, end, devs):
         ('measured_klarka_shower', 1),
         ('measured_klarka_shower_reduced', 15),
     ]
-    create_update_table(con, cls, start, end, devs['klarka_shower1'], tables)
+    create_update_table(con, cls, start, end, devs['klarka_shower2'], tables)
 
 
 if __name__ == '__main__':
