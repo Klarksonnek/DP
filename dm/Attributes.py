@@ -1278,10 +1278,19 @@ class DistanceToLine:
             # get coefficients of the line (1st order polynom = line)
             coeffs = np.polyfit(sh_decrease, sh_diff, 1)
 
+            if one_line and strategyFlag == 'polyfit_':
+                for j in range(0, len(DistanceToLine.ventilation_length_events(training, interval * 60))):
+                    b = -sh_decrease[j]
+                    a = sh_diff[j]
+                    direction = -a / b
+                    y = direction * sh_decrease[j]
+                    plt.plot([0, sh_decrease[j]], [0, y], color=colors_line[i], linewidth=0.75)
+                    plt.xlim(0.0, 3.0)
+                    plt.ylim(0.0, 7.0)
+                    j += 1
+
             direction = strategy.calculate(training, interval * 60, col1, col2, col3, C[0][0], C[0][1])
             y = direction * max(sh_decrease)
-            if not one_line:
-                plt.plot([0, max(sh_decrease)], [0, y], color=colors_line[i])
 
             if strategyFlag == "polyfit_" or strategyFlag == "center_":
                 # convert the line equation
@@ -1310,9 +1319,16 @@ class DistanceToLine:
             # plot cluster centroid
             plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i], zorder=3)
 
-            # plot trendline of the cluster
-            plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + 'min', zorder=3)
-            plt.grid(zorder=0)
+            if one_line and strategyFlag == 'polyfit_':
+                return out_point_line, out_point_point, fig
+
+            if strategyFlag == 'trendline_':
+                # plot trendline of the cluster
+                plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + 'min')
+                plt.grid(zorder=0)
+                plt.xlim(0.0, 3.0)
+                plt.ylim(0.0, 7.0)
+
             if one_line:
                 return out_point_line, out_point_point, fig
             i += 1
@@ -1356,13 +1372,21 @@ class DistanceToLine:
                 'fig' + strategyFlag: fig,
             }
 
-            plt.xlim(0, 3)
-            plt.ylim(0, 5)
-            plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
-            plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
-            self.model['fig' + strategyFlag].savefig('trendline.eps')
-        if one_line:
-            return
+            if strategyFlag == 'trendline_':
+                plt.xlim(0, 3)
+                plt.ylim(0, 5)
+                plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+                plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+                self.model['fig' + strategyFlag].savefig('trendline.eps')
+
+            if strategyFlag == 'polyfit_':
+                plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+                plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+                self.model['fig' + strategyFlag].savefig('avg_trendline.eps')
+
+            if one_line:
+                return
+
         out = []
         for row in data_testing:
             dist_point_line = []
