@@ -1131,7 +1131,7 @@ class DistanceToLine:
 
         return out
 
-    def humidity_clusters(self, training, col1, col2, col3, intervals, strategy):
+    def humidity_clusters(self, training, col1, col2, col3, intervals, strategy, strategyFlag):
         """
 
         :param training:
@@ -1177,8 +1177,12 @@ class DistanceToLine:
             y = direction * max(sh_decrease)
             plt.plot([0, max(sh_decrease)], [0, y], color=colors_line[i])
 
-            # convert the line equation
-            (a, b, c) = strategy.convert_line([direction, 0])
+            if strategyFlag == "polyfit_" or strategyFlag == "center_":
+                # convert the line equation
+                (a, b, c) = strategy.convert_line([direction, 0])
+            if strategyFlag == "trendline_":
+                (a, b, c) = strategy.convert_line(coeffs)
+
             out_point_line[interval] = {
                 'a': a,
                 'b': b,
@@ -1233,19 +1237,19 @@ class DistanceToLine:
 
         return float(np.sqrt((b1 - a1) ** 2 + (b2 - a2) ** 2))
 
-    def exec(self, intervals, data_testing, col1, col2, col3, strategy, precision=2):
+    def exec(self, intervals, data_testing, col1, col2, col3, strategy, strategyFlag, precision=2):
         if self.model is None:
-            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals, strategy)
+            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals, strategy, strategyFlag)
 
             self.model = {
-                'line': line,
-                'point': point,
-                'fig': fig,
+                'line' + strategyFlag: line,
+                'point' + strategyFlag: point,
+                'fig' + strategyFlag: fig,
             }
 
             plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
             plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
-            self.model['fig'].savefig('model.png')
+            self.model['fig' + strategyFlag].savefig('model.png')
 
         out = []
         for row in data_testing:
@@ -1255,16 +1259,16 @@ class DistanceToLine:
             y = float(row[col3])
 
             for interval in intervals:
-                coeff = self.model['line'][interval]
+                coeff = self.model['line' + strategyFlag][interval]
 
                 # calculate the distance point-line
                 dist = self.distance_point_line(x, y,
                                                 float(coeff['a']),
                                                 float(coeff['b']),
                                                 coeff['c'])
-                row['min_pl_' + str(interval)] = round(dist, precision)
+                row['min_pl_' + strategyFlag + str(interval)] = round(dist, precision)
                 dist_point_line.append(dist)
-                coord = self.model['point'][interval]
+                coord = self.model['point' + strategyFlag][interval]
 
                 # calculate the distance point-point
                 dist = self.distance_point_point_Euclidean(x, y, coord['cx'], coord['cy'])
@@ -1279,7 +1283,7 @@ class DistanceToLine:
             plt.title(title_graph)
             plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
             plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
-            self.model['fig'].savefig(fname)
+            self.model['fig' +  strategyFlag].savefig(fname)
             plt.scatter(x, y, 80, marker='o', color='white')
 
         return out

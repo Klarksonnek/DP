@@ -9,6 +9,7 @@ from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
 from dm.CSVUtil import CSVUtil
 from dm.Attributes import *
+import copy
 
 no_events_records = [
 ]
@@ -19,7 +20,6 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     columns = [
         'rh_in2_specific_g_kg_diff',
         'rh_in2_absolute_g_m3_diff',
-        'rh_in2_percentage_diff',
         'temperature_in2_celsius_diff',
         'rh_in2_specific_g_kg_diff_in_out']
     precision = 5
@@ -96,6 +96,65 @@ def training_testing_data(data, splitting):
     return training, testing, minimum
 
 
+def training_testing_data_with_distance(training, testing, number, strategy, strategyFlag):
+    op = DistanceToLine(training)
+
+    training = op.exec([5, 10, 25], training,
+                       'InLinear_rh_in2_specific_g_kg_before_1200',
+                       'InLinear_rh_in2_specific_g_kg_after_1200',
+                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy,  strategyFlag)
+
+    testing = op.exec([5, 10, 25], testing,
+                      'InLinear_rh_in2_specific_g_kg_before_1200',
+                      'InLinear_rh_in2_specific_g_kg_after_1200',
+                      'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy, strategyFlag)
+
+    # generovanie suborov
+    logging.info('start preparing file of training and testing set')
+    CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
+    CSVUtil.create_csv_file(testing, 'testing' + str(number) + '.csv')
+    logging.info('end preparing file of training and testing set')
+
+
+def training_testing_data_only_distance(training, testing, number, strategy, strategyFlag):
+    op = DistanceToLine(training)
+
+    training = op.exec([5, 10, 25], training,
+                       'InLinear_rh_in2_specific_g_kg_before_1200',
+                       'InLinear_rh_in2_specific_g_kg_after_1200',
+                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy,  strategyFlag)
+    training = DistanceToLine.select_attributes(training, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
+                                                           'min_pl_' + strategyFlag + '5',
+                                                           'min_pl_' + strategyFlag + '10',
+                                                           'min_' + strategyFlag + 'pl_25',
+                                                           'VentilationLength_event__'])
+
+
+    testing = op.exec([5, 10, 25], testing,
+                      'InLinear_rh_in2_specific_g_kg_before_1200',
+                      'InLinear_rh_in2_specific_g_kg_after_1200',
+                      'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy, strategyFlag)
+    testing = DistanceToLine.select_attributes(testing, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
+                                                         'min_pl_' + strategyFlag + '5',
+                                                         'min_pl_' + strategyFlag + '10',
+                                                         'min_pl_' + strategyFlag + '25',
+                                                         'VentilationLength_event__'])
+
+    # generovanie suborov
+    logging.info('start preparing file of training and testing set')
+    CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
+    CSVUtil.create_csv_file(testing, 'testing' + str(number) + '.csv')
+    logging.info('end preparing file of training and testing set')
+
+
+def training_testing_data_without_distance(training, testing, number, strategy, strategyFlag):
+    # generovanie suborov
+    logging.info('start preparing file of training and testing set')
+    CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
+    CSVUtil.create_csv_file(testing, 'testing' + str(number) + '.csv')
+    logging.info('end preparing file of training and testing set')
+
+
 def main(events_file: str, no_event_time_shift: int):
     logging.info('start')
 
@@ -112,6 +171,14 @@ def main(events_file: str, no_event_time_shift: int):
     filtered = FilterUtil.temperature_diff(filtered, 5, 100)
     filtered = FilterUtil.temperature_out_max(filtered, 15)
     filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
+    #filtered = FilterUtil.temperature_diff(filtered, 5, 17.5)
+    #filtered = FilterUtil.temperature_diff(filtered, 17.5, 30)
+    #filtered = FilterUtil.temperature_diff(filtered, 5, 13.3)
+    #filtered = FilterUtil.temperature_diff(filtered, 13.3, 21.6)
+    #filtered = FilterUtil.temperature_diff(filtered, 21.6, 30)
+    #filtered = FilterUtil.temperature_diff(filtered, 10, 15)
+    #filtered = FilterUtil.temperature_diff(filtered, 15, 20)
+    #filtered = FilterUtil.temperature_diff(filtered, 20, 25)
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
@@ -127,36 +194,26 @@ def main(events_file: str, no_event_time_shift: int):
 
     # rozdelenie dat na trenovaciu a testovaciu mnozinu
     training, testing, minimum = training_testing_data(data, 0.7)
-    for row in training:
-        logging.debug(row['datetime'], row['VentilationLength_event__'],
-                      row['DiffInLinear_rh_in2_specific_g_kg_before_'],
-                      row['InOutDiff_rh_in2_specific_g_kg_diff_before_0'])
+
     logging.info('training set contains %d records, each %d-krat' % (len(training), minimum))
     logging.info('testing set contains %d records' % len(testing))
 
-    op = DistanceToLine(training)
-    strategy = PolyfitLineCoefficients()
-    training = op.exec([5, 10, 25], training,
-                       'InLinear_rh_in2_specific_g_kg_before_1200',
-                       'InLinear_rh_in2_specific_g_kg_after_1200',
-                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy)
-    training = DistanceToLine.select_attributes(training, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
-                                                           'min_pl_5', 'min_pl_10', 'min_pl_25',
-                                                           'VentilationLength_event__'])
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 0,
+                                        CenterLineCoefficients(), "trendline_")
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 1,
+                                        PolyfitLineCoefficients(), "polyfit_")
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 2,
+                                        CenterLineCoefficients(), "center_")
 
-    testing = op.exec([5, 10, 25], testing,
-                      'InLinear_rh_in2_specific_g_kg_before_1200',
-                      'InLinear_rh_in2_specific_g_kg_after_1200',
-                      'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy)
-    testing = DistanceToLine.select_attributes(testing, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
-                                                         'min_pl_5', 'min_pl_10', 'min_pl_25',
-                                                         'VentilationLength_event__'])
+    training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 3,
+                                        CenterLineCoefficients(), "trendline_")
+    training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 4,
+                                        PolyfitLineCoefficients(), "polyfit_")
+    training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 5,
+                                        CenterLineCoefficients(), "center_")
 
-    # generovanie suborov
-    logging.info('start preparing file of training and testing set')
-    CSVUtil.create_csv_file(training, 'training.csv')
-    CSVUtil.create_csv_file(testing, 'testing.csv')
-    logging.info('end preparing file of training and testing set')
+    training_testing_data_without_distance(copy.deepcopy(training), copy.deepcopy(testing), 6,
+                                           CenterLineCoefficients(), "trendline_")
 
     logging.info('end')
 
