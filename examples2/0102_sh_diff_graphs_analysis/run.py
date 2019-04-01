@@ -127,36 +127,40 @@ def humidity_info_csv(events, start_shift, end_shift, precision=2):
     out = []
 
     for event in events:
-        specific_in_start = event['measured']['linear1_sh'][0 - (start_shift + 1)]
-        specific_in_end = event['measured']['linear1_sh'][-end_shift + 1]
+        try:
+            specific_in_start = event['measured']['linear1_sh'][0 - (start_shift + 1)]
+            specific_in_end = event['measured']['linear1_sh'][-end_shift + 1]
 
-        absolute_in_start = event['measured']['linear1_ah'][0 - (start_shift + 1)]
-        absolute_in_end = event['measured']['linear1_ah'][-end_shift + 1]
+            absolute_in_start = event['measured']['linear1_ah'][0 - (start_shift + 1)]
+            absolute_in_end = event['measured']['linear1_ah'][-end_shift + 1]
 
-        temp_in_start = event['measured']['linear1_temp'][0 - (start_shift + 1)]
-        temp_in_end = event['measured']['linear1_temp'][-end_shift + 1]
+            temp_in_start = event['measured']['linear1_temp'][0 - (start_shift + 1)]
+            temp_in_end = event['measured']['linear1_temp'][-end_shift + 1]
 
-        specific_in_start_2 = event['measured']['linear2_sh'][0 - (start_shift + 1)]
-        specific_in_end_2 = event['measured']['linear2_sh'][-end_shift + 1]
+            specific_in_start_2 = event['measured']['linear2_sh'][0 - (start_shift + 1)]
+            specific_in_end_2 = event['measured']['linear2_sh'][-end_shift + 1]
 
-        absolute_in_start_2 = event['measured']['linear2_ah'][0 - (start_shift + 1)]
-        absolute_in_end_2 = event['measured']['linear2_ah'][-end_shift + 1]
+            absolute_in_start_2 = event['measured']['linear2_ah'][0 - (start_shift + 1)]
+            absolute_in_end_2 = event['measured']['linear2_ah'][-end_shift + 1]
 
-        temp_in_start_2 = event['measured']['linear2_temp'][0 - (start_shift + 1)]
-        temp_in_end_2 = event['measured']['linear2_temp'][-end_shift + 1]
+            temp_in_start_2 = event['measured']['linear2_temp'][0 - (start_shift + 1)]
+            temp_in_end_2 = event['measured']['linear2_temp'][-end_shift + 1]
 
-        specific_in = event['measured']['rh_in_specific_g_kg'][0 - (start_shift + 1)]
-        specific_out = event['measured']['rh_out_specific_g_kg'][-end_shift + 1]
+            specific_in = event['measured']['rh_in_specific_g_kg'][0 - (start_shift + 1)]
+            specific_out = event['measured']['rh_out_specific_g_kg'][-end_shift + 1]
 
-        absolute_in = event['measured']['rh_in_absolute_g_m3'][0 - (start_shift + 1)]
-        absolute_out = event['measured']['rh_out_absolute_g_m3'][-end_shift + 1]
+            absolute_in = event['measured']['rh_in_absolute_g_m3'][0 - (start_shift + 1)]
+            absolute_out = event['measured']['rh_out_absolute_g_m3'][-end_shift + 1]
 
-        temp_in = event['measured']['temperature_in_celsius'][0 - (start_shift + 1)]
-        temp_out = event['measured']['temperature_out_celsius'][-end_shift + 1]
+            temp_in = event['measured']['temperature_in_celsius'][0 - (start_shift + 1)]
+            temp_out = event['measured']['temperature_out_celsius'][-end_shift + 1]
 
-        specific_in_2 = event['measured']['rh_in2_specific_g_kg'][0 - (start_shift + 1)]
-        absolute_in_2 = event['measured']['rh_in2_absolute_g_m3'][0 - (start_shift + 1)]
-        temp_in_2 = event['measured']['temperature_in2_celsius'][0 - (start_shift + 1)]
+            specific_in_2 = event['measured']['rh_in2_specific_g_kg'][0 - (start_shift + 1)]
+            absolute_in_2 = event['measured']['rh_in2_absolute_g_m3'][0 - (start_shift + 1)]
+            temp_in_2 = event['measured']['temperature_in2_celsius'][0 - (start_shift + 1)]
+        except:
+            logging.debug('skipped event')
+            continue
 
         out.append(OrderedDict([
             ('start_datetime', event['e_start']['readable']),
