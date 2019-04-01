@@ -1361,7 +1361,8 @@ class DistanceToLine:
 
         return float(np.sqrt((b1 - a1) ** 2 + (b2 - a2) ** 2))
 
-    def exec(self, intervals, data_testing, col1, col2, col3, strategy, strategyFlag, one_line, precision=2):
+    def exec(self, intervals, data_testing, col1, col2, col3, strategy, strategyFlag, one_line, test_points,
+             precision=2):
         if self.model is None:
             line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals,
                                                       strategy, strategyFlag, one_line)
@@ -1413,14 +1414,15 @@ class DistanceToLine:
 
             out.append(row)
 
-            plt.scatter(x, y, 80, marker='o', color='black')
-            fname = 'out_{0}_{1}.png'.format(x, y)
-            title_graph = 'P = [%g, %g]' % (x, y)
-            plt.title(title_graph)
-            plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
-            plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
-            self.model['fig' +  strategyFlag].savefig(fname)
-            plt.scatter(x, y, 80, marker='o', color='white')
+            if test_points:
+                plt.scatter(x, y, 80, marker='o', color='black')
+                fname = 'out_{0}_{1}.png'.format(x, y)
+                title_graph = 'P = [%g, %g]' % (x, y)
+                plt.title(title_graph)
+                plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
+                plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
+                self.model['fig' +  strategyFlag].savefig(fname)
+                plt.scatter(x, y, 80, marker='o', color='white')
 
         return out
 
