@@ -40,7 +40,7 @@ class FilterUtil:
             temp_in = event['measured']['temperature_in2_celsius'][0]
             temp_out = event['measured']['temperature_out_celsius'][0]
 
-            if min_value <= abs(temp_in - temp_out) <= max_value:
+            if min_value <= abs(temp_in - temp_out) < max_value:
                 out.append(event)
 
         return out
