@@ -1239,7 +1239,8 @@ class DistanceToLine:
 
     def exec(self, intervals, data_testing, col1, col2, col3, strategy, strategyFlag, precision=2):
         if self.model is None:
-            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals, strategy, strategyFlag)
+            line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals,
+                                                      strategy, strategyFlag)
 
             self.model = {
                 'line' + strategyFlag: line,
