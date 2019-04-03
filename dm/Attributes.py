@@ -1292,6 +1292,11 @@ class DistanceToLine:
             direction = strategy.calculate(training, interval * 60, col1, col2, col3, C[0][0], C[0][1])
             y = direction * max(sh_decrease)
 
+            if one_line and strategyFlag == "center_":
+                plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i])
+                plt.grid(zorder=0)
+                return out_point_line, out_point_point, fig
+
             if strategyFlag == "polyfit_" or strategyFlag == "center_":
                 # convert the line equation
                 (a, b, c) = strategy.convert_line([direction, 0])
@@ -1384,6 +1389,13 @@ class DistanceToLine:
                 plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
                 plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
                 self.model['fig' + strategyFlag].savefig('avg_trendline.eps')
+
+            if strategyFlag == 'center_':
+                plt.xlim(0, 3.0)
+                plt.ylim(0, 6.0)
+                plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+                plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+                self.model['fig' + strategyFlag].savefig('trendline_passing_cluster_centroid.eps')
 
             if one_line:
                 return
