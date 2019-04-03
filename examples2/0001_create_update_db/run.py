@@ -2,6 +2,7 @@ import json
 import logging
 import sys
 import time
+import os
 from os.path import dirname, abspath, join
 
 CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
@@ -12,6 +13,7 @@ from dm.PreProcessing import PreProcessing
 from dm.DateTimeUtil import DateTimeUtil
 from dm.BeeeOnClient import BeeeOnClient
 from dm.ConnectionUtil import ConnectionUtil
+from dm.Storage import Storage
 
 
 def delete_rows(con, timestamp_from, timestamp_to, table_name):
@@ -207,7 +209,30 @@ def klarka_sprcha_db(con, cls, start, end, devs):
         ('measured_klarka_shower', 1),
         ('measured_klarka_shower_reduced', 15),
     ]
-    create_update_table(con, cls, start, end, devs['klarka_shower1'], tables)
+    create_update_table(con, cls, start, end, devs['klarka_shower2'], tables)
+
+    update_shower(con, 'examples/events_klarka_shower.json', ['measured_klarka_shower', 'measured_klarka_shower_reduced'])
+
+
+def update_shower(con, filename, table_names):
+    pwd = os.path.dirname(__file__)
+    os.path.abspath(os.path.join(pwd, './..', '')) + '/'
+
+    events = Storage(filename, 0, '').read_meta()
+
+    cur = con.cursor()
+    for table in table_names:
+        cur.execute('UPDATE {0} SET open_close = 0'.format(table))
+    con.commit()
+
+    for event in events:
+        start = event['e_start']['timestamp']
+        end = event['e_end']['timestamp']
+
+        for timestamp in range(start, end):
+            for table in table_names:
+                DBUtil.update_attribute(con, table, 'open_close', 1, timestamp)
+                con.commit()
 
 
 if __name__ == '__main__':

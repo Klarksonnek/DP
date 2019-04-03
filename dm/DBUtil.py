@@ -196,3 +196,10 @@ class DBUtil:
         cur.execute(sql)
         con.commit()
 
+    @staticmethod
+    def update_attribute(con, table_name, attribute, value, timestamp):
+        cur = con.cursor()
+
+        sql = 'UPDATE {0} SET {1} = {2} WHERE `measured_time` = {3}'.format(table_name, attribute, value, timestamp)
+
+        cur.execute(sql)
