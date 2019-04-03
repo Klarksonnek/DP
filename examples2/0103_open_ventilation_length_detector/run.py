@@ -212,6 +212,13 @@ def main(events_file: str, no_event_time_shift: int):
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 2,
                                         CenterLineCoefficients(), "center_", False, False)
 
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 0,
+                                        CenterLineCoefficients(), "trendline_", False, False)
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 1,
+                                        PolyfitLineCoefficients(), "polyfit_", False, False)
+    training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 2,
+                                        CenterLineCoefficients(), "center_", False, False)
+
     training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 3,
                                         CenterLineCoefficients(), "trendline_", False, False)
     training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 4,
