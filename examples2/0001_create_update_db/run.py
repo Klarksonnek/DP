@@ -232,7 +232,7 @@ def update_shower(con, filename, table_names):
         for timestamp in range(start, end):
             for table in table_names:
                 DBUtil.update_attribute(con, table, 'open_close', 1, timestamp)
-                con.commit()
+        con.commit()
 
 
 if __name__ == '__main__':
