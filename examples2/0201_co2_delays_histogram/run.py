@@ -14,6 +14,19 @@ from dm.Storage import Storage
 from dm.ValueUtil import ValueUtil
 
 
+def detect_sensor_delays(events, window_size, threshold, value_attr_name,
+                         delays_attr_name):
+    for i in range(0, len(events)):
+        event = events[i]
+
+        values = event['measured'][value_attr_name]
+        event[delays_attr_name] = 0
+
+        event[delays_attr_name] = ValueUtil.detect_sensor_delay(values, window_size, threshold)
+
+    return events
+
+
 # https://matplotlib.org/gallery/statistics/hist.html
 # https://realpython.com/python-histograms/
 # https://matplotlib.org/1.2.1/examples/pylab_examples/histogram_demo.html
@@ -55,8 +68,8 @@ def delays(events, extensions: list, action, window_size, threshold):
     logger.disabled = True
 
     logging.info('start detecting of sensor delays')
-    ev = ValueUtil.detect_sensor_delays(events, window_size, threshold, 'co2_in_ppm',
-                                        'co2_sensor_delays')
+    ev = detect_sensor_delays(events, window_size, threshold, 'co2_in_ppm',
+                              'co2_sensor_delays')
     events_delays = ValueUtil.delays(ev, 'co2_sensor_delays')
     logging.info('end detecting of sensor delays')
 
