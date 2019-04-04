@@ -146,3 +146,13 @@ class FilterUtil:
                 out.append(event)
 
         return out
+
+    @staticmethod
+    def min_length(events, length):
+        out = []
+
+        for event in events:
+            if (event['e_end']['timestamp'] - event['e_start']['timestamp']) > length:
+                out.append(event)
+
+        return out
