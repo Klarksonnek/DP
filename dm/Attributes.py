@@ -434,11 +434,6 @@ class CachedDiffRowWithIntervalSelector(CachedRowWithIntervalSelector):
             v2 = super(CachedDiffRowWithIntervalSelector, self).row('temperature_out_celsius', time)
             value = v1 - v2
 
-        elif column_name == 'rh_in_specific_g_kg_diff_in_out':
-            v1 = super(CachedDiffRowWithIntervalSelector, self).row('rh_in_specific_g_kg', time)
-            v2 = super(CachedDiffRowWithIntervalSelector, self).row('rh_out_specific_g_kg', time)
-            value = v1 - v2
-
         elif column_name == 'rh_in2_percentage_diff':
             v1 = super(CachedDiffRowWithIntervalSelector, self).row('rh_in2_percentage', time)
             v2 = super(CachedDiffRowWithIntervalSelector, self).row('rh_out_percentage', time)
@@ -457,11 +452,6 @@ class CachedDiffRowWithIntervalSelector(CachedRowWithIntervalSelector):
         elif column_name == 'temperature_in2_celsius_diff':
             v1 = super(CachedDiffRowWithIntervalSelector, self).row('temperature_in2_celsius', time)
             v2 = super(CachedDiffRowWithIntervalSelector, self).row('temperature_out_celsius', time)
-            value = v1 - v2
-
-        elif column_name == 'rh_in2_specific_g_kg_diff_in_out':
-            v1 = super(CachedDiffRowWithIntervalSelector, self).row('rh_in2_specific_g_kg', time)
-            v2 = super(CachedDiffRowWithIntervalSelector, self).row('rh_out_specific_g_kg', time)
             value = v1 - v2
 
         elif column_name == 'co2_in_ppm_diff':
