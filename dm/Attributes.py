@@ -15,12 +15,14 @@ sys.path.append(CODE_DIR)
 from dm.DateTimeUtil import DateTimeUtil
 from dm.CSVUtil import CSVUtil
 from dm.Storage import Storage
+from dm.ValueUtil import ValueUtil
 from scipy import stats
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from fractions import Fraction
 from sympy import *
+from scipy.optimize import curve_fit
 
 DATA_CACHE = None
 
@@ -432,11 +434,6 @@ class CachedDiffRowWithIntervalSelector(CachedRowWithIntervalSelector):
             v2 = super(CachedDiffRowWithIntervalSelector, self).row('temperature_out_celsius', time)
             value = v1 - v2
 
-        elif column_name == 'rh_in_specific_g_kg_diff_in_out':
-            v1 = super(CachedDiffRowWithIntervalSelector, self).row('rh_in_specific_g_kg', time)
-            v2 = super(CachedDiffRowWithIntervalSelector, self).row('rh_out_specific_g_kg', time)
-            value = v1 - v2
-
         elif column_name == 'rh_in2_percentage_diff':
             v1 = super(CachedDiffRowWithIntervalSelector, self).row('rh_in2_percentage', time)
             v2 = super(CachedDiffRowWithIntervalSelector, self).row('rh_out_percentage', time)
@@ -455,11 +452,6 @@ class CachedDiffRowWithIntervalSelector(CachedRowWithIntervalSelector):
         elif column_name == 'temperature_in2_celsius_diff':
             v1 = super(CachedDiffRowWithIntervalSelector, self).row('temperature_in2_celsius', time)
             v2 = super(CachedDiffRowWithIntervalSelector, self).row('temperature_out_celsius', time)
-            value = v1 - v2
-
-        elif column_name == 'rh_in2_specific_g_kg_diff_in_out':
-            v1 = super(CachedDiffRowWithIntervalSelector, self).row('rh_in2_specific_g_kg', time)
-            v2 = super(CachedDiffRowWithIntervalSelector, self).row('rh_out_specific_g_kg', time)
             value = v1 - v2
 
         elif column_name == 'co2_in_ppm_diff':
@@ -1013,6 +1005,119 @@ class DiffInLinear(InLinear):
         before = [(name, round(b[0][1] - a[0][1], 2))]
 
         return before, []
+
+
+class AbstractRegression(ABC):
+    def __init__(self, co2_out):
+        self._co2_out = co2_out
+        super(AbstractRegression, self).__init__()
+
+    @abstractmethod
+    def compute_parameter(self, x, y):
+        pass
+
+    @abstractmethod
+    def compute_curve(self, x, y):
+        pass
+
+
+class SimpleExpRegression(AbstractRegression):
+    def __init__(self, co2_out, volume):
+        self._volume = volume
+        super(SimpleExpRegression, self).__init__(co2_out)
+
+    @staticmethod
+    def gen_f(co2_start, co2_out):
+        return lambda x, a: co2_out + (co2_start - co2_out) * np.exp(-a * x)
+
+    @staticmethod
+    def gen_f_volume(co2_start, co2_out, volume):
+        return lambda x, a: co2_out + (co2_start - co2_out) * np.exp(-a / volume * x)
+
+    def compute_parameter(self, x, y):
+        x = np.asarray(x)
+        y = np.asarray(y)
+
+        if self._volume is None:
+            f = SimpleExpRegression.gen_f(y[0], self._co2_out)
+        else:
+            f = SimpleExpRegression.gen_f_volume(y[0], self._co2_out, self._volume)
+
+        popt, pcov = curve_fit(f, x, y)
+        return popt[0], np.sqrt(np.diag(pcov))
+
+    def compute_curve(self, x, y):
+        param = self.compute_parameter(x, y)
+
+        if self._volume is None:
+            f = SimpleExpRegression.gen_f(y[0], self._co2_out)
+        else:
+            f = SimpleExpRegression.gen_f_volume(y[0], self._co2_out, self._volume)
+
+        out = []
+        for i in range(0, len(x)):
+            out.append(f(i, param))
+
+        return out
+
+
+class ExpRegressionWithDelay(SimpleExpRegression):
+    def __init__(self, co2_out, volume, window_size, threshold):
+        self._window_size = window_size
+        self._threshold = threshold
+        super(ExpRegressionWithDelay, self).__init__(co2_out, volume)
+
+    def compute_parameter(self, x, y):
+        delay = ValueUtil.detect_sensor_delay(x, self._window_size, self._threshold)
+        return super(ExpRegressionWithDelay, self).compute_parameter(x[delay:], y[delay:])
+
+    def compute_curve(self, x, y):
+        delay = ValueUtil.detect_sensor_delay(y, self._window_size, self._threshold)
+
+        new_x = []
+        for i in range(0, len(x) - delay):
+            new_x.append(i)
+
+        values = super(ExpRegressionWithDelay, self).compute_curve(new_x, y[delay:])
+
+        if delay == 0:
+            return values
+
+        out = []
+        for k in range(0, delay):
+            out.append(y[k])
+
+        return out + values
+
+
+class Regression(AbstractPrepareAttr):
+    def __init__(self, con, table_name, row_selector, interval_selector, method):
+        self._method = method
+        super(Regression, self).__init__(con, table_name, row_selector, interval_selector)
+
+    def execute(self, timestamp_start, timestamp_end, column, precision, prefix):
+        x = []
+        y = []
+        for timestamp in range(timestamp_start, timestamp_end):
+            y.append(self.row_selector.row(column, timestamp))
+            x.append(timestamp - timestamp_start)
+
+        x = np.asarray(x)
+        y = np.asarray(y)
+
+        param, err = self._method.compute_parameter(x, y)
+        name = self.attr_name(column, prefix, 'before', 0)
+        before = [(name, round(param * 3600, precision)), ('err', round(float(err), 8))]
+
+        return before, []
+
+    @staticmethod
+    def gen_f_lambda(co2_start, co2_out):
+        return lambda x, a: co2_out + (co2_start - co2_out) * np.exp(-a * x)
+
+    @staticmethod
+    def gen_f_prietok(co2_start, co2_out, volume):
+        return lambda x, a: co2_out + (co2_start - co2_out) * np.exp(-a / volume * x)
 
 
 class AbstractLineCoefficients(ABC):

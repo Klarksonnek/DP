@@ -84,7 +84,8 @@ def update_invalid_values(con):
         delete_rows(con, 1548238685, 1548239010, table)
         delete_rows(con, 1548279855, 1548280843, table)
         delete_rows(con, 1548826585, 1548828602, table)
-
+        delete_rows(con, 1547291955, 1547292307, table)
+        delete_rows(con, 1554060946, 1554063977, table)
     con.commit()
 
     # Klarka
@@ -235,6 +236,14 @@ def update_shower(con, filename, table_names):
         con.commit()
 
 
+def david(con, cls, start, end, devs):
+    tables = [
+        ('measured_david', 1),
+        ('measured_david_reduced', 15),
+    ]
+    create_update_table(con, cls, start, end, devs['david'], tables)
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     devs = devices()
@@ -259,5 +268,8 @@ if __name__ == '__main__':
 
     start = int(DateTimeUtil.local_time_str_to_utc('2018/07/18 06:00:00').timestamp())
     klarka_sprcha_db(con, cls, start, end, devs)
+
+    start = int(DateTimeUtil.local_time_str_to_utc('2019/04/03 15:00:00').timestamp())
+    david(con, cls, start, end, devs)
 
     update_invalid_values(con)
