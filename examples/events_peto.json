@@ -12945,7 +12945,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/22 19:14:07",
@@ -12971,7 +12971,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/22 23:06:05",
@@ -12997,7 +12997,7 @@
 			"rain": "",
 			"sky": "clear",
 			"sun": "yes",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/23 08:06:59",
@@ -13023,7 +13023,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/23 10:56:14",
@@ -13049,7 +13049,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/23 13:46:20",
@@ -13075,7 +13075,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/23 16:00:53",
@@ -13101,7 +13101,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/23 18:15:37",
@@ -13127,7 +13127,7 @@
 			"rain": "no",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/23 20:13:29",
@@ -13153,7 +13153,7 @@
 			"rain": "no",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/23 22:39:18",
@@ -13179,7 +13179,7 @@
 			"rain": "no",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/24 07:47:13",
@@ -13205,7 +13205,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/24 11:25:18",
@@ -13231,7 +13231,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/24 13:20:10",
@@ -13257,7 +13257,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/24 14:27:23",
@@ -13283,7 +13283,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/24 18:57:00",
@@ -13309,7 +13309,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/24 21:29:02",
@@ -13335,7 +13335,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/24 22:54:03",
@@ -13361,7 +13361,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/25 06:52:52",
@@ -13387,7 +13387,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/25 18:57:00",
@@ -13413,7 +13413,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/25 20:12:37",
@@ -13439,7 +13439,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/25 20:50:19",
@@ -13465,7 +13465,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/25 21:54:36",
@@ -13491,7 +13491,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/25 22:38:57",
@@ -13517,7 +13517,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/26 06:56:34",
@@ -13543,7 +13543,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/26 20:39:42",
@@ -13569,7 +13569,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/26 22:29:37",
@@ -13595,7 +13595,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 06:44:36",
@@ -13621,7 +13621,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 12:13:51",
@@ -13647,7 +13647,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 14:06:21",
@@ -13673,7 +13673,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 15:20:08",
@@ -13699,7 +13699,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 17:57:28",
@@ -13725,7 +13725,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 19:08:30",
@@ -13751,7 +13751,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 20:31:10",
@@ -13777,7 +13777,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 21:30:35",
@@ -13803,7 +13803,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 22:10:59",
@@ -13829,7 +13829,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/27 22:56:48",
@@ -13855,7 +13855,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/28 06:35:35",
@@ -13881,7 +13881,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/28 16:52:28",
@@ -13907,7 +13907,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/28 20:08:07",
@@ -13933,7 +13933,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/02/28 23:32:57",
@@ -13959,7 +13959,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/01 19:12:37",
@@ -13985,7 +13985,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/01 21:04:17",
@@ -14011,7 +14011,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/02 07:23:10",
@@ -14037,7 +14037,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/02 08:36:07",
@@ -14063,7 +14063,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/02 10:06:22",
@@ -14089,7 +14089,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/02 13:26:30",
@@ -14115,7 +14115,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/02 17:17:28",
@@ -14141,7 +14141,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/02 19:50:12",
@@ -14167,7 +14167,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/02 22:22:52",
@@ -14193,7 +14193,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/03 10:23:45",
@@ -14219,7 +14219,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/03 11:05:02",
@@ -14245,7 +14245,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/03 15:53:56",
@@ -14271,7 +14271,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/03 16:57:15",
@@ -14297,7 +14297,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/03 19:35:49",
@@ -14323,7 +14323,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/03 21:58:36",
@@ -14349,7 +14349,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/03 22:26:27",
@@ -14375,7 +14375,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/04 06:43:22",
@@ -14401,7 +14401,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/04 18:57:53",
@@ -14427,7 +14427,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/04 21:27:00",
@@ -14453,7 +14453,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/04 22:24:46",
@@ -14479,7 +14479,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 00:30:51",
@@ -14505,7 +14505,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 06:58:23",
@@ -14531,7 +14531,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "yes",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 07:33:43",
@@ -14557,7 +14557,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 10:33:16",
@@ -14583,7 +14583,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 13:04:31",
@@ -14609,7 +14609,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 17:00:36",
@@ -14635,7 +14635,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 20:52:08",
@@ -14661,7 +14661,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 22:04:01",
@@ -14687,7 +14687,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/05 23:21:48",
@@ -14713,7 +14713,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/06 18:17:57",
@@ -14739,7 +14739,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/07 02:27:54",
@@ -14765,7 +14765,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/07 08:27:40",
@@ -14791,7 +14791,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/07 09:55:38",
@@ -14817,7 +14817,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/07 11:59:33",
@@ -14843,7 +14843,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/07 13:14:19",
@@ -14869,7 +14869,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/07 14:07:10",
@@ -14895,7 +14895,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/07 18:45:50",
@@ -14921,7 +14921,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/07 22:27:16",
@@ -14947,7 +14947,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/08 07:08:30",
@@ -14973,7 +14973,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/08 07:39:42",
@@ -14999,7 +14999,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/08 09:56:22",
@@ -15025,7 +15025,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/08 11:11:45",
@@ -15051,7 +15051,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/08 12:47:12",
@@ -15077,7 +15077,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/08 13:20:36",
@@ -15103,7 +15103,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/08 14:48:11",
@@ -15129,7 +15129,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/09 02:46:01",
@@ -15155,7 +15155,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/09 03:43:14",
@@ -15181,7 +15181,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/09 09:44:52",
@@ -15207,7 +15207,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/09 16:35:22",
@@ -15233,7 +15233,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/09 19:53:55",
@@ -15259,7 +15259,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/09 20:58:49",
@@ -15285,7 +15285,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/09 22:44:38",
@@ -15311,7 +15311,7 @@
 			"rain": "yes",
 			"sky": "overcast",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/10 08:03:46",
@@ -15337,7 +15337,7 @@
 			"rain": "yes",
 			"sky": "overcast",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/10 10:50:47",
@@ -15363,7 +15363,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/10 12:42:04",
@@ -15389,7 +15389,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/10 14:02:31",
@@ -15415,7 +15415,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/10 16:38:54",
@@ -15441,7 +15441,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/10 19:14:43",
@@ -15467,7 +15467,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/10 21:38:16",
@@ -15493,7 +15493,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/10 23:02:04",
@@ -15519,7 +15519,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/11 06:52:26",
@@ -15545,7 +15545,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/11 18:53:54",
@@ -15571,7 +15571,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/11 23:03:24",
@@ -15597,7 +15597,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/12 09:30:46",
@@ -15623,7 +15623,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/12 10:06:49",
@@ -15649,7 +15649,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/12 17:33:42",
@@ -15675,7 +15675,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/12 18:30:12",
@@ -15701,7 +15701,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/12 20:23:32",
@@ -15727,7 +15727,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/12 22:05:49",
@@ -15753,7 +15753,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/12 22:43:44",
@@ -15779,7 +15779,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/13 08:36:03",
@@ -15805,7 +15805,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/13 09:55:21",
@@ -15831,7 +15831,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/13 13:31:07",
@@ -15857,7 +15857,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/13 18:20:30",
@@ -15883,7 +15883,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/13 20:51:06",
@@ -15909,7 +15909,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/13 23:03:16",
@@ -15935,7 +15935,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/14 00:05:23",
@@ -15961,7 +15961,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/14 06:31:58",
@@ -15987,7 +15987,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/14 07:51:56",
@@ -16013,7 +16013,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/17 19:55:19",
@@ -16039,7 +16039,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/17 22:38:43",
@@ -16065,7 +16065,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/18 06:57:28",
@@ -16091,7 +16091,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/18 11:29:02",
@@ -16117,7 +16117,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/18 12:12:23",
@@ -16143,7 +16143,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/18 13:26:23",
@@ -16169,7 +16169,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/18 13:55:37",
@@ -16195,7 +16195,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/18 17:23:07",
@@ -16221,7 +16221,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/18 20:04:59",
@@ -16247,7 +16247,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/19 06:50:19",
@@ -16273,7 +16273,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/19 08:43:35",
@@ -16299,7 +16299,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/19 10:02:22",
@@ -16325,7 +16325,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/19 13:16:37",
@@ -16351,7 +16351,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/19 15:17:23",
@@ -16377,7 +16377,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/19 20:45:10",
@@ -16403,7 +16403,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/19 22:54:46",
@@ -16429,7 +16429,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/20 06:58:12",
@@ -16455,7 +16455,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/20 15:33:50",
@@ -16481,7 +16481,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/20 17:56:26",
@@ -16507,7 +16507,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/20 19:11:13",
@@ -16533,7 +16533,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/20 22:13:50",
@@ -16559,7 +16559,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/20 22:53:59",
@@ -16585,7 +16585,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 06:30:19",
@@ -16611,7 +16611,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 08:40:03",
@@ -16637,7 +16637,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 10:54:18",
@@ -16663,7 +16663,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 12:38:57",
@@ -16689,7 +16689,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 13:11:38",
@@ -16715,7 +16715,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 17:48:07",
@@ -16741,7 +16741,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 20:33:24",
@@ -16767,7 +16767,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 21:52:17",
@@ -16793,7 +16793,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/21 23:17:54",
@@ -16819,7 +16819,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/22 06:33:11",
@@ -16845,7 +16845,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/22 09:33:40",
@@ -16871,7 +16871,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/22 10:58:01",
@@ -16897,7 +16897,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/22 14:31:47",
@@ -16923,7 +16923,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/22 16:09:02",
@@ -16949,7 +16949,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/22 18:20:59",
@@ -16975,7 +16975,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/22 21:23:06",
@@ -17001,7 +17001,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 00:00:06",
@@ -17027,7 +17027,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 07:07:36",
@@ -17053,7 +17053,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 09:47:09",
@@ -17079,7 +17079,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 11:10:23",
@@ -17105,7 +17105,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 12:28:22",
@@ -17131,7 +17131,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 14:43:14",
@@ -17157,7 +17157,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 16:24:18",
@@ -17183,7 +17183,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 17:37:37",
@@ -17209,7 +17209,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/23 19:32:50",
@@ -17235,7 +17235,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 01:02:29",
@@ -17261,7 +17261,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 07:02:45",
@@ -17287,7 +17287,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 10:56:29",
@@ -17313,7 +17313,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 12:32:24",
@@ -17339,7 +17339,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 14:23:19",
@@ -17365,7 +17365,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 15:03:27",
@@ -17391,7 +17391,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 16:02:13",
@@ -17417,7 +17417,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 18:04:26",
@@ -17443,7 +17443,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 21:46:37",
@@ -17469,7 +17469,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/24 22:41:33",
@@ -17495,7 +17495,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/25 06:50:44",
@@ -17521,7 +17521,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/25 19:09:23",
@@ -17547,7 +17547,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/25 21:15:39",
@@ -17573,7 +17573,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/25 23:21:56",
@@ -17599,7 +17599,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/26 07:08:23",
@@ -17625,7 +17625,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/26 13:28:19",
@@ -17651,7 +17651,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/26 16:21:39",
@@ -17677,7 +17677,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/26 18:35:34",
@@ -17703,7 +17703,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/26 19:17:59",
@@ -17729,7 +17729,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/26 21:18:50",
@@ -17755,7 +17755,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/26 22:31:20",
@@ -17781,7 +17781,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/27 06:45:18",
@@ -17807,7 +17807,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/27 07:45:16",
@@ -17833,7 +17833,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/27 18:26:00",
@@ -17859,7 +17859,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/27 20:01:06",
@@ -17885,7 +17885,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/27 21:06:30",
@@ -17911,7 +17911,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/27 22:31:46",
@@ -17937,7 +17937,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/28 06:38:31",
@@ -17963,7 +17963,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/28 09:10:37",
@@ -17989,7 +17989,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/28 17:09:11",
@@ -18015,7 +18015,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/28 20:44:15",
@@ -18041,7 +18041,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/28 23:59:34",
@@ -18067,7 +18067,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/29 06:55:20",
@@ -18093,7 +18093,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/30 00:10:20",
@@ -18119,7 +18119,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/30 11:41:43",
@@ -18145,7 +18145,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/03/30 13:33:21",
@@ -18171,7 +18171,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/04/01 06:54:01",
@@ -18197,7 +18197,7 @@
 			"rain": "",
 			"sky": "",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/04/01 18:49:46",
@@ -18223,7 +18223,7 @@
 			"rain": "",
 			"sky": "night_sky",
 			"sun": "no",
-			"open_typnoe": "kridlo(90)",
+			"open_type": "kridlo(90)",
 			"activity": "kancelarska_praca, kancelarska_praca, kancelarska_praca",
 			"times": {
 				"event_start": "2019/04/01 21:00:23",
