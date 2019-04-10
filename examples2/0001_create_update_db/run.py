@@ -54,6 +54,7 @@ def update_invalid_values(con):
         cur.execute('UPDATE ' + table + ' SET open_close = 1 WHERE measured_time >= 1545208319 AND measured_time <= 1545208364')
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1547292105 AND measured_time <= 1547292149')
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time >= 1551339840 AND measured_time <= 1551339852')
+        cur.execute('UPDATE ' + table + ' SET open_close = 1 WHERE measured_time >= 1554613585 AND measured_time <= 1554613592')
 
         delete_rows(con, 1551847133, 1551889587, table)
         delete_rows(con, 1551903872, 1551908262, table)
@@ -86,6 +87,9 @@ def update_invalid_values(con):
         delete_rows(con, 1548826585, 1548828602, table)
         delete_rows(con, 1547291955, 1547292307, table)
         delete_rows(con, 1554060946, 1554063977, table)
+        delete_rows(con, 1539170291, 1539187647, table)
+        delete_rows(con, 1539332345, 1539382163, table)
+        delete_rows(con, 1542496507, 1542497157, table)
     con.commit()
 
     # Klarka
