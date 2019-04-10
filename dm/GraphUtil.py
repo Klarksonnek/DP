@@ -98,23 +98,27 @@ class GraphUtil:
         fig = plt.figure()
 
         barWidth = 0.1
-        bars1 = [second_col[0] / third_col[0], second_col[3] / third_col[3], second_col[6] / third_col[6]]
-        bars2 = [second_col[1] / third_col[1],second_col[4] / third_col[4], second_col[6] / third_col[6]]
-        bars3 = [second_col[2] / third_col[2], second_col[5] / third_col[5], second_col[6] / third_col[6]]
+        bars1 = [second_col[0] / third_col[0], second_col[3] / third_col[3], 0]
+        bars2 = [second_col[1] / third_col[1], second_col[4] / third_col[4], 0]
+        bars3 = [second_col[2] / third_col[2], second_col[5] / third_col[5], 0]
+        bars4 = [0, 0, second_col[6] / third_col[6]]
 
         r1 = np.arange(len(bars1))
         r2 = [x + barWidth for x in r1]
         r3 = [x + barWidth for x in r2]
+        r4 = [0, 0, r2[-1]]
 
-        plt.bar(r1, bars1, color=(0.854, 0.035, 0.027), width=barWidth, edgecolor='white', label='trendline')
-        plt.bar(r2, bars2, color=(0.101, 0.454, 0.125), width=barWidth, edgecolor='white', label='avg_trendline')
-        plt.bar(r3, bars3, color=(0, 0, 1), width=barWidth, edgecolor='white', label='cluster centroid')
+        plt.bar(r1, bars1, color=(0.854, 0.035, 0.027), width=barWidth, edgecolor='white', label='trendline', zorder=3)
+        plt.bar(r2, bars2, color=(0.101, 0.454, 0.125), width=barWidth, edgecolor='white', label='avg trendline', zorder=3)
+        plt.bar(r3, bars3, color=(0, 0, 1), width=barWidth, edgecolor='white', label='cluster centroid', zorder=3)
+        plt.bar(r4, bars4, color=(0, 0, 0), width=barWidth * 3, edgecolor='white', label='nothing', zorder=3)
 
         plt.xlabel('attributes', fontweight='bold')
         plt.ylabel('success rate [%]', fontweight='bold')
-        plt.xticks([r + barWidth for r in range(len(bars1))], ['all', 'only distance', 'without distance'])
+        plt.xticks([r + barWidth for r in range(len(bars1))], ['all', 'only parameters', 'only model'])
 
         plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.35))
+        plt.grid(zorder=0)
 
         if 'save' in action:
             fig.savefig(filename, bbox_inches='tight', pad_inches=0)
