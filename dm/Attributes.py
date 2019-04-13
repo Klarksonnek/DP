@@ -106,7 +106,8 @@ class AttributeUtil:
         return attrs, training_events
 
     @staticmethod
-    def additional_training_set(con, table_name, no_event_records, func, row_selector, interval_selector):
+    def additional_training_set(con, table_name, no_event_records, func, row_selector, interval_selector,
+                                print_each=10):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
@@ -119,7 +120,16 @@ class AttributeUtil:
         """
 
         attrs = []
-        for row in no_event_records:
+        for k in range(0, len(no_event_records)):
+            row = no_event_records[k]
+
+            if k % print_each == 0:
+                logging.debug('{0}/{1} events'.format(k, len(no_event_records)))
+
+            if row[0] == '':
+                logging.warning('empty row in additional sets')
+                continue
+
             start = int(DateTimeUtil.local_time_str_to_utc(row[0]).timestamp())
 
             try:
@@ -1047,7 +1057,8 @@ class SimpleExpRegression(AbstractRegression):
         return popt[0], np.sqrt(np.diag(pcov))
 
     def compute_curve(self, x, y):
-        param = self.compute_parameter(x, y)
+        # index 0 - parameter, index 1 - error
+        param = self.compute_parameter(x, y)[0]
 
         if self._volume is None:
             f = SimpleExpRegression.gen_f(y[0], self._co2_out)
@@ -1118,6 +1129,18 @@ class Regression(AbstractPrepareAttr):
     @staticmethod
     def gen_f_prietok(co2_start, co2_out, volume):
         return lambda x, a: co2_out + (co2_start - co2_out) * np.exp(-a / volume * x)
+
+
+class CO2VentilationLength(AbstractPrepareAttr):
+    def execute(self, timestamp_start, timestamp_end, compute_timestamp, intervals,
+                method, co2_out, column, precision, prefix):
+        x = []
+        y = []
+        for timestamp in range(timestamp_start, timestamp_end):
+            y.append(self.row_selector.row(column, timestamp))
+            x.append(timestamp - timestamp_start)
+
+        return [('actual_value', y[compute_timestamp]), ('co2_start', y[0])], []
 
 
 class AbstractLineCoefficients(ABC):

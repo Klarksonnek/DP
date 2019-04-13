@@ -84,7 +84,7 @@ if __name__ == '__main__':
                         format='%(asctime)s %(levelname)s %(message)s')
 
     logging.info('start')
-    table_name = 'measured_peto'
+    table_name = 'measured_filtered_peto'
 
     # stiahnutie dat
     con = ConnectionUtil.create_con()

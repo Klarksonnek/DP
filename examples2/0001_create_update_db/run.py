@@ -248,6 +248,22 @@ def david(con, cls, start, end, devs):
     create_update_table(con, cls, start, end, devs['david'], tables)
 
 
+def martin(con, cls, start, end, devs):
+    tables = [
+        ('measured_martin', 1),
+        ('measured_martin_reduced', 15),
+    ]
+    create_update_table(con, cls, start, end, devs['martin'], tables)
+
+
+def martin_door(con, cls, start, end, devs):
+    tables = [
+        ('measured_martin_door', 1),
+        ('measured_martin_door_reduced', 15),
+    ]
+    create_update_table(con, cls, start, end, devs['martin_door'], tables)
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     devs = devices()
@@ -275,5 +291,9 @@ if __name__ == '__main__':
 
     start = int(DateTimeUtil.local_time_str_to_utc('2019/04/03 15:00:00').timestamp())
     david(con, cls, start, end, devs)
+
+    start = int(DateTimeUtil.local_time_str_to_utc('2019/04/01 15:00:00').timestamp())
+    martin(con, cls, start, end, devs)
+    martin_door(con, cls, start, end, devs)
 
     update_invalid_values(con)

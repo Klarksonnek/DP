@@ -10,6 +10,8 @@ from dm.Graph import Graph
 from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
 from dm.Storage import Storage
+from dm.Attributes import *
+import numpy as np
 
 
 def check_attributes(events):
@@ -32,19 +34,49 @@ def check_attributes(events):
             raise ValueError('rain attribute contains invalid input: %s' % item['rain'])
 
 
-def generate_file(con, start_shift, end_shift, output_file):
+def compute_regression(events):
+    out_ppm = 350
+
+    for i in range(0, len(events)):
+        event = events[i]
+        measured = event['measured']['co2_in_ppm']
+
+        x = []
+        y = []
+        shift = 0
+        for k in range(shift, len(measured)):
+            x.append(k - shift)
+            y.append(measured[k])
+
+        x = np.asarray(x)
+        y = np.asarray(y)
+
+        op = SimpleExpRegression(out_ppm, None)
+        event['measured']['co2_in_ppm_exp'] = op.compute_curve(x, y)
+
+        op = ExpRegressionWithDelay(out_ppm, None, 11, 20)
+        event['measured']['co2_in_ppm_exp2'] = op.compute_curve(x, y)
+
+    return events
+
+
+def generate_file(con, start_shift, end_shift, output_file, enable_regression):
     logging.info('start: ' + output_file)
 
     graphs = Graph("./../../src/graph")
 
     # stiahnutie dat
-    storage = Storage('examples/events_peto.json', 0, 'measured_peto')
+    storage = Storage('examples/events_peto.json', 0, 'measured_filtered_peto')
     d = storage.load_data(con, start_shift, end_shift, 'co2_in_ppm')
     logging.info('downloaded events: %d' % len(d))
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
     logging.info('events after applying the filter: %d' % len(filtered))
+
+    # spocitanie regresie
+    if enable_regression:
+        filtered = compute_regression(filtered)
 
     logging.info('start generating graphs')
     gr = []
@@ -53,11 +85,20 @@ def generate_file(con, start_shift, end_shift, output_file):
         t += ' - '
         t += DateTimeUtil.utc_timestamp_to_str(event['e_end']['timestamp'], '%H:%M:%S')
 
+        if enable_regression:
+            gg = [
+                Graph.db_to_simple_graph(event, 'co2_in_ppm', 'green', 'CO2', 50),
+                Graph.db_to_simple_graph(event, 'co2_in_ppm_exp', 'red', 'SimpleExpRegression', 50),
+                Graph.db_to_simple_graph(event, 'co2_in_ppm_exp2', 'orange', 'ExpRegressionWithDelay', 50),
+            ]
+        else:
+            gg = [
+                Graph.db_to_simple_graph(event, 'co2_in_ppm', 'green', 'CO2', 50),
+            ]
+
         g = {
             'title': t,
-            'graphs': [
-                Graph.db_to_simple_graph(event, 'co2_in_ppm', 'green', 'CO2', 50)
-            ]
+            'graphs': gg
         }
         gr.append(g)
 
@@ -73,5 +114,5 @@ if __name__ == '__main__':
 
     con = ConnectionUtil.create_con()
 
-    generate_file(con, -1800, +1800, 'inner_co2_with_shift')
-    generate_file(con, 0, 0, 'inner_co2')
+    generate_file(con, -1800, +1800, 'inner_co2_with_shift', False)
+    generate_file(con, 0, 0, 'inner_co2', True)

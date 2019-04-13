@@ -239,9 +239,9 @@ if __name__ == '__main__':
                         format='%(asctime)s %(levelname)s %(message)s',)
 
     main('examples/events_klarka.json', 'klarka', 0, 0, 'klarka_temp_hum_abs_spec.html', 75)
-    main('examples/events_peto.json', 'peto', 0, 0, 'peto_temp_hum_abs_spec.html', 75)
+    main('examples/events_peto.json', 'filtered_peto', 0, 0, 'peto_temp_hum_abs_spec.html', 75)
 
     main('examples/events_klarka.json', 'klarka', -3600, 3600,
          'klarka_temp_hum_abs_spec_shift.html', 75)
-    main('examples/events_peto.json', 'peto', 3600, 3600,
+    main('examples/events_peto.json', 'filtered_peto', 3600, 3600,
          'peto_temp_hum_abs_spec_shift.html', 75)
