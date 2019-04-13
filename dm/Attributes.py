@@ -106,7 +106,8 @@ class AttributeUtil:
         return attrs, training_events
 
     @staticmethod
-    def additional_training_set(con, table_name, no_event_records, func, row_selector, interval_selector):
+    def additional_training_set(con, table_name, no_event_records, func, row_selector, interval_selector,
+                                print_each=10):
         """Dodatocne generovanie trenovacich dat, zo zadanych casov.
 
         :param con:
@@ -119,7 +120,12 @@ class AttributeUtil:
         """
 
         attrs = []
-        for row in no_event_records:
+        for k in range(0, len(no_event_records)):
+            row = no_event_records[k]
+
+            if k % print_each == 0:
+                logging.debug('{0}/{1} events'.format(k, len(no_event_records)))
+
             start = int(DateTimeUtil.local_time_str_to_utc(row[0]).timestamp())
 
             try:
