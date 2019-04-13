@@ -1304,18 +1304,18 @@ class DistanceToLine:
 
             # plot graphs
             # plot points
-            plt.scatter(sh_decrease, sh_diff, marker='x', color=colors_trendline[i])
+            plt.scatter(sh_decrease, sh_diff, marker='x', color=colors_trendline[i], zorder=3)
 
             # plot cluster centroid
-            plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i])
+            plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i], zorder=3)
 
             # plot trendline of the cluster
-            plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + 'min')
-
+            plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + 'min', zorder=3)
+            plt.grid(zorder=0)
             i += 1
 
         plt.legend()
-        plt.grid()
+        plt.grid(zorder=0)
 
         return out_point_line, out_point_point, fig
 
