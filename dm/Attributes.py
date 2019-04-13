@@ -1057,7 +1057,8 @@ class SimpleExpRegression(AbstractRegression):
         return popt[0], np.sqrt(np.diag(pcov))
 
     def compute_curve(self, x, y):
-        param = self.compute_parameter(x, y)
+        # index 0 - parameter, index 1 - error
+        param = self.compute_parameter(x, y)[0]
 
         if self._volume is None:
             f = SimpleExpRegression.gen_f(y[0], self._co2_out)
