@@ -396,5 +396,73 @@
             "module": 2,
             "server_name": "ant-work"
         }
+    ],
+    "martin": [
+        {
+            "db_column_name": "open_close",
+            "name": "BeeWi",
+            "gateway": "1662281628545799",
+            "device": "0xac00f0c77f0a6fdc",
+            "module": 0,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "temperature_in_celsius",
+            "name": "IQ Home co2, temperature and humidity - temperature",
+            "gateway": "1662281628545799",
+            "device": "0xa90081111cdb15af",
+            "module": 0,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "rh_in_percentage",
+            "name": "IQ Home sensor co2, temperature and humidity - humidity",
+            "gateway": "1662281628545799",
+            "device": "0xa90081111cdb15af",
+            "module": 1,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "co2_in_ppm",
+            "name": "BeeeOn sensor",
+            "gateway": "1662281628545799",
+            "device": "0xa90081111cdb15af",
+            "module": 2,
+            "server_name": "ant-work"
+        }
+    ],
+    "martin_door": [
+        {
+            "db_column_name": "open_close",
+            "name": "BeeWi",
+            "gateway": "1662281628545799",
+            "device": "0xac0004a316672ad0",
+            "module": 0,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "temperature_in_celsius",
+            "name": "IQ Home co2, temperature and humidity - temperature",
+            "gateway": "1662281628545799",
+            "device": "0xa90081111cdb15af",
+            "module": 0,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "rh_in_percentage",
+            "name": "IQ Home sensor co2, temperature and humidity - humidity",
+            "gateway": "1662281628545799",
+            "device": "0xa90081111cdb15af",
+            "module": 1,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "co2_in_ppm",
+            "name": "BeeeOn sensor",
+            "gateway": "1662281628545799",
+            "device": "0xa90081111cdb15af",
+            "module": 2,
+            "server_name": "ant-work"
+        }
     ]
 }
