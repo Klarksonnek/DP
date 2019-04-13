@@ -126,6 +126,10 @@ class AttributeUtil:
             if k % print_each == 0:
                 logging.debug('{0}/{1} events'.format(k, len(no_event_records)))
 
+            if row[0] == '':
+                logging.warning('empty row in additional sets')
+                continue
+
             start = int(DateTimeUtil.local_time_str_to_utc(row[0]).timestamp())
 
             try:
