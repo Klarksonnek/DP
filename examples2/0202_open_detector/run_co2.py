@@ -471,7 +471,9 @@ no_events_records = [
 
 def func(con, table_name, timestamp, row_selector, interval_selector):
     attrs = []
-    columns = ['co2_in_ppm']
+    columns = [
+        'co2_in_ppm'
+    ]
     precision = 2
 
     for column in columns:
@@ -599,8 +601,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
         b, a = op.execute(timestamp=timestamp, column='co2_in_ppm_diff', precision=precision,
                           intervals_before=[1],
                           intervals_after=[],
-
-                          prefix='_x3')
+                          prefix='')
         attrs += b + a
 
     return attrs
@@ -646,22 +647,35 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
     logging.info('end preparing file of training set')
 
 
-def testing_set(table_name: str):
+def testing_set(table_name: str, start, end, filename):
     logging.info('start')
 
     con = ConnectionUtil.create_con()
 
-    # testovacia mnozina
-    start = int(DateTimeUtil.local_time_str_to_utc('2018/10/07 06:00:00').timestamp())
-    end = start + 100
-
     logging.info('start computing of testing set')
     length = AttributeUtil.testing_data_with_write(con, table_name, start, end, 30, func,
-                                                   None, None, 'open', 'testing.csv')
+                                                   None, None, 'open', filename)
     logging.info('testing set contains %d records' % length)
     logging.info('end computing of testing set')
 
     logging.info('end')
+
+
+def testing_month(table_name, start):
+    mesiac = 30 * 24 * 3600
+
+    file_names = [
+        'co2_1_oktober.csv',
+        'co2_2_november.csv',
+        'co2_3_december.csv',
+        'co2_4_januar.csv',
+        'co2_5_februar.csv',
+        'co2_6_marec.csv',
+    ]
+
+    for file_name in file_names:
+        testing_set(table_name, start, start + mesiac, file_name)
+        start += mesiac
 
 
 if __name__ == '__main__':
@@ -672,4 +686,7 @@ if __name__ == '__main__':
     table_name = 'measured_filtered_peto'
 
     training_set('examples/events_peto.json', -500, table_name)
-    testing_set(table_name)
+
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/10/07 06:00:00').timestamp())
+    testing_set(table_name, start, start + 100, 'testing.csv')
+    # testing_month(table_name, start)
