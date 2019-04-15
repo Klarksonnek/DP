@@ -1236,7 +1236,7 @@ class DistanceToLine:
 
         return out
 
-    def humidity_clusters(self, training, col1, col2, col3, intervals, strategy, strategyFlag):
+    def humidity_clusters(self, training, col1, col2, col3, intervals, strategy, strategyFlag, one_line):
         """
 
         :param training:
@@ -1280,7 +1280,8 @@ class DistanceToLine:
 
             direction = strategy.calculate(training, interval * 60, col1, col2, col3, C[0][0], C[0][1])
             y = direction * max(sh_decrease)
-            plt.plot([0, max(sh_decrease)], [0, y], color=colors_line[i])
+            if not one_line:
+                plt.plot([0, max(sh_decrease)], [0, y], color=colors_line[i])
 
             if strategyFlag == "polyfit_" or strategyFlag == "center_":
                 # convert the line equation
@@ -1312,6 +1313,8 @@ class DistanceToLine:
             # plot trendline of the cluster
             plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + 'min', zorder=3)
             plt.grid(zorder=0)
+            if one_line:
+                return out_point_line, out_point_point, fig
             i += 1
 
         plt.legend()
@@ -1342,10 +1345,10 @@ class DistanceToLine:
 
         return float(np.sqrt((b1 - a1) ** 2 + (b2 - a2) ** 2))
 
-    def exec(self, intervals, data_testing, col1, col2, col3, strategy, strategyFlag, precision=2):
+    def exec(self, intervals, data_testing, col1, col2, col3, strategy, strategyFlag, one_line, precision=2):
         if self.model is None:
             line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals,
-                                                      strategy, strategyFlag)
+                                                      strategy, strategyFlag, one_line)
 
             self.model = {
                 'line' + strategyFlag: line,
@@ -1353,10 +1356,13 @@ class DistanceToLine:
                 'fig' + strategyFlag: fig,
             }
 
-            plt.xlabel('Decrease of $SH_{in}$ sensor 2 [g/kg]')
-            plt.ylabel('$SH_{in}$ - $SH_{out}$ sensor 2 [g/kg]')
-            self.model['fig' + strategyFlag].savefig('model.png')
-
+            plt.xlim(0, 3)
+            plt.ylim(0, 5)
+            plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+            plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+            self.model['fig' + strategyFlag].savefig('trendline.eps')
+        if one_line:
+            return
         out = []
         for row in data_testing:
             dist_point_line = []
