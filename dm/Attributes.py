@@ -1292,11 +1292,6 @@ class DistanceToLine:
             direction = strategy.calculate(training, interval * 60, col1, col2, col3, C[0][0], C[0][1])
             y = direction * max(sh_decrease)
 
-            if one_line and strategyFlag == "center_":
-                plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i])
-                plt.grid(zorder=0)
-                return out_point_line, out_point_point, fig
-
             if strategyFlag == "polyfit_" or strategyFlag == "center_":
                 # convert the line equation
                 (a, b, c) = strategy.convert_line([direction, 0])
@@ -1324,21 +1319,38 @@ class DistanceToLine:
             # plot cluster centroid
             plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i], zorder=3)
 
-            if one_line and strategyFlag == 'polyfit_':
-                return out_point_line, out_point_point, fig
+            if strategyFlag == 'polyfit_':
+                plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
+                plt.xlim(0.0, 4.0)
+                plt.ylim(0.0, 7.0)
+                plt.grid(zorder=0)
+                if one_line:
+                    plt.xlim(0.0, 3.0)
+                    return out_point_line, out_point_point, fig
+
+            if strategyFlag == 'center_':
+                plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
+                plt.xlim(0.0, 4.0)
+                plt.ylim(0.0, 6.0)
+                plt.grid(zorder=0)
+                if one_line:
+                    plt.xlim(0.0, 3.0)
+                    return out_point_line, out_point_point, fig
 
             if strategyFlag == 'trendline_':
                 # plot trendline of the cluster
-                plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + 'min')
+                plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + ' min')
                 plt.grid(zorder=0)
-                plt.xlim(0.0, 3.0)
-                plt.ylim(0.0, 7.0)
-
-            if one_line:
-                return out_point_line, out_point_point, fig
+                plt.xlim(0.0, 4.0)
+                plt.ylim(0.0, 6.0)
+                if one_line:
+                    plt.xlim(0.0, 3.0)
+                    plt.ylim(0.0, 5.0)
+                    return out_point_line, out_point_point, fig
             i += 1
 
-        plt.legend()
+        if not one_line:
+            plt.legend()
         plt.grid(zorder=0)
 
         return out_point_line, out_point_point, fig
@@ -1379,8 +1391,6 @@ class DistanceToLine:
             }
 
             if strategyFlag == 'trendline_':
-                plt.xlim(0, 3)
-                plt.ylim(0, 5)
                 plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
                 plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
                 self.model['fig' + strategyFlag].savefig('trendline.eps')
@@ -1391,8 +1401,6 @@ class DistanceToLine:
                 self.model['fig' + strategyFlag].savefig('avg_trendline.eps')
 
             if strategyFlag == 'center_':
-                plt.xlim(0, 3.0)
-                plt.ylim(0, 6.0)
                 plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
                 plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
                 self.model['fig' + strategyFlag].savefig('trendline_passing_cluster_centroid.eps')
