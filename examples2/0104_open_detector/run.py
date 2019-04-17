@@ -9,6 +9,8 @@ from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
 from dm.CSVUtil import CSVUtil
 from dm.Attributes import *
+from dm.GraphUtil import GraphUtil
+
 
 no_events_records = [
 ]
@@ -174,10 +176,8 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     return attrs
 
 
-def main(events_file: str, no_event_time_shift: int):
+def training_set(events_file: str, no_event_time_shift: int, table_name: str):
     logging.info('start')
-
-    table_name = 'measured_klarka'
 
     # stiahnutie dat
     con = ConnectionUtil.create_con()
@@ -192,15 +192,17 @@ def main(events_file: str, no_event_time_shift: int):
     filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
     logging.info('events after applying the filter: %d' % len(filtered))
 
+    # selector pre data
     row_selector = CachedDiffRowWithIntervalSelector(con, table_name, 0, 0)
     interval_selector = SimpleIntervalSelector(con, table_name)
 
+    # trenovacia mnozina
     logging.info('start computing of training set')
     training, tr_events = AttributeUtil.training_data(con, table_name, filtered, func,
                                                       row_selector, interval_selector, 'open')
-
     count = len(training)
-    logging.info('training set contains %d events (%d records)' % (count/2, count))
+    logging.info('training set contains %d events (%d records)' % (count / 2, count))
+
     training2 = AttributeUtil.additional_training_set(con, table_name, no_events_records, func,
                                                       row_selector, interval_selector)
     count2 = len(training2)
@@ -213,21 +215,46 @@ def main(events_file: str, no_event_time_shift: int):
     CSVUtil.create_csv_file(balanced, 'training.csv')
     logging.info('end preparing file of training set')
 
-    # testovacia mnozina
-    start = int(DateTimeUtil.local_time_str_to_utc('2018/11/26 06:00:00').timestamp())
-    end = start + 300
+
+def testing_set(table_name: str, start, end, filename):
+    logging.info('start')
+
+    con = ConnectionUtil.create_con()
+    interval_selector = SimpleIntervalSelector(con, table_name)
 
     logging.info('start computing of testing set')
     length = AttributeUtil.testing_data_with_write(con, table_name, start, end, 30, func,
-                                                   None, interval_selector, 'open', 'testing.csv')
+                                                   None, interval_selector, 'open', filename)
     logging.info('testing set contains %d records' % length)
     logging.info('end computing of testing set')
 
     logging.info('end')
 
 
+def testing_month(table_name, start):
+    mesiac = 30 * 24 * 3600
+
+    file_names = [
+        '1_listopad.csv',
+        '2_prosinec.csv',
+        '3_leden.csv',
+        '4_unor.csv',
+    ]
+
+    for file_name in file_names:
+        testing_set(table_name, start, start + mesiac, file_name)
+        start += mesiac
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s')
 
-    main('examples/events_klarka.json', -500)
+    # tabulka s CO2, ktora neprekroci hranicu 2000ppm
+    table_name = 'measured_klarka'
+
+    training_set('examples/events_klarka.json', -500, table_name)
+
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/11/26 06:00:00').timestamp())
+    testing_set(table_name, start, start + 100, 'testing.csv')
+    # testing_month(table_name, start)
