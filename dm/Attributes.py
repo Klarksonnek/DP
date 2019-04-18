@@ -23,6 +23,7 @@ from sklearn.cluster import KMeans
 from fractions import Fraction
 from sympy import *
 from scipy.optimize import curve_fit
+from scipy.spatial import ConvexHull
 
 DATA_CACHE = None
 
@@ -1259,7 +1260,8 @@ class DistanceToLine:
 
         return out
 
-    def humidity_clusters(self, training, col1, col2, col3, intervals, strategy, strategyFlag, one_line):
+    def humidity_clusters(self, training, col1, col2, col3, intervals, strategy, strategyFlag, one_line,
+                          cluster_boundaries):
         """
 
         :param training:
@@ -1339,37 +1341,54 @@ class DistanceToLine:
             # plot points
             plt.scatter(sh_decrease, sh_diff, marker='x', color=colors_trendline[i], zorder=3)
 
-            # plot cluster centroid
-            plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i], zorder=3)
+            if not cluster_boundaries:
+                # plot cluster centroid
+                plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i], zorder=3)
 
-            if strategyFlag == 'polyfit_':
-                plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
-                plt.xlim(0.0, 4.0)
-                plt.ylim(0.0, 7.0)
-                plt.grid(zorder=0)
-                if one_line:
-                    plt.xlim(0.0, 3.0)
-                    return out_point_line, out_point_point, fig
+                if strategyFlag == 'polyfit_':
+                    plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
+                    plt.xlim(0.0, 4.0)
+                    plt.ylim(0.0, 7.0)
+                    plt.grid(zorder=0)
+                    if one_line:
+                        plt.xlim(0.0, 3.0)
+                        return out_point_line, out_point_point, fig
 
-            if strategyFlag == 'center_':
-                plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
-                plt.xlim(0.0, 4.0)
-                plt.ylim(0.0, 6.0)
-                plt.grid(zorder=0)
-                if one_line:
-                    plt.xlim(0.0, 3.0)
-                    return out_point_line, out_point_point, fig
+                if strategyFlag == 'center_':
+                    plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
+                    plt.xlim(0.0, 4.0)
+                    plt.ylim(0.0, 6.0)
+                    plt.grid(zorder=0)
+                    if one_line:
+                        plt.xlim(0.0, 3.0)
+                        return out_point_line, out_point_point, fig
 
-            if strategyFlag == 'trendline_':
-                # plot trendline of the cluster
-                plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + ' min')
-                plt.grid(zorder=0)
-                plt.xlim(0.0, 4.0)
-                plt.ylim(0.0, 6.0)
-                if one_line:
-                    plt.xlim(0.0, 3.0)
-                    plt.ylim(0.0, 5.0)
-                    return out_point_line, out_point_point, fig
+                if strategyFlag == 'trendline_':
+                    # plot trendline of the cluster
+                    plt.plot(sh_decrease, yFitted, color=colors_trendline[i], label=str(interval) + ' min')
+                    plt.grid(zorder=0)
+                    plt.xlim(0.0, 4.0)
+                    plt.ylim(0.0, 6.0)
+                    if one_line:
+                        plt.xlim(0.0, 3.0)
+                        plt.ylim(0.0, 5.0)
+                        return out_point_line, out_point_point, fig
+
+            if cluster_boundaries:
+                plt.plot(C[0][0], C[0][1], marker="o", color=colors_trendline[i], markersize=10, markeredgecolor='k',
+                     markeredgewidth=2)
+
+                # plot filled boundaries
+                xy = np.array([sh_decrease, sh_diff])
+                xy = np.transpose(xy)
+
+                # get boundaries
+                hull = ConvexHull(xy)
+
+                for simplex in hull.simplices:
+                    plt.plot(xy[simplex, 0], xy[simplex, 1], '-k', linewidth=1.0)
+
+                plt.fill(xy[hull.vertices, 0], xy[hull.vertices, 1], color=colors_line[i], alpha=0.3)
             i += 1
 
         if not one_line:
@@ -1402,10 +1421,10 @@ class DistanceToLine:
         return float(np.sqrt((b1 - a1) ** 2 + (b2 - a2) ** 2))
 
     def exec(self, intervals, data_testing, col1, col2, col3, strategy, strategyFlag, one_line, test_points,
-             precision=2):
+             cluster_boundaries, precision=2):
         if self.model is None:
             line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals,
-                                                      strategy, strategyFlag, one_line)
+                                                      strategy, strategyFlag, one_line, cluster_boundaries)
 
             self.model = {
                 'line' + strategyFlag: line,
@@ -1413,22 +1432,31 @@ class DistanceToLine:
                 'fig' + strategyFlag: fig,
             }
 
-            if strategyFlag == 'trendline_':
-                plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
-                plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
-                self.model['fig' + strategyFlag].savefig('trendline.eps')
+            if not cluster_boundaries:
+                if strategyFlag == 'trendline_':
+                    plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+                    plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+                    self.model['fig' + strategyFlag].savefig('trendline.eps')
 
-            if strategyFlag == 'polyfit_':
-                plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
-                plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
-                self.model['fig' + strategyFlag].savefig('avg_trendline.eps')
+                if strategyFlag == 'polyfit_':
+                    plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+                    plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+                    self.model['fig' + strategyFlag].savefig('avg_trendline.eps')
 
-            if strategyFlag == 'center_':
-                plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
-                plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
-                self.model['fig' + strategyFlag].savefig('trendline_passing_cluster_centroid.eps')
+                if strategyFlag == 'center_':
+                    plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+                    plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+                    self.model['fig' + strategyFlag].savefig('trendline_passing_cluster_centroid.eps')
 
             if one_line:
+                return
+
+            if cluster_boundaries:
+                plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+                plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+                plt.xlim(0.0, 4.0)
+                plt.ylim(1.0, 6.0)
+                self.model['fig' + strategyFlag].savefig('model.pdf')
                 return
 
         out = []
