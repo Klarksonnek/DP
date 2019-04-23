@@ -25,13 +25,10 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     precision = 5
 
     for column in columns:
-        intervals_before = [x for x in range(0, 601, 30)]
-        intervals_after = [x for x in range(0, 181, 30)]
-
         op = InOutDiff(con, table_name, row_selector, interval_selector)
         a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
-                          intervals_before=intervals_before,
-                          intervals_after=intervals_after,
+                          intervals_before=[0],
+                          intervals_after=[],
                           prefix='')
         attrs += a + b
 
