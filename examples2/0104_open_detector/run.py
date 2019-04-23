@@ -208,9 +208,9 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
-    filtered = FilterUtil.temperature_diff(filtered, 5, 100)
-    filtered = FilterUtil.temperature_out_max(filtered, 15)
-    filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
+    # filtered = FilterUtil.temperature_diff(filtered, 5, 100)
+    # filtered = FilterUtil.temperature_out_max(filtered, 15)
+    # filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
