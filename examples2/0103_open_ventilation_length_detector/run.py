@@ -10,6 +10,7 @@ from dm.ConnectionUtil import ConnectionUtil
 from dm.CSVUtil import CSVUtil
 from dm.Attributes import *
 import copy
+import random
 
 no_events_records = [
 ]
@@ -214,6 +215,7 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('end computing of data set')
 
     # rozdelenie dat na trenovaciu a testovaciu mnozinu
+    random.shuffle(data)
     training, testing, minimum = training_testing_data(data, 0.7)
 
     logging.info('training set contains %d records, each %d-krat' % (len(training), minimum))
