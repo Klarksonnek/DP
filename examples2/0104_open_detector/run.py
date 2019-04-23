@@ -173,6 +173,27 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
                               prefix='_x3')
             attrs += a + b
 
+        op = InOutDiff(con, table_name, row_selector, interval_selector)
+        b, a = op.execute(timestamp=timestamp, column='temperature_in2_celsius_diff', precision=precision,
+                          intervals_before=[0],
+                          intervals_after=[],
+                          prefix='')
+        attrs += b + a
+
+        op = InOutDiff(con, table_name, row_selector, interval_selector)
+        b, a = op.execute(timestamp=timestamp, column='rh_in2_specific_g_kg_diff', precision=precision,
+                          intervals_before=[0],
+                          intervals_after=[],
+                          prefix='')
+        attrs += b + a
+
+        op = InOutDiff(con, table_name, row_selector, interval_selector)
+        b, a = op.execute(timestamp=timestamp, column='rh_in2_absolute_g_m3_diff', precision=precision,
+                          intervals_before=[0],
+                          intervals_after=[],
+                          prefix='')
+        attrs += b + a
+
     return attrs
 
 
