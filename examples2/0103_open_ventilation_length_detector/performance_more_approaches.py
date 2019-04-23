@@ -13,7 +13,7 @@ from dm.Attributes import *
 
 
 processes = [
-    '//Local Repository/processes/VentilationLengthSimplification',
+    '//Local Repository/processes/VentilationLengthSimplification0',
     '//Local Repository/processes/VentilationLengthSimplification1',
     '//Local Repository/processes/VentilationLengthSimplification2',
     '//Local Repository/processes/VentilationLengthSimplification3',
