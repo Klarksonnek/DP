@@ -113,7 +113,7 @@ class GraphUtil:
         plt.bar(r3, bars3, color=(0, 0, 1), width=barWidth, edgecolor='white', label='cluster centroid', zorder=3)
         plt.bar(r4, bars4, color=(0, 0, 0), width=barWidth * 3, edgecolor='white', label='measured attributes', zorder=3)
 
-        plt.ylim(0.6, 0.9)
+        plt.ylim(0.3, 0.9)
         plt.xlabel('attributes', fontweight='bold')
         plt.ylabel('success rate [%]', fontweight='bold')
         plt.xticks([r + barWidth for r in range(len(bars1))], ['all', 'calculated', 'measured'])
