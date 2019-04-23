@@ -25,13 +25,10 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     precision = 5
 
     for column in columns:
-        intervals_before = [x for x in range(0, 601, 30)]
-        intervals_after = [x for x in range(0, 181, 30)]
-
         op = InOutDiff(con, table_name, row_selector, interval_selector)
         a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
-                          intervals_before=intervals_before,
-                          intervals_after=intervals_after,
+                          intervals_before=[0],
+                          intervals_after=[],
                           prefix='')
         attrs += a + b
 
@@ -195,17 +192,14 @@ def main(events_file: str, no_event_time_shift: int):
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
-    filtered = FilterUtil.temperature_diff(filtered, 5, 100)
-    filtered = FilterUtil.temperature_out_max(filtered, 15)
-    filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
-    #filtered = FilterUtil.temperature_diff(filtered, 5, 17.5)
-    #filtered = FilterUtil.temperature_diff(filtered, 17.5, 30)
-    #filtered = FilterUtil.temperature_diff(filtered, 5, 13.3)
-    #filtered = FilterUtil.temperature_diff(filtered, 13.3, 21.6)
-    #filtered = FilterUtil.temperature_diff(filtered, 21.6, 30)
-    #filtered = FilterUtil.temperature_diff(filtered, 10, 15)
-    #filtered = FilterUtil.temperature_diff(filtered, 15, 20)
-    #filtered = FilterUtil.temperature_diff(filtered, 20, 25)
+    # filtered = FilterUtil.temperature_diff(filtered, 5, 17.5)
+    # filtered = FilterUtil.temperature_diff(filtered, 17.5, 30)
+    # filtered = FilterUtil.temperature_diff(filtered, 5, 13.3)
+    # filtered = FilterUtil.temperature_diff(filtered, 13.3, 21.6)
+    # filtered = FilterUtil.temperature_diff(filtered, 21.6, 30)
+    # filtered = FilterUtil.temperature_diff(filtered, 10, 15)
+    # filtered = FilterUtil.temperature_diff(filtered, 15, 20)
+    # filtered = FilterUtil.temperature_diff(filtered, 20, 25)
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
