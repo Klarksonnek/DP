@@ -46,6 +46,9 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     op = VentilationLength(con, table_name, row_selector, interval_selector)
     a, b = op.execute(event_start=timestamp, event_end=end, intervals=[5*60, 10*60, 25*60],
                       threshold=120, prefix='')
+    # all intervals
+    # a, b = op.execute(event_start=timestamp, event_end=end, intervals=[5 * 60, 10 * 60, 15 * 60, 20 * 60, 25 * 60],
+                      # threshold=120, prefix='')
     attrs += a + b
 
     op = DiffInLinear(con, table_name, row_selector, interval_selector)
@@ -97,23 +100,28 @@ def training_testing_data(data, splitting):
 
 
 def training_testing_data_with_distance(training, testing, number, strategy, strategyFlag, one_line, test_points,
-                                        cluster_boundaries):
+                                        cluster_boundaries, cluster_boundaries_all):
+    if cluster_boundaries_all:
+        intervals = [5, 10, 15, 20, 25]
+    else:
+        intervals = [5, 10, 25]
+
     op = DistanceToLine(training)
 
-    training = op.exec([5, 10, 25], training,
+    training = op.exec(intervals, training,
                        'InLinear_rh_in2_specific_g_kg_before_1200',
                        'InLinear_rh_in2_specific_g_kg_after_1200',
                        'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy,  strategyFlag, one_line, test_points,
-                       cluster_boundaries)
+                       cluster_boundaries, cluster_boundaries_all)
 
-    if one_line or cluster_boundaries:
+    if one_line or cluster_boundaries or cluster_boundaries_all:
         return
 
-    testing = op.exec([5, 10, 25], testing,
+    testing = op.exec(intervals, testing,
                       'InLinear_rh_in2_specific_g_kg_before_1200',
                       'InLinear_rh_in2_specific_g_kg_after_1200',
                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy, strategyFlag, one_line, test_points,
-                       cluster_boundaries)
+                       cluster_boundaries, cluster_boundaries_all)
 
     # generovanie suborov
     logging.info('start preparing file of training and testing set')
@@ -123,16 +131,21 @@ def training_testing_data_with_distance(training, testing, number, strategy, str
 
 
 def training_testing_data_only_distance(training, testing, number, strategy, strategyFlag, one_line, test_points,
-                                        cluster_boundaries):
+                                        cluster_boundaries, cluster_boundaries_all):
+    if cluster_boundaries_all:
+        intervals = [5, 10, 15, 20, 25]
+    else:
+        intervals = [5, 10, 25]
+
     op = DistanceToLine(training)
 
-    training = op.exec([5, 10, 25], training,
+    training = op.exec(intervals, training,
                        'InLinear_rh_in2_specific_g_kg_before_1200',
                        'InLinear_rh_in2_specific_g_kg_after_1200',
                        'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy,  strategyFlag, one_line, test_points,
-                       cluster_boundaries)
+                       cluster_boundaries, cluster_boundaries_all)
 
-    if one_line:
+    if one_line or cluster_boundaries or cluster_boundaries_all:
         return
 
     training = DistanceToLine.select_attributes(training, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
@@ -146,7 +159,7 @@ def training_testing_data_only_distance(training, testing, number, strategy, str
                       'InLinear_rh_in2_specific_g_kg_before_1200',
                       'InLinear_rh_in2_specific_g_kg_after_1200',
                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy, strategyFlag, False, test_points,
-                      cluster_boundaries)
+                      cluster_boundaries, cluster_boundaries_all)
     testing = DistanceToLine.select_attributes(testing, ['datetime', 'min_pp_5', 'min_pp_10', 'min_pp_25',
                                                          'min_pl_' + strategyFlag + '5',
                                                          'min_pl_' + strategyFlag + '10',
@@ -161,7 +174,7 @@ def training_testing_data_only_distance(training, testing, number, strategy, str
 
 
 def training_testing_data_without_distance(training, testing, number, strategy, strategyFlag, one_line, test_points,
-                                           cluster_boundaries):
+                                           cluster_boundaries, cluster_boundaries_all):
     # generovanie suborov
     logging.info('start preparing file of training and testing set')
     CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
@@ -213,28 +226,28 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('testing set contains %d records' % len(testing))
 
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 0,
-                                        CenterLineCoefficients(), "trendline_", False, False, True)
+                                        CenterLineCoefficients(), "trendline_", False, False, False, False)
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 1,
-                                        PolyfitLineCoefficients(), "polyfit_", False, False, False)
+                                        PolyfitLineCoefficients(), "polyfit_", False, False, False, False)
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 2,
-                                        CenterLineCoefficients(), "center_", False, False, False)
+                                        CenterLineCoefficients(), "center_", False, False, False, False)
 
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 0,
-                                        CenterLineCoefficients(), "trendline_", False, False, False)
+                                        CenterLineCoefficients(), "trendline_", False, False, False, False)
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 1,
-                                        PolyfitLineCoefficients(), "polyfit_", False, False, False)
+                                        PolyfitLineCoefficients(), "polyfit_", False, False, False, False)
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 2,
-                                        CenterLineCoefficients(), "center_", False, False, False)
+                                        CenterLineCoefficients(), "center_", False, False, False, False)
 
     training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 3,
-                                        CenterLineCoefficients(), "trendline_", False, False, False)
+                                        CenterLineCoefficients(), "trendline_", False, False, False, False)
     training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 4,
-                                        PolyfitLineCoefficients(), "polyfit_", False, False, False)
+                                        PolyfitLineCoefficients(), "polyfit_", False, False, False, False)
     training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 5,
-                                        CenterLineCoefficients(), "center_", False, False, False)
+                                        CenterLineCoefficients(), "center_", False, False, False, False)
 
     training_testing_data_without_distance(copy.deepcopy(training), copy.deepcopy(testing), 6,
-                                           CenterLineCoefficients(), "trendline_", False, False, False)
+                                           CenterLineCoefficients(), "trendline_", False, False, False, False)
 
     logging.info('end')
 

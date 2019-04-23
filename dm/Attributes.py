@@ -1261,7 +1261,7 @@ class DistanceToLine:
         return out
 
     def humidity_clusters(self, training, col1, col2, col3, intervals, strategy, strategyFlag, one_line,
-                          cluster_boundaries):
+                          cluster_boundaries, cluster_boundaries_all):
         """
 
         :param training:
@@ -1274,8 +1274,12 @@ class DistanceToLine:
         """
 
         # colors
-        colors_trendline = [(0.854, 0.035, 0.027), (0.101, 0.454, 0.125), (0, 0, 1)]
-        colors_line = [(1, 0.5, 0.5), (0.5, 1, 0.5), (0.5, 0.5, 1)]
+        if cluster_boundaries_all:
+            colors_trendline = [(0.854, 0.035, 0.027), (0.101, 0.454, 0.125), (0, 0.545, 0.545), (0.545, 0, 0.545), (0, 0, 1)]
+            colors_line = [(1, 0.5, 0.5), (0.5, 1, 0.5), (0, 1, 1), (1, 0, 1), (0.5, 0.5, 1)]
+        else:
+            colors_trendline = [(0.854, 0.035, 0.027), (0.101, 0.454, 0.125), (0, 0, 1)]
+            colors_line = [(1, 0.5, 0.5), (0.5, 1, 0.5), (0.5, 0.5, 1)]
         # counter for colors
         i = 0
         fig = plt.figure()
@@ -1341,7 +1345,7 @@ class DistanceToLine:
             # plot points
             plt.scatter(sh_decrease, sh_diff, marker='x', color=colors_trendline[i], zorder=3)
 
-            if not cluster_boundaries:
+            if not cluster_boundaries and not cluster_boundaries_all:
                 # plot cluster centroid
                 plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i], zorder=3)
 
@@ -1374,7 +1378,7 @@ class DistanceToLine:
                         plt.ylim(0.0, 5.0)
                         return out_point_line, out_point_point, fig
 
-            if cluster_boundaries:
+            if cluster_boundaries or cluster_boundaries_all:
                 plt.plot(C[0][0], C[0][1], marker="o", color=colors_trendline[i], markersize=10, markeredgecolor='k',
                      markeredgewidth=2)
 
@@ -1421,10 +1425,11 @@ class DistanceToLine:
         return float(np.sqrt((b1 - a1) ** 2 + (b2 - a2) ** 2))
 
     def exec(self, intervals, data_testing, col1, col2, col3, strategy, strategyFlag, one_line, test_points,
-             cluster_boundaries, precision=2):
+             cluster_boundaries, cluster_boundaries_all, precision=2):
         if self.model is None:
             line, point, fig = self.humidity_clusters(self.training, col1, col2, col3, intervals,
-                                                      strategy, strategyFlag, one_line, cluster_boundaries)
+                                                      strategy, strategyFlag, one_line, cluster_boundaries,
+                                                      cluster_boundaries_all)
 
             self.model = {
                 'line' + strategyFlag: line,
@@ -1457,6 +1462,14 @@ class DistanceToLine:
                 plt.xlim(0.0, 4.0)
                 plt.ylim(1.0, 6.0)
                 self.model['fig' + strategyFlag].savefig('model.pdf')
+                return
+
+            if cluster_boundaries_all:
+                plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
+                plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
+                plt.xlim(0.0, 4.0)
+                plt.ylim(1.0, 6.0)
+                self.model['fig' + strategyFlag].savefig('model_all.pdf')
                 return
 
         out = []
