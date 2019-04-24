@@ -1392,7 +1392,7 @@ class DistanceToLine:
                 for simplex in hull.simplices:
                     plt.plot(xy[simplex, 0], xy[simplex, 1], '-k', linewidth=1.0)
 
-                plt.fill(xy[hull.vertices, 0], xy[hull.vertices, 1], color=colors_line[i], alpha=0.3)
+                plt.fill(xy[hull.vertices, 0], xy[hull.vertices, 1], color=colors_line[i], label=str(interval) + ' min')
             i += 1
 
         if not one_line:
@@ -1459,7 +1459,7 @@ class DistanceToLine:
             if cluster_boundaries:
                 plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
                 plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
-                plt.xlim(0.0, 4.0)
+                plt.xlim(0.0, 5.0)
                 plt.ylim(1.0, 6.0)
                 self.model['fig' + strategyFlag].savefig('model.pdf')
                 return
@@ -1467,7 +1467,7 @@ class DistanceToLine:
             if cluster_boundaries_all:
                 plt.xlabel('Decrease of $SH_{in}$ [g/kg]')
                 plt.ylabel('$SH_{in}$ - $SH_{out}$ [g/kg]')
-                plt.xlim(0.0, 4.0)
+                plt.xlim(0.0, 5.0)
                 plt.ylim(1.0, 6.0)
                 self.model['fig' + strategyFlag].savefig('model_all.pdf')
                 return
