@@ -164,6 +164,12 @@ def update_invalid_values(con):
         delete_rows(con, 1553454456, 1553455531, table)
         delete_rows(con, 1553501914, 1553503068, table)
         delete_rows(con, 1553576079, 1553578058, table)
+
+        delete_rows(con, 1553125531, 1553135913, table)
+        delete_rows(con, 1553212877, 1553225588, table)
+        delete_rows(con, 1555104457, 1555105702, table)
+        delete_rows(con, 1555958944, 1555960296, table)
+        delete_rows(con, 1556168621, 1556182367, table)
     con.commit()
 
     for table in ['measured_klarka_shower', 'measured_klarka_shower_reduced']:
