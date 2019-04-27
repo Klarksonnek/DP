@@ -4,6 +4,7 @@ import csv
 import time
 from datetime import timedelta
 import logging
+from subprocess import PIPE, run
 
 THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
@@ -15,12 +16,12 @@ from dm.Attributes import *
 
 
 processes = [
+    '//DIP/clean/clean/DeepLearning',
     '//DIP/clean/clean/SVM',
     '//DIP/clean/clean/DecisionTree',
     '//DIP/clean/clean/RandomForest',
+    '//DIP/clean/clean/NaiveBayes',
     '//DIP/clean/clean/NeuralNet',
-    # '//DIP/clean/clean/DeepLearning',
-    # '//DIP/clean/clean/NaiveBayes',
 ]
 
 backward = [
@@ -79,9 +80,9 @@ filters = [
 ]
 
 OUTPUT_FILENAME = 'out.csv'
-BEFORE_TIME = 10 * 60
-AFTER_TIME = 10 * 60
-ENABLE_SHOW_WRONG_RECORDS = True
+BEFORE_TIME = 2 * 60
+AFTER_TIME = 3 * 60
+ENABLE_SHOW_WRONG_RECORDS = False
 
 
 def generate_row(str_process, performance, records, duration1, duration2):
@@ -105,7 +106,6 @@ def generate_row(str_process, performance, records, duration1, duration2):
     return output
 
 
-from subprocess import PIPE, run
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     logging.info('start')
@@ -154,10 +154,11 @@ if __name__ == '__main__':
             duration2 = timedelta(seconds=end_time2 - start_time2)
             logging.debug(generate_row(str_process, p1, p.count, duration1, duration2))
             logging.debug(generate_row(str_process, p2, p.count, '', ''))
+
+            if ENABLE_SHOW_WRONG_RECORDS:
+                for row in wrong2:
+                    logging.info(row)
+
             logging.debug('')
         else:
             logging.error('{0:190} {1}  0:00:00.0'.format(process, str(duration1)[:9]))
-
-    if ENABLE_SHOW_WRONG_RECORDS:
-        for row in wrong_all:
-            logging.info(row)

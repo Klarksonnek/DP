@@ -21,22 +21,18 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
     columns = [
         'co2_in_ppm',
         'temperature_in_celsius',
-        'rh_in_percentage',
         'rh_in_specific_g_kg',
-        'rh_in_absolute_g_m3',
-        'rh_out_percentage',
         'rh_out_specific_g_kg',
-        'rh_out_absolute_g_m3',
     ]
     precision = 2
 
     for column in columns:
         for normalize in [False]:
-            intervals_before = [x for x in range(5, 901, 10)]
-            intervals_after = [x for x in range(5, 181, 10)]
+            intervals_before = [x for x in range(20, 901, 20)]
+            intervals_after = [x for x in range(15, 181, 15)]
 
             #
-            # linearny posun
+            # linearny posun DifferenceA
             op = FirstDifferenceAttrA(con, table_name, row_selector, interval_selector)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
@@ -48,7 +44,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               selected_after=[intervals_after])
             attrs += b + a
 
-            pr = ''
+            pr = '_linear'
             be, af = op.geometric_mean(column, precision, b, a, pr)
             attrs += be + af
             be, af = op.arithmetic_mean(column, precision, b, a, pr)
@@ -59,7 +55,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             attrs += be + af
 
             #
-            # linearny posun
+            # linearny posun DifferenceB
             op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
@@ -71,7 +67,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               selected_after=[intervals_after])
             attrs += b + a
 
-            pr = 'B_linearne'
+            pr = '_linear'
             be, af = op.geometric_mean(column, precision, b, a, pr)
             attrs += be + af
             be, af = op.arithmetic_mean(column, precision, b, a, pr)
@@ -89,6 +85,16 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               prefix='')
             attrs += b + a
 
+            pr = '_linear'
+            be, af = op.geometric_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.arithmetic_mean(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.variance(column, precision, b, a, pr)
+            attrs += be + af
+            be, af = op.standard_deviation(column, precision, b, a, pr)
+            attrs += be + af
+
             #
             # x^2 posun
             op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
@@ -102,7 +108,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               selected_after=[[x * x for x in range(2, 14, 1)]])
             attrs += b + a
 
-            pr = 'B_x2'
+            pr = '_x2'
             be, af = op.geometric_mean(column, precision, b, a, pr)
             attrs += be + af
             be, af = op.arithmetic_mean(column, precision, b, a, pr)
@@ -111,14 +117,6 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             attrs += be + af
             be, af = op.standard_deviation(column, precision, b, a, pr)
             attrs += be + af
-
-            op = DifferenceBetweenRealLinear(con, table_name, row_selector, interval_selector)
-            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
-                              intervals_before=[x * x for x in range(2, 31, 1)],
-                              intervals_after=[x * x for x in range(2, 14, 1)],
-                              window_size_before=20 * 60, window_size_after=3 * 60,
-                              prefix='_x2')
-            attrs += b + a
 
             #
             # x^3 posun
@@ -133,7 +131,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
                               selected_after=[[x * x * x for x in range(2, 6, 1)]])
             attrs += b + a
 
-            pr = 'B_x3'
+            pr = '_x3'
             be, af = op.geometric_mean(column, precision, b, a, pr)
             attrs += be + af
             be, af = op.arithmetic_mean(column, precision, b, a, pr)
@@ -143,13 +141,46 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             be, af = op.standard_deviation(column, precision, b, a, pr)
             attrs += be + af
 
-            op = DifferenceBetweenRealLinear(con, table_name, row_selector, interval_selector)
+            #
+            # GrowRate - linearne
+            op = GrowthRate(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[x for x in range(5, 901, 15)],
+                              intervals_after=[x for x in range(5, 181, 15)],
+                              value_delay=15, prefix='_step20')
+            attrs += b + a
+            be, af = op.arithmetic_mean(column, precision, b, a, 'G_linear_step_15')
+            attrs += be + af
+
+            # GrowRate - linearne
+            op = GrowthRate(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[x for x in range(5, 901, 30)],
+                              intervals_after=[x for x in range(5, 181, 30)],
+                              value_delay=30, prefix='_step_30')
+            attrs += b + a
+            be, af = op.arithmetic_mean(column, precision, b, a, 'G_linear_step_30')
+            attrs += be + af
+
+            # GrowRate - x^2
+            op = GrowthRate(con, table_name, row_selector, interval_selector)
+            b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
+                              intervals_before=[x * x for x in range(2, 31, 1)],
+                              intervals_after=[x * x for x in range(2, 14, 1)],
+                              value_delay=30, prefix='_x2')
+            attrs += b + a
+            be, af = op.arithmetic_mean(column, precision, b, a, 'Grow_x2')
+            attrs += be + af
+
+            # GrowRate - x^3
+            op = GrowthRate(con, table_name, row_selector, interval_selector)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x * x * x for x in range(2, 10, 1)],
                               intervals_after=[x * x * x for x in range(2, 6, 1)],
-                              window_size_before=20 * 60, window_size_after=3 * 60,
-                              prefix='_x3')
+                              value_delay=30, prefix='_x3')
             attrs += b + a
+            be, af = op.arithmetic_mean(column, precision, b, a, 'Grow_x3')
+            attrs += be + af
 
         op = InOutDiff(con, table_name, row_selector, interval_selector)
         b, a = op.execute(timestamp=timestamp, column='co2_in_ppm_diff', precision=precision,
