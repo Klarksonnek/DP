@@ -7,6 +7,7 @@ from functools import reduce
 import sys
 import logging
 import math
+import csv
 
 THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
@@ -50,6 +51,26 @@ class AttributeUtil:
                 continue
 
         return attrs
+
+    @staticmethod
+    def cached_training_data(con, table_name, events, func, row_selector, interval_selector,
+                             event_type, file_path, print_each=10):
+
+        attrs = []
+        ev = []
+
+        if not os.path.exists(file_path):
+            attrs, ev = AttributeUtil.training_data(con, table_name, events, func, row_selector,
+                                                    interval_selector, event_type, print_each)
+            CSVUtil.create_csv_file(attrs, file_path)
+        else:
+            with open(file_path, 'r') as f:
+                csv_reader = csv.DictReader(f, delimiter=',')
+                for row in csv_reader:
+                    attrs.append(row)
+
+        return attrs, ev
+
 
     @staticmethod
     def training_data(con, table_name, events, func, row_selector, interval_selector,

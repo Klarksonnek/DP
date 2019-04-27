@@ -243,8 +243,9 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
 
     # trenovacia mnozina
     logging.info('start computing of training set')
-    training, tr_events = AttributeUtil.training_data(con, table_name, filtered, func,
-                                                      row_selector, interval_selector, 'open')
+    training, tr_events = AttributeUtil.cached_training_data(con, table_name, filtered, func,
+                                                             row_selector, interval_selector,
+                                                             'open', 'testing_cached.csv')
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count / 2, count))
 
