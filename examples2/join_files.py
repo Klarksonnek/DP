@@ -45,6 +45,17 @@ def peto_intrak_general_testing(directory):
     for file in file_names:
         copy_one_file(file, output_file)
 
+def kn_shower():
+    output_file = 'output.csv'
+
+    file_names = [
+        '0105_shower_detector/1_listopad.csv',
+        '0105_shower_detector/2_prosinec.csv',
+    ]
+
+    for file in file_names:
+        copy_one_file(file, output_file)
+
 
 def other():
     output_file = 'output.csv'
@@ -69,5 +80,7 @@ if __name__ == '__main__':
 
     # peto_intrak_testing('co2_t_h_out')
     # peto_intrak_general_testing('co2_t_h_out')
+
+    # kn_shower()
 
     other()

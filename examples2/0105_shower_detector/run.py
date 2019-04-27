@@ -25,7 +25,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
     for column in columns:
         for normalize in [False]:
             intervals_before = [x for x in range(0, 601, 15)]
-            intervals_after = [x for x in range(0, 181, 15)]
+            intervals_after = [x for x in range(0, 301, 15)]
 
             op = FirstDifferenceAttrA(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
