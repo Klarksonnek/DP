@@ -1,87 +1,8 @@
 import csv
-import os
 import logging
 from dm.CSVUtil import CSVUtil
 
 BLOCK_SIZE = 8192
-
-
-def peto_co2_testing():
-    output_file = '0202_open_detector/co2/co2_m4_testing.csv'
-
-    file_names = [
-        '0202_open_detector/co2/co2_1_oktober.csv',
-        '0202_open_detector/co2/co2_2_november.csv',
-        '0202_open_detector/co2/co2_3_december.csv',
-        '0202_open_detector/co2/co2_4_januar.csv',
-    ]
-
-    for file in file_names:
-        copy_one_file(file, output_file)
-
-
-def peto_co2_general_testing():
-    output_file = '0202_open_detector/co2/co2_m2_general_testing.csv'
-
-    file_names = [
-        '0202_open_detector/co2/co2_5_februar.csv',
-        '0202_open_detector/co2/co2_6_marec.csv',
-    ]
-
-    for file in file_names:
-        copy_one_file(file, output_file)
-
-
-def peto_co2_t_h_testing():
-    output_file = '0202_open_detector/co2_t_h/co2_t_h_m4_testing.csv'
-
-    file_names = [
-        '0202_open_detector/co2_t_h/co2_t_h_1_oktober.csv',
-        '0202_open_detector/co2_t_h/co2_t_h_2_november.csv',
-        '0202_open_detector/co2_t_h/co2_t_h_3_december.csv',
-        '0202_open_detector/co2_t_h/co2_t_h_4_januar.csv',
-    ]
-
-    for file in file_names:
-        copy_one_file(file, output_file)
-
-
-def peto_co2_t_h_general_testing():
-    output_file = '0202_open_detector/co2_t_h/co2_t_h_m2_general_testing.csv'
-
-    file_names = [
-        '0202_open_detector/co2_t_h/co2_t_h_5_februar.csv',
-        '0202_open_detector/co2_t_h/co2_t_h_6_marec.csv',
-    ]
-
-    for file in file_names:
-        copy_one_file(file, output_file)
-
-
-def peto_co2_t_h_out_testing():
-    output_file = '0202_open_detector/co2_t_h_out/co2_t_h_out_m4_testing.csv'
-
-    file_names = [
-        '0202_open_detector/co2_t_h_out/co2_t_h_out_1_oktober.csv',
-        '0202_open_detector/co2_t_h_out/co2_t_h_out_2_november.csv',
-        '0202_open_detector/co2_t_h_out/co2_t_h_out_3_december.csv',
-        '0202_open_detector/co2_t_h_out/co2_t_h_out_4_januar.csv',
-    ]
-
-    for file in file_names:
-        copy_one_file(file, output_file)
-
-
-def peto_co2_t_h_out_general_testing():
-    output_file = '0202_open_detector/co2_t_h_out/co2_t_h_out_m2_general_testing.csv'
-
-    file_names = [
-        '0202_open_detector/co2_t_h_out/co2_t_h_out_5_februar.csv',
-        '0202_open_detector/co2_t_h_out/co2_t_h_out_6_marec.csv',
-    ]
-
-    for file in file_names:
-        copy_one_file(file, output_file)
 
 
 def copy_one_file(filename, output_file):
@@ -99,19 +20,33 @@ def copy_one_file(filename, output_file):
         CSVUtil.create_csv_file(out, output_file, True)
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)s %(message)s')
+def peto_intrak_testing(directory):
+    output_file = '0202_open_detector/{0}/m4_testing.csv'.format(directory)
 
-    # peto_co2_testing()
-    # peto_co2_general_testing()
+    file_names = [
+        '0202_open_detector/{0}/1_oktober.csv'.format(directory),
+        '0202_open_detector/{0}/2_november.csv'.format(directory),
+        '0202_open_detector/{0}/3_december.csv'.format(directory),
+        '0202_open_detector/{0}/4_januar.csv'.format(directory),
+    ]
 
-    # peto_co2_t_h_testing()
-    # peto_co2_t_h_general_testing()
+    for file in file_names:
+        copy_one_file(file, output_file)
 
-    # peto_co2_t_h_out_testing()
-    # peto_co2_t_h_out_general_testing()
 
+def peto_intrak_general_testing(directory):
+    output_file = '0202_open_detector/{0}/m2_general_testing.csv'.format(directory)
+
+    file_names = [
+        '0202_open_detector/{0}/5_februar.csv'.format(directory),
+        '0202_open_detector/{0}/6_marec.csv'.format(directory),
+    ]
+
+    for file in file_names:
+        copy_one_file(file, output_file)
+
+
+def other():
     output_file = 'output.csv'
 
     file_names = [
@@ -120,3 +55,19 @@ if __name__ == '__main__':
 
     for file in file_names:
         copy_one_file(file, output_file)
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)s %(message)s')
+
+    # peto_intrak_testing('co2')
+    # peto_intrak_general_testing('co2')
+
+    # peto_intrak_testing('co2_t_h')
+    # peto_intrak_general_testing('co2_t_h')
+
+    # peto_intrak_testing('co2_t_h_out')
+    # peto_intrak_general_testing('co2_t_h_out')
+
+    other()

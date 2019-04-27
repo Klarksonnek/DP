@@ -803,13 +803,17 @@ def testing_set(table_name: str, start, end, filename):
 def testing_month(table_name, start):
     mesiac = 30 * 24 * 3600
 
+    directory = 'co2'
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+
     file_names = [
-        'co2_1_oktober.csv',
-        'co2_2_november.csv',
-        'co2_3_december.csv',
-        'co2_4_januar.csv',
-        'co2_5_februar.csv',
-        'co2_6_marec.csv',
+        '{0}/1_oktober.csv'.format(directory),
+        '{0}/2_november.csv'.format(directory),
+        '{0}/3_december.csv'.format(directory),
+        '{0}/4_januar.csv'.format(directory),
+        '{0}/5_februar.csv'.format(directory),
+        '{0}/6_marec.csv'.format(directory),
     ]
 
     for file_name in file_names:
