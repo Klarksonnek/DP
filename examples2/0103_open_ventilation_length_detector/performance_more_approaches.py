@@ -13,13 +13,13 @@ from dm.Attributes import *
 
 
 processes = [
-    '//Local Repository/processes/VentilationLengthSimplification0',
-    '//Local Repository/processes/VentilationLengthSimplification1',
-    '//Local Repository/processes/VentilationLengthSimplification2',
-    '//Local Repository/processes/VentilationLengthSimplification3',
-    '//Local Repository/processes/VentilationLengthSimplification4',
-    '//Local Repository/processes/VentilationLengthSimplification5',
-    '//Local Repository/processes/VentilationLengthSimplification6',
+    '//Local Repository/processes/ventilation_prediction/predictor0',
+    '//Local Repository/processes/ventilation_prediction/predictor1',
+    '//Local Repository/processes/ventilation_prediction/predictor2',
+    '//Local Repository/processes/ventilation_prediction/predictor3',
+    '//Local Repository/processes/ventilation_prediction/predictor4',
+    '//Local Repository/processes/ventilation_prediction/predictor5',
+    '//Local Repository/processes/ventilation_prediction/predictor6',
 ]
 
 OUTPUT_FILENAME = 'out.csv'
