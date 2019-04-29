@@ -846,7 +846,7 @@ if __name__ == '__main__':
     # tabulka s CO2, ktora neprekroci hranicu 2000ppm
     table_name = 'measured_filtered_peto'
 
-    directory = '.'
+    directory = 'co2'
     if not os.path.isdir(directory):
         os.mkdir(directory)
 
