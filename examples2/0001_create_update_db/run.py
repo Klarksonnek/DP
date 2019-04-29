@@ -292,6 +292,31 @@ def update_invalid_values(con):
         delete_rows(con, 1546277136, 1546278849, table)
     con.commit()
 
+    for table in ['measured_david', 'measured_david_reduced']:
+        delete_rows(con, 1554361539, 1554362046, table)
+        delete_rows(con, 1554435692, 1554435878, table)
+        delete_rows(con, 1554557639, 1554558434, table)
+        delete_rows(con, 1554620345, 1554620760, table)
+        delete_rows(con, 1554706450, 1554706758, table)
+        delete_rows(con, 1554736285, 1554736553, table)
+        delete_rows(con, 1554747168, 1554747168, table)
+        delete_rows(con, 1555571304, 1555571734, table)
+        delete_rows(con, 1555610575, 1555610575, table)
+        delete_rows(con, 1555959752, 1555959969, table)
+        delete_rows(con, 1555959969, 1555962048, table)
+        delete_rows(con, 1555999916, 1555999916, table)
+        delete_rows(con, 1556167497, 1556167675, table)
+        delete_rows(con, 1556212375, 1556218781, table)
+        delete_rows(con, 1556407111, 1556407111, table)
+        delete_rows(con, 1554497448, 1554497704, table)
+        delete_rows(con, 1554640921, 1554641794, table)
+        delete_rows(con, 1554647586, 1554648845, table)
+        delete_rows(con, 1554753783, 1554754117, table)
+        delete_rows(con, 1554829883, 1554830518, table)
+        delete_rows(con, 1555610605, 1555611521, table)
+        delete_rows(con, 1555964860, 1555965077, table)
+    con.commit()
+
 
 def devices(filename='devices.json'):
     with open(filename, 'r') as f:
