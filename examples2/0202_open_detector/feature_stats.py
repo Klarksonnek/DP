@@ -4,6 +4,8 @@ import csv
 import time
 from datetime import timedelta
 import logging
+import argparse
+from shutil import copyfile
 from subprocess import PIPE, run
 
 THIS_DIR = dirname(__file__)
@@ -79,7 +81,29 @@ filters = [
     '//DIP/clean/filter/svm/NeuralNet',
 ]
 
-OUTPUT_FILENAME = 'out.csv'
+
+def list_of_processes(directory):
+    if directory == '.':
+        directory = 'clean'
+    return [
+        '//DIP/clean/{0}/DeepLearning'.format(directory),
+        '//DIP/clean/{0}/SVM'.format(directory),
+        '//DIP/clean/{0}/DecisionTree'.format(directory),
+        '//DIP/clean/{0}/RandomForest'.format(directory),
+        '//DIP/clean/{0}/NaiveBayes'.format(directory),
+        '//DIP/clean/{0}/NeuralNet'.format(directory),
+    ]
+
+
+def list_of_testing_files(directory):
+    return [
+        '{0}/gt_peto.csv'.format(directory),
+        '{0}/gt_david.csv'.format(directory),
+        '{0}/gt_martin.csv'.format(directory),
+        '{0}/gt_klarka.csv'.format(directory),
+    ]
+
+
 BEFORE_TIME = 2 * 60
 AFTER_TIME = 3 * 60
 ENABLE_SHOW_WRONG_RECORDS = False
@@ -108,6 +132,10 @@ def generate_row(str_process, performance, records, duration1, duration2):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('dir', nargs='?', default='.', const='.')
+    args = parser.parse_args()
+
     logging.info('start')
 
     launcher = ConnectionUtil.rapid_miner()['launcher']
@@ -126,39 +154,72 @@ if __name__ == '__main__':
 
     logging.debug(header)
 
-    wrong_all = []
-    for process in processes:
-        if os.path.isfile('out.csv'):
-            os.remove('out.csv')
+    if args.dir == '.':
+        t_files = ['testing.csv']
+    else:
+        t_files = list_of_testing_files(args.dir)
 
-        cmd = [
-            launcher,
-            process
-        ]
+    for test_file in t_files:
+        output = ''
+        output += header + '\n'
+        # prepare testing files
+        if not test_file == 'testing.csv':
+            logging.debug('start of preparing testing file {0}'.format(test_file))
+            if os.path.exists('{0}/testing.csv'.format(args.dir)):
+                os.remove('{0}/testing.csv'.format(args.dir))
 
-        start_time = time.monotonic()
-        result = run(cmd, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-        end_time = time.monotonic()
-        duration1 = timedelta(seconds=end_time - start_time)
+            copyfile(test_file, '{0}/testing.csv'.format(args.dir))
+            logging.debug('end of preparing testing file {0}'.format(test_file))
 
-        str_process = '{0:50} '.format(process)
+        wrong_all = []
+        output_file = '{0}/out.csv'.format(args.dir)
+        for process in list_of_processes(args.dir):
+            if os.path.isfile(output_file):
+                os.remove(output_file)
 
-        if os.path.isfile('out.csv'):
-            start_time2 = time.monotonic()
-            p = Performance(abspath(OUTPUT_FILENAME))
-            _, _, p1 = p.simple()
-            table2, wrong2, p2 = p.with_delay(BEFORE_TIME, AFTER_TIME)
-            end_time2 = time.monotonic()
-            wrong_all += wrong2 + ['-------------------']
+            cmd = [
+                launcher,
+                process
+            ]
 
-            duration2 = timedelta(seconds=end_time2 - start_time2)
-            logging.debug(generate_row(str_process, p1, p.count, duration1, duration2))
-            logging.debug(generate_row(str_process, p2, p.count, '', ''))
+            start_time = time.monotonic()
+            result = run(cmd, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            end_time = time.monotonic()
+            duration1 = timedelta(seconds=end_time - start_time)
 
-            if ENABLE_SHOW_WRONG_RECORDS:
-                for row in wrong2:
-                    logging.info(row)
+            str_process = '{0:50} '.format(process)
 
-            logging.debug('')
-        else:
-            logging.error('{0:190} {1}  0:00:00.0'.format(process, str(duration1)[:9]))
+            if os.path.isfile(output_file):
+                start_time2 = time.monotonic()
+                p = Performance(abspath(output_file))
+                _, _, p1 = p.simple()
+                table2, wrong2, p2 = p.with_delay(BEFORE_TIME, AFTER_TIME)
+                end_time2 = time.monotonic()
+                wrong_all += wrong2 + ['-------------------']
+
+                duration2 = timedelta(seconds=end_time2 - start_time2)
+                o1 = generate_row(str_process, p1, p.count, duration1, duration2)
+                o2 = generate_row(str_process, p2, p.count, '', '')
+
+                logging.debug(o1)
+                logging.debug(o2)
+
+                output += o1 + '\n'
+                output += o2 + '\n'
+
+                if ENABLE_SHOW_WRONG_RECORDS:
+                    for row in wrong2:
+                        logging.info(row)
+                        output += row + '\n'
+
+                logging.debug('')
+                output += '\n'
+            else:
+                o3 = '{0:190} {1}  0:00:00.0'.format(process, str(duration1)[:9])
+                logging.error(o3)
+                output += o3 + '\n'
+
+        if args.dir != '.':
+            res_filename = '{1}.res'.format(args.dir, test_file[:-4])
+            with open(res_filename, 'w') as f:
+                f.write(output)
