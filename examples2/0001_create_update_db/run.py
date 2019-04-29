@@ -329,6 +329,34 @@ def update_invalid_values(con):
         delete_rows(con, 1555964860, 1555965077, table)
     con.commit()
 
+    for table in ['measured_martin', 'measured_martin_reduced']:
+        cur.execute('UPDATE {0} SET co2_in_ppm = Null WHERE measured_time >= {1} AND measured_time <= {2}'
+                    .format(table, 1556131671, 1556527728704))
+
+        delete_rows(con, 1554105279, 1554111856, table)
+        delete_rows(con, 1554209613, 1554213251, table)
+        delete_rows(con, 1554311736, 1554312129, table)
+        delete_rows(con, 1554369256, 1554369855, table)
+        delete_rows(con, 1554382936, 1554386565, table)
+        delete_rows(con, 1554549577, 1554555291, table)
+        delete_rows(con, 1554695016, 1554697933, table)
+        delete_rows(con, 1554752248, 1554752753, table)
+        delete_rows(con, 1554954830, 1554956089, table)
+        delete_rows(con, 1554986587, 1554991207, table)
+        delete_rows(con, 1555224375, 1555224927, table)
+        delete_rows(con, 1556009821, 1556011638, table)
+        delete_rows(con, 1556049828, 1556050173, table)
+        delete_rows(con, 1556096559, 1556097672, table)
+        delete_rows(con, 1556104984, 1556106264, table)
+        delete_rows(con, 1554111977, 1554113616, table)
+        delete_rows(con, 1554275418, 1554278553, table)
+        delete_rows(con, 1554782585, 1554783859, table)
+        delete_rows(con, 1554874366, 1554908657, table)
+        delete_rows(con, 1554956135, 1554958682, table)
+        delete_rows(con, 1554994535, 1554998530, table)
+        delete_rows(con, 1556165161, 1556166805, table)
+    con.commit()
+
 
 def devices(filename='devices.json'):
     with open(filename, 'r') as f:
