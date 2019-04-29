@@ -40,6 +40,18 @@ def delete_rows(con, timestamp_from, timestamp_to, table_name):
     con.commit()
 
 
+def update_rows(con, table_name, attr_name, new_value, timestamp_from, timestamp_to):
+    table = table_name
+    f = timestamp_from
+    t = timestamp_to
+    cur = con.cursor()
+
+    cur.execute('UPDATE {0} SET {1} = {2} WHERE measured_time >= {3} AND measured_time <= {4}'
+                .format(table, attr_name, new_value, f, t))
+
+    con.commit()
+
+
 def update_invalid_values(con):
     cur = con.cursor()
 
