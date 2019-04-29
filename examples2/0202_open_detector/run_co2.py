@@ -822,6 +822,29 @@ def testing_month(table_name, start):
         start += mesiac
 
 
+def generic_testing(directory):
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+
+    end = int(DateTimeUtil.local_time_str_to_utc('2019/04/29 15:00:00').timestamp())
+
+    # Peto , februar, marec, april
+    start = int(DateTimeUtil.local_time_str_to_utc('2019/02/04 06:00:00').timestamp())
+    testing_set('measured_filtered_peto', start, end, '{0}/gt_peto.csv'.format(directory))
+
+    # David
+    start = int(DateTimeUtil.local_time_str_to_utc('2019/04/03 14:00:00').timestamp())
+    testing_set('measured_david', start, end, '{0}/gt_david.csv'.format(directory))
+
+    # Martin
+    start = int(DateTimeUtil.local_time_str_to_utc('2019/04/01 15:00:00').timestamp())
+    testing_set('measured_martin', start, end, '{0}/gt_martin.csv'.format(directory))
+
+    # Klarka
+    start = int(DateTimeUtil.local_time_str_to_utc('2018/12/18 12:00:00').timestamp())
+    testing_set('measured_klarka', start, end, '{0}/gt_klarka.csv'.format(directory))
+
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s')
@@ -833,4 +856,6 @@ if __name__ == '__main__':
 
     start = int(DateTimeUtil.local_time_str_to_utc('2018/10/07 06:00:00').timestamp())
     testing_set(table_name, start, start + 100, 'testing.csv')
+
     # testing_month(table_name, start)
+    # generic_testing('co2')
