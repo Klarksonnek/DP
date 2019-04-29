@@ -904,7 +904,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
     return attrs
 
 
-def training_set(events_file: str, no_event_time_shift: int, table_name: str):
+def training_set(events_file: str, no_event_time_shift: int, table_name: str, directory):
     logging.info('start')
 
     # stiahnutie dat
@@ -917,9 +917,6 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
     filtered = FilterUtil.only_valid_events(d)
     logging.info('events after applying the filter: %d' % len(filtered))
 
-    if ConnectionUtil.is_testable_system():
-        filtered = filtered[:10]
-
     # selector pre data
     row_selector = CachedDiffRowWithIntervalSelector(con, table_name, 0, 0)
     interval_selector = None
@@ -928,7 +925,8 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
     logging.info('start computing of training set')
     training, tr_events = AttributeUtil.cached_training_data(con, table_name, filtered, func,
                                                              row_selector, interval_selector,
-                                                             'open', 'testing_cached.csv')
+                                                             'open',
+                                                             '{0}/testing_cached.csv'.format(directory))
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count / 2, count))
 
@@ -944,7 +942,7 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
 
     logging.info('start preparing file of training set')
     balanced = AttributeUtil.balance_set(training, training2)
-    CSVUtil.create_csv_file(balanced, 'training.csv')
+    CSVUtil.create_csv_file(balanced, '{0}/training.csv'.format(directory))
     logging.info('end preparing file of training set')
 
 
@@ -962,12 +960,8 @@ def testing_set(table_name: str, start, end, filename):
     logging.info('end')
 
 
-def testing_month(table_name, start):
+def testing_month(table_name, start, directory):
     mesiac = 30 * 24 * 3600
-
-    directory = 'co2_t_h_out'
-    if not os.path.isdir(directory):
-        os.mkdir(directory)
 
     file_names = [
         '{0}/1_oktober.csv'.format(directory),
@@ -984,9 +978,6 @@ def testing_month(table_name, start):
 
 
 def generic_testing(directory):
-    if not os.path.isdir(directory):
-        os.mkdir(directory)
-
     end = int(DateTimeUtil.local_time_str_to_utc('2019/04/29 15:00:00').timestamp())
 
     # Peto , februar, marec, april
@@ -1013,10 +1004,14 @@ if __name__ == '__main__':
     # tabulka s CO2, ktora neprekroci hranicu 2000ppm
     table_name = 'measured_filtered_peto'
 
-    training_set('examples/events_peto.json', -500, table_name)
+    directory = 'co2_t_h_out'
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+
+    training_set('examples/events_peto.json', -500, table_name, directory)
 
     start = int(DateTimeUtil.local_time_str_to_utc('2018/10/07 06:00:00').timestamp())
-    testing_set(table_name, start, start + 100, 'testing.csv')
+    testing_set(table_name, start, start + 100, '{0}/testing.csv'.format(directory))
 
     # testing_month(table_name, start)
-    # generic_testing('co2_t_h_out')
+    # generic_testing(directory)
