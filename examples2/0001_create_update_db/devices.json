@@ -429,6 +429,22 @@
             "device": "0xa90081111cdb15af",
             "module": 2,
             "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "rh_out_percentage",
+            "name": "BeeeOn sensor out - humidity",
+            "gateway": "1908402624139667",
+            "device": "0xa1000000eb000024",
+            "module": 3,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "temperature_out_celsius",
+            "name": "BeeeOn sensor out - temperature",
+            "gateway": "1908402624139667",
+            "device": "0xa1000000eb000024",
+            "module": 1,
+            "server_name": "ant-work"
         }
     ],
     "martin_door": [
@@ -462,6 +478,22 @@
             "gateway": "1662281628545799",
             "device": "0xa90081111cdb15af",
             "module": 2,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "rh_out_percentage",
+            "name": "BeeeOn sensor out - humidity",
+            "gateway": "1908402624139667",
+            "device": "0xa1000000eb000024",
+            "module": 3,
+            "server_name": "ant-work"
+        },
+        {
+            "db_column_name": "temperature_out_celsius",
+            "name": "BeeeOn sensor out - temperature",
+            "gateway": "1908402624139667",
+            "device": "0xa1000000eb000024",
+            "module": 1,
             "server_name": "ant-work"
         }
     ]
