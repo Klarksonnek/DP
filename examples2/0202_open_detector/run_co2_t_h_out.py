@@ -985,7 +985,7 @@ def generic_testing(directory):
     testing_set('measured_filtered_peto', start, end, '{0}/gt_peto.csv'.format(directory))
 
     # David
-    start = int(DateTimeUtil.local_time_str_to_utc('2019/04/03 14:00:00').timestamp())
+    start = int(DateTimeUtil.local_time_str_to_utc('2019/04/03 16:00:00').timestamp())
     testing_set('measured_david', start, end, '{0}/gt_david.csv'.format(directory))
 
     # Martin
