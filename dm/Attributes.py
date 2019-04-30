@@ -1137,7 +1137,7 @@ class Regression(AbstractPrepareAttr):
         self._method = method
         super(Regression, self).__init__(con, table_name, row_selector, interval_selector)
 
-    def execute(self, timestamp_start, timestamp_end, column, precision, prefix):
+    def execute(self, timestamp_start, timestamp_end, column, precision, prefix, enable_error):
         x = []
         y = []
         for timestamp in range(timestamp_start, timestamp_end):
@@ -1149,7 +1149,10 @@ class Regression(AbstractPrepareAttr):
 
         param, err = self._method.compute_parameter(x, y)
         name = self.attr_name(column, prefix, 'before', 0)
-        before = [(name, round(param * 3600, precision)), ('err', round(float(err), 8))]
+        before = [(name, round(param * 3600, precision))]
+
+        if enable_error:
+            before.append(('err', round(float(err), 8)))
 
         return before, []
 
