@@ -241,11 +241,18 @@ class AttributeUtil:
             if t % (log_every_hour * 3600) == 0:
                 logging.debug(DateTimeUtil.utc_timestamp_to_str(t))
 
-            previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
+            act_row = None
+            if act_row is None:
+                previous_row = Storage.one_row(con, table_name, 'open_close', t - 1)
+            else:
+                previous_row = act_row
             act_row = Storage.one_row(con, table_name, 'open_close', t)
 
             if event_type not in ['open', 'close']:
                 raise ValueError('event type must be: open or close')
+
+            if previous_row is None or act_row is None:
+                continue
 
             open_state = 'nothing'
             if event_type == 'open' and previous_row[0] == 0 and act_row[0] == 1:
