@@ -826,10 +826,6 @@ def testing_month(table_name, start, directory):
 def generic_testing(directory):
     end = int(DateTimeUtil.local_time_str_to_utc('2019/04/29 18:00:00').timestamp())
 
-    # Peto , februar, marec, april
-    start = int(DateTimeUtil.local_time_str_to_utc('2019/02/04 18:00:00').timestamp())
-    testing_set('measured_filtered_peto', start, end, '{0}/gt_peto.csv'.format(directory))
-
     # David
     start = int(DateTimeUtil.local_time_str_to_utc('2019/04/03 18:00:00').timestamp())
     testing_set('measured_david', start, end, '{0}/gt_david.csv'.format(directory))
@@ -837,6 +833,10 @@ def generic_testing(directory):
     # Martin
     start = int(DateTimeUtil.local_time_str_to_utc('2019/04/01 18:00:00').timestamp())
     testing_set('measured_martin', start, end, '{0}/gt_martin.csv'.format(directory))
+
+    # Peto , februar, marec, april
+    start = int(DateTimeUtil.local_time_str_to_utc('2019/02/04 18:00:00').timestamp())
+    testing_set('measured_filtered_peto', start, end, '{0}/gt_peto.csv'.format(directory))
 
     # Klarka
     start = int(DateTimeUtil.local_time_str_to_utc('2018/12/18 18:00:00').timestamp())
