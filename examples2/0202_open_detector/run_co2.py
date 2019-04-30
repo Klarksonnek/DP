@@ -573,6 +573,10 @@ no_events_records = [
 ]
 
 
+def simple_f(value, timestamp):
+    return value
+
+
 def func(con, table_name, timestamp, row_selector, interval_selector):
     attrs = []
     columns = [
@@ -587,7 +591,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
 
             #
             # linearny posun DifferenceA
-            op = FirstDifferenceAttrA(con, table_name, row_selector, interval_selector)
+            op = FirstDifferenceAttrA(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
@@ -610,7 +614,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
 
             #
             # linearny posun DifferenceB
-            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
+            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
@@ -631,7 +635,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             be, af = op.standard_deviation(column, precision, b, a, pr)
             attrs += be + af
 
-            op = DifferenceBetweenRealLinear(con, table_name, row_selector, interval_selector)
+            op = DifferenceBetweenRealLinear(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
                               intervals_after=intervals_after,
@@ -651,7 +655,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
 
             #
             # x^2 posun
-            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
+            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x * x for x in range(2, 31, 1)],
                               intervals_after=[x * x for x in range(2, 14, 1)],
@@ -674,7 +678,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
 
             #
             # x^3 posun
-            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
+            op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x * x * x for x in range(2, 10, 1)],
                               intervals_after=[x * x * x for x in range(2, 6, 1)],
@@ -697,7 +701,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
 
             #
             # GrowRate - linearne
-            op = GrowthRate(con, table_name, row_selector, interval_selector)
+            op = GrowthRate(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x for x in range(5, 901, 15)],
                               intervals_after=[x for x in range(5, 181, 15)],
@@ -707,7 +711,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             attrs += be + af
 
             # GrowRate - linearne
-            op = GrowthRate(con, table_name, row_selector, interval_selector)
+            op = GrowthRate(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x for x in range(5, 901, 30)],
                               intervals_after=[x for x in range(5, 181, 30)],
@@ -717,7 +721,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             attrs += be + af
 
             # GrowRate - x^2
-            op = GrowthRate(con, table_name, row_selector, interval_selector)
+            op = GrowthRate(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x * x for x in range(2, 31, 1)],
                               intervals_after=[x * x for x in range(2, 14, 1)],
@@ -727,7 +731,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             attrs += be + af
 
             # GrowRate - x^3
-            op = GrowthRate(con, table_name, row_selector, interval_selector)
+            op = GrowthRate(con, table_name, row_selector, interval_selector, simple_f)
             b, a = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x * x * x for x in range(2, 10, 1)],
                               intervals_after=[x * x * x for x in range(2, 6, 1)],
@@ -736,7 +740,7 @@ def func(con, table_name, timestamp, row_selector, interval_selector):
             be, af = op.arithmetic_mean(column, precision, b, a, 'Grow_x3')
             attrs += be + af
 
-        op = InOutDiff(con, table_name, row_selector, interval_selector)
+        op = InOutDiff(con, table_name, row_selector, interval_selector, simple_f)
         b, a = op.execute(timestamp=timestamp, column='co2_in_ppm_diff', precision=precision,
                           intervals_before=[1],
                           intervals_after=[],
