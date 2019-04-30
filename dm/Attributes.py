@@ -517,13 +517,22 @@ class SimpleIntervalSelector(AbstractIntervalSelector):
 # https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
 # http://homel.vsb.cz/~dor028/Casove_rady.pdf
 class AbstractPrepareAttr(ABC):
-    def __init__(self, con, table_name, row_selector, interval_selector):
+    def __init__(self, con, table_name, row_selector, interval_selector, tr=None):
         self.con = con
         self.table_name = table_name
         self.name = self.__class__.__name__
         self.row_selector = row_selector
+        self.transform = tr
         self.interval_selector = interval_selector
+
+        if self.transform is None:
+            self.transform = self.__simple_transform
+
         super(AbstractPrepareAttr, self).__init__()
+
+    @staticmethod
+    def __simple_transform(value, timestamp):
+        return value
 
     @abstractmethod
     def execute(self, **kwargs):
@@ -693,7 +702,7 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
                 derivation = round(middle - value, precision)
                 name = self.attr_name(column, prefix, 'before', interval)
 
-            before.append((name, derivation))
+            before.append((name, self.transform(derivation, interval)))
 
         for interval in intervals_after:
             value_time = timestamp + interval
@@ -706,7 +715,7 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
                 derivation = round(value - middle, precision)
                 name = self.attr_name(column, prefix, 'after', interval)
 
-            after.append((name, derivation))
+            after.append((name, self.transform(derivation, interval)))
 
         if enable_count:
             b, a = self._compute_increase(column, intervals_before, intervals_after,
@@ -756,7 +765,7 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
                 derivation = round(last_value - value, precision)
                 name = self.attr_name(column, prefix, 'before', interval)
 
-            before.append((name, derivation))
+            before.append((name, self.transform(derivation, interval)))
             last_value = value
             last_shift = interval
 
@@ -773,7 +782,7 @@ class FirstDifferenceAttrB(AbstractPrepareAttr):
                 derivation = round(value - last_value, precision)
                 name = self.attr_name(column, prefix, 'after', interval)
 
-            after.append((name, derivation))
+            after.append((name, self.transform(derivation, interval)))
             last_value = value
             last_shift = interval
 
@@ -878,7 +887,7 @@ class GrowthRate(AbstractPrepareAttr):
 
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, prefix, 'valDelay' + str(value_delay) + '_before', interval)
-            before.append((name, ratio))
+            before.append((name, self.transform(ratio, interval)))
 
         for interval in intervals_after:
             value_time = timestamp + interval
@@ -887,7 +896,7 @@ class GrowthRate(AbstractPrepareAttr):
 
             ratio = round(y_t / y_t_1, precision)
             name = self.attr_name(column, prefix, 'valDelay' + str(value_delay) + '_after', interval)
-            after.append((name, ratio))
+            after.append((name, self.transform(ratio, interval)))
 
         return before, after
 
@@ -925,7 +934,7 @@ class DifferenceBetweenRealLinear(AbstractPrepareAttr):
 
             diff = round(linear_value - orig_value, precision)
             name = self.attr_name(column, prefix, infix + '_before', interval)
-            before.append((name, diff))
+            before.append((name, self.transform(diff, interval)))
 
         # compute after
         x = []
@@ -951,7 +960,7 @@ class DifferenceBetweenRealLinear(AbstractPrepareAttr):
 
             diff = round(linear_value - orig_value, precision)
             name = self.attr_name(column, prefix, infix + '_after', interval)
-            after.append((name, diff))
+            after.append((name, self.transform(diff, interval)))
 
         return before, after
 
