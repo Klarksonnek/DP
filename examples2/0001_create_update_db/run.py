@@ -108,6 +108,18 @@ def update_invalid_values(con):
     for table in ['measured_klarka', 'measured_klarka_reduced']:
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time = 1547490233')
         cur.execute('UPDATE ' + table + ' SET open_close = 0 WHERE measured_time = 1547642276')
+
+        update_rows(con, table, 'open_close', 0, 1543650667, 1543650670)
+        update_rows(con, table, 'open_close', 0, 1543789966, 1543789968)
+        update_rows(con, table, 'open_close', 1, 1544047968, 1544047971)
+        update_rows(con, table, 'open_close', 0, 1547490233, 1547490236)
+        update_rows(con, table, 'open_close', 1, 1548678892, 1548678904)
+        update_rows(con, table, 'open_close', 0, 1548742218, 1548742221)
+        update_rows(con, table, 'open_close', 0, 1544520898, 1544520901)
+        update_rows(con, table, 'open_close', 0, 1547447766, 1547447768)
+        update_rows(con, table, 'open_close', 0, 1552246992, 1552246995)
+        update_rows(con, table, 'open_close', 1, 1552336762, 1552336765)
+
         delete_rows(con, 1543778231, 1543780663, table)
         delete_rows(con, 1543870389, 1543872050, table)
         delete_rows(con, 1543957520, 1543959601, table)
