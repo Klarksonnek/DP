@@ -182,7 +182,7 @@ class Performance:
                 if 'no' not in invalid[key]:
                     nothing_as_true_open += 1
 
-            nothing_as_true_nothing += len(interval) -1 - count(invalid[key], 'no')
+            nothing_as_true_nothing += len(interval) - 1
 
         res = {
             'records': self.count,
