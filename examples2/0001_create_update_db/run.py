@@ -538,6 +538,8 @@ def update_invalid_values(con):
     con.commit()
 
     for table in ['measured_david', 'measured_david_reduced']:
+        update_rows(con, table, 'open_close', '0', 1556212321, 1556212333)
+
         delete_rows(con, 1554361539, 1554362046, table)
         delete_rows(con, 1554435692, 1554435878, table)
         delete_rows(con, 1554557639, 1554558434, table)
