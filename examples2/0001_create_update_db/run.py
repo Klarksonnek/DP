@@ -568,6 +568,10 @@ def update_invalid_values(con):
         cur.execute('UPDATE {0} SET co2_in_ppm = Null WHERE measured_time >= {1} AND measured_time <= {2}'
                     .format(table, 1556131671, 1556527728704))
 
+        update_rows(con, table, 'open_close', '0', 1554369411, 1554369419)
+        update_rows(con, table, 'open_close', '1', 1556010237, 1556010281)
+        update_rows(con, table, 'open_close', '1', 1556011145, 1556011174)
+
         delete_rows(con, 1554105279, 1554111856, table)
         delete_rows(con, 1554209613, 1554213251, table)
         delete_rows(con, 1554311736, 1554312129, table)
