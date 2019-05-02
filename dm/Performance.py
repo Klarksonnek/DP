@@ -2,6 +2,10 @@ from dm.DateTimeUtil import DateTimeUtil
 import csv
 
 
+def count(z, val):
+    return len([i for i, x in enumerate(z) if x == val])
+
+
 class Performance:
     def __init__(self, filename):
         self.__filename = filename
@@ -90,7 +94,7 @@ class Performance:
 
                     if row['event'] != self.__event_type:
                         wrong_prediction.append(row['readable'])
-                else:
+                elif row['prediction'] != '':
                     nothing_as_true_open += 1
 
         res = {
@@ -122,6 +126,13 @@ class Performance:
                 t = row['datetime']
                 intervals.append((t - before, t, t + after))
 
+        intervals.sort()
+        for i in range(1, len(intervals)):
+            if intervals[i - 1][2] > intervals[i][0]:
+                t1 = DateTimeUtil.utc_timestamp_to_str(intervals[i - 1][1], '%d.%m. %H:%M:%S')
+                t2 = DateTimeUtil.utc_timestamp_to_str(intervals[i][1], '%d.%m. %H:%M:%S')
+                print('prekryvajuce sa intervaly {0} a {1}'.format(t1, t2))
+
         for row in intervals:
             extended[row[1]] = []
             invalid[row[1]] = []
@@ -133,45 +144,45 @@ class Performance:
                     extended[interval[1]].append(row['prediction'])
                     invalid[interval[1]].append(row['valid'])
                     found = True
-                    break
 
-            if row['valid'] == 'no':
+            if found or row['valid'] == 'no':
                 continue
 
-            if not found:
-                if row['event'] == row['prediction']:
-                    if row['event'] == self.__event_type:
-                        open_as_true_open += 1
-                    elif row['event'] == 'nothing':
-                        nothing_as_true_nothing += 1
-                    else:
-                        raise ValueError('error')
+            if row['event'] == row['prediction']:
+                if row['event'] == self.__event_type:
+                    open_as_true_open += 1
+                elif row['event'] == 'nothing':
+                    nothing_as_true_nothing += 1
                 else:
-                    if row['event'] == 'nothing' and row['prediction'] == self.__event_type:
-                        open_as_true_nothing += 1
+                    raise ValueError('error')
+            else:
+                if row['event'] == 'nothing' and row['prediction'] == self.__event_type:
+                    open_as_true_nothing += 1
 
-                        if row['event'] != self.__event_type:
-                            wrong_prediction.append(row['readable'])
-                    else:
-                        nothing_as_true_open += 1
+                    if row['event'] != self.__event_type:
+                        wrong_prediction.append(row['readable'])
+                elif row['prediction'] != '':
+                    nothing_as_true_open += 1
 
         for key, interval in extended.items():
+            if len(interval) == 1 and 'no' in invalid[key]:
+                continue
+
             found = False
-            for row in interval:
+            for k in range(0, len(interval)):
+                row = interval[k]
                 if row == self.__event_type:
                     found = True
                     break
 
-            if not found:
-                nothing_as_true_open += 1
-                if 'no' in invalid[key]:
-                    nothing_as_true_open -= 1
+            if found:
+                if 'no' not in invalid[key]:
+                    open_as_true_open += 1
             else:
-                open_as_true_open += 1
-                if 'no' in invalid[key]:
-                    nothing_as_true_nothing -= 1
+                if 'no' not in invalid[key]:
+                    nothing_as_true_open += 1
 
-            nothing_as_true_nothing += len(interval) - 1
+            nothing_as_true_nothing += len(interval) -1 - count(invalid[key], 'no')
 
         res = {
             'records': self.count,
