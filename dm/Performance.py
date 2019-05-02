@@ -27,8 +27,14 @@ class Performance:
                     'valid': row['valid']
                 }
 
+                if record['prediction'] == '':
+                    record['valid'] = 'no'
+
                 if row['valid'] == 'no':
                     self.count -= 1
+
+                if record['prediction'] == '' and record['event'] == 'nothing':
+                    continue
 
                 self.__data.append(record)
                 event_types[row['event']] = None
@@ -105,6 +111,7 @@ class Performance:
             'open_as_true_open': open_as_true_open,
             'nothing_as_true_open': nothing_as_true_open,
         }
+        res['sum'] = res['nothing_as_true_nothing'] + res['open_as_true_nothing'] + res['open_as_true_open'] + res['nothing_as_true_open']
 
         return self.__simple_table(res), wrong_prediction, res
 
@@ -192,5 +199,6 @@ class Performance:
             'open_as_true_open': open_as_true_open,
             'nothing_as_true_open': nothing_as_true_open,
         }
+        res['sum'] = res['nothing_as_true_nothing'] + res['open_as_true_nothing'] + res['open_as_true_open'] + res['nothing_as_true_open']
 
         return self.__simple_table(res), wrong_prediction, res
