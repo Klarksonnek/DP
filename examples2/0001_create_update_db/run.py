@@ -69,6 +69,9 @@ def update_invalid_values(con):
         cur.execute('UPDATE ' + table + ' SET open_close = 1 WHERE measured_time >= 1554613585 AND measured_time <= 1554613592')
 
         update_rows(con, table, 'open_close', '0', 1548318471, 1548318474)
+        update_rows(con, table, 'open_close', '0', 1544377548, 1544377695)
+        update_rows(con, table, 'open_close', '0', 1549953360, 1549954342)
+        update_rows(con, table, 'open_close', '1', 1551904261, 1551904268)
 
         delete_rows(con, 1551847133, 1551889587, table)
         delete_rows(con, 1551903872, 1551908262, table)
@@ -607,6 +610,7 @@ def update_invalid_values(con):
 
     for table in ['measured_david', 'measured_david_reduced']:
         update_rows(con, table, 'open_close', '0', 1556212321, 1556212333)
+        update_rows(con, table, 'open_close', '0', 1556483850, 1556483863)
 
         delete_rows(con, 1554361539, 1554362046, table)
         delete_rows(con, 1554435692, 1554435878, table)
