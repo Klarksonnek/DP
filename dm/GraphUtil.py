@@ -109,16 +109,18 @@ class GraphUtil:
         r4 = [0, 0, r2[-1]]
 
         plt.bar(r1, bars1, color=(0.854, 0.035, 0.027), width=barWidth, edgecolor='white', label='trendline', zorder=3)
-        plt.bar(r2, bars2, color=(0.101, 0.454, 0.125), width=barWidth, edgecolor='white', label='avg trendline', zorder=3)
-        plt.bar(r3, bars3, color=(0, 0, 1), width=barWidth, edgecolor='white', label='cluster centroid', zorder=3)
-        plt.bar(r4, bars4, color=(0, 0, 0), width=barWidth * 3, edgecolor='white', label='measured attributes', zorder=3)
+        plt.bar(r2, bars2, color=(0.101, 0.454, 0.125), width=barWidth, edgecolor='white', label='average trendline', zorder=3)
+        plt.bar(r3, bars3, color=(0, 0, 1), width=barWidth, edgecolor='white', label='trendline passing\ncluster centroid', zorder=3)
+        plt.bar(r4, bars4, color=(0, 0, 0), width=barWidth * 3, edgecolor='white', label='no trendline', zorder=3)
 
-        plt.ylim(0.3, 0.9)
+        plt.ylim(0.2, 1.0)
         plt.xlabel('attributes', fontweight='bold')
-        plt.ylabel('success rate [%]', fontweight='bold')
+        plt.ylabel('accuracy [%]', fontweight='bold')
         plt.xticks([r + barWidth for r in range(len(bars1))], ['all', 'calculated', 'measured'])
 
-        plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.4))
+        #plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.4))
+        plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13),
+                  fancybox=True,  ncol=2)
         plt.grid(zorder=0)
 
         if 'save' in action:
