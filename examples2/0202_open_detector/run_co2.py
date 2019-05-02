@@ -814,8 +814,6 @@ def testing_month(table_name, start, directory):
         '{0}/2_november.csv'.format(directory),
         '{0}/3_december.csv'.format(directory),
         '{0}/4_januar.csv'.format(directory),
-        '{0}/5_februar.csv'.format(directory),
-        '{0}/6_marec.csv'.format(directory),
     ]
 
     for file_name in file_names:
