@@ -124,6 +124,7 @@ def update_invalid_values(con):
         update_rows(con, table, 'open_close', 0, 1547447766, 1547447768)
         update_rows(con, table, 'open_close', 0, 1552246992, 1552246995)
         update_rows(con, table, 'open_close', 1, 1552336762, 1552336765)
+        update_rows(con, table, 'open_close', 1, 1556356758, 1556356761)
 
         delete_rows(con, 1543778231, 1543780663, table)
         delete_rows(con, 1543870389, 1543872050, table)
