@@ -72,6 +72,9 @@ def update_invalid_values(con):
         update_rows(con, table, 'open_close', '0', 1544377548, 1544377695)
         update_rows(con, table, 'open_close', '0', 1549953360, 1549954342)
         update_rows(con, table, 'open_close', '1', 1551904261, 1551904268)
+        update_rows(con, table, 'open_close', '1', 1538896688, 1538896691)
+        update_rows(con, table, 'open_close', '1', 1548318470, 1548318475)
+        update_rows(con, table, 'open_close', '0', 1544794909, 1544795005)
 
         delete_rows(con, 1551847133, 1551889587, table)
         delete_rows(con, 1551903872, 1551908262, table)
@@ -612,6 +615,8 @@ def update_invalid_values(con):
     for table in ['measured_david', 'measured_david_reduced']:
         update_rows(con, table, 'open_close', '0', 1556212321, 1556212333)
         update_rows(con, table, 'open_close', '0', 1556483850, 1556483863)
+        update_rows(con, table, 'open_close', '0', 1556275417, 1556275423)
+        update_rows(con, table, 'open_close', '0', 1556558716, 1556558729)
 
         delete_rows(con, 1554361539, 1554362046, table)
         delete_rows(con, 1554435692, 1554435878, table)
