@@ -3,6 +3,7 @@ import logging
 import os
 from dm.DateTimeUtil import DateTimeUtil
 from dm.SQLUtil import SQLUtil
+from collections import OrderedDict
 
 
 class Storage:
@@ -192,3 +193,21 @@ class Storage:
                 out.append(float(row[0]))
 
         return out
+
+    @staticmethod
+    def dw_columns_ordered(con, start, end, columns, table_name):
+        columns = columns.split(',')
+        dw_values = {}
+
+        for column in columns:
+            dw_values[column] = Storage.select_interval(con, start, end, column, table_name)
+
+        output = []
+        for k in range(0, len(dw_values[columns[0]])):
+            row = []
+
+            for column in columns:
+                row.append((column, dw_values[column][k]))
+            output.append(OrderedDict(row))
+
+        return output

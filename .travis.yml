@@ -22,6 +22,7 @@ install:
   - pip install -r requirements.txt
 script:
   - python examples2/0000_db_tests/run.py
+  - python examples2/0002_graph_example/run.py
   - python examples2/0100_open_close_all_graphs/run.py
   - python examples2/0101_shower_all_graphs/run.py
   - python examples2/0102_sh_diff_graphs_analysis/run.py
