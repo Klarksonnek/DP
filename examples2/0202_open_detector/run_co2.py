@@ -570,6 +570,38 @@ no_events_records = [
     ('2018/11/09 22:50:00', 'nothing'),
     ('2018/11/09 23:51:30', 'nothing'),
     ('2019/01/17 20:57:30', 'nothing'),
+
+    # 53 iteracia - All, 4 mesiace, 2;3
+    ('2018/10/17 11:32:00', 'nothing'),
+    ('2018/10/28 08:17:00', 'nothing'),
+    ('2018/10/29 12:45:30', 'nothing'),
+    ('2018/10/29 12:45:30', 'nothing'),
+    ('2018/11/03 01:27:00', 'nothing'),
+    ('2018/11/09 23:01:30', 'nothing'),
+    ('2018/11/10 01:23:30', 'nothing'),
+    ('2018/11/10 02:03:00', 'nothing'),
+    ('2018/11/22 17:51:30', 'nothing'),
+    ('2018/11/23 11:56:00', 'nothing'),
+
+    # 54 iteracia - All, 4 mesiace, 2;3
+    ('2018/11/10 02:51:00', 'nothing'),
+
+    # 55 iteracia - All, 4 mesiace, 2;3
+    ('2018/11/10 00:18:30', 'nothing'),
+
+    # 56 iteracia - All, 4 mesiace, 2;3
+    ('2018/10/09 10:10:00', 'nothing'),
+    ('2018/11/01 07:08:00', 'nothing'),
+    ('2018/11/10 02:51:30', 'nothing'),
+    ('2019/01/23 13:42:00', 'nothing'),
+
+    # 57 iteracia - All, 4 mesiace, 2;3
+    ('2018/11/10 02:29:00', 'nothing'),
+    ('2018/11/10 04:31:30', 'nothing'),
+    ('2019/01/09 15:46:30', 'nothing'),
+
+    # 58 iteracia - All, 4 mesiace, 2;3
+    ('2018/11/09 23:27:30', 'nothing'),
 ]
 
 
@@ -772,7 +804,7 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str, di
     training, tr_events = AttributeUtil.cached_training_data(con, table_name, filtered, func,
                                                              row_selector, interval_selector,
                                                              'open',
-                                                             '{0}/testing_cached.csv'.format(directory))
+                                                             '{0}/training_cached.csv'.format(directory))
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count / 2, count))
 
