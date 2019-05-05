@@ -683,14 +683,14 @@ no_events_records = [
     ('2018/11/18 09:56:30', 'nothing'),
     ('2018/11/20 10:45:30', 'nothing'),
 
-    # 59 iteracia - , 4 mesiace, 2;3
+    # 59 iteracia - All, 4 mesiace, 2;3
     ('2018/10/10 21:50:00', 'nothing'),
     ('2018/10/10 23:00:00', 'nothing'),
     ('2018/11/15 21:43:00', 'nothing'),
     ('2018/11/22 17:54:30', 'nothing'),
     ('2018/11/24 18:41:00', 'nothing'),
 
-    # 60 iteracia - , 4 mesiace, 2;3
+    # 60 iteracia - All, 4 mesiace, 2;3
     ('2018/10/10 21:50:00', 'nothing'),
     ('2018/10/10 23:00:00', 'nothing'),
     ('2018/11/15 21:43:00', 'nothing'),
