@@ -786,7 +786,7 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str, di
     training, tr_events = AttributeUtil.cached_training_data(con, table_name, filtered, func,
                                                              row_selector, interval_selector,
                                                              'open',
-                                                             '{0}/testing_cached.csv'.format(directory))
+                                                             '{0}/training_cached.csv'.format(directory))
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count / 2, count))
 
