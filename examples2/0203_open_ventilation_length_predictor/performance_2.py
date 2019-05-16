@@ -33,7 +33,7 @@ def gen_table(input_data, data2, perform, mask):
     acc = None
     if perform is not None:
         acc = round(perform * 100, 2)
-        out += 'accuracy: {0:6.2f}%\n'.format(acc)
+        out += 'accuracy: {0:6.2f}\n'.format(acc)
 
     for i in range(0, len(input_data)):
         title = input_data[i]['title']
@@ -87,8 +87,8 @@ if __name__ == '__main__':
     mt_data = np.matrix(list_of_arrays)
     mt_data_sum = mt_data.sum()
 
-    # mask = [0, 1, 0]
-    mask = [0.5, 1, 0.5]
+    mask = [0, 1, 0]
+    # mask = [0.5, 1, 0.5]
     # mask = [0.5, 0.75, 1, 0.75, 0.5]
     # mask = [0.25, 0.5, 0.75, 1, 0.75, 0.5, 0.25]
 
@@ -96,7 +96,14 @@ if __name__ == '__main__':
 
     mt_performance = np.multiply(mt_data, mt_mask)
     mt_sum = mt_performance.sum()
+    print(gen_table(out, mt_data.tolist(), mt_sum / mt_data_sum, mask)[0])
 
-    print('mask map')
-    print(gen_table(out, mt_mask.tolist(), None, None)[0])
-    print(gen_table(out, mt_data.tolist(), mt_sum/mt_data_sum, mask)[0])
+    # print('mask map')
+    # print(gen_table(out, mt_mask.tolist(), None, None)[0])
+
+    mask = [0.5, 1, 0.5]
+    mt_mask = gen_mask(mt_data.shape[0], mask)
+
+    mt_performance = np.multiply(mt_data, mt_mask)
+    mt_sum = mt_performance.sum()
+    print(gen_table(out, mt_data.tolist(), mt_sum / mt_data_sum, mask)[0])
