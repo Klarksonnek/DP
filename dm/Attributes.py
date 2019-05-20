@@ -312,17 +312,6 @@ class AttributeUtil:
         return out
 
 
-class AbstractIntervalSelector(ABC):
-    def __init__(self, con, table_name):
-        self.con = con
-        self.table_name = table_name
-        super(AbstractIntervalSelector, self).__init__()
-
-    @abstractmethod
-    def interval(self, column_name, start, end):
-        pass
-
-
 class SimpleIntervalSelector(AbstractIntervalSelector):
     def interval(self, column_name, start, end):
         return Storage.select_interval(self.con, start, end, column_name, self.table_name)
