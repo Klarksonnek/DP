@@ -312,11 +312,6 @@ class AttributeUtil:
         return out
 
 
-class SimpleIntervalSelector(AbstractIntervalSelector):
-    def interval(self, column_name, start, end):
-        return Storage.select_interval(self.con, start, end, column_name, self.table_name)
-
-
 # https://www.smartfile.com/blog/abstract-classes-in-python/
 # https://code.tutsplus.com/articles/understanding-args-and-kwargs-in-python--cms-29494
 # http://homel.vsb.cz/~dor028/Casove_rady.pdf
