@@ -1,41 +1,21 @@
-from abc import ABC, abstractmethod
-from collections import OrderedDict
-
 from os.path import dirname, abspath, join
-import os
-from functools import reduce
 import sys
-import logging
-import math
-import csv
 
 THIS_DIR = dirname(__file__)
 CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
 sys.path.append(CODE_DIR)
 
-from dm.DateTimeUtil import DateTimeUtil
-from dm.CSVUtil import CSVUtil
-from dm.Storage import Storage
-from dm.ValueUtil import ValueUtil
-from scipy import stats
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
-from fractions import Fraction
-from sympy import *
-from scipy.optimize import curve_fit
-from scipy.spatial import ConvexHull
-
 DATA_CACHE = None
 
-from dm.AbstractPrepareAttr import AbstractPrepareAttr
-class FirstDifferenceAttrA(AbstractPrepareAttr):
+from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
+
+class FirstDifferenceAttrB(AbstractPrepareAttr):
     def execute(self, timestamp, column, precision, intervals_before, intervals_after,
                 normalize, enable_count, prefix, selected_before, selected_after):
-        """Vypocet diferencii.
+        """Vypocet diferencii druhy sposob.
 
-        Vypocet diferencii sa vykona ako rozdiel medzi hodnotou v case timestamp a hodnotou,
-        ktore je posunuta o urcity hodnotu z intervalu dopredu/dozadu.
+        Vypocet diferencii sa vykona ako rozdiel medzi susednymi hodnotami, ktore su vsak
+        posunute o urcitu hodnotu z intervalu dopredu/dozadu.
 
         :param timestamp: stred okienka, ktory sa pouzije ako bod od ktoreho sa posuva
         :param column: stlpec, pre ktory sa maju spocitat atributy
@@ -55,31 +35,39 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
 
         middle = self.row_selector.row(column, timestamp)
 
+        last_value = middle
+        last_shift = 0
         for interval in intervals_before:
             value_time = timestamp - interval
             value = self.row_selector.row(column, value_time)
 
             if normalize:
-                derivation = round((middle - value) / interval, precision)
+                derivation = round((last_value - value) / (interval - last_shift), precision)
                 name = self.attr_name(column, prefix, 'norm_before', interval)
             else:
-                derivation = round(middle - value, precision)
+                derivation = round(last_value - value, precision)
                 name = self.attr_name(column, prefix, 'before', interval)
 
             before.append((name, self.transform(derivation, interval)))
+            last_value = value
+            last_shift = interval
 
+        last_value = middle
+        last_shift = 0
         for interval in intervals_after:
             value_time = timestamp + interval
             value = self.row_selector.row(column, value_time)
 
             if normalize:
-                derivation = round((value - middle) / interval, precision)
+                derivation = round((value - last_value) / (interval - last_shift), precision)
                 name = self.attr_name(column, prefix, 'norm_after', interval)
             else:
-                derivation = round(value - middle, precision)
+                derivation = round(value - last_value, precision)
                 name = self.attr_name(column, prefix, 'after', interval)
 
             after.append((name, self.transform(derivation, interval)))
+            last_value = value
+            last_shift = interval
 
         if enable_count:
             b, a = self._compute_increase(column, intervals_before, intervals_after,
@@ -88,4 +76,3 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
             return before + b, after + a
 
         return before, after
-
