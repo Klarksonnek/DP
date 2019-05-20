@@ -312,26 +312,6 @@ class AttributeUtil:
         return out
 
 
-class InOutDiff(AbstractPrepareAttr):
-    def execute(self, timestamp, column, precision, intervals_before, intervals_after,
-                prefix):
-
-        before = []
-        after = []
-
-        for interval in intervals_before:
-            res = round(self.row_selector.row(column, timestamp - interval), precision)
-            name = self.attr_name(column, prefix, 'before', interval)
-            before.append((name, res))
-
-        for interval in intervals_after:
-            res = round(self.row_selector.row(column, timestamp + interval), precision)
-            name = self.attr_name(column, prefix, 'after', interval)
-            before.append((name, res))
-
-        return before, after
-
-
 class InLinear(AbstractPrepareAttr):
     def execute(self, timestamp_before, timestamp_after, column, precision,
                 start_before, end_before, start_after, end_after, prefix):
