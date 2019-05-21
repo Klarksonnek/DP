@@ -108,7 +108,8 @@ class DistanceToLine:
 
             if not cluster_boundaries and not cluster_boundaries_all:
                 # plot cluster centroid
-                plt.scatter(C[0][0], C[0][1], marker='o', color=colors_trendline[i], zorder=3)
+                plt.plot(C[0][0], C[0][1], marker='o', color=colors_trendline[i], markersize=10, markeredgecolor='k',
+                         markeredgewidth=2, zorder=3)
 
                 if strategyFlag == 'polyfit_':
                     plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
@@ -120,7 +121,7 @@ class DistanceToLine:
                         return out_point_line, out_point_point, fig
 
                 if strategyFlag == 'center_':
-                    plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
+                    plt.plot([0, max(sh_decrease)], [0, y], color='black', label=str(interval) + ' min')
                     plt.xlim(0.0, 4.0)
                     plt.ylim(0.0, 6.0)
                     plt.grid(zorder=0)
