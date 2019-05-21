@@ -2,9 +2,9 @@ from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-import csv
 from dm.DateTimeUtil import DateTimeUtil
 from dm.GraphUtil import GraphUtil
+import csv
 
 
 def table(length, length_training, vent_5_min, vent_10_min, vent_25_min, true_5, bad_10_true_5, bad_25_true_5, true_10,
