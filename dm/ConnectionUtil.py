@@ -4,6 +4,8 @@ import os
 
 
 class ConnectionUtil:
+    MAX_TESTABLE_EVENTS = 100
+
     @staticmethod
     def create_con(config_file='/etc/dp/config.ini'):
         if ConnectionUtil.is_testable_system():

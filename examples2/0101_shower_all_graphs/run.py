@@ -45,6 +45,11 @@ def generate_file(con, start_shift, end_shift, output_file):
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events after applying the filter: %d' % len(filtered))
 
     fill_start_end(filtered)

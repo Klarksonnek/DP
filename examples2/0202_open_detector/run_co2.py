@@ -800,6 +800,13 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str, di
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
+
+    # for travis
+    no_ev_records = no_events_records
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+        no_ev_records = no_events_records[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
@@ -818,7 +825,7 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str, di
     GraphUtil.gen_duration_histogram(tr_events, 'save', ['png'], 'Histogram dlzok vetrania',
                                      [x for x in range(5, 60, 5)], 1)
 
-    training2 = AttributeUtil.additional_training_set(con, table_name, no_events_records, func,
+    training2 = AttributeUtil.additional_training_set(con, table_name, no_ev_records, func,
                                                       row_selector, interval_selector)
     count2 = len(training2)
     logging.info('additional training set contains %d records' % count2)

@@ -196,6 +196,10 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
     filtered = FilterUtil.temperature_out_max(filtered, 15)
     filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
 
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     # tento atribut je validny len pre jedneho, pre Klarku
     if owner == 'klarka':
         filtered = FilterUtil.attribute(filtered, 'window', 'dokoran')

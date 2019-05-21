@@ -272,6 +272,11 @@ def main_test_pt(events_file_training: str, events_file_testing: str, no_event_t
     filtered_training = FilterUtil.temperature_diff(filtered_training, 5, 100)
     filtered_training = FilterUtil.temperature_out_max(filtered_training, 15)
     filtered_training = FilterUtil.humidity(filtered_training, 6, 1.6, 100)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered_training = filtered_training[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events for training after applying the filter: %d' % len(filtered_training))
 
     # aplikovanie filtrov na eventy
@@ -279,6 +284,11 @@ def main_test_pt(events_file_training: str, events_file_testing: str, no_event_t
     filtered_testing = FilterUtil.temperature_diff(filtered_testing, 5, 100)
     filtered_testing = FilterUtil.temperature_out_max(filtered_testing, 15)
     filtered_testing = FilterUtil.humidity(filtered_testing, 6, 1.6, 100)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered_testing = filtered_testing[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events for testing after applying the filter: %d' % len(filtered_testing))
 
     # selector pre data

@@ -92,6 +92,11 @@ if __name__ == '__main__':
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events after applying the filter: %d' % len(filtered))
 
     extensions = ['png']

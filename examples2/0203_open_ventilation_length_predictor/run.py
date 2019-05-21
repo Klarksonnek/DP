@@ -70,6 +70,11 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data

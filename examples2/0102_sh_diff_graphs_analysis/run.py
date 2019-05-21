@@ -204,6 +204,12 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
 
     filtered = FilterUtil.min_max_time_interval(filtered, 1440, 1620)
 
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
+    logging.info('events after applying the filter: %d' % len(filtered))
+
     # data pre generovanie grafov zo senzora 1
     sensor1_events = filtered
     logging.info('event count: %d for senzor 1' % len(sensor1_events))

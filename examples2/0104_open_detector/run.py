@@ -648,6 +648,13 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
     # filtered = FilterUtil.temperature_diff(filtered, 5, 100)
     # filtered = FilterUtil.temperature_out_max(filtered, 15)
     # filtered = FilterUtil.humidity(filtered, 6, 1.6, 100)
+
+    # for travis
+    no_ev_records = no_events_records
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+        no_ev_records = no_events_records[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
@@ -661,7 +668,7 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
     count = len(training)
     logging.info('training set contains %d events (%d records)' % (count / 2, count))
 
-    training2 = AttributeUtil.additional_training_set(con, table_name, no_events_records, func,
+    training2 = AttributeUtil.additional_training_set(con, table_name, no_ev_records, func,
                                                       row_selector, interval_selector)
     count2 = len(training2)
     logging.info('additional training set contains %d records' % count2)
