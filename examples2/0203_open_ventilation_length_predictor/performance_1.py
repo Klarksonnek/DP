@@ -1,5 +1,11 @@
+"""
+
+"""
 import csv
 from dm.DateTimeUtil import DateTimeUtil
+
+__author__ = ''
+__email__ = ''
 
 
 def extract_interval(value, def_min=None, def_max=None):

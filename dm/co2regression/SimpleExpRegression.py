@@ -1,6 +1,12 @@
+"""
+
+"""
 from dm.co2regression.AbstractRegression import AbstractRegression
 from scipy.optimize import curve_fit
 import numpy as np
+
+__author__ = ''
+__email__ = ''
 
 
 class SimpleExpRegression(AbstractRegression):

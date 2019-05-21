@@ -1,6 +1,13 @@
+"""
+
+"""
 import csv
 import logging
 from dm.CSVUtil import CSVUtil
+
+__author__ = ''
+__email__ = ''
+
 
 BLOCK_SIZE = 8192
 

@@ -1,3 +1,6 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
@@ -15,6 +18,9 @@ from dm.co2regression.SimpleExpRegression import SimpleExpRegression
 from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import logging
 import random
+
+__author__ = ''
+__email__ = ''
 
 
 no_events_records = [

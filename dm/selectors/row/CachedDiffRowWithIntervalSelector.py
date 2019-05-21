@@ -1,4 +1,10 @@
+"""
+
+"""
 from dm.selectors.interval.CachedRowWithIntervalSelector import CachedRowWithIntervalSelector
+
+__author__ = ''
+__email__ = ''
 
 
 class CachedDiffRowWithIntervalSelector(CachedRowWithIntervalSelector):

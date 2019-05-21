@@ -1,5 +1,11 @@
+"""
+
+"""
 from dm.coefficients import AbstractLineCoefficients
 from dm.coefficients.DistanceToLine import DistanceToLine
+
+__author__ = ''
+__email__ = ''
 
 
 class MathLineCoefficients(AbstractLineCoefficients):

@@ -1,3 +1,11 @@
+"""
+
+"""
+
+__author__ = ''
+__email__ = ''
+
+
 class FilterUtil:
     @staticmethod
     def only_valid_events(events):

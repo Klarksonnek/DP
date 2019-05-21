@@ -1,7 +1,13 @@
+"""
+
+"""
 from abc import ABC, abstractmethod
 from fractions import Fraction
 from sympy import *
 import numpy as np
+
+__author__ = ''
+__email__ = ''
 
 
 class AbstractLineCoefficients(ABC):

@@ -1,9 +1,15 @@
+"""
+
+"""
 from collections import OrderedDict
 from dm.DateTimeUtil import DateTimeUtil
 from dm.SQLUtil import SQLUtil
 import json
 import logging
 import os
+
+__author__ = ''
+__email__ = ''
 
 
 class Storage:

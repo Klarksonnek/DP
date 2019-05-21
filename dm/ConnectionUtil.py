@@ -1,6 +1,12 @@
+"""
+
+"""
 import configparser
 import mysql.connector
 import os
+
+__author__ = ''
+__email__ = ''
 
 
 class ConnectionUtil:

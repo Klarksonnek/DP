@@ -1,6 +1,12 @@
+"""
+
+"""
 import csv
 import logging
 import os
+
+__author__ = ''
+__email__ = ''
 
 
 class CSVUtil:

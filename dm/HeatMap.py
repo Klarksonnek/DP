@@ -1,6 +1,12 @@
+"""
+
+"""
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+
+__author__ = ''
+__email__ = ''
 
 
 # https://matplotlib.org/gallery/images_contours_and_fields/image_annotated_heatmap.html

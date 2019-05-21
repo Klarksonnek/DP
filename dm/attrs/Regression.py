@@ -1,5 +1,11 @@
+"""
+
+"""
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 import numpy as np
+
+__author__ = ''
+__email__ = ''
 
 
 class Regression(AbstractPrepareAttr):

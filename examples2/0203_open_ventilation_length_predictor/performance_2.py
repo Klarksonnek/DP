@@ -1,4 +1,10 @@
+"""
+
+"""
 import numpy as np
+
+__author__ = ''
+__email__ = ''
 
 
 def gen_mask(size, mask):

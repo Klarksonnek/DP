@@ -1,3 +1,6 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
@@ -11,6 +14,9 @@ from dm.Storage import Storage
 import json
 import logging
 import time
+
+__author__ = ''
+__email__ = ''
 
 
 def delete_rows(con, timestamp_from, timestamp_to, table_name):

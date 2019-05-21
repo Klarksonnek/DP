@@ -1,3 +1,6 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
@@ -16,6 +19,9 @@ from dm.attrs.SecondDifferenceAttr import SecondDifferenceAttr
 from dm.selectors.interval.SimpleIntervalSelector import SimpleIntervalSelector
 from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import logging
+
+__author__ = ''
+__email__ = ''
 
 
 no_events_records = [

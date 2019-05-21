@@ -1,6 +1,12 @@
+"""
+
+"""
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage
 from dm.selectors.row.SimpleCachedRowSelector import SimpleCachedRowSelector
+
+__author__ = ''
+__email__ = ''
 
 
 class CachedRowWithIntervalSelector(SimpleCachedRowSelector):

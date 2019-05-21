@@ -1,4 +1,10 @@
+"""
+
+"""
 from abc import ABC, abstractmethod
+
+__author__ = ''
+__email__ = ''
 
 
 class AbstractRowSelector(ABC):

@@ -1,4 +1,10 @@
+"""
+
+"""
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
+
+__author__ = ''
+__email__ = ''
 
 
 class VentilationLength(AbstractPrepareAttr):

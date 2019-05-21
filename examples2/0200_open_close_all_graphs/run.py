@@ -1,3 +1,6 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
@@ -11,6 +14,9 @@ from dm.co2regression.ExpRegressionWithDelay import ExpRegressionWithDelay
 from dm.co2regression.SimpleExpRegression import SimpleExpRegression
 import logging
 import numpy as np
+
+__author__ = ''
+__email__ = ''
 
 
 def check_attributes(events):

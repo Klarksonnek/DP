@@ -1,4 +1,10 @@
+"""
+
+"""
 from dm.attrs.FirstDifferenceAttrB import FirstDifferenceAttrB
+
+__author__ = ''
+__email__ = ''
 
 
 class SecondDifferenceAttr(FirstDifferenceAttrB):

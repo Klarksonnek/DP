@@ -1,3 +1,11 @@
+"""
+
+"""
+
+__author__ = ''
+__email__ = ''
+
+
 class SQLUtil:
     @staticmethod
     def select_interval_size(table_name: str, start: int, end: int, column: str):

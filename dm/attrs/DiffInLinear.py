@@ -1,5 +1,10 @@
+"""
+
+"""
 from dm.attrs.InLinear import InLinear
 
+__author__ = ''
+__email__ = ''
 
 class DiffInLinear(InLinear):
     def execute(self, timestamp_before, timestamp_after, column, precision,

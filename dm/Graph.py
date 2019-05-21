@@ -1,6 +1,12 @@
+"""
+
+"""
 from dm.DateTimeUtil import DateTimeUtil
 import copy
 import logging
+
+__author__ = ''
+__email__ = ''
 
 
 class Graph:

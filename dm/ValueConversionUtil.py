@@ -1,4 +1,10 @@
+"""
+
+"""
 from math import exp
+
+__author__ = ''
+__email__ = ''
 
 
 class ValueConversionUtil:

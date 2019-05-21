@@ -1,5 +1,11 @@
+"""
+
+"""
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 from sympy import *
+
+__author__ = ''
+__email__ = ''
 
 
 class CO2VentilationLength(AbstractPrepareAttr):

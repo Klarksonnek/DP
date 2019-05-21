@@ -1,5 +1,11 @@
+"""
+
+"""
 import http.client
 import ssl
+
+__author__ = ''
+__email__ = ''
 
 
 class HTTPClient:

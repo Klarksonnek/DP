@@ -1,5 +1,11 @@
+"""
+
+"""
 from dm.ValueUtil import ValueUtil
 from dm.co2regression.SimpleExpRegression import SimpleExpRegression
+
+__author__ = ''
+__email__ = ''
 
 
 class ExpRegressionWithDelay(SimpleExpRegression):
