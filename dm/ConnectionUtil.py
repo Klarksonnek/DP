@@ -1,6 +1,6 @@
 import configparser
-import os
 import mysql.connector
+import os
 
 
 class ConnectionUtil:

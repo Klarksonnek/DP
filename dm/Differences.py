@@ -1,14 +1,7 @@
-from os.path import dirname, abspath, join
-import sys
-import logging
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
+from dm import Storage
 from dm.DateTimeUtil import DateTimeUtil
-from dm.Storage import Storage
 from scipy import stats
+import logging
 
 
 def lin_reg(values, index):

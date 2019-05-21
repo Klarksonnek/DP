@@ -1,16 +1,5 @@
-from os.path import dirname, abspath, join
-import sys
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-from scipy import stats
-from sympy import *
-
-DATA_CACHE = None
-
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
+from scipy import stats
 
 
 class DifferenceBetweenRealLinear(AbstractPrepareAttr):

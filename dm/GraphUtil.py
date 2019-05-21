@@ -1,13 +1,6 @@
-from os.path import dirname, abspath, join
-import sys
+from dm.ValueUtil import ValueUtil
 import matplotlib.pyplot as plt
 import numpy as np
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.ValueUtil import ValueUtil
 
 
 class GraphUtil:

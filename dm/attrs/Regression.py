@@ -1,17 +1,5 @@
-from os.path import dirname, abspath, join
-import sys
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-import numpy as np
-from sympy import *
-
-DATA_CACHE = None
-
-
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
+import numpy as np
 
 
 class Regression(AbstractPrepareAttr):

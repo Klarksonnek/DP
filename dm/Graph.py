@@ -1,6 +1,6 @@
+from dm.DateTimeUtil import DateTimeUtil
 import copy
 import logging
-from dm.DateTimeUtil import DateTimeUtil
 
 
 class Graph:

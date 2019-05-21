@@ -1,15 +1,7 @@
-#!/usr/bin/env bash
-
-from os.path import dirname, abspath, join
-import sys
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-from subprocess import run
-from dm.Performance import Performance
 from dm.ConnectionUtil import ConnectionUtil
+from dm.Performance import Performance
+from os.path import abspath
+from subprocess import run
 
 
 class ExampleRunner:

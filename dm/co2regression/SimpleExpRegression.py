@@ -1,18 +1,6 @@
-from os.path import dirname, abspath, join
-import sys
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-import numpy as np
-from sympy import *
+from dm.co2regression.AbstractRegression import AbstractRegression
 from scipy.optimize import curve_fit
-
-DATA_CACHE = None
-
-
-from dm.co2regression import AbstractRegression
+import numpy as np
 
 
 class SimpleExpRegression(AbstractRegression):

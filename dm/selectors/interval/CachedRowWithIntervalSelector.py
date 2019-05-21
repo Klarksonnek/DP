@@ -1,15 +1,5 @@
-from os.path import dirname, abspath, join
-import sys
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage
-
-DATA_CACHE = None
-
 from dm.selectors.row.SimpleCachedRowSelector import SimpleCachedRowSelector
 
 

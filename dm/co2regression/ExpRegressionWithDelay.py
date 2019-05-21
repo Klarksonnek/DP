@@ -1,17 +1,5 @@
-from os.path import dirname, abspath, join
-import sys
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
 from dm.ValueUtil import ValueUtil
-from sympy import *
-
-DATA_CACHE = None
-
-
-from dm.co2regression import SimpleExpRegression
+from dm.co2regression.SimpleExpRegression import SimpleExpRegression
 
 
 class ExpRegressionWithDelay(SimpleExpRegression):
