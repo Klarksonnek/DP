@@ -8,30 +8,44 @@ from dm.FilterUtil import FilterUtil
 from dm.Storage import Storage
 from dm.ValueUtil import ValueUtil
 from matplotlib import colors
+import copy
 import logging
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def detect_sensor_delays(events, window_size, threshold, value_attr_name,
                          delays_attr_name):
+
+    out = []
     for i in range(0, len(events)):
         event = events[i]
 
         values = event['measured'][value_attr_name]
-        event[delays_attr_name] = 0
-
         event[delays_attr_name] = ValueUtil.detect_sensor_delay(values, window_size, threshold)
 
-    return events
+        if event[delays_attr_name] > 10:
+            out.append(event)
+
+    return out
 
 
 # https://matplotlib.org/gallery/statistics/hist.html
 # https://realpython.com/python-histograms/
 # https://matplotlib.org/1.2.1/examples/pylab_examples/histogram_demo.html
 def gen_graph(data, action, extensions, title):
-    fig, ax = plt.subplots(figsize=(8, 5))
+    data = copy.deepcopy(data)
+    fig, ax = plt.subplots(figsize=(8, 3))
 
-    n, bins, patches = plt.hist(x=data, bins=50, color='#0504aa',
+    x_min = 0
+    x_max = 160
+
+    out = []
+    for row in data:
+        if x_min < row < x_max:
+            out.append(row)
+
+    n, bins, patches = plt.hist(x=out, bins=20, color='#0504aa',
                                 alpha=0.7, rwidth=0.85)
 
     fracs = n / n.max()
@@ -40,20 +54,22 @@ def gen_graph(data, action, extensions, title):
         color = plt.cm.viridis(norm(thisfrac))
         thispatch.set_facecolor(color)
 
+    plt.text(120, 90, r'$\mu=%.1f,\ \sigma=%.1f$' % (np.mean(out), np.std(out)), size=11)
+
     plt.grid(axis='y', alpha=0.5)
     plt.xlabel('Oneskorenie senzora [s]')
     plt.ylabel('Frequency')
-    plt.xlim(0, 200)
-    plt.ylim(0, 50)
-    plt.title(title)
-
-    # plt.text(4, 3, r'$\mu=15, b=3$')
+    plt.xlim(x_min, x_max)
+    plt.ylim(0, 100)
+    # plt.title(title)
 
     # nastavenie, aby sa aj pri malej figsize zobrazoval nazov X osy
     plt.tight_layout()
 
     if 'save' in action:
         filename = '{0}_{1}'.format('histogram_delays', title)
+        print('{0}: {1}'.format(filename, len(out)))
+
         for extension in extensions:
             fig.savefig(filename + '.' + extension, bbox_inches='tight', pad_inches=0)
 
@@ -99,7 +115,7 @@ if __name__ == '__main__':
 
     logging.info('events after applying the filter: %d' % len(filtered))
 
-    extensions = ['png']
+    extensions = ['eps']
     delays(filtered, extensions, ['save'], 11, 15)
     delays(filtered, extensions, ['save'], 16, 10)
     delays(filtered, extensions, ['save'], 16, 15)
