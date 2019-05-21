@@ -1,5 +1,11 @@
+"""
+
+"""
 from dm.Storage import Storage
 from dm.selectors.interval.AbstractIntervalSelector import AbstractIntervalSelector
+
+__author__ = ''
+__email__ = ''
 
 
 class SimpleIntervalSelector(AbstractIntervalSelector):

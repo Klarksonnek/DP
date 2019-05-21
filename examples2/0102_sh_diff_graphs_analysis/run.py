@@ -1,3 +1,6 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
@@ -11,6 +14,9 @@ from dm.Graph import Graph
 from dm.Storage import Storage
 from scipy import stats
 import logging
+
+__author__ = ''
+__email__ = ''
 
 
 def liner_reg_before(event: dict, column: str):

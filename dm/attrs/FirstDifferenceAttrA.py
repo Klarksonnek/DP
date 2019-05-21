@@ -1,4 +1,10 @@
+"""
+
+"""
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
+
+__author__ = ''
+__email__ = ''
 
 
 class FirstDifferenceAttrA(AbstractPrepareAttr):
@@ -60,4 +66,3 @@ class FirstDifferenceAttrA(AbstractPrepareAttr):
             return before + b, after + a
 
         return before, after
-

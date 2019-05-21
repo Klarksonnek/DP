@@ -1,3 +1,6 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
@@ -7,6 +10,9 @@ from dm.CSVUtil import CSVUtil
 from dm.ConnectionUtil import ConnectionUtil
 from subprocess import PIPE, run
 import logging
+
+__author__ = ''
+__email__ = ''
 
 
 def list_of_processes(directory='ventilation_length'):

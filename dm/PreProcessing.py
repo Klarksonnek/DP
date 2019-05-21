@@ -1,7 +1,13 @@
+"""
+
+"""
 from dm.DBUtil import DBUtil
 from dm.DateTimeUtil import DateTimeUtil
 from dm.ValueConversionUtil import ValueConversionUtil as conv
 import logging
+
+__author__ = ''
+__email__ = ''
 
 
 class PreProcessing:

@@ -1,7 +1,13 @@
+"""
+
+"""
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage
 from dm.selectors.row import AbstractRowSelector
 from scipy import stats
+
+__author__ = ''
+__email__ = ''
 
 
 class LinearSimpleCachedRowSelector(AbstractRowSelector):

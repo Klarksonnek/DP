@@ -1,6 +1,12 @@
+"""
+
+"""
 from dm.coefficients.AbstractLineCoefficients import AbstractLineCoefficients
 from dm.coefficients.DistanceToLine import DistanceToLine
 import numpy as np
+
+__author__ = ''
+__email__ = ''
 
 
 class PolyfitLineCoefficients(AbstractLineCoefficients):

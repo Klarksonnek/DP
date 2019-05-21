@@ -1,3 +1,6 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
@@ -11,6 +14,9 @@ import csv
 import datetime as dt
 import logging
 import matplotlib.pyplot as plt
+
+__author__ = ''
+__email__ = ''
 
 
 def simple_graph(filename):

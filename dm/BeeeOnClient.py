@@ -1,6 +1,12 @@
+"""
+
+"""
 from dm.HTTPClient import HTTPClient
 import json
 import logging
+
+__author__ = ''
+__email__ = ''
 
 
 class BeeeOnClient:

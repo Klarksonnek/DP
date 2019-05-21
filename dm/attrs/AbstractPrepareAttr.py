@@ -1,6 +1,12 @@
+"""
+
+"""
 from abc import ABC, abstractmethod
 from functools import reduce
 import math
+
+__author__ = ''
+__email__ = ''
 
 
 # https://www.smartfile.com/blog/abstract-classes-in-python/

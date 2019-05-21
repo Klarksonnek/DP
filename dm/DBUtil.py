@@ -1,7 +1,13 @@
+"""
+
+"""
 from dm.DateTimeUtil import DateTimeUtil
 from mysql.connector.errors import DataError
 from mysql.connector.errors import Error
 import logging
+
+__author__ = ''
+__email__ = ''
 
 
 class DBUtil:

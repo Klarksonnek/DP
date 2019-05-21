@@ -1,5 +1,11 @@
+"""
+
+"""
 from collections import OrderedDict
 from dm.DateTimeUtil import DateTimeUtil
+
+__author__ = ''
+__email__ = ''
 
 
 class ValueUtil:

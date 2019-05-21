@@ -1,7 +1,13 @@
+"""
+
+"""
 from dm import Storage
 from dm.DateTimeUtil import DateTimeUtil
 from scipy import stats
 import logging
+
+__author__ = ''
+__email__ = ''
 
 
 def lin_reg(values, index):

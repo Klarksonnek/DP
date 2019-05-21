@@ -1,8 +1,14 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
 from dm.Performance import Performance
+
+__author__ = ''
+__email__ = ''
 
 
 OUTPUT_FILENAME = '0202_open_detector/out.csv'

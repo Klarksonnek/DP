@@ -1,9 +1,15 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
 from dm.DateTimeUtil import DateTimeUtil
 import csv
+
+__author__ = ''
+__email__ = ''
 
 
 def table(length, length_training, vent_5_min, vent_10_min, true_5, bad_10_true_5, true_10, bad_5_true_10):

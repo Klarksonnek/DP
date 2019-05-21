@@ -1,7 +1,9 @@
+"""
+
+"""
 from os.path import dirname, abspath, join
 import sys
 sys.path.append(abspath(join(dirname(__file__), '../..', '')))
-
 
 from dm.ConnectionUtil import ConnectionUtil
 from dm.FilterUtil import FilterUtil
@@ -12,6 +14,9 @@ import copy
 import logging
 import matplotlib.pyplot as plt
 import numpy as np
+
+__author__ = ''
+__email__ = ''
 
 
 def detect_sensor_delays(events, window_size, threshold, value_attr_name,

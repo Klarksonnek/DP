@@ -1,4 +1,10 @@
+"""
+
+"""
 from dm.coefficients.AbstractLineCoefficients import AbstractLineCoefficients
+
+__author__ = ''
+__email__ = ''
 
 
 class CenterLineCoefficients(AbstractLineCoefficients):

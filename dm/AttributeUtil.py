@@ -1,3 +1,6 @@
+"""
+
+"""
 from collections import OrderedDict
 from dm.CSVUtil import CSVUtil
 from dm.DateTimeUtil import DateTimeUtil
@@ -6,6 +9,10 @@ from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWith
 import csv
 import logging
 import os
+
+__author__ = ''
+__email__ = ''
+
 
 DATA_CACHE = None
 

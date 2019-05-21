@@ -1,5 +1,11 @@
+"""
+
+"""
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 from scipy import stats
+
+__author__ = ''
+__email__ = ''
 
 
 class InLinear(AbstractPrepareAttr):
