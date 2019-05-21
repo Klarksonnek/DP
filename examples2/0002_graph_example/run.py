@@ -1,25 +1,16 @@
-import json
-import logging
+from os.path import dirname, abspath, join
 import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
+
+from dm.CSVUtil import CSVUtil
+from dm.ConnectionUtil import ConnectionUtil
+from dm.DateTimeUtil import DateTimeUtil
+from dm.Storage import Storage
+from matplotlib.dates import DateFormatter
 import csv
 import datetime as dt
-import time
-import os
-from os.path import dirname, abspath, join
-from matplotlib.dates import DateFormatter
-from collections import OrderedDict
+import logging
 import matplotlib.pyplot as plt
-
-CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.DBUtil import DBUtil
-from dm.PreProcessing import PreProcessing
-from dm.DateTimeUtil import DateTimeUtil
-from dm.BeeeOnClient import BeeeOnClient
-from dm.ConnectionUtil import ConnectionUtil
-from dm.Storage import Storage
-from dm.CSVUtil import CSVUtil
 
 
 def simple_graph(filename):
@@ -77,4 +68,4 @@ if __name__ == '__main__':
 
     simple_graph('test.csv')
 
-    plt.show()
+    # plt.show()

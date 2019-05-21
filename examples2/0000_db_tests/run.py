@@ -1,11 +1,9 @@
-import logging
-import sys
 from os.path import dirname, abspath, join
-
-CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
-sys.path.append(CODE_DIR)
+import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
 from dm.ConnectionUtil import ConnectionUtil
+import logging
 
 
 def test_db_connection():

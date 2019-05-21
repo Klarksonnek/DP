@@ -1,15 +1,13 @@
-import logging
-import sys
 from os.path import dirname, abspath, join
+import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.DateTimeUtil import DateTimeUtil
-from dm.Graph import Graph
-from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
+from dm.DateTimeUtil import DateTimeUtil
+from dm.FilterUtil import FilterUtil
+from dm.Graph import Graph
 from dm.Storage import Storage
+import logging
 
 
 def generate_stats(event: dict, owner: str, precision: int=2):

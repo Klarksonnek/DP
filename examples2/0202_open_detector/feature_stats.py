@@ -1,20 +1,16 @@
 from os.path import dirname, abspath, join
 import sys
-import csv
-import time
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
+
 from datetime import timedelta
-import logging
-import argparse
-from shutil import copyfile
-from subprocess import PIPE, run
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
 from dm.ConnectionUtil import ConnectionUtil
 from dm.Performance import Performance
-from dm.Attributes import *
+from shutil import copyfile
+from subprocess import PIPE, run
+import argparse
+import logging
+import os
+import time
 
 
 processes = [

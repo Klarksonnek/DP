@@ -1,16 +1,15 @@
-import logging
-import sys
 from os.path import dirname, abspath, join
+import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.DateTimeUtil import DateTimeUtil
-from dm.Graph import Graph
-from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
+from dm.DateTimeUtil import DateTimeUtil
+from dm.FilterUtil import FilterUtil
+from dm.Graph import Graph
 from dm.Storage import Storage
-from dm.Attributes import *
+from dm.co2regression.ExpRegressionWithDelay import ExpRegressionWithDelay
+from dm.co2regression.SimpleExpRegression import SimpleExpRegression
+import logging
 import numpy as np
 
 

@@ -1,7 +1,5 @@
 import csv
-import json
 from dm.DateTimeUtil import DateTimeUtil
-from dm.Attributes import SimpleExpRegression
 
 
 def extract_interval(value, def_min=None, def_max=None):

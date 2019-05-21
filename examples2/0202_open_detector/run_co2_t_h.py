@@ -1,15 +1,22 @@
 from os.path import dirname, abspath, join
 import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.FilterUtil import FilterUtil
-from dm.ConnectionUtil import ConnectionUtil
-from dm.CSVUtil import CSVUtil
-from dm.Attributes import *
 from dm.GraphUtil import GraphUtil
+from dm.AttributeUtil import AttributeUtil
+from dm.CSVUtil import CSVUtil
+from dm.ConnectionUtil import ConnectionUtil
+from dm.DateTimeUtil import DateTimeUtil
+from dm.FilterUtil import FilterUtil
+from dm.Storage import Storage
+from dm.attrs.DifferenceBetweenRealLinear import DifferenceBetweenRealLinear
+from dm.attrs.FirstDifferenceAttrA import FirstDifferenceAttrA
+from dm.attrs.FirstDifferenceAttrB import FirstDifferenceAttrB
+from dm.attrs.InOutDiff import InOutDiff
+from dm.attrs.GrowthRate import GrowthRate
+from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
+import logging
+import os
 
 
 no_events_records = [
