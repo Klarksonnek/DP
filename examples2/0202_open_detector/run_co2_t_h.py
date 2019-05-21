@@ -1,15 +1,22 @@
 from os.path import dirname, abspath, join
 import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.FilterUtil import FilterUtil
-from dm.ConnectionUtil import ConnectionUtil
-from dm.CSVUtil import CSVUtil
-from dm.Attributes import *
 from dm.GraphUtil import GraphUtil
+from dm.AttributeUtil import AttributeUtil
+from dm.CSVUtil import CSVUtil
+from dm.ConnectionUtil import ConnectionUtil
+from dm.DateTimeUtil import DateTimeUtil
+from dm.FilterUtil import FilterUtil
+from dm.Storage import Storage
+from dm.attrs.DifferenceBetweenRealLinear import DifferenceBetweenRealLinear
+from dm.attrs.FirstDifferenceAttrA import FirstDifferenceAttrA
+from dm.attrs.FirstDifferenceAttrB import FirstDifferenceAttrB
+from dm.attrs.InOutDiff import InOutDiff
+from dm.attrs.GrowthRate import GrowthRate
+from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
+import logging
+import os
 
 
 no_events_records = [
@@ -775,6 +782,13 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str, di
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
+
+    # for travis
+    no_ev_records = no_events_records
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+        no_ev_records = no_events_records[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events after applying the filter: %d' % len(filtered))
 
     # selector pre data
@@ -793,7 +807,7 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str, di
     GraphUtil.gen_duration_histogram(tr_events, 'save', ['png'], 'Histogram dlzok vetrania',
                                      [x for x in range(5, 60, 5)], 1)
 
-    training2 = AttributeUtil.additional_training_set(con, table_name, no_events_records, func,
+    training2 = AttributeUtil.additional_training_set(con, table_name, no_ev_records, func,
                                                       row_selector, interval_selector)
     count2 = len(training2)
     logging.info('additional training set contains %d records' % count2)

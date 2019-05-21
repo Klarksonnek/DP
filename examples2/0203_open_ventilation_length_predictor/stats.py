@@ -1,29 +1,17 @@
 from os.path import dirname, abspath, join
 import sys
-import csv
-import time
-from datetime import timedelta
-import logging
-import argparse
-from shutil import copyfile
-from subprocess import PIPE, run
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
+
 from collections import OrderedDict
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
+from dm.CSVUtil import CSVUtil
 from dm.ConnectionUtil import ConnectionUtil
-from dm.Attributes import *
+from subprocess import PIPE, run
+import logging
 
 
 def list_of_processes(directory='ventilation_length'):
     return [
-       # '//DIP/{0}/DecisionTree'.format(directory),
-       # '//DIP/{0}/DeepLearning'.format(directory),
-       # '//DIP/{0}/SVM'.format(directory),
         '//DIP/{0}/RandomForest'.format(directory),
-       # '//DIP/{0}/NaiveBayes'.format(directory),
         '//DIP/{0}/NeuralNet'.format(directory),
     ]
 

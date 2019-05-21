@@ -1,16 +1,14 @@
 from os.path import dirname, abspath, join
 import sys
-import csv
-import time
-from dm.GraphUtil import GraphUtil
-
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
 from dm.ConnectionUtil import ConnectionUtil
-from dm.Attributes import *
-
+from dm.DateTimeUtil import DateTimeUtil
+from dm.GraphUtil import GraphUtil
+import csv
+import logging
+import os
+import time
 
 processes = [
     '//Local Repository/processes/ventilation_prediction/predictor0',

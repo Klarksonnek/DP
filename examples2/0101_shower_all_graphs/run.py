@@ -1,15 +1,13 @@
-import logging
-import sys
 from os.path import dirname, abspath, join
+import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.DateTimeUtil import DateTimeUtil
-from dm.Graph import Graph
-from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
+from dm.DateTimeUtil import DateTimeUtil
+from dm.FilterUtil import FilterUtil
+from dm.Graph import Graph
 from dm.Storage import Storage
+import logging
 
 
 def fill_start_end(events):
@@ -47,6 +45,11 @@ def generate_file(con, start_shift, end_shift, output_file):
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events after applying the filter: %d' % len(filtered))
 
     fill_start_end(filtered)

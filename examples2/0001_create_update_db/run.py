@@ -1,19 +1,16 @@
-import json
-import logging
-import sys
-import time
-import os
 from os.path import dirname, abspath, join
+import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.DBUtil import DBUtil
-from dm.PreProcessing import PreProcessing
-from dm.DateTimeUtil import DateTimeUtil
 from dm.BeeeOnClient import BeeeOnClient
 from dm.ConnectionUtil import ConnectionUtil
+from dm.DBUtil import DBUtil
+from dm.DateTimeUtil import DateTimeUtil
+from dm.PreProcessing import PreProcessing
 from dm.Storage import Storage
+import json
+import logging
+import time
 
 
 def delete_rows(con, timestamp_from, timestamp_to, table_name):
@@ -796,8 +793,8 @@ def klarka_sprcha_db(con, cls, start, end, devs):
 
 
 def update_shower(con, filename, table_names):
-    pwd = os.path.dirname(__file__)
-    os.path.abspath(os.path.join(pwd, './..', '')) + '/'
+    pwd = dirname(__file__)
+    abspath(join(pwd, './..', '')) + '/'
 
     events = Storage(filename, 0, '').read_meta()
 

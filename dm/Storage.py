@@ -1,9 +1,9 @@
+from collections import OrderedDict
+from dm.DateTimeUtil import DateTimeUtil
+from dm.SQLUtil import SQLUtil
 import json
 import logging
 import os
-from dm.DateTimeUtil import DateTimeUtil
-from dm.SQLUtil import SQLUtil
-from collections import OrderedDict
 
 
 class Storage:

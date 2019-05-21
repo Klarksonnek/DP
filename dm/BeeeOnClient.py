@@ -1,6 +1,6 @@
+from dm.HTTPClient import HTTPClient
 import json
 import logging
-from dm.HTTPClient import HTTPClient
 
 
 class BeeeOnClient:

@@ -1,7 +1,7 @@
-import logging
-from mysql.connector.errors import Error
-from mysql.connector.errors import DataError
 from dm.DateTimeUtil import DateTimeUtil
+from mysql.connector.errors import DataError
+from mysql.connector.errors import Error
+import logging
 
 
 class DBUtil:

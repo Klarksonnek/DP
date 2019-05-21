@@ -1,17 +1,15 @@
 from os.path import dirname, abspath, join
 import sys
-import logging
-import matplotlib.pyplot as plt
-from matplotlib import colors
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
 
-from dm.FilterUtil import FilterUtil
 from dm.ConnectionUtil import ConnectionUtil
+from dm.FilterUtil import FilterUtil
 from dm.Storage import Storage
 from dm.ValueUtil import ValueUtil
+from matplotlib import colors
+import logging
+import matplotlib.pyplot as plt
 
 
 def detect_sensor_delays(events, window_size, threshold, value_attr_name,
@@ -94,6 +92,11 @@ if __name__ == '__main__':
 
     # aplikovanie filtrov na eventy
     filtered = FilterUtil.only_valid_events(d)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events after applying the filter: %d' % len(filtered))
 
     extensions = ['png']

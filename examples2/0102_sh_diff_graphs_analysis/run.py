@@ -1,18 +1,16 @@
-from collections import OrderedDict
-import logging
-import sys
 from os.path import dirname, abspath, join
-from scipy import stats
+import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-CODE_DIR = abspath(join(dirname(__file__), '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.DateTimeUtil import DateTimeUtil
-from dm.Graph import Graph
-from dm.FilterUtil import FilterUtil
-from dm.ConnectionUtil import ConnectionUtil
-from dm.Storage import Storage
+from collections import OrderedDict
 from dm.CSVUtil import CSVUtil
+from dm.ConnectionUtil import ConnectionUtil
+from dm.DateTimeUtil import DateTimeUtil
+from dm.FilterUtil import FilterUtil
+from dm.Graph import Graph
+from dm.Storage import Storage
+from scipy import stats
+import logging
 
 
 def liner_reg_before(event: dict, column: str):
@@ -205,6 +203,12 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
     filtered = FilterUtil.min_timestamp(filtered, min_timestamp)
 
     filtered = FilterUtil.min_max_time_interval(filtered, 1440, 1620)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
+    logging.info('events after applying the filter: %d' % len(filtered))
 
     # data pre generovanie grafov zo senzora 1
     sensor1_events = filtered

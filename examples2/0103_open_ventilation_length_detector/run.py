@@ -1,16 +1,26 @@
 from os.path import dirname, abspath, join
 import sys
+sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
-THIS_DIR = dirname(__file__)
-CODE_DIR = abspath(join(THIS_DIR, '../..', ''))
-sys.path.append(CODE_DIR)
-
-from dm.FilterUtil import FilterUtil
-from dm.ConnectionUtil import ConnectionUtil
+from dm import CSVUtil, Storage, FilterUtil
+from dm.AttributeUtil import AttributeUtil
 from dm.CSVUtil import CSVUtil
-from dm.Attributes import *
+from dm.ConnectionUtil import ConnectionUtil
+from dm.FilterUtil import FilterUtil
+from dm.Storage import Storage
+from dm.attrs.DiffInLinear import DiffInLinear
+from dm.attrs.InLinear import InLinear
+from dm.attrs.InOutDiff import InOutDiff
+from dm.attrs.VentilationLength import VentilationLength
+from dm.coefficients.CenterLineCoefficients import CenterLineCoefficients
+from dm.coefficients.DistanceToLine import DistanceToLine
+from dm.coefficients.PolyfitLineCoefficients import PolyfitLineCoefficients
+from dm.selectors.interval.SimpleIntervalSelector import SimpleIntervalSelector
+from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import copy
+import logging
 import random
+
 
 no_events_records = [
 ]
@@ -262,6 +272,11 @@ def main_test_pt(events_file_training: str, events_file_testing: str, no_event_t
     filtered_training = FilterUtil.temperature_diff(filtered_training, 5, 100)
     filtered_training = FilterUtil.temperature_out_max(filtered_training, 15)
     filtered_training = FilterUtil.humidity(filtered_training, 6, 1.6, 100)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered_training = filtered_training[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events for training after applying the filter: %d' % len(filtered_training))
 
     # aplikovanie filtrov na eventy
@@ -269,6 +284,11 @@ def main_test_pt(events_file_training: str, events_file_testing: str, no_event_t
     filtered_testing = FilterUtil.temperature_diff(filtered_testing, 5, 100)
     filtered_testing = FilterUtil.temperature_out_max(filtered_testing, 15)
     filtered_testing = FilterUtil.humidity(filtered_testing, 6, 1.6, 100)
+
+    # for travis
+    if ConnectionUtil.is_testable_system():
+        filtered_testing = filtered_testing[:ConnectionUtil.MAX_TESTABLE_EVENTS]
+
     logging.info('events for testing after applying the filter: %d' % len(filtered_testing))
 
     # selector pre data

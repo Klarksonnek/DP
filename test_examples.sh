@@ -44,18 +44,26 @@ BIN=python3
 # absolutna cesta do adresara, kde sa nachadza spustany script
 # @see http://mywiki.wooledge.org/BashFAQ/028
 ABS_PATH=${BASH_SOURCE%/*}
-ABS_PATH+="/examples"
+ABS_PATH+="/examples2"
 
 cd ${ABS_PATH}
 
-GIT_BRANCH=`git rev-list --max-count=1 HEAD`
-
-#() konvertuju jeden string to array
-EXAMPLES=`git ls-tree -r ${GIT_BRANCH} --name-only -d`
-
-# odstranenie prvych 3 znakov, ktore reprezentuju aktualny adresar
-EXAMPLES=${EXAMPLES#???}
-EXAMPLES=(${EXAMPLES})
+EXAMPLES=(
+    "0000_db_tests/run.py"
+    "0002_graph_example/run.py"
+    "0100_open_close_all_graphs/run.py"
+    "0101_shower_all_graphs/run.py"
+    "0102_sh_diff_graphs_analysis/run.py"
+    "0103_open_ventilation_length_detector/run.py"
+    "0104_open_detector/run.py"
+    "0105_shower_detector/run.py"
+    "0200_open_close_all_graphs/run.py"
+    "0201_co2_delays_histogram/run.py"
+    "0202_open_detector/run_co2.py"
+    "0202_open_detector/run_co2_t_h.py"
+    "0202_open_detector/run_co2_t_h_out.py"
+    "0203_open_ventilation_length_predictor/run.py"
+)
 
 if [[ `hostname` = *"travis"* ]]; then
 	BIN=python
@@ -63,19 +71,21 @@ fi
 
 for i in "${EXAMPLES[@]}"
 do
-	cd $i
-	echo $i
+	IFS='/' read -a myarray <<< "$i"
+	cd ${myarray[0]}
+
+	echo "description: "${i}
 
 	if [ ${SHOW_DEBUG_MSG} -eq 1 ] ; then
-		`time ${BIN} run.py >> /dev/null`
+		`time ${BIN} ${myarray[1]} >> /dev/null`
 	else
-		`time ${BIN} run.py &> /dev/null`
+		`time ${BIN} ${myarray[1]} &> /dev/null`
 	fi
 
 	check "OK"
 	echo ""
-
 	cd ..
 done
 
+sleep 1
 exit ${EXIT_CODE}
