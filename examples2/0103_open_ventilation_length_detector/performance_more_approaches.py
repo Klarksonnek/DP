@@ -204,5 +204,5 @@ if __name__ == '__main__':
         else:
             logging.error('chyba')
 
-    GraphUtil.gen_grouped_barplot(true_list, true_mod_list, length_list, 'save', 'result.png')
+    GraphUtil.gen_grouped_barplot(true_list, true_mod_list, length_list, 'save', 'result.eps')
 
