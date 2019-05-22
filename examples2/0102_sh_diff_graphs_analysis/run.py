@@ -1,5 +1,4 @@
-"""
-
+""" Generates graph of humidity and temperature together with linearised course (window).
 """
 from os.path import dirname, abspath, join
 import sys
@@ -52,13 +51,13 @@ def linear_reg_after(event: dict, column: str):
 
 def gen_graphs(event: dict, number_output_records: int, attr_name: list,
                lin_reg_attr_name: list):
-    """Vygenerovanie grafu zo senzora cislo jedna.
+    """Generates graph based on data measured using sensor 1.
 
-    :param event: event, ktory sa pouzije pre generovanie statistiky
-    :param number_output_records: pocet bodov, ktore maju byt vo vyslednom grafe
+    :param event: basic information about event
+    :param number_output_records: number of points that are required in graph
     :param attr_name:
     :param lin_reg_attr_name:
-    :return: vysledny grah, ktory moze v sebe obsahovat niekolko grafov
+    :return: graph that can contain several graphs
     """
 
     n = number_output_records
@@ -193,13 +192,13 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
     logging.info('start')
     graphs = Graph("./../../src/graph")
 
-    # stiahnutie dat
+    # download data
     con = ConnectionUtil.create_con()
     storage = Storage(events_file, 0, 'measured_klarka')
     d = storage.load_data(con, start_shift, end_shift, 'temperature_in_celsius')
     logging.info('downloaded events: %d' % len(d))
 
-    # aplikovanie filtrov na eventy
+    # apply filters to events
     filtered = FilterUtil.only_valid_events(d)
     filtered = FilterUtil.temperature_diff(filtered, 5, 100)
     filtered = FilterUtil.temperature_out_max(filtered, 15)
@@ -216,14 +215,14 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
 
     logging.info('events after applying the filter: %d' % len(filtered))
 
-    # data pre generovanie grafov zo senzora 1
+    # data for graph generation measured using sensor 1
     sensor1_events = filtered
     logging.info('event count: %d for senzor 1' % len(sensor1_events))
     linear_reg(sensor1_events, 'rh_in_specific_g_kg', 'linear1_sh')
     linear_reg(sensor1_events, 'rh_in_absolute_g_m3', 'linear1_ah')
     linear_reg(sensor1_events, 'temperature_in_celsius', 'linear1_temp')
 
-    # generovanie grafov pre senzor 1
+    # graph generation - sensor 1
     logging.info('start generating graphs of events from sensor 1')
     graphs_sensor_1 = []
     for event in sensor1_events:
@@ -233,7 +232,7 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
     graphs.gen(graphs_sensor_1, 'sensor1_' + output_filename, 0, 0, global_range=True)
     logging.info('end generating graphs of events from sensor 1')
 
-    # data pre generovanie grafov zo senzora 2
+    # data for graph generation measured using sensor 2
     sensor2_events = filtered
     logging.info('event count: %d for sensor 2' % len(sensor2_events))
 
@@ -248,7 +247,7 @@ def main(events_file: str, start_shift: int, end_shift: int, output_filename: st
 
     humidity_info_csv(sensor2_events, start_shift, end_shift)
 
-    # generovanie grafov pre senzor 2
+    # graph generation - sensor 2
     logging.info('start generating graphs of events from sensor 2')
     graphs_sensor_2 = []
     for event in sensor2_events:

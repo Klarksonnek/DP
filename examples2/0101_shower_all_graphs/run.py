@@ -1,5 +1,4 @@
-"""
-
+""" Generates graph of temperature and humidity with basic information (shower).
 """
 from os.path import dirname, abspath, join
 import sys
@@ -44,12 +43,12 @@ def generate_file(con, start_shift, end_shift, output_file):
 
     graphs = Graph("./../../src/graph")
 
-    # stiahnutie dat
+    # download data
     storage = Storage('examples/events_klarka_shower.json', 0, 'measured_klarka_shower')
     d = storage.load_data(con, start_shift, end_shift, 'temperature_in_celsius')
     logging.info('downloaded events: %d' % len(d))
 
-    # aplikovanie filtrov na eventy
+    # apply filters to events
     filtered = FilterUtil.only_valid_events(d)
 
     # for travis

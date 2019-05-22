@@ -1,5 +1,5 @@
-"""
-
+""" Calculates number of positive differences in given time points, geometric mean,
+    arithmetic mean, variance and standard deviation of differences.
 """
 from abc import ABC, abstractmethod
 from functools import reduce
@@ -92,7 +92,7 @@ class AbstractPrepareAttr(ABC):
 
             count = len(input_values)
 
-            # sqrt can be positive
+            # sqrt can be negative
             is_negative = False
             tmp = reduce((lambda x, y: x * y), vals)
             if tmp < 0:

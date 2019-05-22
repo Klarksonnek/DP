@@ -1,5 +1,4 @@
-"""
-
+""" Calculates differences between real and linearized values of quantity in given time points.
 """
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 from scipy import stats

@@ -1,5 +1,4 @@
-"""
-
+""" Defines functions for working with database.
 """
 from dm.DateTimeUtil import DateTimeUtil
 from mysql.connector.errors import DataError
@@ -90,7 +89,7 @@ class DBUtil:
 
         sql += ')'
 
-        # ak je duplicitny kluc ignoruje sa
+        # if a key is duplicate, it is ignored
         try:
             cur = conn.cursor()
             cur.execute(sql, task)
@@ -147,17 +146,17 @@ class DBUtil:
 
     @staticmethod
     def check_timestamp_order(con, table_name):
-        """Overenie ci db obsahuje databazu, kde nechyba ziadna hodnota
+        """Checks if a given table in database does not contain missing value.
 
-        :param con: spojenie s db
-        :param table_name: nazov tabulky pre overenie
+        :param con: connection with database
+        :param table_name: table name
         """
 
         cur = con.cursor()
 
         rows = DBUtil.rows_count(con, table_name)
         if rows == 0:
-            logging.debug('db is empty')
+            logging.debug('DB is empty')
             return
 
         first_inserted_timestamp = DBUtil.first_inserted_values(con, table_name)[0]

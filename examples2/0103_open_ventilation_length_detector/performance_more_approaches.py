@@ -1,5 +1,4 @@
-"""
-
+""" Calculates standard and modified accuracy.
 """
 from os.path import dirname, abspath, join
 import sys

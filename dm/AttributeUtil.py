@@ -1,5 +1,5 @@
-"""
-
+""" Creates (additional) training set and testing set, keeps number of records in both sets
+    in equilibrium.
 """
 from collections import OrderedDict
 from dm.CSVUtil import CSVUtil
@@ -63,11 +63,11 @@ class AttributeUtil:
     @staticmethod
     def training_data(con, table_name, events, func, row_selector, interval_selector,
                       event_type, print_each=10):
-        """Generovanie trenovacich dat.
+        """Generation of training data.
 
         :param con:
-        :param table_name: nazov tabulky
-        :param events: zoznam eventov
+        :param table_name: table name
+        :param events: event list
         :param func:
         :param row_selector:
         :param interval_selector:
@@ -118,11 +118,11 @@ class AttributeUtil:
     @staticmethod
     def additional_training_set(con, table_name, no_event_records, func, row_selector, interval_selector,
                                 print_each=10):
-        """Dodatocne generovanie trenovacich dat, zo zadanych casov.
+        """Supplementary generation of training data based on given time points.
 
         :param con:
-        :param table_name: nazov tabulky
-        :param no_event_records: zoznam dvojic, z ktorych sa maju vygenerovat atributy
+        :param table_name: table name
+        :param no_event_records: list of pairs for attribute generation
         :param func:
         :param row_selector:
         :param interval_selector:
@@ -159,22 +159,19 @@ class AttributeUtil:
     def testing_data_with_write(con, table_name, start, end, write_each, func, row_selector,
                                 interval_selector, event_type, output_filename,
                                 row_count=2048, log_every_hour=1):
-        """Generovanie testovacich dat s moznostou priebezneho zapisu do suboru.
-
-        Ak bude row_selector nastaveny na None, vytvori sa pre kazdy zapis vlastny selector,
-        ktory sa uvolni po zapise do intervalu.
+        """Generation of testing data, continuous writing to a file is optional.
 
         :param con:
-        :param table_name: nazov tabulky
-        :param start: interval, od ktoreho sa budu generovat testovacie data
-        :param end: interval, do ktoreho sa budu generovat testovacie data
+        :param table_name: table name
+        :param start: interval from which testing data is generated
+        :param end: interval to which testing data is generated
         :param write_each:
         :param func:
         :param row_selector:
         :param interval_selector:
-        :param event_type: typ eventu open alebo close
-        :param output_filename: subor, do ktoreho sa maju ukladat testovacie data
-        :param row_count: pocet riadkov, ktore sa ma naraz zapisat do suboru
+        :param event_type: event type (open or close)
+        :param output_filename: file where data is stored
+        :param row_count: number of rows that are written to a file together
         :return:
         """
 
@@ -208,12 +205,12 @@ class AttributeUtil:
     @staticmethod
     def testing_data(con, table_name, start, end, write_each, func, row_selector, interval_selector,
                      event_type, log_every_hour=3):
-        """Generovanie testovacich dat.
+        """Generation of testing data.
 
         :param con:
-        :param table_name: nazov tabulky
-        :param start: interval, od ktoreho sa budu generovat testovacie data
-        :param end: interval, do ktoreho sa budu generovat testovacie data
+        :param table_name: table name
+        :param start: interval from which testing data is generated
+        :param end: interval to which testing data is generated
         :param write_each:
         :param func:
         :param row_selector:

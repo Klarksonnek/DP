@@ -1,10 +1,11 @@
-"""
-
+""" Calculates difference between quantity values after linearization (selects linearized values
+    at the moment of window opening and closing).
 """
 from dm.attrs.InLinear import InLinear
 
 __author__ = ''
 __email__ = ''
+
 
 class DiffInLinear(InLinear):
     def execute(self, timestamp_before, timestamp_after, column, precision,

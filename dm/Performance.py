@@ -1,5 +1,4 @@
-"""
-
+""" Calculated accuracy using standard approach and accuracy considering a tolerance interval.
 """
 from dm.DateTimeUtil import DateTimeUtil
 import csv
@@ -53,11 +52,11 @@ class Performance:
             elif 'close' in event_types and 'nothing' in event_types:
                 self.__event_type = 'close'
             else:
-                raise ValueError('%s must contains only 2 type of event column')
+                raise ValueError('%s must contains only 2 types of event column')
         elif len(event_types) == 1 and 'nothing' in event_types:
             self.__event_type = 'open'
         else:
-            raise ValueError('%s must contains only 2 type of event column')
+            raise ValueError('%s must contains only 2 types of event column')
 
     def __simple_table(self, res):
         if self.__event_type == 'open':
@@ -117,7 +116,8 @@ class Performance:
             'open_as_true_open': open_as_true_open,
             'nothing_as_true_open': nothing_as_true_open,
         }
-        res['sum'] = res['nothing_as_true_nothing'] + res['open_as_true_nothing'] + res['open_as_true_open'] + res['nothing_as_true_open']
+        res['sum'] = res['nothing_as_true_nothing'] + res['open_as_true_nothing'] + res['open_as_true_open'] \
+                     + res['nothing_as_true_open']
 
         return self.__simple_table(res), wrong_prediction, res
 
@@ -205,6 +205,7 @@ class Performance:
             'open_as_true_open': open_as_true_open,
             'nothing_as_true_open': nothing_as_true_open,
         }
-        res['sum'] = res['nothing_as_true_nothing'] + res['open_as_true_nothing'] + res['open_as_true_open'] + res['nothing_as_true_open']
+        res['sum'] = res['nothing_as_true_nothing'] + res['open_as_true_nothing'] + res['open_as_true_open'] \
+                     + res['nothing_as_true_open']
 
         return self.__simple_table(res), wrong_prediction, res

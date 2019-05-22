@@ -1,5 +1,4 @@
-"""
-
+""" Assigns given ventilation length to a class.
 """
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 
@@ -22,7 +21,7 @@ class VentilationLength(AbstractPrepareAttr):
 
         name = self.attr_name('event', prefix, '', '')
         before = [(name, "'" + value + "'")]
-        #before = [(name, value)]
+        # before = [(name, value)]
         after = []
 
         return before, after

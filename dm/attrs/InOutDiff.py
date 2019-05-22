@@ -1,5 +1,4 @@
-"""
-
+""" Calculates differences between quantity values measured indoor and outdoor.
 """
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 

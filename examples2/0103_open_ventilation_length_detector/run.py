@@ -1,4 +1,5 @@
-"""
+""" Creates training and testing sets for ventilation length prediction,
+    including calculation of distance between a data point and cluster trendline (cluster centroid).
 
 """
 from os.path import dirname, abspath, join
@@ -15,9 +16,9 @@ from dm.attrs.DiffInLinear import DiffInLinear
 from dm.attrs.InLinear import InLinear
 from dm.attrs.InOutDiff import InOutDiff
 from dm.attrs.VentilationLength import VentilationLength
-from dm.coefficients.CenterLineCoefficients import CenterLineCoefficients
+from dm.coefficients.CenterLineSlope import CenterLineSlope
 from dm.coefficients.DistanceToLine import DistanceToLine
-from dm.coefficients.PolyfitLineCoefficients import PolyfitLineCoefficients
+from dm.coefficients.PolyfitLineAvgSlope import PolyfitLineAvgSlope
 from dm.selectors.interval.SimpleIntervalSelector import SimpleIntervalSelector
 from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import copy
@@ -137,7 +138,6 @@ def training_testing_data_with_distance(training, testing, number, strategy, str
                       'InOutDiff_rh_in2_specific_g_kg_diff_before_0', strategy, strategyFlag, one_line, test_points,
                        cluster_boundaries, cluster_boundaries_all)
 
-    # generovanie suborov
     logging.info('start preparing file of training and testing set')
     CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
     CSVUtil.create_csv_file(testing, 'testing' + str(number) + '.csv')
@@ -180,7 +180,6 @@ def training_testing_data_only_distance(training, testing, number, strategy, str
                                                          'min_pl_' + strategyFlag + '25',
                                                          'VentilationLength_event__'])
 
-    # generovanie suborov
     logging.info('start preparing file of training and testing set')
     CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
     CSVUtil.create_csv_file(testing, 'testing' + str(number) + '.csv')
@@ -189,7 +188,6 @@ def training_testing_data_only_distance(training, testing, number, strategy, str
 
 def training_testing_data_without_distance(training, testing, number, strategy, strategyFlag, one_line, test_points,
                                            cluster_boundaries, cluster_boundaries_all):
-    # generovanie suborov
     logging.info('start preparing file of training and testing set')
     CSVUtil.create_csv_file(training, 'training' + str(number) + '.csv')
     CSVUtil.create_csv_file(testing, 'testing' + str(number) + '.csv')
@@ -201,13 +199,13 @@ def main(events_file: str, no_event_time_shift: int):
 
     table_name = 'measured_klarka'
 
-    # stiahnutie dat
+    # download data
     con = ConnectionUtil.create_con()
     storage = Storage(events_file, no_event_time_shift, table_name)
     d = storage.load_data(con, 0, 0, 'rh_in2_specific_g_kg')
     logging.info('downloaded events: %d' % len(d))
 
-    # aplikovanie filtrov na eventy
+    # apply filters to data
     filtered = FilterUtil.only_valid_events(d)
     # filtered = FilterUtil.temperature_diff(filtered, 5, 17.5)
     # filtered = FilterUtil.temperature_diff(filtered, 17.5, 30)
@@ -219,18 +217,17 @@ def main(events_file: str, no_event_time_shift: int):
     # filtered = FilterUtil.temperature_diff(filtered, 20, 25)
     logging.info('events after applying the filter: %d' % len(filtered))
 
-    # selector pre data
     row_selector = CachedDiffRowWithIntervalSelector(con, table_name, 0, 0)
     interval_selector = SimpleIntervalSelector(con, table_name)
 
-    # datova mnozina
+    # data set
     logging.info('start computing of data set')
     data = AttributeUtil.training_data_without_opposite(con, table_name, filtered, func,
                                                         row_selector, interval_selector)
     logging.info('data set contains %d events' % len(data))
     logging.info('end computing of data set')
 
-    # rozdelenie dat na trenovaciu a testovaciu mnozinu
+    # split data set into training and testing set
     random.seed(len(data)//2)
     random.shuffle(data)
     training, testing, minimum = training_testing_data(data, 0.7)
@@ -239,102 +236,20 @@ def main(events_file: str, no_event_time_shift: int):
     logging.info('testing set contains %d records' % len(testing))
 
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 0,
-                                        CenterLineCoefficients(), "trendline_", False, False, False, False)
+                                        CenterLineSlope(), "trendline_", False, False, False, False)
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 1,
-                                        PolyfitLineCoefficients(), "polyfit_", False, False, False, False)
+                                        PolyfitLineAvgSlope(), "polyfit_", False, False, False, False)
     training_testing_data_with_distance(copy.deepcopy(training), copy.deepcopy(testing), 2,
-                                        CenterLineCoefficients(), "center_", False, False, False, False)
+                                        CenterLineSlope(), "center_", False, False, False, False)
     training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 3,
-                                        CenterLineCoefficients(), "trendline_", False, False, False, False)
+                                        CenterLineSlope(), "trendline_", False, False, False, False)
     training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 4,
-                                        PolyfitLineCoefficients(), "polyfit_", False, False, False, False)
+                                        PolyfitLineAvgSlope(), "polyfit_", False, False, False, False)
     training_testing_data_only_distance(copy.deepcopy(training), copy.deepcopy(testing), 5,
-                                        CenterLineCoefficients(), "center_", False, False, False, False)
+                                        CenterLineSlope(), "center_", False, False, False, False)
 
     training_testing_data_without_distance(copy.deepcopy(training), copy.deepcopy(testing), 6,
-                                           CenterLineCoefficients(), "trendline_", False, False, False, False)
-
-    logging.info('end')
-
-
-def main_test_pt(events_file_training: str, events_file_testing: str, no_event_time_shift: int):
-    logging.info('start')
-
-    table_name_training = 'measured_klarka'
-    table_name_testing = 'measured_peto'
-
-    # stiahnutie dat
-    con = ConnectionUtil.create_con()
-    storage_training = Storage(events_file_training, no_event_time_shift, table_name_training)
-    d_training = storage_training.load_data(con, 0, 0, 'rh_in2_specific_g_kg')
-    logging.info('downloaded events for training: %d' % len(d_training))
-
-    storage_testing = Storage(events_file_testing, no_event_time_shift, table_name_testing)
-    d_testing = storage_testing.load_data(con, 0, 0, 'temperature_in_celsius')
-    logging.info('downloaded events for testing: %d' % len(d_testing))
-
-    # aplikovanie filtrov na eventy
-    filtered_training = FilterUtil.only_valid_events(d_training)
-    filtered_training = FilterUtil.temperature_diff(filtered_training, 5, 100)
-    filtered_training = FilterUtil.temperature_out_max(filtered_training, 15)
-    filtered_training = FilterUtil.humidity(filtered_training, 6, 1.6, 100)
-
-    # for travis
-    if ConnectionUtil.is_testable_system():
-        filtered_training = filtered_training[:ConnectionUtil.MAX_TESTABLE_EVENTS]
-
-    logging.info('events for training after applying the filter: %d' % len(filtered_training))
-
-    # aplikovanie filtrov na eventy
-    filtered_testing = FilterUtil.only_valid_events(d_testing)
-    filtered_testing = FilterUtil.temperature_diff(filtered_testing, 5, 100)
-    filtered_testing = FilterUtil.temperature_out_max(filtered_testing, 15)
-    filtered_testing = FilterUtil.humidity(filtered_testing, 6, 1.6, 100)
-
-    # for travis
-    if ConnectionUtil.is_testable_system():
-        filtered_testing = filtered_testing[:ConnectionUtil.MAX_TESTABLE_EVENTS]
-
-    logging.info('events for testing after applying the filter: %d' % len(filtered_testing))
-
-    # selector pre data
-    row_selector_training = CachedDiffRowWithIntervalSelector(con, table_name_training, 0, 0)
-    interval_selector_training = SimpleIntervalSelector(con, table_name_training)
-
-    # selector pre data
-    row_selector_testing = CachedDiffRowWithIntervalSelector(con, table_name_testing, 0, 0)
-    interval_selector_testing = SimpleIntervalSelector(con, table_name_testing)
-
-    # datova mnozina
-    logging.info('start computing of training set')
-    data_training = AttributeUtil.training_data_without_opposite(con, table_name_training, filtered_training,
-                                                                 func,
-                                                                 row_selector_training, interval_selector_training)
-    logging.info('training set contains %d events' % len(data_training))
-    logging.info('end computing of training set')
-
-    # datova mnozina
-    logging.info('start computing of testing set')
-    data_testing = AttributeUtil.training_data_without_opposite(con, table_name_testing, filtered_testing, func,
-                                                                row_selector_testing, interval_selector_testing)
-    logging.info('testing set contains %d events' % len(data_testing))
-    logging.info('end computing of testing set')
-
-    op = DistanceToLine(data_training)
-    data_training = op.exec([5, 10], data_training,
-                            'InLinear_rh_in2_specific_g_kg_before_1200',
-                            'InLinear_rh_in2_specific_g_kg_after_1200',
-                            'InOutDiff_rh_in2_specific_g_kg_diff_before_0')
-    data_testing = op.exec([5, 10], data_testing,
-                           'InLinear_rh_in2_specific_g_kg_before_1200',
-                           'InLinear_rh_in2_specific_g_kg_after_1200',
-                           'InOutDiff_rh_in2_specific_g_kg_diff_before_0')
-
-    # generovanie suborov
-    logging.info('start preparing file of training and testing set')
-    CSVUtil.create_csv_file(data_training, 'training.csv')
-    CSVUtil.create_csv_file(data_testing, 'testing.csv')
-    logging.info('end preparing file of training and testing set')
+                                           CenterLineSlope(), "trendline_", False, False, False, False)
 
     logging.info('end')
 
@@ -344,4 +259,3 @@ if __name__ == '__main__':
                         format='%(asctime)s %(levelname)s %(message)s')
 
     main('examples/events_klarka.json', -500)
-    # main_test_pt('examples/events_klarka.json', 'examples/events_peto.json', -500)

@@ -28,7 +28,7 @@ class Storage:
 
         out = []
         for event in events['events']:
-            # stributy, ktore su spolocne pre vsetky udalosti
+            # atributy, ktore su spolocne pre vsetky udalosti
             attributes = {
                 'e_start': {
                     'readable': event['times']['event_start'],

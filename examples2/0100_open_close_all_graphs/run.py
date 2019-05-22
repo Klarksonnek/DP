@@ -1,5 +1,4 @@
-"""
-
+""" Generates graph of temperature and humidity with basic information (window opening).
 """
 from os.path import dirname, abspath, join
 import sys
@@ -16,13 +15,13 @@ __author__ = ''
 __email__ = ''
 
 
-def generate_stats(event: dict, owner: str, precision: int=2):
-    """Vygenerovanie zakladnych dat ako statistiku
+def generate_info(event: dict, owner: str, precision: int=2):
+    """Generates basic information about given event
 
-    :param event: event, ktory sa pouzije pre generovanie statistiky
-    :param owner: vlastnik senzora (klarka|peto), nazov musi byt rovnaky ako v db
-    :param precision: pocet desatinnych miest, na ktore sa ma vysledok zaokruhlit
-    :return: vysledna statistika
+    :param event: basic information about event
+    :param owner: sensor owner(klarka|peto), name must be the same as in database
+    :param precision: number of decimal places for result rounding
+    :return: basic information about event
     """
 
     measured = event['measured']
@@ -63,12 +62,12 @@ def generate_stats(event: dict, owner: str, precision: int=2):
 
 
 def generate_graphs_sensor_1(event: dict, owner: str, number_output_records: int):
-    """Vygenerovanie grafu zo senzora cislo jedna.
+    """Generates graph based on data measured using sensor 1.
 
-    :param event: event, ktory sa pouzije pre generovanie statistiky
-    :param owner: vlastnik senzora (Klarka alebo Peto), nazov musi byt rovnaky ako v db
-    :param number_output_records: pocet bodov, ktore maju byt vo vyslednom grafe
-    :return: vysledny grah, ktory moze v sebe obsahovat niekolko grafov
+    :param event: basic information about event
+    :param owner: sensor owner(klarka|peto), name must be the same as in database
+    :param number_output_records: number of points that are required in graph
+    :return: graph that can contain several graphs
     """
 
     n = number_output_records
@@ -79,8 +78,8 @@ def generate_graphs_sensor_1(event: dict, owner: str, number_output_records: int
     t += DateTimeUtil.utc_timestamp_to_str(event['e_end']['timestamp'], '%H:%M:%S')
 
     g = {
-        'title': 'Temp in and temp out ' + t,
-        'stat': generate_stats(event, owner),
+        'title': 'Temp in and out ' + t,
+        'stat': generate_info(event, owner),
         'graphs': [
             Graph.db_to_simple_graph(event, 'temperature_in_celsius', 'DarkRed', 'temp in', n),
             Graph.db_to_simple_graph(event, 'temperature_out_celsius', 'LightCoral', 'temp out', n)
@@ -89,7 +88,7 @@ def generate_graphs_sensor_1(event: dict, owner: str, number_output_records: int
     graphs.append(g)
 
     g = {
-        'title': 'Hum in and out ' + t,
+        'title': 'Relative hum in and out ' + t,
         'graphs': [
             Graph.db_to_simple_graph(event, 'rh_in_percentage', 'blue', 'hum in', n),
             Graph.db_to_simple_graph(event, 'rh_out_percentage', 'red', 'hum out', n),
@@ -119,12 +118,12 @@ def generate_graphs_sensor_1(event: dict, owner: str, number_output_records: int
 
 
 def generate_graphs_sensor_2(event: dict, owner: str, number_output_records: int):
-    """Vygenerovanie grafu zo senzora cislo dva.
+    """Generates graph based on data measured using sensor 2.
 
-   :param event: event, ktory sa pouzije pre generovanie statistiky
-   :param owner: vlastnik senzora (klarka|peto), nazov musi byt rovnaky ako v db
-   :param number_output_records: pocet bodov, ktore maju byt vo vyslednom grafe
-   :return: vysledny grah, ktory moze v sebe obsahovat niekolko grafov
+    :param event: basic information about event
+    :param owner: sensor owner(klarka|peto), name must be the same as in database
+    :param number_output_records: number of points that are required in graph
+    :return: graph that can contain several graphs
    """
 
     n = number_output_records
@@ -135,8 +134,8 @@ def generate_graphs_sensor_2(event: dict, owner: str, number_output_records: int
     t += DateTimeUtil.utc_timestamp_to_str(event['e_end']['timestamp'], '%H:%M:%S')
 
     g = {
-        'title': 'Temp in and temp out ' + t,
-        'stat': generate_stats(event, owner),
+        'title': 'Temp in and out ' + t,
+        'stat': generate_info(event, owner),
         'graphs': [
             Graph.db_to_simple_graph(event, 'temperature_in_celsius', 'DarkRed', 'temp in', n),
             Graph.db_to_simple_graph(event, 'temperature_out_celsius', 'LightCoral', 'temp out', n)
@@ -178,25 +177,25 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
          output_filename: str, number_output_records: int):
     """
 
-    :param events_file: cesta k suboru so zoznamom eventov
-    :param owner: vlastnik senzora (klarka|peto), nazov musi byt rovnaky ako v db
-    :param start_shift: posun zaciatku, od kedy sa maju data stahovat
-    :param end_shift: posun konca, do kedy sa maju stahovat data
-    :param output_filename: nazov vysledneho grafu
-    :param number_output_records: pocet bodov, ktore maju byt vo vyslednom grafe
+    :param events_file: path to file containing list of events
+    :param owner: sensor owner(klarka|peto), name must be the same as in database
+    :param start_shift: shift of beginning of data downloading
+    :param end_shift: shift of end of data downloading
+    :param output_filename: filename to store a graph
+    :param number_output_records: number of points that are required in graph
     :return:
     """
 
     logging.info('start: ' + output_filename)
     graphs = Graph("./../../src/graph")
 
-    # stiahnutie dat
+    # download data
     con = ConnectionUtil.create_con()
     storage = Storage(events_file, 0, 'measured_' + owner)
     d = storage.load_data(con, start_shift, end_shift, 'temperature_in_celsius')
     logging.info('downloaded events: %d' % len(d))
 
-    # aplikovanie filtrov na eventy
+    # apply filters to downloaded data
     filtered = FilterUtil.only_valid_events(d)
     filtered = FilterUtil.temperature_diff(filtered, 5, 100)
     filtered = FilterUtil.temperature_out_max(filtered, 15)
@@ -206,22 +205,21 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
     if ConnectionUtil.is_testable_system():
         filtered = filtered[:ConnectionUtil.MAX_TESTABLE_EVENTS]
 
-    # tento atribut je validny len pre jedneho, pre Klarku
     if owner == 'klarka':
         filtered = FilterUtil.attribute(filtered, 'window', 'dokoran')
 
     logging.info('events after applying the filter: %d' % len(filtered))
 
-    # data pre generovanie grafov zo senzora 1
+    # data for graph generation measured using sensor 1
     sensor1_events = filtered
     logging.info('event count: %d for senzor 1' % len(sensor1_events))
 
-    # data pre generovanie grafov zo senzora 2
+    # data for graph generation measured using sensor 2
     sensor2 = ['rh_in2_percentage', 'rh_in2_specific_g_kg', 'rh_in2_absolute_g_m3']
     sensor2_events = FilterUtil.measured_values_not_empty(filtered, sensor2)
     logging.info('event count: %d for senzor 2' % len(sensor2_events))
 
-    # generovanie grafov pre senzor jedna
+    # graph generation - sensor 1
     logging.info('start generating graphs of events from sensor 1')
     graphs_sensor_1 = []
     for event in sensor1_events:
@@ -230,7 +228,7 @@ def main(events_file: str, owner: str, start_shift: int, end_shift: int,
     graphs.gen(graphs_sensor_1, 'sensor1_' + output_filename, 0, 0)
     logging.info('end generating graphs of events from sensor 1')
 
-    # generovanie grafov pre senzor dva
+    # graph generation - sensor 2
     logging.info('start generating graphs of events from sensor 2')
     graphs_sensor_2 = []
     for event in sensor2_events:

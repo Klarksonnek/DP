@@ -1,5 +1,6 @@
-"""
-
+""" Finds clusters of data using indoor specific humidity decrease and difference between indoor and
+    outdoor humidity and calculates distance between point and cluster centroid and distance of point
+    to cluster trendline.
 """
 from collections import OrderedDict
 from scipy.spatial import ConvexHull
@@ -29,17 +30,6 @@ class DistanceToLine:
 
     def humidity_clusters(self, training, col1, col2, col3, intervals, strategy, strategyFlag, one_line,
                           cluster_boundaries, cluster_boundaries_all):
-        """
-
-        :param training:
-        :param col1:
-        :param col2:
-        :param col3:
-        :param intervals:
-        :param strategy:
-        :return:
-        """
-
         # colors
         if cluster_boundaries_all:
             colors_trendline = [(0.854, 0.035, 0.027), (0.101, 0.454, 0.125), (0, 0.545, 0.545), (0.545, 0, 0.545), (0, 0, 1)]
@@ -75,6 +65,7 @@ class DistanceToLine:
             coeffs = np.polyfit(sh_decrease, sh_diff, 1)
 
             if one_line and strategyFlag == 'polyfit_':
+                # plot all lines used to calculate average line
                 for j in range(0, len(DistanceToLine.ventilation_length_events(training, interval * 60))):
                     b = -sh_decrease[j]
                     a = sh_diff[j]
@@ -89,7 +80,6 @@ class DistanceToLine:
             y = direction * max(sh_decrease)
 
             if strategyFlag == "polyfit_" or strategyFlag == "center_":
-                # convert the line equation
                 (a, b, c) = strategy.convert_line([direction, 0])
             if strategyFlag == "trendline_":
                 (a, b, c) = strategy.convert_line(coeffs)
@@ -108,7 +98,6 @@ class DistanceToLine:
             # evaluate polynom
             yFitted = np.polyval(coeffs, sh_decrease)
 
-            # plot graphs
             # plot points
             plt.scatter(sh_decrease, sh_diff, marker='x', color=colors_trendline[i], zorder=3)
 
@@ -118,6 +107,7 @@ class DistanceToLine:
                          markeredgewidth=2, zorder=3)
 
                 if strategyFlag == 'polyfit_':
+                    # plot average trendline
                     plt.plot([0, max(sh_decrease)], [0, y], color=colors_trendline[i], label=str(interval) + ' min')
                     plt.xlim(0.0, 4.0)
                     plt.ylim(0.0, 7.0)
@@ -127,6 +117,7 @@ class DistanceToLine:
                         return out_point_line, out_point_point, fig
 
                 if strategyFlag == 'center_':
+                    # plot trendline passing through cluster centroid
                     plt.plot([0, max(sh_decrease)], [0, y], color='black', label=str(interval) + ' min')
                     plt.xlim(0.0, 4.0)
                     plt.ylim(0.0, 6.0)
