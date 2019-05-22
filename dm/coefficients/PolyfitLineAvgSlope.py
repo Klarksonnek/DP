@@ -1,5 +1,4 @@
-"""
-
+""" Calculates average slope of multiple lines.
 """
 from dm.coefficients.AbstractLineCoefficients import AbstractLineCoefficients
 from dm.coefficients.DistanceToLine import DistanceToLine
@@ -9,7 +8,7 @@ __author__ = ''
 __email__ = ''
 
 
-class PolyfitLineCoefficients(AbstractLineCoefficients):
+class PolyfitLineAvgSlope(AbstractLineCoefficients):
     def calculate(self, data, interval, col1, col2, col3, point_x, point_y):
         direction = []
         for row in DistanceToLine.ventilation_length_events(data, interval):

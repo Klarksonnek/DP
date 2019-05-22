@@ -1,5 +1,4 @@
-"""
-
+""" Creates tables in database, updates or deletes records in tables.
 """
 from os.path import dirname, abspath, join
 import sys
@@ -696,8 +695,7 @@ def create_update_table(con, clients, start, end, devices, tables):
     last_inserted_table = tables[0][0]
     str_tables = ''
 
-    # odstranenie posledneho intervalu, ktory mohol obsahovat chybajuce hodnoty
-    # z dovodu, ze tento interval este neexistoval
+    # delete last interval where missing values could appear because some values in this interval did not exist
     delete_step = 1 * step_size
 
     for table in tables:
@@ -722,10 +720,9 @@ def create_update_table(con, clients, start, end, devices, tables):
     for interval_from in range(start - delete_step, end, step_size):
         interval_to = interval_from + step_size
 
-        # ak sa v databaze nachadzaju nejake data a timestamp posledne vlozeneho casu,
-        # je vacsi ako aktualne spracovavany koniec intervalu, tak sa spracovanie
-        # tohto intervalu preskoci, inak sa zacne od tohto timestampu a tabulka sa doplna
-        # o nove udaje
+        # if some data is stored in database and timestamp of last inserted event is
+        # greater than currently processed interval, the interval is not processed,
+        # otherwise, a table is updated using new data from this timestamp
         if total_min is not None:
             if interval_to < total_min:
                 # skip inserted interval
@@ -758,7 +755,7 @@ def create_update_table(con, clients, start, end, devices, tables):
 
 
 def peto_intrak_db(con, cls, start, end, devs):
-    # v tomto case doslo k zmene DeviceID Protronix CO2 senzora
+    # date when Device ID of Protronix CO2 sensor was changed
     middle = int(DateTimeUtil.local_time_str_to_utc('2019/02/20 03:00:00').timestamp())
 
     tables = [
@@ -779,7 +776,7 @@ def klarka_izba_db(con, cls, start, end, devs):
     ]
     create_update_table(con, cls, start, end, devs['klarka'], tables)
 
-    # druha DB obsahuje od urciteho datumu vonkajsi IQ Home senzor
+    # the second database contains outdoor IQ Home sensor from this date
     middle = int(DateTimeUtil.local_time_str_to_utc('2019/02/19 12:00:00').timestamp())
     tables = [
         ('measured_klarka_iqhome', 1),

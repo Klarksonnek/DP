@@ -1,5 +1,4 @@
-"""
-
+""" Generates histogram, stacked barplot and grouped barplot.
 """
 from dm.ValueUtil import ValueUtil
 import matplotlib.pyplot as plt
@@ -13,15 +12,15 @@ class GraphUtil:
     @staticmethod
     def gen_duration_histogram(events, action, extensions, title,
                                intervals, threshold):
-        """ Vygenerovanie histogramu dlzok vetrania.
+        """Generates histogram of ventilation lengths.
 
-        :param events: zoznam eventov
-        :param action: show|save - pre ulozenie alebo zobrazenie histogramu
-        :param extensions: zoznam pripon v pripade, ze sa ma subor ulozit
-        :param title: nazov grafu
-        :param intervals: zoznam intervalov v minutach, pre ktore sa ma pocitat pocet hodnot
-        :param threshold: hodnota, ktora sa pripocita/odpocita od intervalu a vytvori sa rozsah hodnot
-                          pre dany stlpec v histograme
+        :param events: event list
+        :param action: show|save - for histogram showing or saving
+        :param extensions: list of extensions used in case of action save
+        :param title: graph title
+        :param intervals: list of intervals in minutes for which number of events is calculated
+        :param threshold: value that is added to the interval in minutes or is subtracted from the interval to create
+                          value interval for a given column in a histogram
         :return:
         """
         durations = ValueUtil.events_duration(events, None)
@@ -55,7 +54,6 @@ class GraphUtil:
         text += 'eventy, ktore vyhovuju intervalom: {0}'.format(sum(y))
         plt.text(len(x) * 0.5, max(y)*0.8, text)
 
-        # nastavenie, aby sa aj pri malej figsize zobrazoval nazov X osy
         plt.tight_layout()
 
         if 'save' in action:
@@ -67,7 +65,7 @@ class GraphUtil:
             plt.show()
 
     @staticmethod
-    def gen_stacked_bar_graph(first_col, second_col, third_col):
+    def gen_stacked_barplot(first_col, second_col, third_col):
         ind = np.arange(3)
         width = 0.35
         y_offset = np.zeros(3)
@@ -117,7 +115,7 @@ class GraphUtil:
         plt.ylabel('accuracy [%]', fontweight='bold')
         plt.xticks([r + barWidth for r in range(len(bars1))], ['all', 'calculated', 'measured'])
 
-        #plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.4))
+        # plt.legend(loc='lower center', bbox_to_anchor=(0.5, -0.4))
         plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13),
                   fancybox=True,  ncol=2)
         plt.grid(zorder=0)

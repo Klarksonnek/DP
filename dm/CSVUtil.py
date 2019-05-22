@@ -1,5 +1,4 @@
-"""
-
+""" Creates a csv file.
 """
 import csv
 import logging

@@ -1,5 +1,4 @@
-"""
-
+""" Tests connection to database.
 """
 from os.path import dirname, abspath, join
 import sys

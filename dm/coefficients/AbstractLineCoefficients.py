@@ -1,5 +1,4 @@
-"""
-
+""" Gets coefficients of equation in form ax + by + c = 0 from equation in form y = kx + q.
 """
 from abc import ABC, abstractmethod
 from fractions import Fraction
@@ -25,7 +24,7 @@ class AbstractLineCoefficients(ABC):
         return self._convert_line_to_general(coeffs)
 
     def _convert_line_to_general(self, coeffs):
-        """ Converts line equation y = kx + q to the form ax + by + c = 0 (general form)
+        """ Converts line equation y = kx + q to the form ax + by + c = 0 (general form).
         """
 
         # represents coeffs as fractions
@@ -40,7 +39,7 @@ class AbstractLineCoefficients(ABC):
         # find LCM
         L = np.lcm(d1, d2)
 
-        # symbolic variables
+        # symbolic variable
         x = var('x')
 
         y1 = (n1 * x) / d1
@@ -66,7 +65,7 @@ class AbstractLineCoefficients(ABC):
         n1 = tmp.numerator
         d1 = tmp.denominator
 
-        # symbolic variables
+        # symbolic variable
         x = var('x')
 
         y1 = (n1 * x) / d1

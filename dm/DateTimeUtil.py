@@ -1,5 +1,4 @@
-"""
-
+""" Converts various time formats (one to another).
 """
 import datetime
 import pytz

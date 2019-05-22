@@ -1,5 +1,4 @@
-"""
-
+""" Calculates quantity values after linearization.
 """
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 from scipy import stats

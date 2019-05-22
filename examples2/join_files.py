@@ -1,5 +1,4 @@
-"""
-
+""" Joins more files into one file.
 """
 import csv
 import logging

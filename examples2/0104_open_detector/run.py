@@ -1,5 +1,4 @@
-"""
-
+""" Creates training and testing set for window opening detector.
 """
 from os.path import dirname, abspath, join
 import sys
@@ -493,7 +492,6 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
             be, af = op.standard_deviation(column, precision, b, a, pr)
             attrs += be + af
 
-            # linearni posun
             op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=intervals_before,
@@ -534,7 +532,6 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
                               prefix='')
             attrs += a + b
 
-            # x^2 posun
             op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x * x for x in range(4, 25, 1)],
@@ -575,7 +572,6 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
                               prefix='_x2')
             attrs += a + b
 
-            # x^3 posun
             op = FirstDifferenceAttrB(con, table_name, row_selector, interval_selector)
             a, b = op.execute(timestamp=timestamp, column=column, precision=precision,
                               intervals_before=[x * x * x for x in range(3, 9, 1)],
@@ -643,13 +639,13 @@ def func(con, table_name, timestamp, row_selector, interval_selector, end=None):
 def training_set(events_file: str, no_event_time_shift: int, table_name: str):
     logging.info('start')
 
-    # stiahnutie dat
+    # download data
     con = ConnectionUtil.create_con()
     storage = Storage(events_file, no_event_time_shift, table_name)
     d = storage.load_data(con, 0, 0, 'rh_in2_specific_g_kg')
     logging.info('downloaded events: %d' % len(d))
 
-    # aplikovanie filtrov na eventy
+    # apply filters to data
     filtered = FilterUtil.only_valid_events(d)
     # filtered = FilterUtil.temperature_diff(filtered, 5, 100)
     # filtered = FilterUtil.temperature_out_max(filtered, 15)
@@ -663,11 +659,9 @@ def training_set(events_file: str, no_event_time_shift: int, table_name: str):
 
     logging.info('events after applying the filter: %d' % len(filtered))
 
-    # selector pre data
     row_selector = CachedDiffRowWithIntervalSelector(con, table_name, 0, 0)
     interval_selector = SimpleIntervalSelector(con, table_name)
 
-    # trenovacia mnozina
     logging.info('start computing of training set')
     training, tr_events = AttributeUtil.training_data(con, table_name, filtered, func,
                                                       row_selector, interval_selector, 'open')
@@ -728,7 +722,7 @@ def generic_testing(directory):
     start = int(DateTimeUtil.local_time_str_to_utc('2019/04/01 18:00:00').timestamp())
     testing_set('measured_martin', start, end, '{0}/gt_martin.csv'.format(directory))
 
-    # Peto , februar, marec, april
+    # Peto
     start = int(DateTimeUtil.local_time_str_to_utc('2018/10/07 18:00:00').timestamp())
     testing_set('measured_peto', start, end, '{0}/gt_peto.csv'.format(directory))
 
@@ -741,7 +735,6 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(levelname)s %(message)s')
 
-    # tabulka s CO2, ktora neprekroci hranicu 2000ppm
     table_name = 'measured_klarka'
 
     training_set('examples/events_klarka.json', -500, table_name)
