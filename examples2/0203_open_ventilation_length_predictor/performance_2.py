@@ -2,8 +2,8 @@
 """
 import numpy as np
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 def gen_mask(size, mask):

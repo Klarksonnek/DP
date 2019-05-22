@@ -14,8 +14,8 @@ import datetime as dt
 import logging
 import matplotlib.pyplot as plt
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 def simple_graph(filename):

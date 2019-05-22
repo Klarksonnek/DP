@@ -4,8 +4,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 # https://matplotlib.org/gallery/images_contours_and_fields/image_annotated_heatmap.html

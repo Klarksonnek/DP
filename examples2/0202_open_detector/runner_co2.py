@@ -3,8 +3,8 @@
 """
 from dm.ExampleRunner import ExampleRunner as er
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 if __name__ == '__main__':

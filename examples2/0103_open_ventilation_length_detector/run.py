@@ -26,8 +26,8 @@ import copy
 import logging
 import random
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 no_events_records = [

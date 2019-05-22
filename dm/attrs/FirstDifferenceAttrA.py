@@ -2,8 +2,8 @@
 """
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 class FirstDifferenceAttrA(AbstractPrepareAttr):

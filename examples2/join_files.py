@@ -4,8 +4,8 @@ import csv
 import logging
 from dm.CSVUtil import CSVUtil
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 BLOCK_SIZE = 8192

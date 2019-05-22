@@ -3,8 +3,8 @@
 from dm.coefficients import AbstractLineCoefficients
 from dm.coefficients.DistanceToLine import DistanceToLine
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 class MathLineAvgSlope(AbstractLineCoefficients):

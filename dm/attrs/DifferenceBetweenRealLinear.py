@@ -3,8 +3,8 @@
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 from scipy import stats
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 class DifferenceBetweenRealLinear(AbstractPrepareAttr):

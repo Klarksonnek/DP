@@ -14,8 +14,8 @@ import logging
 import matplotlib.pyplot as plt
 import numpy as np
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 def detect_sensor_delays(events, window_size, threshold, value_attr_name,

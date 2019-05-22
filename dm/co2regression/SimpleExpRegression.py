@@ -6,8 +6,8 @@ from dm.co2regression.AbstractRegression import AbstractRegression
 from scipy.optimize import curve_fit
 import numpy as np
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 class SimpleExpRegression(AbstractRegression):

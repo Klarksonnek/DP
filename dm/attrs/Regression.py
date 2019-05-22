@@ -3,8 +3,8 @@
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 import numpy as np
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 class Regression(AbstractPrepareAttr):

@@ -6,8 +6,8 @@ sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 
 from dm.Performance import Performance
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 OUTPUT_FILENAME = '0202_open_detector/out.csv'

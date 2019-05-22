@@ -5,8 +5,8 @@ from dm.DateTimeUtil import DateTimeUtil
 from scipy import stats
 import logging
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 def lin_reg(values, index):

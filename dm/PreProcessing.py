@@ -5,8 +5,8 @@ from dm.DateTimeUtil import DateTimeUtil
 from dm.ValueConversionUtil import ValueConversionUtil as conv
 import logging
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 class PreProcessing:

@@ -18,8 +18,8 @@ from dm.selectors.interval.CachedDiffRowWithIntervalSelector import CachedDiffRo
 import logging
 import random
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 no_events_records = [

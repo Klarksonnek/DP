@@ -15,11 +15,11 @@ from dm.attrs.FirstDifferenceAttrA import FirstDifferenceAttrA
 from dm.attrs.FirstDifferenceAttrB import FirstDifferenceAttrB
 from dm.attrs.SecondDifferenceAttr import SecondDifferenceAttr
 from dm.selectors.interval.SimpleIntervalSelector import SimpleIntervalSelector
-from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
+from dm.selectors.interval.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import logging
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 no_events_records = [

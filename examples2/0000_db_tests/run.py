@@ -7,8 +7,8 @@ sys.path.append(abspath(join(dirname(__file__), '../..', '')))
 from dm.ConnectionUtil import ConnectionUtil
 import logging
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 def test_db_connection():

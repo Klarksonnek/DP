@@ -14,8 +14,8 @@ import json
 import logging
 import time
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 def delete_rows(con, timestamp_from, timestamp_to, table_name):

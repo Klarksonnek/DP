@@ -5,8 +5,8 @@ Calculates regression when the CO2 decrease is noticed using threshold in window
 from dm.ValueUtil import ValueUtil
 from dm.co2regression.SimpleExpRegression import SimpleExpRegression
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 class ExpRegressionWithDelay(SimpleExpRegression):

@@ -14,8 +14,8 @@ from dm.Storage import Storage
 from scipy import stats
 import logging
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 def liner_reg_before(event: dict, column: str):

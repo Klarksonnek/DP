@@ -7,8 +7,8 @@ from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage
 from dm.selectors.row.SimpleCachedRowSelector import SimpleCachedRowSelector
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 class CachedRowWithIntervalSelector(SimpleCachedRowSelector):

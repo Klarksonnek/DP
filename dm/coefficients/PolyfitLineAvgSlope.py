@@ -4,8 +4,8 @@ from dm.coefficients.AbstractLineCoefficients import AbstractLineCoefficients
 from dm.coefficients.DistanceToLine import DistanceToLine
 import numpy as np
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Klára Nečasová'
+__email__ = 'xnecas24@stud.fit.vutbr.cz'
 
 
 class PolyfitLineAvgSlope(AbstractLineCoefficients):

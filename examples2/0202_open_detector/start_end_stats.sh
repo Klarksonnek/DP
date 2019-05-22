@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# 'Peter Tisovčík'
+# 'xtisov00@stud.fit.vutbr.cz'
+
 ##
 
 echo "co2 - start"

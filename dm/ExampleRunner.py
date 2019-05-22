@@ -5,8 +5,8 @@ from dm.Performance import Performance
 from os.path import abspath
 from subprocess import run
 
-__author__ = ''
-__email__ = ''
+__author__ = 'Peter Tisovčík'
+__email__ = 'xtisov00@stud.fit.vutbr.cz'
 
 
 class ExampleRunner:
