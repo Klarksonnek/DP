@@ -1,5 +1,6 @@
-"""
+"""Simple interval selector from database.
 
+Selector can select given intervals of values from a given table without cache.
 """
 from dm.Storage import Storage
 from dm.selectors.interval.AbstractIntervalSelector import AbstractIntervalSelector

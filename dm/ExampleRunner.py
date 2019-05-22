@@ -1,5 +1,4 @@
-"""
-
+"""Runs detector or more detectors.
 """
 from dm.ConnectionUtil import ConnectionUtil
 from dm.Performance import Performance

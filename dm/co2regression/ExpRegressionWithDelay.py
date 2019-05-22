@@ -1,5 +1,6 @@
-"""
+"""Calculation of CO2 regression using outdoor CO2, room volume, window_size and threshold.
 
+Calculates regression when the CO2 decrease is noticed using threshold in window.
 """
 from dm.ValueUtil import ValueUtil
 from dm.co2regression.SimpleExpRegression import SimpleExpRegression

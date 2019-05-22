@@ -1,5 +1,6 @@
-"""
+"""Abstract class for one value selector.
 
+Selector can select value based on given time from a table.
 """
 from abc import ABC, abstractmethod
 

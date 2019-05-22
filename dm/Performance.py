@@ -1,4 +1,4 @@
-""" Calculated accuracy using standard approach and accuracy considering a tolerance interval.
+"""Calculated accuracy using standard approach and accuracy considering a tolerance interval.
 """
 from dm.DateTimeUtil import DateTimeUtil
 import csv

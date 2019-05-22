@@ -1,5 +1,6 @@
-"""
+"""Abstract class for interval selector.
 
+Selector can select given intervals of values from a given table.
 """
 from abc import ABC, abstractmethod
 

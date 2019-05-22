@@ -1,4 +1,4 @@
-""""
+""""Script for evaluation of window opening detectors.
 """
 from os.path import dirname, abspath, join
 import sys

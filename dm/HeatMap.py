@@ -1,5 +1,4 @@
-"""
-
+"""Graph representing heat map.
 """
 import matplotlib
 import matplotlib.pyplot as plt

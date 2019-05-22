@@ -1,5 +1,4 @@
-"""
-
+"""Utils for detection of simple events.
 """
 from collections import OrderedDict
 from dm.DateTimeUtil import DateTimeUtil

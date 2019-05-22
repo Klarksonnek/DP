@@ -1,5 +1,4 @@
-"""
-
+"""CO2 ventilation length predictor.
 """
 from os.path import dirname, abspath, join
 import sys
@@ -15,7 +14,7 @@ from dm.attrs.CO2VentilationLength import CO2VentilationLength
 from dm.attrs.InOutDiff import InOutDiff
 from dm.attrs.Regression import Regression
 from dm.co2regression.SimpleExpRegression import SimpleExpRegression
-from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
+from dm.selectors.interval.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import logging
 import random
 

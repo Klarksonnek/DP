@@ -1,4 +1,4 @@
-""" Generates graph of humidity and temperature together with linearised course (window).
+"""Generates graph of humidity and temperature together with linearised course (window).
 """
 from os.path import dirname, abspath, join
 import sys

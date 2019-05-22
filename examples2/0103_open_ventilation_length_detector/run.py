@@ -1,6 +1,7 @@
-""" Creates training and testing sets for ventilation length prediction,
-    including calculation of distance between a data point and cluster trendline (cluster centroid).
+"""Support for ventilation length prediction.
 
+Creates training and testing sets for ventilation length prediction,
+including calculation of distance between a data point and cluster trendline (cluster centroid).
 """
 from os.path import dirname, abspath, join
 import sys
@@ -20,7 +21,7 @@ from dm.coefficients.CenterLineSlope import CenterLineSlope
 from dm.coefficients.DistanceToLine import DistanceToLine
 from dm.coefficients.PolyfitLineAvgSlope import PolyfitLineAvgSlope
 from dm.selectors.interval.SimpleIntervalSelector import SimpleIntervalSelector
-from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
+from dm.selectors.interval.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import copy
 import logging
 import random

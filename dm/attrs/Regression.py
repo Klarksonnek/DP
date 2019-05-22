@@ -1,5 +1,4 @@
-"""
-
+"""Calculates exp regression from given CO2 values.
 """
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 import numpy as np

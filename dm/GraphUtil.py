@@ -1,4 +1,4 @@
-""" Generates histogram, stacked barplot and grouped barplot.
+"""Generates histogram, stacked barplot and grouped barplot.
 """
 from dm.ValueUtil import ValueUtil
 import matplotlib.pyplot as plt

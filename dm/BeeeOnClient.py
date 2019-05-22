@@ -1,5 +1,4 @@
-"""
-
+"""REST API client for communication with BeeeOn server.
 """
 from dm.HTTPClient import HTTPClient
 import json

@@ -1,4 +1,4 @@
-""" Creates training and testing set for showering detector.
+"""Creates training and testing set for showering detector.
 """
 from os.path import dirname, abspath, join
 import sys

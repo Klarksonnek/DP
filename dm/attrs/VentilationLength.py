@@ -1,4 +1,4 @@
-""" Assigns given ventilation length to a class.
+"""Assigns given ventilation length to a class.
 """
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 

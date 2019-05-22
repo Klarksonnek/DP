@@ -1,5 +1,4 @@
-"""
-
+"""REST api client with Bearer authentization.
 """
 import http.client
 import ssl

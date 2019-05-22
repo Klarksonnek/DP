@@ -1,4 +1,4 @@
-""" Defines various filters to select data that meets a required condition.
+"""Defines various filters to select data that meets a required condition.
 """
 
 __author__ = ''

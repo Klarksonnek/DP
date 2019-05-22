@@ -1,5 +1,4 @@
-"""
-
+"""Utils to create connections to db, REST client and utils for environment setting.
 """
 import configparser
 import mysql.connector

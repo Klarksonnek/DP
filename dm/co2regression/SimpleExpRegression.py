@@ -1,5 +1,6 @@
-"""
+"""Calculation of CO2 regression using outdoor CO2, room volume.
 
+Calculates regression when the window is open.
 """
 from dm.co2regression.AbstractRegression import AbstractRegression
 from scipy.optimize import curve_fit

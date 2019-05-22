@@ -1,4 +1,4 @@
-""" Calculates slope of a line passing through a point.
+"""Calculates slope of a line passing through a point.
 """
 from dm.coefficients.AbstractLineCoefficients import AbstractLineCoefficients
 

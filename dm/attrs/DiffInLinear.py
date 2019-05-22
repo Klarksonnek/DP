@@ -1,5 +1,5 @@
-""" Calculates difference between quantity values after linearization (selects linearized values
-    at the moment of window opening and closing).
+"""Calculates difference between quantity values after linearization (selects linearized values
+   at the moment of window opening and closing).
 """
 from dm.attrs.InLinear import InLinear
 

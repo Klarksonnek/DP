@@ -1,5 +1,4 @@
-"""
-
+"""Simple graph from example.
 """
 from os.path import dirname, abspath, join
 import sys

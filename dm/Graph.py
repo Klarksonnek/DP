@@ -1,5 +1,4 @@
-"""
-
+"""Utils to create graph that can be available in html file.
 """
 from dm.DateTimeUtil import DateTimeUtil
 import copy

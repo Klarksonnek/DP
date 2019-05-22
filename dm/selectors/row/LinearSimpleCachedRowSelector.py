@@ -1,5 +1,6 @@
-"""
+"""Linear cached selector for one value from database.
 
+Linearization of a given interval and returning of required linearized value.
 """
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage

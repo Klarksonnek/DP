@@ -1,7 +1,6 @@
+"""Supports difference calculations.
 """
-
-"""
-from dm import Storage
+from dm.Storage import Storage
 from dm.DateTimeUtil import DateTimeUtil
 from scipy import stats
 import logging

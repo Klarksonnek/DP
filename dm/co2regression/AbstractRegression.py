@@ -1,5 +1,4 @@
-"""
-
+"""Abstract class for calculation of CO2 regression using various methods.
 """
 from abc import ABC, abstractmethod
 

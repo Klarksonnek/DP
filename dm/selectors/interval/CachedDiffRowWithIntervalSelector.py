@@ -1,5 +1,4 @@
-"""
-
+"""Cached row selector for selection of differences of values.
 """
 from dm.selectors.interval.CachedRowWithIntervalSelector import CachedRowWithIntervalSelector
 

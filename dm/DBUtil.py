@@ -1,4 +1,4 @@
-""" Defines functions for working with database.
+"""Defines functions for working with database.
 """
 from dm.DateTimeUtil import DateTimeUtil
 from mysql.connector.errors import DataError

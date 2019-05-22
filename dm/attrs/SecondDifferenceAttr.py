@@ -1,5 +1,4 @@
-"""
-
+"""Calculates second differences using quantity values.
 """
 from dm.attrs.FirstDifferenceAttrB import FirstDifferenceAttrB
 
@@ -16,20 +15,6 @@ class SecondDifferenceAttr(FirstDifferenceAttrB):
                                                                   False, prefix,
                                                                   selected_before,
                                                                   selected_after)
-        """Vypocet druhych derivacii.
-
-        Vypocet druhych derivacii sa vykona pomocou vypoctu prvych derivacii a naslednym
-        rozdielom medzi susednymi hodnotami.
-
-        :param timestamp: stred okienka, ktory sa pouzije ako bod od ktoreho sa posuva
-        :param column: stlpec, pre ktory sa maju spocitat atributy
-        :param precision: presnost vysledku
-        :param intervals_before: intervaly pred udalostou
-        :param intervals_after: interaly po udalosti
-        :param normalize: povolenie alebo zakazanie normalizacie diferencie
-        :return:
-        """
-
         before_second = []
         after_second = []
 

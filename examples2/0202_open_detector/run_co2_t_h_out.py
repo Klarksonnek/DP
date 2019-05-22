@@ -1,5 +1,4 @@
-"""
-
+"""Detector for window opening based on CO2, indoor and outdoor T and H decrease with iterations.
 """
 from os.path import dirname, abspath, join
 import sys
@@ -17,7 +16,7 @@ from dm.attrs.FirstDifferenceAttrA import FirstDifferenceAttrA
 from dm.attrs.FirstDifferenceAttrB import FirstDifferenceAttrB
 from dm.attrs.InOutDiff import InOutDiff
 from dm.attrs.GrowthRate import GrowthRate
-from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
+from dm.selectors.interval.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import logging
 import os
 

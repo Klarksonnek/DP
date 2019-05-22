@@ -1,4 +1,4 @@
-""" Creates tables in database, updates or deletes records in tables.
+"""Creates tables in database, updates or deletes records in tables.
 """
 from os.path import dirname, abspath, join
 import sys

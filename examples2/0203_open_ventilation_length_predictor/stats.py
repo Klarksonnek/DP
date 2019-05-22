@@ -1,5 +1,4 @@
-"""
-
+"""Creates statistics for ventilation length predictors.
 """
 from os.path import dirname, abspath, join
 import sys

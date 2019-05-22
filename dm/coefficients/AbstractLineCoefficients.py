@@ -1,4 +1,4 @@
-""" Gets coefficients of equation in form ax + by + c = 0 from equation in form y = kx + q.
+"""Gets coefficients of equation in form ax + by + c = 0 from equation in form y = kx + q.
 """
 from abc import ABC, abstractmethod
 from fractions import Fraction

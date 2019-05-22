@@ -1,5 +1,7 @@
-"""
+"""Cached interval selector from database.
 
+Selector can select given intervals of values from a given table and selected rows
+are stored into cache.
 """
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage

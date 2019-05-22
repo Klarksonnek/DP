@@ -1,5 +1,6 @@
-"""
+"""Simple class for one value selector from database.
 
+Selector can select value based on given time from a table in database without cache.
 """
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage

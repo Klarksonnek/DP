@@ -1,5 +1,5 @@
-""" Calculates number of positive differences in given time points, geometric mean,
-    arithmetic mean, variance and standard deviation of differences.
+"""Calculates number of positive differences in given time points, geometric mean,
+   arithmetic mean, variance and standard deviation of differences.
 """
 from abc import ABC, abstractmethod
 from functools import reduce

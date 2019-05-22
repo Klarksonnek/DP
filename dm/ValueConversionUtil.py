@@ -1,5 +1,5 @@
-""" Converts relative humidity to absolute humidity, relative humidity to specific humidity and
-    ppm to milligrams per cubic meter.
+"""Converts relative humidity to absolute humidity, relative humidity to specific humidity and
+   ppm to milligrams per cubic meter.
 """
 from math import exp
 

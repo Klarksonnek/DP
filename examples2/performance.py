@@ -1,4 +1,4 @@
-""" Calculates standard accuracy and accuracy with tolerance (specified by BEFORE_TIME and AFTER_TIME).
+"""Calculates standard accuracy and accuracy with tolerance (specified by BEFORE_TIME and AFTER_TIME).
 """
 from os.path import dirname, abspath, join
 import sys

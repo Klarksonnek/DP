@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-"""
-
+"""Script for simplification of iterative training process.
 """
 from dm.ExampleRunner import ExampleRunner as er
 

@@ -1,5 +1,4 @@
-"""
-
+"""Storage that supports selection of events and their values or only selection of the values.
 """
 from collections import OrderedDict
 from dm.DateTimeUtil import DateTimeUtil

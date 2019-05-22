@@ -1,5 +1,4 @@
-"""
-
+"""Gets current value CO2 and measured value CO2 in a given time point.
 """
 from dm.attrs.AbstractPrepareAttr import AbstractPrepareAttr
 from sympy import *

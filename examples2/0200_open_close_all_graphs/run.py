@@ -1,5 +1,4 @@
-"""
-
+"""List of graphs that represent window opening event.
 """
 from os.path import dirname, abspath, join
 import sys

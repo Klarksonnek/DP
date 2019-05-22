@@ -1,5 +1,7 @@
-"""
+"""Cached selector for one value from database.
 
+Selector can select value based on given time from a table in database and
+selected values are stored in cache.
 """
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage

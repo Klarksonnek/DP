@@ -1,11 +1,11 @@
-""" Creates (additional) training set and testing set, keeps number of records in both sets
-    in equilibrium.
+"""Creates (additional) training set and testing set, keeps number of records in both sets
+   in equilibrium.
 """
 from collections import OrderedDict
 from dm.CSVUtil import CSVUtil
 from dm.DateTimeUtil import DateTimeUtil
 from dm.Storage import Storage
-from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
+from dm.selectors.interval.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import csv
 import logging
 import os

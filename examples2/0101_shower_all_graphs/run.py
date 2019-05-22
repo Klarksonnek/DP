@@ -1,4 +1,4 @@
-""" Generates graph of temperature and humidity with basic information (shower).
+"""Generates graph of temperature and humidity with basic information (shower).
 """
 from os.path import dirname, abspath, join
 import sys

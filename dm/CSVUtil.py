@@ -1,4 +1,4 @@
-""" Creates a csv file.
+"""Creates a csv file from OrderedDict.
 """
 import csv
 import logging

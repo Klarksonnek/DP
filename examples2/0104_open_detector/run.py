@@ -1,4 +1,4 @@
-""" Creates training and testing set for window opening detector.
+"""Creates training and testing set for window opening detector.
 """
 from os.path import dirname, abspath, join
 import sys
@@ -16,7 +16,7 @@ from dm.attrs.FirstDifferenceAttrB import FirstDifferenceAttrB
 from dm.attrs.InOutDiff import InOutDiff
 from dm.attrs.SecondDifferenceAttr import SecondDifferenceAttr
 from dm.selectors.interval.SimpleIntervalSelector import SimpleIntervalSelector
-from dm.selectors.row.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
+from dm.selectors.interval.CachedDiffRowWithIntervalSelector import CachedDiffRowWithIntervalSelector
 import logging
 
 __author__ = ''

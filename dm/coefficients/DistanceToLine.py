@@ -1,6 +1,8 @@
-""" Finds clusters of data using indoor specific humidity decrease and difference between indoor and
-    outdoor humidity and calculates distance between point and cluster centroid and distance of point
-    to cluster trendline.
+"""Calculates distance between two points and between line and point.
+
+Finds clusters of data using indoor specific humidity decrease and difference between indoor and
+outdoor humidity and calculates distance between point and cluster centroid and distance of point
+to cluster trendline.
 """
 from collections import OrderedDict
 from scipy.spatial import ConvexHull

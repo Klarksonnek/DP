@@ -1,5 +1,4 @@
-"""
-
+"""Utils for date preprocessing.
 """
 from dm.DBUtil import DBUtil
 from dm.DateTimeUtil import DateTimeUtil

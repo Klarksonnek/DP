@@ -1,5 +1,4 @@
-"""
-
+"""Utils that contain simple SQL queries.
 """
 
 __author__ = ''

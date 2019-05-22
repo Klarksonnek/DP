@@ -1,5 +1,4 @@
-"""
-
+"""Performance based on half error.
 """
 import numpy as np
 

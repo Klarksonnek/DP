@@ -1,4 +1,4 @@
-""" Calculates average slope of multiple lines.
+"""Calculates average slope of multiple lines.
 """
 from dm.coefficients import AbstractLineCoefficients
 from dm.coefficients.DistanceToLine import DistanceToLine

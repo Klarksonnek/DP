@@ -1,4 +1,4 @@
-""" Generates graph of temperature and humidity with basic information (window opening).
+"""Generates graph of temperature and humidity with basic information (window opening).
 """
 from os.path import dirname, abspath, join
 import sys

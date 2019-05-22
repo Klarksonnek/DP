@@ -1,5 +1,4 @@
-"""
-
+"""Performance based on distance.
 """
 import csv
 from dm.DateTimeUtil import DateTimeUtil

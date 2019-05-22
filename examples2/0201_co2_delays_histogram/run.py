@@ -1,5 +1,4 @@
-"""
-
+"""Histogram of CO2 decrease delays.
 """
 from os.path import dirname, abspath, join
 import sys
