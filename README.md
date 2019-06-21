@@ -1,4 +1,13 @@
-# Diplomova praca
+# Diplomové práce
+
+## Authors
+
+ * [Peter Tisovčík](https://github.com/mienkofax)
+   * [List of created files](CREATED_PETO.md)
+   
+   
+ * [Klára Nečasová](https://github.com/Klarksonnek)
+   * [List of created files](CREATED_PERKA.md)
 
 ## Generovanie API key
 
