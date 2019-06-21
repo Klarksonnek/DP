@@ -4,10 +4,12 @@
 
  * [Peter Tisovčík](https://github.com/mienkofax)
    * [List of created files](CREATED_PETO.md)
+   * [Text of Master's thesis](https://www.fit.vutbr.cz/study/DP/DP.php.cs?id=22184)
    
    
  * [Klára Nečasová](https://github.com/Klarksonnek)
-   * [List of created files](CREATED_PERKA.md)
+   * [List of created files](CREATED_KLARKA.md)
+   * [Text of Master's thesis](https://www.fit.vutbr.cz/study/DP/DP.php.cs?id=22183)
 
 ## Generovanie API key
 
