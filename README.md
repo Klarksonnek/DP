@@ -44,10 +44,10 @@ path: `/etc/dp/config.ini`
 content:
 ```
 [ant-work]
-api.key = thaegeshecaz1EN9lutho0laeku1ahsh9eec5waeg0aiqua2buo7ieyoo0Shoow9ahpoosomie0weiqu
+api.key =
 
 [rehivetech]
-api.key = jaixai1ohhee2Koohah5IeXae6wuvah7Fohhai9ohZ1AethoiRo7Ooth2Aic1EiSai3Iung6wai4Ahng
+api.key = 
 
 [db]
 host =localhost
